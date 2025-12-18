@@ -9,6 +9,14 @@ const footerLinks = {
     { label: 'Calculators', href: '/calculators' },
     { label: 'Contact', href: '/contact' },
   ],
+  locations: [
+    { label: 'Washington DC', href: '/locations/washington-dc' },
+    { label: 'Northern Virginia', href: '/locations/northern-virginia' },
+    { label: 'Maryland', href: '/locations/maryland' },
+    { label: 'Denver, CO', href: '/locations/denver' },
+    { label: 'Atlanta, GA', href: '/locations/atlanta' },
+    { label: 'San Antonio, TX', href: '/locations/san-antonio' },
+  ],
   resources: [
     { label: 'FERS Guide', href: '/resources#fers' },
     { label: 'TSP Strategies', href: '/resources#tsp' },
@@ -57,6 +65,15 @@ const footerLinks = {
           <h4 class="footer__column-title">Company</h4>
           <ul>
             {footerLinks.company.map(link => (
+              <li><a href={link.href}>{link.label}</a></li>
+            ))}
+          </ul>
+        </div>
+        
+        <div class="footer__column">
+          <h4 class="footer__column-title">Locations</h4>
+          <ul>
+            {footerLinks.locations.map(link => (
               <li><a href={link.href}>{link.label}</a></li>
             ))}
           </ul>

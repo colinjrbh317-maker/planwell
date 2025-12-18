@@ -1,0 +1,214 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import locationImage from '../../assets/locations/atlanta.png';
+---
+
+<BaseLayout 
+  title="Federal Retirement Planning in Atlanta, Georgia"
+  description="Expert FERS retirement planning for federal employees in Atlanta. Serving CDC, EPA Region 4, and Southeast federal agencies. Free workshop available."
+>
+  <!-- Hero Section -->
+  <section class="location-hero">
+    <div class="container">
+      <div class="location-hero__grid">
+        <div class="location-hero__content">
+          <span class="eyebrow">Atlanta, Georgia</span>
+          <h1 class="heading-xl">Federal Retirement Planning in Atlanta</h1>
+          <p class="lead">
+            The South's federal hub. From the CDC to regional headquarters, 
+            we help Atlanta federal employees navigate their FERS benefits.
+          </p>
+          <div class="location-hero__cta">
+            <a href="/webinar" class="btn btn--primary btn--lg">Free FERS Workshop</a>
+            <a href="/contact" class="btn btn--secondary btn--lg">Schedule Consultation</a>
+          </div>
+        </div>
+        <div class="location-hero__image">
+          <Image 
+            src={locationImage} 
+            alt="Atlanta Georgia skyline at dusk"
+            width={600}
+            height={400}
+            format="webp"
+            quality={85}
+            class="location-hero__img"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service Area Section -->
+  <section class="section section--gray">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Service Areas in Georgia</h2>
+      <div class="service-areas">
+        <div class="service-area">
+          <h3>Metro Atlanta</h3>
+          <p>Downtown, Midtown, Buckhead, Decatur</p>
+        </div>
+        <div class="service-area">
+          <h3>North Metro</h3>
+          <p>Marietta, Roswell, Alpharetta, Johns Creek</p>
+        </div>
+        <div class="service-area">
+          <h3>East Metro</h3>
+          <p>Stone Mountain, Lawrenceville, Snellville</p>
+        </div>
+        <div class="service-area">
+          <h3>South Metro</h3>
+          <p>College Park, East Point, Forest Park, Morrow</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Major Employers Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Major Federal Employers We Serve</h2>
+      <div class="employers-grid">
+        <div class="employer-card">
+          <h3>Health & Safety</h3>
+          <ul>
+            <li>Centers for Disease Control (CDC)</li>
+            <li>Agency for Toxic Substances</li>
+            <li>National Institute for Occupational Safety</li>
+            <li>HHS Regional Office</li>
+            <li>VA Medical Center</li>
+          </ul>
+        </div>
+        <div class="employer-card">
+          <h3>Regional Headquarters</h3>
+          <ul>
+            <li>EPA Region 4</li>
+            <li>GSA Southeast Region</li>
+            <li>FEMA Region 4</li>
+            <li>SBA Regional Office</li>
+            <li>DOL Regional Office</li>
+          </ul>
+        </div>
+        <div class="employer-card">
+          <h3>Other Federal Agencies</h3>
+          <ul>
+            <li>Federal Reserve Bank of Atlanta</li>
+            <li>U.S. District Court</li>
+            <li>FBI Atlanta Field Office</li>
+            <li>ICE & CBP Atlanta</li>
+            <li>IRS Southeast Service Center</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Directions Section -->
+  <section class="section section--navy">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Getting to Our Workshops</h2>
+      <p class="text-center lead mb-8" style="color: var(--color-gray-300);">
+        Convenient access via MARTA, I-75, I-85, and I-285 for all metro Atlanta federal employees.
+      </p>
+      <div class="directions-grid">
+        <div class="direction-card">
+          <h3>From CDC Campus</h3>
+          <p>Located on Clifton Road in Druid Hills. Take I-85 or DeKalb Avenue. Virtual workshops available 24/7.</p>
+        </div>
+        <div class="direction-card">
+          <h3>From Downtown Atlanta</h3>
+          <p>Easy MARTA access from Five Points station. All our workshops available via Zoom video conference.</p>
+        </div>
+        <div class="direction-card">
+          <h3>From Suburbs</h3>
+          <p>I-285 connects all suburban federal locations. Join virtually from anywhere in metro Atlanta.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Why Atlanta Federal Employees Choose PlanWell</h2>
+      <div class="comparison-grid">
+        <div class="comparison-card comparison-card--highlight">
+          <h3>PlanWell Financial Planning</h3>
+          <ul class="comparison-list">
+            <li class="comparison-list__item comparison-list__item--pro">Certified Financial Planners (CFP®)</li>
+            <li class="comparison-list__item comparison-list__item--pro">ChFEBC℠ Federal Benefits Specialists</li>
+            <li class="comparison-list__item comparison-list__item--pro">100% Fee-Only Fiduciary</li>
+            <li class="comparison-list__item comparison-list__item--pro">Free 3-Hour FERS Workshop</li>
+            <li class="comparison-list__item comparison-list__item--pro">CDC & Regional Agency Experience</li>
+            <li class="comparison-list__item comparison-list__item--pro">Eastern Time Zone Availability</li>
+          </ul>
+        </div>
+        <div class="comparison-card">
+          <h3>Typical Atlanta Advisors</h3>
+          <ul class="comparison-list">
+            <li class="comparison-list__item comparison-list__item--con">General financial credentials only</li>
+            <li class="comparison-list__item comparison-list__item--con">Limited FERS understanding</li>
+            <li class="comparison-list__item comparison-list__item--con">Commission-based products</li>
+            <li class="comparison-list__item comparison-list__item--con">No federal-specific workshops</li>
+            <li class="comparison-list__item comparison-list__item--con">Generic retirement advice</li>
+            <li class="comparison-list__item comparison-list__item--con">Limited federal client experience</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section section--navy">
+    <div class="container text-center">
+      <h2 class="heading-lg mb-4">Ready to Plan Your Federal Retirement?</h2>
+      <p class="lead mb-8" style="color: var(--color-gray-300);">
+        Join Atlanta federal employees who've taken control of their retirement with expert guidance.
+      </p>
+      <div class="flex gap-4 justify-center" style="flex-wrap: wrap;">
+        <a href="/webinar" class="btn btn--primary btn--lg">Attend Free Workshop</a>
+        <a href="/contact" class="btn btn--white btn--lg">Book a Consultation</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .location-hero { padding: var(--space-16) 0; background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%); color: var(--color-white); }
+  .location-hero__grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-12); align-items: center; }
+  .location-hero h1 { color: var(--color-white); margin-bottom: var(--space-4); }
+  .location-hero .lead { color: var(--color-gray-300); margin-bottom: var(--space-8); }
+  .location-hero__cta { display: flex; gap: var(--space-4); flex-wrap: wrap; }
+  .location-hero__img { border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); }
+  
+  .service-areas { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
+  .service-area { background: var(--color-white); padding: var(--space-6); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+  .service-area h3 { font-size: var(--text-lg); margin-bottom: var(--space-2); }
+  .service-area p { color: var(--color-gray-600); font-size: var(--text-sm); }
+  
+  .employers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .employer-card { background: var(--color-gray-100); padding: var(--space-8); border-radius: var(--radius-lg); }
+  .employer-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-4); color: var(--color-navy); }
+  .employer-card ul { list-style: none; padding: 0; }
+  .employer-card li { padding: var(--space-2) 0; border-bottom: 1px solid var(--color-gray-200); color: var(--color-gray-700); }
+  .employer-card li:last-child { border-bottom: none; }
+  
+  .directions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .direction-card { background: rgba(255, 255, 255, 0.1); padding: var(--space-6); border-radius: var(--radius-lg); border: 1px solid rgba(255, 255, 255, 0.2); }
+  .direction-card h3 { color: var(--color-gold); font-size: var(--text-lg); margin-bottom: var(--space-3); }
+  .direction-card p { color: var(--color-gray-300); font-size: var(--text-sm); }
+  
+  .comparison-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-8); max-width: 900px; margin: 0 auto; }
+  .comparison-card { background: var(--color-gray-100); padding: var(--space-8); border-radius: var(--radius-lg); }
+  .comparison-card--highlight { background: var(--color-navy); color: var(--color-white); }
+  .comparison-card--highlight h3 { color: var(--color-gold); }
+  .comparison-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-6); text-align: center; }
+  .comparison-list { list-style: none; padding: 0; }
+  .comparison-list__item { padding: var(--space-3) 0; padding-left: var(--space-8); position: relative; font-size: var(--text-sm); }
+  .comparison-list__item::before { position: absolute; left: 0; font-size: var(--text-lg); }
+  .comparison-list__item--pro::before { content: "✓"; color: var(--color-gold); }
+  .comparison-list__item--con::before { content: "✗"; color: var(--color-error); }
+  
+  @media (max-width: 1024px) { .service-areas { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 768px) { .location-hero__grid, .service-areas, .employers-grid, .directions-grid, .comparison-grid { grid-template-columns: 1fr; } }
+</style>
