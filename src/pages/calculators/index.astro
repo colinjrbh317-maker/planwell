@@ -1,0 +1,488 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout 
+  title="FERS Retirement Calculators - Pension & TSP Projections"
+  description="Free federal retirement calculators for FERS pension estimates, TSP projections, sick leave conversion, and FERS supplement calculations."
+>
+  <!-- Hero -->
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">Planning Tools</span>
+      <h1 class="heading-xl">Federal Retirement Calculators</h1>
+      <p class="lead max-w-3xl">
+        Get quick estimates for your FERS pension, TSP, and more. 
+        These calculators give you a starting point—for personalized analysis, 
+        schedule a consultation.
+      </p>
+    </div>
+  </section>
+  
+  <!-- Calculator Navigation -->
+  <section class="section">
+    <div class="container">
+      <div class="calc-nav" data-animate="fade-in-up">
+        <a href="#fers" class="calc-nav__item calc-nav__item--active">FERS Pension</a>
+        <a href="#tsp" class="calc-nav__item">TSP Calculator</a>
+        <a href="#sick-leave" class="calc-nav__item">Sick Leave</a>
+        <a href="#supplement" class="calc-nav__item">FERS Supplement</a>
+      </div>
+    </div>
+  </section>
+  
+  <!-- FERS Calculator -->
+  <section class="section section--gray" id="fers">
+    <div class="container">
+      <div class="calculator" data-animate="fade-in-up">
+        <div class="calculator__header">
+          <h2 class="heading-md">FERS Pension Calculator</h2>
+          <p>Estimate your FERS basic annuity based on high-3 salary and years of service.</p>
+        </div>
+        
+        <div class="calculator__grid">
+          <div class="calculator__form">
+            <div class="form-group">
+              <label class="form-label" for="fers-high3">High-3 Average Salary ($)</label>
+              <input type="number" id="fers-high3" class="form-input" placeholder="e.g., 120000" value="100000" />
+              <span class="form-hint">Your highest 3 consecutive years of basic pay</span>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label" for="fers-years">Years of Creditable Service</label>
+              <input type="number" id="fers-years" class="form-input" placeholder="e.g., 30" value="25" step="0.5" />
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label" for="fers-age">Age at Retirement</label>
+              <input type="number" id="fers-age" class="form-input" placeholder="e.g., 62" value="62" />
+            </div>
+            
+            <button type="button" class="btn btn--primary btn--lg" style="width: 100%;" onclick="calculateFERS()">
+              Calculate My Pension
+            </button>
+          </div>
+          
+          <div class="calculator__result" id="fers-result">
+            <div class="result-card">
+              <span class="result-label">Estimated Annual Pension</span>
+              <span class="result-value" id="fers-annual">$25,000</span>
+            </div>
+            <div class="result-card">
+              <span class="result-label">Estimated Monthly Pension</span>
+              <span class="result-value" id="fers-monthly">$2,083</span>
+            </div>
+            <div class="result-card result-card--note">
+              <span class="result-label">Multiplier Applied</span>
+              <span class="result-value" id="fers-multiplier">1.0%</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="calculator__note">
+          <p><strong>Note:</strong> This is a simplified estimate. Actual pension may vary based on unused sick leave, survivor benefit elections, COLA adjustments, and other factors. 
+          <a href="/contact">Get a precise calculation</a> with our comprehensive Benefits Report.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- TSP Calculator -->
+  <section class="section" id="tsp">
+    <div class="container">
+      <div class="calculator" data-animate="fade-in-up">
+        <div class="calculator__header">
+          <h2 class="heading-md">TSP Growth Calculator</h2>
+          <p>Project your Thrift Savings Plan balance at retirement.</p>
+        </div>
+        
+        <div class="calculator__grid">
+          <div class="calculator__form">
+            <div class="form-group">
+              <label class="form-label" for="tsp-current">Current TSP Balance ($)</label>
+              <input type="number" id="tsp-current" class="form-input" placeholder="e.g., 250000" value="250000" />
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label" for="tsp-contribution">Monthly Contribution ($)</label>
+              <input type="number" id="tsp-contribution" class="form-input" placeholder="e.g., 1500" value="1500" />
+              <span class="form-hint">Include agency match if applicable</span>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label" for="tsp-years">Years Until Retirement</label>
+              <input type="number" id="tsp-years" class="form-input" placeholder="e.g., 10" value="10" />
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label" for="tsp-return">Expected Annual Return (%)</label>
+              <input type="number" id="tsp-return" class="form-input" placeholder="e.g., 7" value="7" step="0.5" />
+              <span class="form-hint">Historical TSP average: 6-8%</span>
+            </div>
+            
+            <button type="button" class="btn btn--primary btn--lg" style="width: 100%;" onclick="calculateTSP()">
+              Project My TSP
+            </button>
+          </div>
+          
+          <div class="calculator__result" id="tsp-result">
+            <div class="result-card">
+              <span class="result-label">Projected TSP Balance</span>
+              <span class="result-value" id="tsp-balance">$678,146</span>
+            </div>
+            <div class="result-card">
+              <span class="result-label">Total Contributions</span>
+              <span class="result-value" id="tsp-contributions">$180,000</span>
+            </div>
+            <div class="result-card">
+              <span class="result-label">Estimated Growth</span>
+              <span class="result-value" id="tsp-growth">$248,146</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Sick Leave Calculator -->
+  <section class="section section--gray" id="sick-leave">
+    <div class="container">
+      <div class="calculator" data-animate="fade-in-up">
+        <div class="calculator__header">
+          <h2 class="heading-md">Sick Leave Conversion Calculator</h2>
+          <p>See how your unused sick leave adds to your pension.</p>
+        </div>
+        
+        <div class="calculator__grid">
+          <div class="calculator__form">
+            <div class="form-group">
+              <label class="form-label" for="sick-hours">Unused Sick Leave (hours)</label>
+              <input type="number" id="sick-hours" class="form-input" placeholder="e.g., 1500" value="1500" />
+              <span class="form-hint">Check your LES for current balance</span>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label" for="sick-high3">High-3 Average Salary ($)</label>
+              <input type="number" id="sick-high3" class="form-input" placeholder="e.g., 120000" value="100000" />
+            </div>
+            
+            <button type="button" class="btn btn--primary btn--lg" style="width: 100%;" onclick="calculateSickLeave()">
+              Calculate Sick Leave Value
+            </button>
+          </div>
+          
+          <div class="calculator__result" id="sick-result">
+            <div class="result-card">
+              <span class="result-label">Additional Service Credit</span>
+              <span class="result-value" id="sick-months">8.7 months</span>
+            </div>
+            <div class="result-card">
+              <span class="result-label">Added Annual Pension</span>
+              <span class="result-value" id="sick-annual">$725/year</span>
+            </div>
+            <div class="result-card result-card--highlight">
+              <span class="result-label">Lifetime Value (20 yrs)</span>
+              <span class="result-value" id="sick-lifetime">$14,500</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="calculator__note">
+          <p><strong>How it works:</strong> 2,087 hours = 1 year of service credit. Your sick leave doesn't count toward retirement eligibility, but it does increase your pension calculation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- FERS Supplement Calculator -->
+  <section class="section" id="supplement">
+    <div class="container">
+      <div class="calculator" data-animate="fade-in-up">
+        <div class="calculator__header">
+          <h2 class="heading-md">FERS Supplement Calculator</h2>
+          <p>Estimate the Special Retirement Supplement you may receive until age 62.</p>
+        </div>
+        
+        <div class="calculator__grid">
+          <div class="calculator__form">
+            <div class="form-group">
+              <label class="form-label" for="srs-years">Total FERS Service (years)</label>
+              <input type="number" id="srs-years" class="form-input" placeholder="e.g., 30" value="30" />
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label" for="srs-ss">Estimated Age 62 Social Security Benefit ($)</label>
+              <input type="number" id="srs-ss" class="form-input" placeholder="e.g., 2000" value="2000" />
+              <span class="form-hint">Check your SSA statement or ssa.gov</span>
+            </div>
+            
+            <button type="button" class="btn btn--primary btn--lg" style="width: 100%;" onclick="calculateSupplement()">
+              Calculate Supplement
+            </button>
+          </div>
+          
+          <div class="calculator__result" id="srs-result">
+            <div class="result-card result-card--highlight">
+              <span class="result-label">Estimated Monthly Supplement</span>
+              <span class="result-value" id="srs-monthly">$1,500</span>
+            </div>
+            <div class="result-card">
+              <span class="result-label">Based on FERS Fraction</span>
+              <span class="result-value" id="srs-fraction">75%</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="calculator__note">
+          <p><strong>Eligibility:</strong> The SRS is available to FERS employees who retire on an immediate, unreduced annuity before age 62. It's paid until you reach 62, then Social Security takes over. Note: earnings limits may reduce your supplement.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- CTA -->
+  <section class="section section--navy text-center">
+    <div class="container">
+      <div data-animate="fade-in-up">
+        <h2 class="heading-lg">Want More Precise Numbers?</h2>
+        <p class="lead" style="color: var(--color-gray-300); max-width: 36rem; margin: 0 auto var(--space-8);">
+          These calculators provide estimates. For exact calculations including survivor 
+          benefits, COLA projections, and tax implications—get our comprehensive Benefits Report.
+        </p>
+        <div class="flex justify-center gap-4" style="flex-wrap: wrap;">
+          <a href="/contact#webinar" class="btn btn--primary btn--lg">Free FERS Workshop</a>
+          <a href="/contact" class="btn btn--white btn--lg">Get Your Benefits Report</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero {
+    background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%);
+    color: var(--color-white);
+    padding: var(--space-24) 0 var(--space-16);
+    text-align: center;
+  }
+  
+  .page-hero h1 {
+    color: var(--color-white);
+    margin-bottom: var(--space-4);
+  }
+  
+  .page-hero .lead {
+    color: var(--color-gray-300);
+    margin: 0 auto;
+  }
+  
+  .calc-nav {
+    display: flex;
+    gap: var(--space-2);
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: var(--space-4);
+    background: var(--color-gray-100);
+    border-radius: var(--radius-lg);
+  }
+  
+  .calc-nav__item {
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-md);
+    font-weight: var(--font-medium);
+    color: var(--color-gray-600);
+    transition: all var(--transition-fast);
+  }
+  
+  .calc-nav__item:hover,
+  .calc-nav__item--active {
+    background: var(--color-white);
+    color: var(--color-navy);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .calculator {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  .calculator__header {
+    text-align: center;
+    margin-bottom: var(--space-8);
+  }
+  
+  .calculator__header p {
+    color: var(--color-gray-600);
+    margin-top: var(--space-2);
+  }
+  
+  .calculator__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+    background: var(--color-white);
+    padding: var(--space-8);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .form-hint {
+    display: block;
+    font-size: var(--text-xs);
+    color: var(--color-gray-500);
+    margin-top: var(--space-1);
+  }
+  
+  .calculator__result {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  
+  .result-card {
+    background: var(--color-gray-100);
+    padding: var(--space-5);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+  
+  .result-card--highlight {
+    background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-dark) 100%);
+    color: var(--color-navy-dark);
+  }
+  
+  .result-card--note {
+    background: var(--color-navy);
+    color: var(--color-white);
+  }
+  
+  .result-label {
+    font-size: var(--text-sm);
+    opacity: 0.8;
+  }
+  
+  .result-value {
+    font-family: var(--font-heading);
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+  }
+  
+  .calculator__note {
+    margin-top: var(--space-6);
+    padding: var(--space-4);
+    background: rgba(201, 165, 92, 0.1);
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--color-gold);
+  }
+  
+  .calculator__note p {
+    font-size: var(--text-sm);
+    color: var(--color-gray-700);
+  }
+  
+  .calculator__note a {
+    color: var(--color-navy);
+    font-weight: var(--font-semibold);
+  }
+  
+  @media (max-width: 768px) {
+    .calculator__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script is:inline>
+  function formatCurrency(num) {
+    return new Intl.NumberFormat('en-US', { 
+      style: 'currency', 
+      currency: 'USD',
+      maximumFractionDigits: 0 
+    }).format(num);
+  }
+  
+  function calculateFERS() {
+    const high3 = parseFloat(document.getElementById('fers-high3').value) || 0;
+    const years = parseFloat(document.getElementById('fers-years').value) || 0;
+    const age = parseFloat(document.getElementById('fers-age').value) || 0;
+    
+    // FERS multiplier: 1% for most, 1.1% if retiring at 62+ with 20+ years
+    let multiplier = 0.01;
+    if (age >= 62 && years >= 20) {
+      multiplier = 0.011;
+    }
+    
+    const annualPension = high3 * years * multiplier;
+    const monthlyPension = annualPension / 12;
+    
+    document.getElementById('fers-annual').textContent = formatCurrency(annualPension);
+    document.getElementById('fers-monthly').textContent = formatCurrency(monthlyPension);
+    document.getElementById('fers-multiplier').textContent = (multiplier * 100).toFixed(1) + '%';
+  }
+  
+  function calculateTSP() {
+    const current = parseFloat(document.getElementById('tsp-current').value) || 0;
+    const monthly = parseFloat(document.getElementById('tsp-contribution').value) || 0;
+    const years = parseFloat(document.getElementById('tsp-years').value) || 0;
+    const rate = parseFloat(document.getElementById('tsp-return').value) / 100 || 0;
+    
+    const monthlyRate = rate / 12;
+    const months = years * 12;
+    
+    // Future value of current balance
+    const fvCurrent = current * Math.pow(1 + rate, years);
+    
+    // Future value of monthly contributions (annuity formula)
+    let fvContributions = 0;
+    if (monthlyRate > 0) {
+      fvContributions = monthly * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate);
+    } else {
+      fvContributions = monthly * months;
+    }
+    
+    const totalBalance = fvCurrent + fvContributions;
+    const totalContributions = monthly * months;
+    const growth = totalBalance - current - totalContributions;
+    
+    document.getElementById('tsp-balance').textContent = formatCurrency(totalBalance);
+    document.getElementById('tsp-contributions').textContent = formatCurrency(totalContributions);
+    document.getElementById('tsp-growth').textContent = formatCurrency(growth);
+  }
+  
+  function calculateSickLeave() {
+    const hours = parseFloat(document.getElementById('sick-hours').value) || 0;
+    const high3 = parseFloat(document.getElementById('sick-high3').value) || 0;
+    
+    // 2087 hours = 1 year of service
+    const additionalYears = hours / 2087;
+    const additionalMonths = additionalYears * 12;
+    
+    // Pension increase = high3 * additional years * 1%
+    const annualIncrease = high3 * additionalYears * 0.01;
+    const lifetimeValue = annualIncrease * 20; // 20-year estimate
+    
+    document.getElementById('sick-months').textContent = additionalMonths.toFixed(1) + ' months';
+    document.getElementById('sick-annual').textContent = formatCurrency(annualIncrease) + '/year';
+    document.getElementById('sick-lifetime').textContent = formatCurrency(lifetimeValue);
+  }
+  
+  function calculateSupplement() {
+    const years = parseFloat(document.getElementById('srs-years').value) || 0;
+    const ssBenefit = parseFloat(document.getElementById('srs-ss').value) || 0;
+    
+    // SRS = (FERS years / 40) * SS benefit at 62
+    const fraction = Math.min(years / 40, 1);
+    const monthlySupp = ssBenefit * fraction;
+    
+    document.getElementById('srs-monthly').textContent = formatCurrency(monthlySupp);
+    document.getElementById('srs-fraction').textContent = (fraction * 100).toFixed(0) + '%';
+  }
+  
+  // Run initial calculations
+  calculateFERS();
+  calculateTSP();
+  calculateSickLeave();
+  calculateSupplement();
+</script>

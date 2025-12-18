@@ -1,0 +1,482 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import brennanPhoto from '../assets/images/brennan-rhule.jpg';
+import davidPhoto from '../assets/images/david-fei.jpg';
+---
+
+<BaseLayout 
+  title="About PlanWell - CFP® & ChFEBC℠ Federal Benefits Specialists"
+  description="Meet David Fei and Brennan Rhule, CFP® and ChFEBC℠ advisors specializing exclusively in federal employee retirement planning. 35+ years combined experience."
+>
+  <!-- Hero -->
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">About PlanWell</span>
+      <h1 class="heading-xl">Retirement Planning Built for Federal Employees</h1>
+      <p class="lead max-w-3xl">
+        We didn't start PlanWell to be another financial advisor. We built it because 
+        federal employees deserve specialists who actually understand their unique benefits.
+      </p>
+    </div>
+  </section>
+  
+  <!-- Meet the Team -->
+  <section class="section section--gray">
+    <div class="container">
+      <div class="section-header" data-animate="fade-in-up">
+        <span class="eyebrow">Leadership</span>
+        <h2 class="heading-lg">Meet Your Advisors</h2>
+        <p class="lead max-w-3xl mx-auto">
+          We're not a call center. When you work with PlanWell, you work directly 
+          with David and Brennan—the partners who founded the firm.
+        </p>
+      </div>
+      
+      <div class="team-detail-grid">
+        <!-- David -->
+        <div class="team-detail" data-animate="fade-in-up">
+          <div class="team-detail__image">
+            <Image 
+              src={davidPhoto} 
+              alt="David Fei"
+              width={400}
+              height={400}
+              loading="lazy"
+              format="webp"
+              quality={90}
+            />
+          </div>
+          <div class="team-detail__content">
+            <h3>David Fei</h3>
+            <p class="team-detail__title">Co-Founder & Financial Planner</p>
+            
+            <div class="team-detail__credentials">
+              <span class="badge badge--gold">CFP®</span>
+              <span class="badge badge--gold">ChFEBC℠</span>
+              <span class="badge badge--gold">AIF®</span>
+            </div>
+            
+            <p>
+              David has been in the financial services industry for over 20 years, 
+              bringing a wide range of experience in personal finance to every client relationship. 
+              He specializes in helping federal families tackle life's biggest financial 
+              challenges—retirement income planning, educational funding, and investment strategy.
+            </p>
+            <p>
+              David's approach is grounded in education. He believes that when clients 
+              truly understand their options, they make better decisions. That's why he 
+              takes the time to explain the "why" behind every recommendation.
+            </p>
+            <p class="team-detail__personal">
+              <strong>Outside the office:</strong> David stays busy with his daughters' activities, 
+              plays basketball on weekends, and hits the mountain bike trails whenever he can.
+            </p>
+            
+            <div class="team-detail__contact">
+              <a href="tel:301-388-5489" class="btn btn--secondary">
+                301-388-5489
+              </a>
+              <a href="mailto:david.fei@planwellfp.com" class="btn btn--secondary">
+                david.fei@planwellfp.com
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Brennan -->
+        <div class="team-detail" data-animate="fade-in-up">
+          <div class="team-detail__image">
+            <Image 
+              src={brennanPhoto} 
+              alt="Brennan Rhule"
+              width={400}
+              height={400}
+              loading="lazy"
+              format="webp"
+              quality={90}
+            />
+          </div>
+          <div class="team-detail__content">
+            <h3>Brennan Rhule</h3>
+            <p class="team-detail__title">Co-Founder & Financial Planner</p>
+            
+            <div class="team-detail__credentials">
+              <span class="badge badge--gold">CFP®</span>
+              <span class="badge badge--gold">ChFEBC℠</span>
+              <span class="badge badge--gold">AIF®</span>
+            </div>
+            
+            <p>
+              Brennan graduated from Virginia Tech's CFP Board-Registered program and 
+              has spent over 15 years in the Washington, DC area working with federal 
+              employees. His experience led him to earn the ChFEBC℠ designation—becoming 
+              a true specialist in federal benefits.
+            </p>
+            <p>
+              Brennan's mission is simple: cut through the complexity. Federal retirement 
+              rules can feel overwhelming, but with the right guidance, every employee 
+              can retire with confidence. He loves seeing the weight lift off clients' 
+              shoulders when they finally have a clear plan.
+            </p>
+            <p class="team-detail__personal">
+              <strong>Outside the office:</strong> Brennan now calls Salem, VA home with his 
+              family. He's passionate about backpacking, rock climbing, and ice hockey—and 
+              you'll often find him adventuring in the Blue Ridge Mountains with his 
+              golden retriever and bernese mountain dog.
+            </p>
+            
+            <div class="team-detail__contact">
+              <a href="tel:571-543-2783" class="btn btn--secondary">
+                571-543-2783
+              </a>
+              <a href="mailto:brennan.rhule@planwellfp.com" class="btn btn--secondary">
+                brennan.rhule@planwellfp.com
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Story -->
+  <section class="section">
+    <div class="container">
+      <div class="story-grid">
+        <div class="story-content" data-animate="fade-in-up">
+          <span class="eyebrow">Our Story</span>
+          <h2 class="heading-lg">Why We Focus Exclusively on Feds</h2>
+          <p>
+            After years of working with federal employees, we noticed something frustrating: 
+            most financial advisors treat FERS like any other retirement plan. They'll invest 
+            your money, but when you ask about survivor benefit calculations, the Special 
+            Retirement Supplement, or FEHB-Medicare coordination—you get blank stares.
+          </p>
+          <p>
+            That's why we earned our Chartered Federal Employee Benefits Consultant (ChFEBC℠) 
+            designation. It's 175 hours of specialized training on the exact rules that govern 
+            your retirement. Combined with our CFP® credentials, we bring both broad financial 
+            planning expertise and deep federal benefits knowledge.
+          </p>
+          <p>
+            <strong>The result?</strong> We've helped thousands of federal employees confidently 
+            navigate their retirement—from calculating exact pension amounts to optimizing 
+            TSP withdrawals to avoiding costly Medicare enrollment mistakes.
+          </p>
+        </div>
+        <div class="story-stats" data-animate="fade-in-up">
+          <div class="stat-card">
+            <div class="stat-number">35+</div>
+            <div class="stat-label">Years Combined Experience</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">1,000s</div>
+            <div class="stat-label">Federal Employees Served</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">&lt;1%</div>
+            <div class="stat-label">Of Advisors Hold All 3 Designations</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Fiduciary Commitment</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- The PlanWell Difference -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header" data-animate="fade-in-up">
+        <span class="eyebrow">The PlanWell Difference</span>
+        <h2 class="heading-lg">What Makes Us Different</h2>
+      </div>
+      
+      <div class="difference-grid">
+        <div class="difference-card" data-animate="fade-in-up">
+          <div class="difference-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <h3>Federal-Only Focus</h3>
+          <p>
+            We don't try to be everything to everyone. Our entire practice is built 
+            around federal employees and their unique benefits. That specialization means 
+            deeper expertise and better outcomes.
+          </p>
+        </div>
+        
+        <div class="difference-card" data-animate="fade-in-up">
+          <div class="difference-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3>True Fiduciary</h3>
+          <p>
+            We're legally obligated to put your interests first—always. No commissions, 
+            no product sales, no conflicts of interest. Just honest advice aligned with 
+            your goals.
+          </p>
+        </div>
+        
+        <div class="difference-card" data-animate="fade-in-up">
+          <div class="difference-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+          </div>
+          <h3>Comprehensive Analysis</h3>
+          <p>
+            Our 22-page Benefits Report goes far beyond HR's estimate. We calculate 
+            precise pension amounts, analyze survivor benefit options, project TSP growth, 
+            and identify optimization opportunities.
+          </p>
+        </div>
+        
+        <div class="difference-card" data-animate="fade-in-up">
+          <div class="difference-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3>Long-Term Partnership</h3>
+          <p>
+            We're not here for a one-time transaction. We work with you through 
+            retirement and beyond—adjusting your plan as life changes, laws evolve, 
+            and new opportunities arise.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- CTA -->
+  <section class="section section--navy text-center">
+    <div class="container">
+      <div data-animate="fade-in-up">
+        <h2 class="heading-lg">Ready to Work with Real Fed-Experts?</h2>
+        <p class="lead" style="color: var(--color-gray-300); max-width: 36rem; margin: 0 auto var(--space-8);">
+          Start with our free FERS workshop or schedule a personal consultation.
+        </p>
+        <div class="flex justify-center gap-4" style="flex-wrap: wrap;">
+          <a href="/contact#webinar" class="btn btn--primary btn--lg">Free FERS Workshop</a>
+          <a href="/contact" class="btn btn--white btn--lg">Schedule a Call</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero {
+    background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%);
+    color: var(--color-white);
+    padding: var(--space-24) 0 var(--space-16);
+    text-align: center;
+  }
+  
+  .page-hero h1 {
+    color: var(--color-white);
+    margin-bottom: var(--space-4);
+  }
+  
+  .page-hero .lead {
+    color: var(--color-gray-300);
+    margin: 0 auto;
+  }
+  
+  .story-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: var(--space-16);
+    align-items: center;
+  }
+  
+  .story-content p {
+    margin-bottom: var(--space-4);
+    color: var(--color-gray-700);
+  }
+  
+  .story-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+  }
+  
+  .stat-card {
+    background: var(--color-white);
+    padding: var(--space-6);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--color-gray-200);
+  }
+  
+  .stat-number {
+    font-family: var(--font-heading);
+    font-size: var(--text-3xl);
+    font-weight: var(--font-bold);
+    color: var(--color-navy);
+  }
+  
+  .stat-label {
+    font-size: var(--text-sm);
+    color: var(--color-gray-600);
+    margin-top: var(--space-1);
+  }
+  
+  .section-header {
+    text-align: center;
+    margin-bottom: var(--space-12);
+  }
+  
+  .team-detail-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  .team-detail {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: var(--space-10);
+    background: var(--color-white);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .team-detail:nth-child(even) {
+    direction: rtl;
+  }
+  
+  .team-detail:nth-child(even) > * {
+    direction: ltr;
+  }
+  
+  .team-detail__image {
+    padding: var(--space-6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--color-gray-100) 0%, var(--color-gray-50, #f9fafb) 100%);
+  }
+  
+  .team-detail__image img {
+    width: 260px;
+    height: 260px;
+    object-fit: cover;
+    object-position: top center;
+    border-radius: var(--radius-xl);
+    border: 4px solid var(--color-gold);
+    box-shadow: var(--shadow-xl);
+  }
+  
+  .team-detail__content {
+    padding: var(--space-8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .team-detail__content h3 {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-1);
+  }
+  
+  .team-detail__title {
+    color: var(--color-gold);
+    font-weight: var(--font-semibold);
+    margin-bottom: var(--space-3);
+  }
+  
+  .team-detail__credentials {
+    display: flex;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+  }
+  
+  .team-detail__content p {
+    margin-bottom: var(--space-3);
+    color: var(--color-gray-700);
+  }
+  
+  .team-detail__personal {
+    font-size: var(--text-sm);
+    color: var(--color-gray-600);
+    font-style: italic;
+  }
+  
+  .team-detail__contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-4);
+  }
+  
+  .difference-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6);
+  }
+  
+  .difference-card {
+    padding: var(--space-8);
+    background: var(--color-gray-100);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-gray-200);
+    transition: all var(--transition-base);
+  }
+  
+  .difference-card:hover {
+    background: var(--color-white);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .difference-icon {
+    width: 32px;
+    height: 32px;
+    margin-bottom: var(--space-4);
+    color: var(--color-gold);
+  }
+  
+  .difference-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .difference-card h3 {
+    margin-bottom: var(--space-2);
+  }
+  
+  .difference-card p {
+    color: var(--color-gray-600);
+  }
+  
+  @media (max-width: 1024px) {
+    .story-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .team-detail {
+      grid-template-columns: 1fr;
+    }
+    
+    .team-detail:nth-child(even) {
+      direction: ltr;
+    }
+    
+    .team-detail__image {
+      aspect-ratio: 16/9;
+    }
+  }
+  
+  @media (max-width: 640px) {
+    .story-stats {
+      grid-template-columns: 1fr;
+    }
+    
+    .difference-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

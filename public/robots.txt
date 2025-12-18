@@ -1,0 +1,8 @@
+# PlanWell Financial Planning - robots.txt
+# https://planwellfp.com
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://planwellfp.com/sitemap-index.xml

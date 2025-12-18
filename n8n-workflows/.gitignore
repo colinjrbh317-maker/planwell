@@ -1,0 +1,28 @@
+# Google OAuth Credentials - DO NOT COMMIT
+credentials.json
+token.json
+
+# Generated Sheet IDs - DO NOT COMMIT
+sheet_ids.json
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
