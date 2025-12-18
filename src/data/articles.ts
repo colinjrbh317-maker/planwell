@@ -18,7 +18,7 @@ export const articles: Record<string, Article> = {
     date: "December 15, 2025",
     author: "David Fei, CFP®, ChFEBC℠",
     readTime: "15 min read",
-    image: "/src/assets/articles/fers-essential-guide.png",
+    image: "/images/articles/fers-essential-guide.png",
     content: `
       <h2>Understanding Your FERS Retirement System</h2>
       <p>The Federal Employees Retirement System (FERS) is a retirement plan for federal civilian employees that became effective January 1, 1987. Understanding how FERS works is crucial for maximizing your retirement benefits.</p>
@@ -66,7 +66,7 @@ export const articles: Record<string, Article> = {
     date: "December 10, 2025",
     author: "Brennan Rhule, CFP®, ChFEBC℠",
     readTime: "10 min read",
-    image: "/src/assets/articles/fers-supplement.png",
+    image: "/images/articles/fers-supplement.png",
     content: `
       <h2>What is the FERS Special Retirement Supplement?</h2>
       <p>The FERS Special Retirement Supplement (SRS) is a benefit designed to bridge the gap between your FERS retirement and Social Security eligibility. It provides income similar to what you would receive from Social Security before you reach age 62.</p>
@@ -98,7 +98,7 @@ export const articles: Record<string, Article> = {
     date: "December 5, 2025",
     author: "David Fei, CFP®, ChFEBC℠",
     readTime: "12 min read",
-    image: "/src/assets/articles/boost-fers.png",
+    image: "/images/articles/boost-fers.png",
     content: `
       <h2>Maximizing Your High-3 Average Salary</h2>
       <p>Your pension is based on your highest average basic pay over any three consecutive years of service. Here's how to maximize it:</p>
@@ -142,7 +142,7 @@ export const articles: Record<string, Article> = {
     date: "November 2025",
     author: "PlanWell Team",
     readTime: "5 min read",
-    image: "/src/assets/articles/opm-backlog.png",
+    image: "/images/articles/opm-backlog.png",
     content: `
       <h2>Current OPM Processing Times</h2>
       <p>As of November 2025, the Office of Personnel Management (OPM) continues to work through a significant backlog of federal retirement applications. Here's what you need to know:</p>
@@ -172,7 +172,7 @@ export const articles: Record<string, Article> = {
     date: "November 2025",
     author: "Brennan Rhule, CFP®, ChFEBC℠",
     readTime: "8 min read",
-    image: "/src/assets/articles/service-deposits.png",
+    image: "/images/articles/service-deposits.png",
     content: `
       <h2>Understanding Service Deposits</h2>
       <p>Service deposits allow you to receive credit for periods of service that wouldn't otherwise count toward your retirement. The two main types are:</p>
@@ -206,7 +206,7 @@ export const articles: Record<string, Article> = {
     date: "October 2025",
     author: "David Fei, CFP®, ChFEBC℠",
     readTime: "7 min read",
-    image: "/src/assets/articles/pension-calculator.png",
+    image: "/images/articles/pension-calculator.png",
     content: `
       <h2>The Basic FERS Calculation</h2>
       <p>While FERS calculations can seem complex, they follow a straightforward formula:</p>
