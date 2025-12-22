@@ -1,21 +1,56 @@
 ---
 import logo from '../assets/images/planwell-logo.png';
 
-// Form steps
-const steps = [
-  { id: 1, question: "What's your first name?", field: "first_name", type: "text", placeholder: "Enter your first name" },
-  { id: 2, question: "And your last name?", field: "last_name", type: "text", placeholder: "Enter your last name" },
-  { id: 3, question: "What email should we use to confirm your call?", field: "email", type: "email", placeholder: "your.email@example.com" },
-  { id: 4, question: "What's the best phone number to reach you?", field: "phone", type: "tel", placeholder: "(555) 123-4567" },
-  { id: 5, question: "What would you like to discuss?", field: "topic", type: "select", options: [
+// Screening questions - must pass to proceed
+const screeningQuestions = [
+  { 
+    id: 'is_federal_employee', 
+    question: "Are you a civilian federal employee (or retiree or survivor)?",
+    options: [
+      { value: 'yes', label: 'Yes' },
+      { value: 'no', label: 'No' }
+    ],
+    disqualifyOn: 'no',
+    disqualifyMessage: "We exclusively serve federal employees, retirees, and survivors. Our free webinar may still be helpful for you!"
+  },
+  { 
+    id: 'wants_advisor', 
+    question: "Are you looking to work with a financial advisor and receive guidance on your federal employee benefits?",
+    options: [
+      { value: 'yes', label: 'Yes' },
+      { value: 'no', label: 'No' }
+    ],
+    disqualifyOn: 'no',
+    disqualifyRedirect: '/webinar'
+  },
+  { 
+    id: 'single_question', 
+    question: "Are you seeking an answer to a SINGLE federal benefits question?",
+    options: [
+      { value: 'yes', label: 'Yes, I just had ONE question to ask' },
+      { value: 'no', label: 'No, I have lots of questions' }
+    ],
+    disqualifyOn: 'yes',
+    disqualifyRedirect: '/webinar'
+  }
+];
+
+// Contact info questions (only shown if qualified)
+const contactQuestions = [
+  { id: 'name', question: "What's your name?", type: "text", placeholder: "Your name", field: "name" },
+  { id: 'email', question: "What's your email?", type: "email", placeholder: "your.email@example.com", field: "email" },
+  { id: 'phone', question: "Best phone number to reach you?", type: "tel", placeholder: "(555) 123-4567", field: "phone" },
+  { id: 'topic', question: "What would you like to discuss?", type: "select", field: "topic", options: [
     { value: "retirement-timing", label: "When I can retire" },
     { value: "pension-estimate", label: "My pension estimate" },
     { value: "tsp-strategy", label: "TSP withdrawal strategy" },
     { value: "fehb-medicare", label: "FEHB and Medicare" },
     { value: "comprehensive", label: "Full retirement review" },
     { value: "other", label: "Something else" }
-  ]},
+  ]}
 ];
+
+const totalSteps = screeningQuestions.length + contactQuestions.length + 2; // +2 for intro and success
 ---
 
 <!DOCTYPE html>
@@ -63,7 +98,7 @@ const steps = [
     
     <!-- Content Area -->
     <main class="funnel-content">
-      <!-- Intro Step -->
+      <!-- Intro Step (Step 0) -->
       <div class="step step--active" data-step="0">
         <div class="step-content">
           <span class="step-eyebrow">1-on-1 Strategy Call</span>
@@ -88,28 +123,76 @@ const steps = [
             </li>
           </ul>
           <button type="button" class="btn-next" onclick="nextStep()">
-            Schedule My Call
+            Let's Get Started
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </button>
         </div>
       </div>
       
-      <!-- Dynamic Form Steps -->
-      {steps.map((step, index) => (
-        <div class="step" data-step={index + 1}>
+      <!-- Screening Questions -->
+      {screeningQuestions.map((q, index) => (
+        <div class="step" data-step={index + 1} data-screening="true" data-disqualify-on={q.disqualifyOn} data-disqualify-redirect={q.disqualifyRedirect || ''} data-disqualify-message={q.disqualifyMessage || ''}>
           <div class="step-content">
-            <span class="step-counter">Question {index + 1} of {steps.length}</span>
-            <h2 class="step-question">{step.question}</h2>
+            <span class="step-counter">Quick Question {index + 1} of {screeningQuestions.length}</span>
+            <h2 class="step-question">{q.question}</h2>
+            <div class="option-grid">
+              {q.options.map(option => (
+                <button 
+                  type="button" 
+                  class="option-btn" 
+                  data-value={option.value}
+                  data-field={q.id}
+                  onclick={'selectScreeningOption(this, "' + q.id + '")'}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+            <button type="button" class="btn-back" onclick="prevStep()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              Back
+            </button>
+          </div>
+        </div>
+      ))}
+      
+      <!-- Disqualified Step (hidden by default) -->
+      <div class="step" data-step="disqualified" id="disqualified-step">
+        <div class="step-content step-content--disqualified">
+          <div class="disqualified-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 8v4M12 16h.01"/>
+            </svg>
+          </div>
+          <h2 class="step-title" id="disqualified-title">Thanks for your interest!</h2>
+          <p class="step-description" id="disqualified-message">
+            Based on your answers, our free webinar might be a better fit for you right now.
+          </p>
+          <a href="/webinar" class="btn-next" id="disqualified-cta">
+            Check Out Our Free Webinar
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="/" class="btn-back-link">Return to Homepage</a>
+        </div>
+      </div>
+      
+      <!-- Contact Info Questions -->
+      {contactQuestions.map((q, index) => (
+        <div class="step" data-step={screeningQuestions.length + index + 1}>
+          <div class="step-content">
+            <span class="step-counter">Step {index + 1} of {contactQuestions.length}</span>
+            <h2 class="step-question">{q.question}</h2>
             
-            {step.type === 'select' ? (
+            {q.type === 'select' ? (
               <div class="option-grid">
-                {step.options?.map(option => (
+                {q.options?.map(option => (
                   <button 
                     type="button" 
                     class="option-btn" 
                     data-value={option.value}
-                    data-field={step.field}
-                    onclick={`selectOption(this, '${step.field}')`}
+                    data-field={q.field}
+                    onclick={'selectOption(this, "' + q.field + '")'}
                   >
                     {option.label}
                   </button>
@@ -118,11 +201,11 @@ const steps = [
             ) : (
               <div class="input-wrapper">
                 <input 
-                  type={step.type}
-                  id={step.field}
-                  name={step.field}
+                  type={q.type}
+                  id={q.field}
+                  name={q.field}
                   class="funnel-input"
-                  placeholder={step.placeholder}
+                  placeholder={q.placeholder}
                   required
                   onkeydown="handleEnter(event)"
                 />
@@ -142,7 +225,7 @@ const steps = [
       ))}
       
       <!-- Success Step -->
-      <div class="step" data-step={steps.length + 1}>
+      <div class="step" data-step={screeningQuestions.length + contactQuestions.length + 1}>
         <div class="step-content step-content--success">
           <div class="success-icon">
             <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -150,11 +233,16 @@ const steps = [
               <path d="M22 4L12 14.01l-3-3"/>
             </svg>
           </div>
-          <h2 class="step-title">We'll Be in Touch!</h2>
-          <p class="step-description">
+          <h2 class="step-title">You're Matched!</h2>
+          <p class="step-description" id="success-message">
             One of our advisors will reach out within 1 business day 
             to schedule your call at a time that works for you.
           </p>
+          <div class="advisor-card" id="advisor-card" style="display: none;">
+            <div class="advisor-name" id="advisor-name"></div>
+            <div class="advisor-title" id="advisor-title"></div>
+            <p class="advisor-bio" id="advisor-bio"></p>
+          </div>
           <a href="/" class="btn-next">
             Return to Homepage
           </a>
@@ -219,9 +307,9 @@ const steps = [
     .funnel-content {
       flex: 1;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
-      padding: 2rem;
+      padding: 3rem 2rem 2rem;
     }
     
     .step {
@@ -263,7 +351,7 @@ const steps = [
     
     .step-title {
       font-family: 'Outfit', sans-serif;
-      font-size: clamp(2rem, 5vw, 3rem);
+      font-size: clamp(1.75rem, 5vw, 2.5rem);
       font-weight: 700;
       line-height: 1.1;
       margin-bottom: 1.5rem;
@@ -271,9 +359,10 @@ const steps = [
     
     .step-question {
       font-family: 'Outfit', sans-serif;
-      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      font-size: clamp(1.25rem, 4vw, 2rem);
       font-weight: 600;
       margin-bottom: 2rem;
+      line-height: 1.3;
     }
     
     .step-description {
@@ -345,7 +434,7 @@ const steps = [
       display: grid;
       grid-template-columns: 1fr;
       gap: 0.75rem;
-      max-width: 400px;
+      max-width: 450px;
       margin: 0 auto 1.5rem;
     }
     
@@ -360,6 +449,7 @@ const steps = [
       color: #fff;
       cursor: pointer;
       transition: all 0.2s;
+      text-align: left;
     }
     
     .option-btn:hover {
@@ -415,7 +505,20 @@ const steps = [
       color: #fff;
     }
     
-    .step-content--success .success-icon {
+    .btn-back-link {
+      display: block;
+      margin-top: 1.5rem;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      font-size: 0.875rem;
+    }
+    
+    .btn-back-link:hover {
+      color: #fff;
+    }
+    
+    .step-content--success .success-icon,
+    .step-content--disqualified .disqualified-icon {
       width: 100px;
       height: 100px;
       display: flex;
@@ -427,45 +530,134 @@ const steps = [
       color: #152a45;
     }
     
+    .step-content--disqualified .disqualified-icon {
+      background: rgba(255,255,255,0.1);
+      color: #c9a55c;
+    }
+    
+    .advisor-card {
+      background: rgba(255,255,255,0.1);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      margin: 1.5rem auto;
+      max-width: 400px;
+      text-align: left;
+    }
+    
+    .advisor-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 0.25rem;
+    }
+    
+    .advisor-title {
+      font-size: 0.875rem;
+      color: #c9a55c;
+      margin-bottom: 0.75rem;
+    }
+    
+    .advisor-bio {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.8);
+      line-height: 1.5;
+    }
+    
     @media (max-width: 640px) {
       .funnel-header {
         padding: 1rem;
       }
       
       .funnel-content {
-        padding: 1rem;
+        padding: 2rem 1rem;
       }
     }
   </style>
 
   <script is:inline>
-    let currentStep = 0;
-    const totalSteps = 6; // intro + 5 questions
-    const formData = {};
+    var currentStep = 0;
+    var totalSteps = 8; // Will be updated based on actual steps
+    var formData = {};
+    var screeningData = {};
+    
+    // API endpoint for form submission (change for production)
+    var API_ENDPOINT = 'http://localhost:5001/api/book-call';
     
     function updateProgress() {
-      const progress = (currentStep / totalSteps) * 100;
+      var progress = (currentStep / totalSteps) * 100;
       document.getElementById('progress-fill').style.width = progress + '%';
     }
     
     function showStep(stepNum) {
-      document.querySelectorAll('.step').forEach(step => {
+      document.querySelectorAll('.step').forEach(function(step) {
         step.classList.remove('step--active');
       });
-      const targetStep = document.querySelector(`[data-step="${stepNum}"]`);
+      var targetStep = document.querySelector('[data-step="' + stepNum + '"]');
       if (targetStep) {
         targetStep.classList.add('step--active');
-        // Focus input if exists
-        const input = targetStep.querySelector('input');
-        if (input) setTimeout(() => input.focus(), 100);
+        var input = targetStep.querySelector('input');
+        if (input) setTimeout(function() { input.focus(); }, 100);
       }
       updateProgress();
     }
     
+    function showDisqualified(message, redirectUrl) {
+      document.querySelectorAll('.step').forEach(function(step) {
+        step.classList.remove('step--active');
+      });
+      
+      var disqualifiedStep = document.getElementById('disqualified-step');
+      if (message) {
+        document.getElementById('disqualified-message').textContent = message;
+      }
+      if (redirectUrl) {
+        document.getElementById('disqualified-cta').href = redirectUrl;
+      }
+      
+      disqualifiedStep.classList.add('step--active');
+    }
+    
+    function selectScreeningOption(btn, field) {
+      // Remove selection from siblings
+      btn.parentElement.querySelectorAll('.option-btn').forEach(function(b) {
+        b.classList.remove('option-btn--selected');
+      });
+      btn.classList.add('option-btn--selected');
+      screeningData[field] = btn.dataset.value;
+      
+      // Check if disqualified
+      var stepEl = btn.closest('.step');
+      var disqualifyOn = stepEl.dataset.disqualifyOn;
+      var disqualifyRedirect = stepEl.dataset.disqualifyRedirect;
+      var disqualifyMessage = stepEl.dataset.disqualifyMessage;
+      
+      if (btn.dataset.value === disqualifyOn) {
+        // User is disqualified
+        setTimeout(function() {
+          showDisqualified(disqualifyMessage, disqualifyRedirect || '/webinar');
+        }, 300);
+        return;
+      }
+      
+      // Auto advance after short delay
+      setTimeout(function() { nextStep(); }, 300);
+    }
+    
+    function selectOption(btn, field) {
+      btn.parentElement.querySelectorAll('.option-btn').forEach(function(b) {
+        b.classList.remove('option-btn--selected');
+      });
+      btn.classList.add('option-btn--selected');
+      formData[field] = btn.dataset.value;
+      
+      setTimeout(function() { nextStep(); }, 300);
+    }
+    
     function nextStep() {
       // Validate current step if it has input
-      const currentStepEl = document.querySelector(`[data-step="${currentStep}"]`);
-      const input = currentStepEl?.querySelector('input');
+      var currentStepEl = document.querySelector('[data-step="' + currentStep + '"]');
+      var input = currentStepEl ? currentStepEl.querySelector('input') : null;
       if (input && !input.value.trim()) {
         input.focus();
         input.style.borderColor = '#dc3545';
@@ -480,9 +672,9 @@ const steps = [
       showStep(currentStep);
       
       // If we're on the success step, submit the form
-      if (currentStep === totalSteps) {
-        console.log('Form submitted:', formData);
-        // In production, send to backend here
+      var successStep = document.querySelector('.step-content--success');
+      if (successStep && successStep.closest('.step').classList.contains('step--active')) {
+        submitForm();
       }
     }
     
@@ -493,23 +685,38 @@ const steps = [
       }
     }
     
-    function selectOption(btn, field) {
-      // Remove selection from siblings
-      btn.parentElement.querySelectorAll('.option-btn').forEach(b => {
-        b.classList.remove('option-btn--selected');
-      });
-      btn.classList.add('option-btn--selected');
-      formData[field] = btn.dataset.value;
-      
-      // Auto advance after short delay
-      setTimeout(() => nextStep(), 300);
-    }
-    
     function handleEnter(e) {
       if (e.key === 'Enter') {
         e.preventDefault();
         nextStep();
       }
+    }
+    
+    function submitForm() {
+      var payload = Object.assign({}, formData, screeningData);
+      
+      console.log('Submitting form:', payload);
+      
+      fetch(API_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(function(response) { return response.json(); })
+      .then(function(data) {
+        console.log('Response:', data);
+        if (data.success && data.advisor) {
+          // Show advisor info
+          document.getElementById('advisor-card').style.display = 'block';
+          document.getElementById('advisor-name').textContent = data.advisor.name;
+          document.getElementById('advisor-title').textContent = data.advisor.title;
+          document.getElementById('advisor-bio').textContent = data.advisor.bio;
+          document.getElementById('success-message').textContent = data.message;
+        }
+      })
+      .catch(function(error) {
+        console.error('Error submitting form:', error);
+      });
     }
     
     // Initialize
