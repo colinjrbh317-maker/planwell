@@ -1,19 +1,19 @@
 ---
 import logo from '../assets/images/planwell-logo.png';
+import { getNextWebinar, formatWebinarDate, getDaysUntil, generateICS } from '../data/webinars';
 
-// Form steps
+// Get the next upcoming webinar
+const nextWebinar = getNextWebinar();
+const webinarDate = nextWebinar ? formatWebinarDate(nextWebinar) : 'Coming Soon';
+const daysUntil = nextWebinar ? getDaysUntil(nextWebinar) : 0;
+const webinarTime = nextWebinar ? `${nextWebinar.startTime} – ${nextWebinar.endTime} ${nextWebinar.timezone}` : '';
+const webinarId = nextWebinar?.id || '';
+
+// Optimized form - only 3 essential fields for maximum conversion
 const steps = [
-  { id: 1, question: "What's your first name?", field: "first_name", type: "text", placeholder: "Enter your first name" },
-  { id: 2, question: "And your last name?", field: "last_name", type: "text", placeholder: "Enter your last name" },
-  { id: 3, question: "What's the best email to reach you?", field: "email", type: "email", placeholder: "your.email@example.com" },
-  { id: 4, question: "What federal agency do you work for?", field: "agency", type: "text", placeholder: "e.g., DoD, VA, IRS, GSA" },
-  { id: 5, question: "When are you planning to retire?", field: "timeline", type: "select", options: [
-    { value: "1-2", label: "Within 1-2 years" },
-    { value: "3-5", label: "3-5 years from now" },
-    { value: "5-10", label: "5-10 years from now" },
-    { value: "10+", label: "More than 10 years" },
-    { value: "unsure", label: "Not sure yet" }
-  ]},
+  { id: 1, question: "What's your name?", field: "name", type: "text", placeholder: "First name" },
+  { id: 2, question: "Where should we send the details?", field: "email", type: "email", placeholder: "your.email@example.com" },
+  { id: 3, question: "What federal agency do you work for?", field: "agency", type: "text", placeholder: "e.g., DoD, VA, IRS, GSA" },
 ];
 ---
 
@@ -22,14 +22,14 @@ const steps = [
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Register for our free FERS retirement workshop. Learn everything about your federal benefits in just 3 hours." />
-  <title>Free FERS Retirement Webinar - Federal Benefits Workshop | PlanWell</title>
+  <meta name="description" content="Register for our free FERS retirement workshop on {webinarDate}. Learn everything about your federal benefits in just 3 hours." />
+  <title>Free FERS Retirement Webinar - {webinarDate} | PlanWell</title>
   <link rel="canonical" href="https://planwellfp.com/webinar/" />
   
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://planwellfp.com/webinar/" />
-  <meta property="og:title" content="Free FERS Retirement Webinar | PlanWell" />
+  <meta property="og:title" content="Free FERS Retirement Webinar - {webinarDate} | PlanWell" />
   <meta property="og:description" content="Register for our free 3-hour FERS retirement workshop. Learn about your pension, TSP, survivor benefits, and healthcare options." />
   <meta property="og:site_name" content="PlanWell Financial Planning" />
   
@@ -65,17 +65,32 @@ const steps = [
       <!-- Intro Step -->
       <div class="step step--active" data-step="0">
         <div class="step-content">
+          <!-- Urgency Badge -->
+          <div class="urgency-badge">
+            <svg class="urgency-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 6v6l4 2"/>
+            </svg>
+            <span>
+              {daysUntil <= 1 ? 'Tomorrow!' : 'In ' + daysUntil + ' days'}
+              <span class="urgency-spots">• Limited spots</span>
+            </span>
+          </div>
+          
           <span class="step-eyebrow">Free FERS Workshop</span>
-          <h1 class="step-title">Learn Everything About Your Federal Retirement in 3 Hours</h1>
+          <h1 class="step-title">
+            {webinarDate}
+            <span class="step-time">{webinarTime}</span>
+          </h1>
           <p class="step-description">
-            Join our next virtual workshop led by Certified Financial Planners who specialize 
-            in federal benefits. We cover FERS pension, TSP strategies, FEHB, Medicare, 
-            survivor benefits, and more.
+            Join our 3-hour virtual workshop led by Certified Financial Planners. 
+            We'll cover your FERS pension, TSP strategies, FEHB, Medicare, 
+            survivor benefits, and answer your questions live.
           </p>
           <ul class="step-benefits">
             <li>
               <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>
-              <span>3-hour comprehensive session</span>
+              <span>Complete FERS breakdown</span>
             </li>
             <li>
               <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>
@@ -83,13 +98,14 @@ const steps = [
             </li>
             <li>
               <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>
-              <span>Completely free, no obligation</span>
+              <span>100% free, no obligation</span>
             </li>
           </ul>
-          <button type="button" class="btn-next" onclick="nextStep()">
-            Reserve My Seat
+          <button type="button" class="btn-next btn-next--large" onclick="nextStep()">
+            Reserve My Free Seat
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </button>
+          <p class="step-trust">Join 500+ federal employees who've attended</p>
         </div>
       </div>
       
@@ -97,40 +113,25 @@ const steps = [
       {steps.map((step, index) => (
         <div class="step" data-step={index + 1}>
           <div class="step-content">
-            <span class="step-counter">Question {index + 1} of {steps.length}</span>
+            <span class="step-counter">Step {index + 1} of {steps.length}</span>
             <h2 class="step-question">{step.question}</h2>
             
-            {step.type === 'select' ? (
-              <div class="option-grid">
-                {step.options?.map(option => (
-                  <button 
-                    type="button" 
-                    class="option-btn" 
-                    data-value={option.value}
-                    data-field={step.field}
-                    onclick={`selectOption(this, '${step.field}')`}
-                  >
-                    {option.label}
-                  </button>
-                ))}
-              </div>
-            ) : (
-              <div class="input-wrapper">
-                <input 
-                  type={step.type}
-                  id={step.field}
-                  name={step.field}
-                  class="funnel-input"
-                  placeholder={step.placeholder}
-                  required
-                  onkeydown="handleEnter(event)"
-                />
-                <button type="button" class="btn-next" onclick="nextStep()">
-                  Continue
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </button>
-              </div>
-            )}
+            <div class="input-wrapper">
+              <input 
+                type={step.type}
+                id={step.field}
+                name={step.field}
+                class="funnel-input"
+                placeholder={step.placeholder}
+                required
+                onkeydown="handleEnter(event)"
+                autocomplete={step.field === 'email' ? 'email' : step.field === 'name' ? 'given-name' : 'organization'}
+              />
+              <button type="button" class="btn-next" onclick="nextStep()">
+                {index === steps.length - 1 ? 'Complete Registration' : 'Continue'}
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </button>
+            </div>
             
             <button type="button" class="btn-back" onclick="prevStep()">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
@@ -150,18 +151,46 @@ const steps = [
             </svg>
           </div>
           <h2 class="step-title">You're Registered!</h2>
+          <p class="step-description success-date">
+            See you on <strong>{webinarDate}</strong> at <strong>{webinarTime}</strong>
+          </p>
           <p class="step-description">
-            Check your inbox for workshop details and calendar invite. 
+            Check your inbox for the Zoom link and details. 
             We'll send a reminder before the session.
           </p>
-          <p class="step-note">Our next workshop is in less than 3 weeks.</p>
-          <a href="/" class="btn-next">
+          
+          <!-- Calendar Download -->
+          <div class="calendar-actions">
+            <button type="button" class="btn-calendar" onclick="downloadCalendar()">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+              Add to Calendar
+            </button>
+          </div>
+          
+          <a href="/" class="btn-home">
             Return to Homepage
           </a>
         </div>
       </div>
     </main>
   </div>
+
+  <!-- Hidden data for JavaScript -->
+  <div 
+    id="webinar-data" 
+    style="display:none"
+    data-id={webinarId}
+    data-date={nextWebinar?.date.toISOString()}
+    data-title={nextWebinar?.title}
+    data-start-time={nextWebinar?.startTime}
+    data-end-time={nextWebinar?.endTime}
+    data-timezone={nextWebinar?.timezone}
+  ></div>
 
   <style>
     * {
@@ -244,6 +273,37 @@ const steps = [
       text-align: center;
     }
     
+    /* Urgency Badge */
+    .urgency-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(201, 165, 92, 0.15);
+      border: 1px solid rgba(201, 165, 92, 0.4);
+      color: #e4c97f;
+      padding: 0.5rem 1rem;
+      border-radius: 2rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.8; }
+    }
+    
+    .urgency-icon {
+      width: 16px;
+      height: 16px;
+    }
+    
+    .urgency-spots {
+      color: rgba(255,255,255,0.7);
+      font-weight: 500;
+    }
+    
     .step-eyebrow {
       display: inline-block;
       font-size: 0.875rem;
@@ -251,7 +311,7 @@ const steps = [
       text-transform: uppercase;
       letter-spacing: 0.1em;
       color: #c9a55c;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
     }
     
     .step-counter {
@@ -266,7 +326,15 @@ const steps = [
       font-size: clamp(2rem, 5vw, 3rem);
       font-weight: 700;
       line-height: 1.1;
-      margin-bottom: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .step-time {
+      display: block;
+      font-size: clamp(1.25rem, 3vw, 1.5rem);
+      font-weight: 500;
+      color: rgba(255,255,255,0.7);
+      margin-top: 0.25rem;
     }
     
     .step-question {
@@ -280,10 +348,19 @@ const steps = [
       font-size: 1.125rem;
       color: rgba(255,255,255,0.8);
       line-height: 1.6;
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
       max-width: 500px;
       margin-left: auto;
       margin-right: auto;
+    }
+    
+    .success-date {
+      font-size: 1.25rem;
+      color: #e4c97f;
+    }
+    
+    .success-date strong {
+      color: #fff;
     }
     
     .step-benefits {
@@ -291,7 +368,7 @@ const steps = [
       display: flex;
       flex-direction: column;
       gap: 0.75rem;
-      margin-bottom: 2.5rem;
+      margin-bottom: 2rem;
     }
     
     .step-benefits li {
@@ -308,6 +385,12 @@ const steps = [
       height: 20px;
       color: #c9a55c;
       flex-shrink: 0;
+    }
+    
+    .step-trust {
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.5);
+      margin-top: 1.5rem;
     }
     
     .input-wrapper {
@@ -341,38 +424,6 @@ const steps = [
       background: rgba(255,255,255,0.15);
     }
     
-    .option-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 0.75rem;
-      max-width: 400px;
-      margin: 0 auto 1.5rem;
-    }
-    
-    .option-btn {
-      padding: 1rem 1.5rem;
-      font-size: 1.125rem;
-      font-family: inherit;
-      font-weight: 500;
-      background: rgba(255,255,255,0.1);
-      border: 2px solid rgba(255,255,255,0.2);
-      border-radius: 0.75rem;
-      color: #fff;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    
-    .option-btn:hover {
-      background: rgba(255,255,255,0.2);
-      border-color: rgba(255,255,255,0.3);
-    }
-    
-    .option-btn--selected {
-      background: #c9a55c;
-      border-color: #c9a55c;
-      color: #152a45;
-    }
-    
     .btn-next {
       display: inline-flex;
       align-items: center;
@@ -389,6 +440,11 @@ const steps = [
       cursor: pointer;
       transition: all 0.2s;
       text-decoration: none;
+    }
+    
+    .btn-next--large {
+      padding: 1.25rem 2.5rem;
+      font-size: 1.25rem;
     }
     
     .btn-next:hover {
@@ -427,10 +483,45 @@ const steps = [
       color: #152a45;
     }
     
-    .step-note {
+    .calendar-actions {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+    
+    .btn-calendar {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.875rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      font-family: inherit;
+      background: rgba(255,255,255,0.1);
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 0.5rem;
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .btn-calendar:hover {
+      background: rgba(255,255,255,0.2);
+      border-color: rgba(255,255,255,0.5);
+    }
+    
+    .btn-home {
+      display: inline-block;
+      padding: 0.5rem 1rem;
       font-size: 0.875rem;
-      color: rgba(255,255,255,0.5);
-      margin-bottom: 2rem;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    
+    .btn-home:hover {
+      color: #fff;
     }
     
     @media (max-width: 640px) {
@@ -448,8 +539,19 @@ const steps = [
     // Configuration - Set your webhook URL here
     const WEBINAR_WEBHOOK_URL = 'https://colinryan17.app.n8n.cloud/webhook/webinar';
     
+    // Get webinar data from data attributes
+    const webinarDataEl = document.getElementById('webinar-data');
+    const webinarData = webinarDataEl ? {
+      id: webinarDataEl.dataset.id,
+      date: webinarDataEl.dataset.date,
+      title: webinarDataEl.dataset.title,
+      startTime: webinarDataEl.dataset.startTime,
+      endTime: webinarDataEl.dataset.endTime,
+      timezone: webinarDataEl.dataset.timezone
+    } : {};
+    
     let currentStep = 0;
-    const totalSteps = 6; // intro + 5 questions
+    const totalSteps = 4; // intro + 3 questions
     const formData = {};
     
     function updateProgress() {
@@ -461,7 +563,7 @@ const steps = [
       document.querySelectorAll('.step').forEach(step => {
         step.classList.remove('step--active');
       });
-      const targetStep = document.querySelector(`[data-step="${stepNum}"]`);
+      const targetStep = document.querySelector('[data-step="' + stepNum + '"]');
       if (targetStep) {
         targetStep.classList.add('step--active');
         // Focus input if exists
@@ -478,6 +580,8 @@ const steps = [
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             ...data,
+            webinar_id: webinarData.id,
+            webinar_date: webinarData.date,
             submitted_at: new Date().toISOString(),
             source: 'webinar_registration'
           })
@@ -504,7 +608,7 @@ const steps = [
     
     function nextStep() {
       // Validate current step if it has input
-      const currentStepEl = document.querySelector(`[data-step="${currentStep}"]`);
+      const currentStepEl = document.querySelector('[data-step="' + currentStep + '"]');
       const input = currentStepEl?.querySelector('input');
       if (input && !input.value.trim()) {
         input.focus();
@@ -533,23 +637,48 @@ const steps = [
       }
     }
     
-    function selectOption(btn, field) {
-      // Remove selection from siblings
-      btn.parentElement.querySelectorAll('.option-btn').forEach(b => {
-        b.classList.remove('option-btn--selected');
-      });
-      btn.classList.add('option-btn--selected');
-      formData[field] = btn.dataset.value;
-      
-      // Auto advance after short delay
-      setTimeout(() => nextStep(), 300);
-    }
-    
     function handleEnter(e) {
       if (e.key === 'Enter') {
         e.preventDefault();
         nextStep();
       }
+    }
+    
+    function downloadCalendar() {
+      if (!webinarData.date) return;
+      
+      var date = new Date(webinarData.date);
+      var endDate = new Date(date.getTime() + 3 * 60 * 60 * 1000);
+      
+      function formatICSDate(d) {
+        return d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+      }
+      
+      var lines = [
+        'BEGIN:VCALENDAR',
+        'VERSION:2.0',
+        'PRODID:-//PlanWell//Webinar//EN',
+        'BEGIN:VEVENT',
+        'UID:' + String(webinarData.id) + '@planwellfp.com',
+        'DTSTAMP:' + formatICSDate(new Date()),
+        'DTSTART:' + formatICSDate(date),
+        'DTEND:' + formatICSDate(endDate),
+        'SUMMARY:' + String(webinarData.title) + ' - PlanWell Financial Planning',
+        'DESCRIPTION:Free 3-hour FERS retirement workshop.',
+        'LOCATION:Online (Zoom link will be emailed)',
+        'STATUS:CONFIRMED',
+        'END:VEVENT',
+        'END:VCALENDAR'
+      ];
+      var icsContent = lines.join('\r\n');
+      
+      var blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+      var link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'fers-workshop-' + String(webinarData.id) + '.ics';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
     
     // Initialize

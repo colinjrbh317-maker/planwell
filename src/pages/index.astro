@@ -1,9 +1,17 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import WebinarBanner from '../components/WebinarBanner.astro';
 import heroImage from '../assets/images/hero-couple.png';
 import brennanPhoto from '../assets/images/brennan-rhule.jpg';
 import davidPhoto from '../assets/images/david-fei.jpg';
+import { getNextWebinar, formatWebinarDate, getDaysUntil } from '../data/webinars';
+
+// Get next webinar for dynamic display
+const nextWebinar = getNextWebinar();
+const webinarDate = nextWebinar ? formatWebinarDate(nextWebinar) : null;
+const daysUntil = nextWebinar ? getDaysUntil(nextWebinar) : 0;
+const urgencyText = daysUntil <= 7 ? `In ${daysUntil} days` : webinarDate?.split(',')[0]; // "Tuesday" or "In 5 days"
 
 // Logo imports
 import logoCnbc from '../assets/logos/cnbc.png';
@@ -36,8 +44,9 @@ import logoNewsbreak from '../assets/logos/newsbreak.webp';
           </p>
           
           <div class="hero__cta">
-            <a href="/webinar" class="btn btn--primary btn--lg">
-              Free FERS Workshop
+            <a href="/webinar" class="btn btn--primary btn--lg hero__cta-webinar">
+              <span class="btn-main">Free FERS Workshop</span>
+              {nextWebinar && <span class="btn-date">{urgencyText}</span>}
             </a>
             <a href="/contact" class="btn btn--ghost btn--lg">
               Book a 1-on-1 Call
@@ -483,6 +492,25 @@ import logoNewsbreak from '../assets/logos/newsbreak.webp';
     max-width: 100%;
     height: auto;
     box-shadow: var(--shadow-2xl);
+  }
+  
+  /* Hero CTA Webinar Button with Date */
+  .hero__cta-webinar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.125rem;
+    padding-bottom: 0.875rem;
+  }
+  
+  .hero__cta-webinar .btn-main {
+    font-weight: 600;
+  }
+  
+  .hero__cta-webinar .btn-date {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    opacity: 0.9;
   }
 
   /* Logo Carousel */
