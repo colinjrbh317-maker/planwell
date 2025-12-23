@@ -167,7 +167,7 @@ if (searchQuery) {
               <p>Try adjusting your search or filters, or <a href="/blog">browse all articles</a>.</p>
             </div>
           ) : (
-            <>
+            <Fragment>
               <!-- Articles Grid -->
               <div class="posts-grid">
                 {paginatedArticles.map((article, index) => (
@@ -264,7 +264,7 @@ if (searchQuery) {
                   </div>
                 </nav>
               )}
-            </>
+            </Fragment>
           )}
         </main>
 
