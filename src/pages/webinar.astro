@@ -537,7 +537,9 @@ const steps = [
 
   <script is:inline>
     // Configuration - Set your webhook URL here
-    const WEBINAR_WEBHOOK_URL = 'https://colinryan17.app.n8n.cloud/webhook/webinar';
+    // For local development: http://localhost:5001/api/webinar
+    // For production: Update to your deployed Flask server URL
+    const WEBINAR_WEBHOOK_URL = 'http://localhost:5001/api/webinar';
     
     // Get webinar data from data attributes
     const webinarDataEl = document.getElementById('webinar-data');
