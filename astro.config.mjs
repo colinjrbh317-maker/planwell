@@ -17,4 +17,8 @@ export default defineConfig({
             entrypoint: 'astro/assets/services/sharp',
         },
     },
+    redirects: {
+        '/resources': '/blog',
+        '/resources/[slug]': '/blog/[slug]',
+    },
 });

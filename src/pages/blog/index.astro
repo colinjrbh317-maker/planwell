@@ -1,0 +1,697 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { articles, getArticleSlugs } from '../../data/articles';
+import { authors, getAllAuthors, getAuthorByName } from '../../data/authors';
+
+// Get all articles as array, sorted by date
+const allArticles = Object.entries(articles).map(([slug, article]) => ({
+  ...article,
+  slug,
+  authorData: getAuthorByName(article.author)
+}));
+
+// Featured article (first/newest)
+const featuredArticle = allArticles[0];
+
+// Recent articles (excluding featured)
+const recentArticles = allArticles.slice(1, 7);
+
+// All authors for sidebar
+const blogAuthors = getAllAuthors();
+
+// Categories with counts
+const categories = [
+  { name: "FERS", slug: "fers", count: allArticles.filter(a => a.category === "FERS").length },
+  { name: "TSP & Investing", slug: "tsp", count: allArticles.filter(a => a.category === "TSP & Investing").length },
+  { name: "FEHB & Medicare", slug: "fehb-medicare", count: allArticles.filter(a => a.category === "FEHB & Medicare").length },
+  { name: "Social Security", slug: "social-security", count: allArticles.filter(a => a.category === "Social Security").length },
+  { name: "Tax Strategy", slug: "tax-strategy", count: allArticles.filter(a => a.category === "Tax Strategy").length },
+  { name: "Federal News", slug: "news", count: allArticles.filter(a => a.category === "Federal News").length },
+].filter(c => c.count > 0);
+---
+
+<BaseLayout
+  title="The PlanWell Blog - Federal Retirement Insights"
+  description="Expert articles on FERS pension, TSP investing, FEHB health insurance, Medicare coordination, and tax strategies for federal employees. Written by certified financial planners."
+>
+  <!-- Hero Section -->
+  <section class="blog-hero">
+    <div class="container">
+      <h1 class="blog-hero__title">The PlanWell Blog</h1>
+      <p class="blog-hero__subtitle">
+        Practical insights on federal retirement from certified financial planners who specialize in serving federal employees.
+      </p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <section class="blog-main">
+    <div class="container">
+      <div class="blog-layout">
+        <!-- Articles Column -->
+        <main class="blog-content">
+          <!-- Featured Article -->
+          {featuredArticle && (
+            <article class="featured-post">
+              <a href={`/blog/${featuredArticle.slug}`} class="featured-post__image-link">
+                <img
+                  src={featuredArticle.image || '/images/blog/default-cover.jpg'}
+                  alt={featuredArticle.title}
+                  class="featured-post__image"
+                  loading="eager"
+                  onerror="this.onerror=null; this.src='/images/blog/default-cover.jpg';"
+                />
+              </a>
+              <div class="featured-post__content">
+                <span class="featured-post__category">{featuredArticle.category}</span>
+                <h2 class="featured-post__title">
+                  <a href={`/blog/${featuredArticle.slug}`}>{featuredArticle.title}</a>
+                </h2>
+                <p class="featured-post__excerpt">
+                  {featuredArticle.excerpt || featuredArticle.content?.replace(/<[^>]*>/g, '').slice(0, 200)}...
+                </p>
+                <div class="featured-post__meta">
+                  {featuredArticle.authorData && (
+                    <div class="featured-post__author">
+                      <img
+                        src={featuredArticle.authorData.image}
+                        alt={featuredArticle.authorData.name}
+                        class="featured-post__author-image"
+                      />
+                      <div class="featured-post__author-info">
+                        <span class="featured-post__author-name">{featuredArticle.authorData.name}</span>
+                        <span class="featured-post__date">{featuredArticle.date} · {featuredArticle.readTime}</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </article>
+          )}
+
+          <!-- Category Filter -->
+          <div class="category-filter">
+            <span class="category-filter__label">Browse by topic:</span>
+            <div class="category-filter__tags">
+              <a href="/blog" class="category-tag category-tag--active">All</a>
+              {categories.map(cat => (
+                <a href={`/blog?category=${cat.slug}`} class="category-tag">
+                  {cat.name} <span class="category-tag__count">({cat.count})</span>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <!-- Recent Articles Grid -->
+          <div class="posts-grid">
+            {recentArticles.map((article, index) => (
+              <>
+                <article class="post-card">
+                  <a href={`/blog/${article.slug}`} class="post-card__image-link">
+                    <img
+                      src={article.image || '/images/blog/default-cover.jpg'}
+                      alt={article.title}
+                      class="post-card__image"
+                      loading="lazy"
+                      onerror="this.onerror=null; this.src='/images/blog/default-cover.jpg';"
+                    />
+                  </a>
+                  <div class="post-card__content">
+                    <span class="post-card__category">{article.category}</span>
+                    <h3 class="post-card__title">
+                      <a href={`/blog/${article.slug}`}>{article.title}</a>
+                    </h3>
+                    <div class="post-card__meta">
+                      {article.authorData && (
+                        <img
+                          src={article.authorData.image}
+                          alt={article.authorData.name}
+                          class="post-card__author-image"
+                        />
+                      )}
+                      <span class="post-card__author-name">
+                        {article.authorData?.name || article.author}
+                      </span>
+                      <span class="post-card__date">{article.date}</span>
+                    </div>
+                  </div>
+                </article>
+
+                {/* Webinar CTA after every 3rd article */}
+                {(index + 1) % 3 === 0 && index < recentArticles.length - 1 && (
+                  <div class="inline-cta">
+                    <div class="inline-cta__content">
+                      <h4>Free FERS Workshop</h4>
+                      <p>Get your retirement questions answered in our live webinar. No sales pitch, just education.</p>
+                      <a href="/webinar" class="btn btn--primary btn--sm">Reserve Your Seat</a>
+                    </div>
+                  </div>
+                )}
+              </>
+            ))}
+          </div>
+
+          <!-- Load More (for future pagination) -->
+          {allArticles.length > 7 && (
+            <div class="load-more">
+              <button class="btn btn--secondary">Load More Articles</button>
+            </div>
+          )}
+        </main>
+
+        <!-- Sidebar -->
+        <aside class="blog-sidebar">
+          <!-- Meet Our Authors -->
+          <div class="sidebar-section">
+            <h3 class="sidebar-section__title">Meet Our Authors</h3>
+            {blogAuthors.map(author => (
+              <div class="author-card">
+                <img
+                  src={author.image}
+                  alt={author.name}
+                  class="author-card__image"
+                />
+                <div class="author-card__info">
+                  <h4 class="author-card__name">{author.name}</h4>
+                  <span class="author-card__credentials">{author.credentials}</span>
+                  <p class="author-card__bio">{author.bioShort}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <!-- Webinar CTA -->
+          <div class="sidebar-section sidebar-cta">
+            <h3 class="sidebar-cta__title">Free FERS Workshop</h3>
+            <p class="sidebar-cta__text">
+              Join our live webinar and get your federal retirement questions answered by certified planners.
+            </p>
+            <ul class="sidebar-cta__benefits">
+              <li>3-hour comprehensive overview</li>
+              <li>Live Q&A with experts</li>
+              <li>No sales pitch guaranteed</li>
+            </ul>
+            <a href="/webinar" class="btn btn--primary">Reserve Your Seat</a>
+          </div>
+
+          <!-- Popular Topics -->
+          <div class="sidebar-section">
+            <h3 class="sidebar-section__title">Popular Topics</h3>
+            <div class="topic-list">
+              {categories.map(cat => (
+                <a href={`/blog?category=${cat.slug}`} class="topic-link">
+                  <span class="topic-link__name">{cat.name}</span>
+                  <span class="topic-link__count">{cat.count}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter CTA -->
+  <section class="newsletter-section">
+    <div class="container">
+      <div class="newsletter-content">
+        <h2>Stay Informed on Federal Benefits</h2>
+        <p>Get our free FERS workshop and learn directly from our ChFEBC℠ experts. We cover everything in 3 hours.</p>
+        <a href="/webinar" class="btn btn--primary btn--lg">Reserve My Free Workshop Seat</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Blog Hero */
+  .blog-hero {
+    background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%);
+    color: var(--color-white);
+    padding: var(--space-16) 0;
+    text-align: center;
+  }
+
+  .blog-hero__title {
+    color: var(--color-white);
+    font-size: var(--text-4xl);
+    margin-bottom: var(--space-4);
+  }
+
+  .blog-hero__subtitle {
+    color: var(--color-gray-300);
+    font-size: var(--text-lg);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* Blog Layout */
+  .blog-main {
+    padding: var(--space-12) 0;
+    background: var(--color-gray-50);
+  }
+
+  .blog-layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: var(--space-10);
+  }
+
+  /* Featured Post */
+  .featured-post {
+    background: var(--color-white);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    margin-bottom: var(--space-10);
+  }
+
+  .featured-post__image-link {
+    display: block;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+  }
+
+  .featured-post__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-base);
+  }
+
+  .featured-post__image-link:hover .featured-post__image {
+    transform: scale(1.03);
+  }
+
+  .featured-post__content {
+    padding: var(--space-8);
+  }
+
+  .featured-post__category {
+    display: inline-block;
+    font-size: var(--text-xs);
+    font-weight: var(--font-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-gold);
+    margin-bottom: var(--space-3);
+  }
+
+  .featured-post__title {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-4);
+    line-height: 1.3;
+  }
+
+  .featured-post__title a {
+    color: var(--color-navy);
+    transition: color var(--transition-fast);
+  }
+
+  .featured-post__title a:hover {
+    color: var(--color-gold);
+  }
+
+  .featured-post__excerpt {
+    color: var(--color-gray-600);
+    margin-bottom: var(--space-6);
+    line-height: 1.7;
+  }
+
+  .featured-post__author {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .featured-post__author-image {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .featured-post__author-name {
+    display: block;
+    font-weight: var(--font-semibold);
+    color: var(--color-navy);
+  }
+
+  .featured-post__date {
+    font-size: var(--text-sm);
+    color: var(--color-gray-500);
+  }
+
+  /* Category Filter */
+  .category-filter {
+    margin-bottom: var(--space-8);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .category-filter__label {
+    font-weight: var(--font-medium);
+    color: var(--color-gray-600);
+  }
+
+  .category-filter__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .category-tag {
+    display: inline-block;
+    padding: var(--space-2) var(--space-4);
+    background: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+    color: var(--color-gray-700);
+    transition: all var(--transition-fast);
+  }
+
+  .category-tag:hover,
+  .category-tag--active {
+    background: var(--color-navy);
+    border-color: var(--color-navy);
+    color: var(--color-white);
+  }
+
+  .category-tag__count {
+    color: var(--color-gray-400);
+  }
+
+  .category-tag:hover .category-tag__count,
+  .category-tag--active .category-tag__count {
+    color: var(--color-gray-300);
+  }
+
+  /* Posts Grid */
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6);
+  }
+
+  .post-card {
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-base);
+  }
+
+  .post-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-4px);
+  }
+
+  .post-card__image-link {
+    display: block;
+    aspect-ratio: 16/10;
+    overflow: hidden;
+  }
+
+  .post-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-base);
+  }
+
+  .post-card:hover .post-card__image {
+    transform: scale(1.05);
+  }
+
+  .post-card__content {
+    padding: var(--space-5);
+  }
+
+  .post-card__category {
+    display: inline-block;
+    font-size: var(--text-xs);
+    font-weight: var(--font-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-gold);
+    margin-bottom: var(--space-2);
+  }
+
+  .post-card__title {
+    font-size: var(--text-base);
+    margin-bottom: var(--space-3);
+    line-height: 1.4;
+  }
+
+  .post-card__title a {
+    color: var(--color-navy);
+    transition: color var(--transition-fast);
+  }
+
+  .post-card__title a:hover {
+    color: var(--color-gold);
+  }
+
+  .post-card__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--color-gray-500);
+  }
+
+  .post-card__author-image {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .post-card__author-name {
+    font-weight: var(--font-medium);
+    color: var(--color-gray-700);
+  }
+
+  .post-card__date::before {
+    content: '·';
+    margin-right: var(--space-2);
+  }
+
+  /* Inline CTA */
+  .inline-cta {
+    grid-column: span 2;
+    background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-light) 100%);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    color: var(--color-white);
+  }
+
+  .inline-cta__content {
+    text-align: center;
+  }
+
+  .inline-cta h4 {
+    color: var(--color-white);
+    margin-bottom: var(--space-2);
+  }
+
+  .inline-cta p {
+    color: var(--color-gray-300);
+    margin-bottom: var(--space-4);
+  }
+
+  /* Load More */
+  .load-more {
+    text-align: center;
+    margin-top: var(--space-10);
+  }
+
+  /* Sidebar */
+  .blog-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .sidebar-section {
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .sidebar-section__title {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-3);
+    border-bottom: 2px solid var(--color-gray-100);
+  }
+
+  /* Author Card */
+  .author-card {
+    display: flex;
+    gap: var(--space-4);
+    padding: var(--space-4) 0;
+    border-bottom: 1px solid var(--color-gray-100);
+  }
+
+  .author-card:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .author-card__image {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .author-card__name {
+    font-size: var(--text-base);
+    margin-bottom: var(--space-1);
+  }
+
+  .author-card__credentials {
+    display: block;
+    font-size: var(--text-xs);
+    color: var(--color-gold);
+    margin-bottom: var(--space-2);
+  }
+
+  .author-card__bio {
+    font-size: var(--text-sm);
+    color: var(--color-gray-600);
+    line-height: 1.5;
+  }
+
+  /* Sidebar CTA */
+  .sidebar-cta {
+    background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-light) 100%);
+    color: var(--color-white);
+  }
+
+  .sidebar-cta__title {
+    color: var(--color-white);
+    border-bottom-color: rgba(255,255,255,0.2);
+  }
+
+  .sidebar-cta__text {
+    color: var(--color-gray-300);
+    margin-bottom: var(--space-4);
+  }
+
+  .sidebar-cta__benefits {
+    list-style: none;
+    margin-bottom: var(--space-5);
+  }
+
+  .sidebar-cta__benefits li {
+    position: relative;
+    padding-left: var(--space-5);
+    margin-bottom: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--color-gray-200);
+  }
+
+  .sidebar-cta__benefits li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--color-gold);
+  }
+
+  /* Topic List */
+  .topic-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .topic-link {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--color-gray-100);
+    color: var(--color-gray-700);
+    transition: color var(--transition-fast);
+  }
+
+  .topic-link:last-child {
+    border-bottom: none;
+  }
+
+  .topic-link:hover {
+    color: var(--color-navy);
+  }
+
+  .topic-link__count {
+    color: var(--color-gray-400);
+    font-size: var(--text-sm);
+  }
+
+  /* Newsletter Section */
+  .newsletter-section {
+    background: var(--color-navy);
+    padding: var(--space-16) 0;
+    text-align: center;
+  }
+
+  .newsletter-content {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .newsletter-content h2 {
+    color: var(--color-white);
+    margin-bottom: var(--space-4);
+  }
+
+  .newsletter-content p {
+    color: var(--color-gray-300);
+    margin-bottom: var(--space-6);
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .blog-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .blog-sidebar {
+      order: -1;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-4);
+    }
+
+    .sidebar-cta {
+      grid-column: span 2;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .posts-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .inline-cta {
+      grid-column: span 1;
+    }
+
+    .blog-sidebar {
+      grid-template-columns: 1fr;
+    }
+
+    .sidebar-cta {
+      grid-column: span 1;
+    }
+
+    .blog-hero__title {
+      font-size: var(--text-3xl);
+    }
+  }
+</style>
