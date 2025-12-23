@@ -13,8 +13,11 @@ const allArticles = Object.entries(articles).map(([slug, article]) => ({
 // Featured article (first/newest)
 const featuredArticle = allArticles[0];
 
-// Recent articles (excluding featured)
-const recentArticles = allArticles.slice(1, 7);
+// Initial articles to show (excluding featured)
+const initialArticles = allArticles.slice(1, 13); // Show 12 articles initially
+
+// Remaining articles for load more
+const remainingArticles = allArticles.slice(13);
 
 // All authors for sidebar
 const blogAuthors = getAllAuthors();
@@ -103,8 +106,8 @@ const categories = [
           </div>
 
           <!-- Recent Articles Grid -->
-          <div class="posts-grid">
-            {recentArticles.map((article, index) => (
+          <div class="posts-grid" id="articles-grid">
+            {initialArticles.map((article, index) => (
               <>
                 <article class="post-card">
                   <a href={`/blog/${article.slug}`} class="post-card__image-link">
@@ -138,7 +141,7 @@ const categories = [
                 </article>
 
                 {/* Webinar CTA after every 3rd article */}
-                {(index + 1) % 3 === 0 && index < recentArticles.length - 1 && (
+                {(index + 1) % 3 === 0 && index < initialArticles.length - 1 && (
                   <div class="inline-cta">
                     <div class="inline-cta__content">
                       <h4>Free FERS Workshop</h4>
@@ -151,10 +154,12 @@ const categories = [
             ))}
           </div>
 
-          <!-- Load More (for future pagination) -->
-          {allArticles.length > 7 && (
+          <!-- Load More -->
+          {remainingArticles.length > 0 && (
             <div class="load-more">
-              <button class="btn btn--secondary">Load More Articles</button>
+              <button id="load-more-btn" class="btn btn--secondary">
+                Load More Articles ({remainingArticles.length} remaining)
+              </button>
             </div>
           )}
         </main>
@@ -695,3 +700,80 @@ const categories = [
     }
   }
 </style>
+
+<script define:vars={{ remainingArticles }}>
+  // Load More functionality
+  const loadMoreBtn = document.getElementById('load-more-btn');
+  let currentIndex = 0;
+  const articlesPerLoad = 12;
+
+  if (loadMoreBtn) {
+    loadMoreBtn.addEventListener('click', () => {
+      const grid = document.getElementById('articles-grid');
+      const articlesToLoad = remainingArticles.slice(currentIndex, currentIndex + articlesPerLoad);
+
+      articlesToLoad.forEach((article, idx) => {
+        const globalIndex = currentIndex + idx + 13; // 13 = initial articles offset
+
+        // Create article card
+        const articleCard = document.createElement('article');
+        articleCard.className = 'post-card';
+        articleCard.innerHTML = `
+          <a href="/blog/${article.slug}" class="post-card__image-link">
+            <img
+              src="${article.image || '/images/blog/default-cover.jpg'}"
+              alt="${article.title}"
+              class="post-card__image"
+              loading="lazy"
+              onerror="this.onerror=null; this.src='/images/blog/default-cover.jpg';"
+            />
+          </a>
+          <div class="post-card__content">
+            <span class="post-card__category">${article.category}</span>
+            <h3 class="post-card__title">
+              <a href="/blog/${article.slug}">${article.title}</a>
+            </h3>
+            <div class="post-card__meta">
+              ${article.authorData ? `
+                <img
+                  src="${article.authorData.image}"
+                  alt="${article.authorData.name}"
+                  class="post-card__author-image"
+                />
+              ` : ''}
+              <span class="post-card__author-name">
+                ${article.authorData?.name || article.author}
+              </span>
+              <span class="post-card__date">${article.date}</span>
+            </div>
+          </div>
+        `;
+        grid.appendChild(articleCard);
+
+        // Add webinar CTA after every 3rd article
+        if ((globalIndex + 1) % 3 === 0) {
+          const cta = document.createElement('div');
+          cta.className = 'inline-cta';
+          cta.innerHTML = `
+            <div class="inline-cta__content">
+              <h4>Free FERS Workshop</h4>
+              <p>Get your retirement questions answered in our live webinar. No sales pitch, just education.</p>
+              <a href="/webinar" class="btn btn--primary btn--sm">Reserve Your Seat</a>
+            </div>
+          `;
+          grid.appendChild(cta);
+        }
+      });
+
+      currentIndex += articlesPerLoad;
+
+      // Update button text or hide if no more articles
+      const remaining = remainingArticles.length - currentIndex;
+      if (remaining <= 0) {
+        loadMoreBtn.style.display = 'none';
+      } else {
+        loadMoreBtn.textContent = `Load More Articles (${remaining} remaining)`;
+      }
+    });
+  }
+</script>
