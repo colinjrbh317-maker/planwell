@@ -1,0 +1,329 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="TSP Calculator | Project Your Thrift Savings Plan Growth"
+  description="Estimate your future TSP balance based on contributions, agency matching, and expected returns. See the power of compound interest."
+>
+  <!-- Hero -->
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">Wealth Building</span>
+      <h1 class="heading-xl">TSP Growth Calculator</h1>
+      <p class="lead max-w-3xl">
+        See how your Thrift Savings Plan can grow over time. Project your balance at retirement.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--gray">
+    <div class="container">
+      <div class="calculator" data-animate="fade-in-up">
+        <div class="calculator__header">
+          <h2 class="heading-md">Project Your Wealth</h2>
+          <p>Compound interest is the 8th wonder of the world. See it in action.</p>
+        </div>
+
+        <div class="calculator__grid">
+          <div class="calculator__form">
+            <div class="form-group">
+              <label class="form-label" for="tsp-current">Current TSP Balance ($)</label>
+              <div class="input-wrapper">
+                <span class="input-prefix">$</span>
+                <input type="number" id="tsp-current" class="form-input" placeholder="e.g., 250000" value="250000" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="tsp-contribution">Monthly Contribution ($)</label>
+              <div class="input-wrapper">
+                <span class="input-prefix">$</span>
+                <input type="number" id="tsp-contribution" class="form-input" placeholder="e.g., 1500" value="1500" />
+              </div>
+              <span class="form-hint">Your contribution + Agency Match combined.</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="tsp-years">Years Until Retirement</label>
+              <input type="number" id="tsp-years" class="form-input" placeholder="e.g., 10" value="10" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="tsp-return">Expected Annual Return (%)</label>
+              <input type="number" id="tsp-return" class="form-input" placeholder="e.g., 7" value="7" step="0.5" />
+              <span class="form-hint">C Fund historical avg: ~10%. G Fund: ~3-4%.</span>
+            </div>
+
+            <button type="button" class="btn btn--primary btn--lg" style="width: 100%;" onclick="calculateTSP()">
+              Project My Balance
+            </button>
+          </div>
+
+          <div class="calculator__result" id="tsp-result">
+            <div class="result-card result-card--highlight">
+              <span class="result-label">Projected Balance</span>
+              <span class="result-value" id="tsp-balance">$678,146</span>
+            </div>
+            <div class="result-card">
+              <span class="result-label">Principal + Contributions</span>
+              <span class="result-value" id="tsp-contributions">$430,000</span>
+            </div>
+            <div class="result-card">
+              <span class="result-label">Investment Growth (Interest)</span>
+              <span class="result-value" id="tsp-growth">$248,146</span>
+              <span class="result-percentage" id="tsp-growth-percent" style="color: var(--color-green); font-size: var(--text-sm); font-weight: bold;">+57% gain</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="calculator__note">
+          <h3 class="font-bold text-navy mb-2">The 4% Rule</h3>
+          <p class="mb-2">A common rule of thumb is that you can withdraw 4% of your portfolio in your first year of retirement. Based on this projection, your TSP could generate:</p>
+          <p class="font-bold text-lg text-navy" id="tsp-income">$27,125 / year</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section section--navy text-center">
+    <div class="container">
+      <div data-animate="fade-in-up">
+        <h2 class="heading-lg">Don't Forget Taxes</h2>
+        <p class="lead" style="color: var(--color-gray-300); max-width: 36rem; margin: 0 auto var(--space-8);">
+          Traditional TSP withdrawals are taxed as ordinary income.
+          We can help you develop a tax-efficient withdrawal strategy using Roth conversions and more.
+        </p>
+        <div class="flex justify-center gap-4" style="flex-wrap: wrap;">
+          <a href="/book-call" class="btn btn--white btn--lg">Get a Tax Analysis</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Sharing same styles as other calculators for consistency */
+  .page-hero {
+    background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%);
+    color: var(--color-white);
+    padding: var(--space-20) 0 var(--space-16);
+    text-align: center;
+  }
+
+  .page-hero h1 {
+    color: var(--color-white);
+    margin-bottom: var(--space-4);
+  }
+
+  .page-hero .lead {
+    color: var(--color-gray-300);
+    margin: 0 auto;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-family: var(--font-heading);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-gold);
+    margin-bottom: var(--space-4);
+    font-size: var(--text-sm);
+  }
+
+  .calculator {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .calculator__header {
+    text-align: center;
+    margin-bottom: var(--space-8);
+  }
+
+  .calculator__header p {
+    color: var(--color-gray-600);
+    margin-top: var(--space-2);
+    font-size: var(--text-lg);
+  }
+
+  .calculator__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+    background: var(--color-white);
+    padding: var(--space-10);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .form-group {
+    margin-bottom: var(--space-6);
+  }
+
+  .input-wrapper {
+    position: relative;
+  }
+
+  .input-prefix {
+    position: absolute;
+    left: var(--space-4);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-gray-500);
+    font-weight: var(--font-medium);
+  }
+
+  .form-input {
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    padding-left: var(--space-4);
+    border: 1px solid var(--color-gray-300);
+    border-radius: var(--radius-md);
+    font-size: var(--text-base);
+    transition: border-color var(--transition-fast);
+  }
+
+  .input-wrapper .form-input {
+    padding-left: var(--space-8);
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: var(--color-navy);
+    box-shadow: 0 0 0 3px rgba(10, 37, 64, 0.1);
+  }
+
+  .form-hint {
+    display: block;
+    font-size: var(--text-xs);
+    color: var(--color-gray-500);
+    margin-top: var(--space-2);
+  }
+
+  .calculator__result {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    background: var(--color-gray-50);
+    padding: var(--space-6);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-gray-200);
+  }
+
+  .result-card {
+    background: var(--color-white);
+    padding: var(--space-5);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .result-card--highlight {
+    background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-dark) 100%);
+    color: var(--color-navy-dark);
+  }
+
+  .result-label {
+    font-size: var(--text-sm);
+    color: var(--color-gray-600);
+    font-weight: var(--font-medium);
+  }
+
+  .result-card--highlight .result-label {
+    color: var(--color-navy-dark);
+    opacity: 0.8;
+  }
+
+  .result-value {
+    font-family: var(--font-heading);
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    color: var(--color-navy);
+  }
+
+  .result-card--highlight .result-value {
+    color: var(--color-navy-dark);
+  }
+
+  .calculator__note {
+    margin-top: var(--space-8);
+    padding: var(--space-6);
+    background: var(--color-gray-100);
+    border-radius: var(--radius-lg);
+    border-left: 4px solid var(--color-navy);
+  }
+
+  .calculator__note h3 {
+    color: var(--color-navy);
+  }
+
+  .calculator__note p {
+    font-size: var(--text-sm);
+    color: var(--color-gray-700);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    .calculator__grid {
+      grid-template-columns: 1fr;
+      padding: var(--space-6);
+    }
+  }
+</style>
+
+<script is:inline>
+  function formatCurrency(num) {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 0
+    }).format(num);
+  }
+
+  function calculateTSP() {
+    const current = parseFloat(document.getElementById('tsp-current').value) || 0;
+    const monthly = parseFloat(document.getElementById('tsp-contribution').value) || 0;
+    const years = parseFloat(document.getElementById('tsp-years').value) || 0;
+    const rate = parseFloat(document.getElementById('tsp-return').value) / 100 || 0;
+
+    const monthlyRate = rate / 12;
+    const months = years * 12;
+
+    // Future value of current balance
+    const fvCurrent = current * Math.pow(1 + rate, years);
+
+    // Future value of monthly contributions
+    let fvContributions = 0;
+    if (monthlyRate > 0) {
+      fvContributions = monthly * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate);
+    } else {
+      fvContributions = monthly * months;
+    }
+
+    const totalBalance = fvCurrent + fvContributions;
+    const totalContributions = (monthly * months) + current;
+    const growth = totalBalance - totalContributions;
+
+    document.getElementById('tsp-balance').textContent = formatCurrency(totalBalance);
+    document.getElementById('tsp-contributions').textContent = formatCurrency(totalContributions);
+    document.getElementById('tsp-growth').textContent = formatCurrency(growth);
+
+    // Calculate percentage gain
+    if (totalContributions > 0) {
+        const percentGain = (growth / totalContributions) * 100;
+        document.getElementById('tsp-growth-percent').textContent = '+' + percentGain.toFixed(0) + '% gain';
+    }
+
+    // 4% Rule
+    const annualIncome = totalBalance * 0.04;
+    document.getElementById('tsp-income').textContent = formatCurrency(annualIncome) + ' / year';
+  }
+
+  // Run initial calculation
+  document.addEventListener('DOMContentLoaded', calculateTSP);
+</script>

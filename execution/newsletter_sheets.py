@@ -26,8 +26,17 @@ SHEET_NAME = "Plan Well Newsletter Emails"
 def get_credentials():
     """Get or refresh Google credentials."""
     creds = None
-    token_path = os.path.join(os.path.dirname(__file__), '..', 'token.pickle')
-    credentials_path = os.path.join(os.path.dirname(__file__), '..', 'credentials.json')
+    # Look for credentials in planwell-site first, then parent PLAN WELL directory
+    base_dir = os.path.dirname(os.path.dirname(__file__))
+    parent_dir = os.path.dirname(base_dir)
+
+    token_path = os.path.join(base_dir, 'token.pickle')
+    credentials_path = os.path.join(base_dir, 'credentials.json')
+
+    # Check parent directory if not found
+    if not os.path.exists(credentials_path):
+        credentials_path = os.path.join(parent_dir, 'credentials.json')
+        token_path = os.path.join(parent_dir, 'token.pickle')  # Keep token with credentials
 
     if os.path.exists(token_path):
         with open(token_path, 'rb') as token:
@@ -75,27 +84,26 @@ def setup_sheet():
     spreadsheet = {
         'properties': {'title': SHEET_NAME},
         'sheets': [{
-            'properties': {'title': 'Subscribers'},
-            'data': [{
-                'rowData': [{
-                    'values': [
-                        {'userEnteredValue': {'stringValue': 'Email'}},
-                        {'userEnteredValue': {'stringValue': 'Source'}},
-                        {'userEnteredValue': {'stringValue': 'Subscribed At'}},
-                        {'userEnteredValue': {'stringValue': 'Status'}},
-                    ]
-                }]
-            }]
+            'properties': {'title': 'Subscribers', 'sheetId': 0},
         }]
     }
 
     result = sheets_service.spreadsheets().create(body=spreadsheet).execute()
     sheet_id = result['spreadsheetId']
 
+    # Add headers
+    headers = [['Email', 'Source', 'Subscribed At', 'Status']]
+    sheets_service.spreadsheets().values().update(
+        spreadsheetId=sheet_id,
+        range='Subscribers!A1:D1',
+        valueInputOption='RAW',
+        body={'values': headers}
+    ).execute()
+
     # Format header row
     requests = [{
         'repeatCell': {
-            'range': {'sheetId': 0, 'startRowIndex': 0, 'endRowIndex': 1},
+            'range': {'sheetId': 0, 'startRowIndex': 0, 'endRowIndex': 1, 'startColumnIndex': 0, 'endColumnIndex': 4},
             'cell': {
                 'userEnteredFormat': {
                     'backgroundColor': {'red': 0.1, 'green': 0.2, 'blue': 0.4},

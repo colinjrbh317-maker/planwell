@@ -3,40 +3,46 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { articles } from '../../../data/articles';
 import { getAuthor } from '../../../data/authors';
 
+// Static paths for topic pages
+export function getStaticPaths() {
+  return [
+    { params: { slug: 'tsp' } },
+    { params: { slug: 'fers' } },
+    { params: { slug: 'health' } },
+    { params: { slug: 'pay' } },
+  ];
+}
+
 // Topic definitions
-const topics = {
+const topics: Record<string, { name: string; description: string; icon: string; keywords: string[] }> = {
   'tsp': {
     name: 'TSP & Investing',
     description: 'Thrift Savings Plan strategies, G Fund rates, withdrawal options, and investment guidance for federal employees.',
-    icon: '📈',
+    icon: 'chart',
     keywords: ['tsp', 'thrift savings', 'g fund', 'c fund', 's fund', 'i fund', 'f fund', 'l fund', 'investment', 'withdrawal', 'roth']
   },
   'fers': {
     name: 'FERS Pension',
     description: 'Federal Employees Retirement System calculations, annuity supplements, MRA, and retirement eligibility.',
-    icon: '🏛️',
+    icon: 'building',
     keywords: ['fers', 'annuity', 'pension', 'retirement', 'supplement', 'mra', 'creditable service', 'high-3', 'cola']
   },
   'health': {
     name: 'Health Benefits',
     description: 'FEHB plan selection, Medicare coordination, dental and vision benefits, and open season guidance.',
-    icon: '🏥',
+    icon: 'health',
     keywords: ['fehb', 'medicare', 'health', 'insurance', 'dental', 'vision', 'fedvip', 'fltcip', 'open season']
   },
   'pay': {
     name: 'Pay & Compensation',
     description: 'Federal pay raises, GS pay scale, locality adjustments, COLA updates, and military pay charts.',
-    icon: '💰',
+    icon: 'dollar',
     keywords: ['pay raise', 'gs pay', 'locality', 'cola', 'salary', 'military pay', 'compensation', 'wage']
   }
 };
 
-export function getStaticPaths() {
-  return Object.keys(topics).map(slug => ({ params: { slug } }));
-}
-
 const { slug } = Astro.params;
-const topic = topics[slug];
+const topic = topics[slug as keyof typeof topics];
 
 if (!topic) {
   return Astro.redirect('/blog');
@@ -67,17 +73,109 @@ const articlesForClient = topicArticles.map(a => ({
   authorCreds: a.authorData?.credentials || '',
   image: a.image || '/images/blog/default-cover.jpg',
 }));
+
+// Topic page URL
+const topicUrl = `https://planwellfp.com/blog/topic/${slug}`;
+
+// CollectionPage schema for topic page
+const topicSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": `${topic.name} Articles`,
+  "description": topic.description,
+  "url": topicUrl,
+  "isPartOf": {
+    "@id": "https://planwellfp.com/#website"
+  },
+  "about": {
+    "@type": "Thing",
+    "name": topic.name
+  },
+  "publisher": {
+    "@id": "https://planwellfp.com/#organization"
+  },
+  "mainEntity": {
+    "@type": "ItemList",
+    "numberOfItems": topicArticles.length,
+    "itemListElement": topicArticles.slice(0, 10).map((article, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "url": `https://planwellfp.com/${article.slug}`,
+      "name": article.title
+    }))
+  }
+};
+
+// BreadcrumbList for topic page
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://planwellfp.com"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://planwellfp.com/blog"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": topic.name,
+      "item": topicUrl
+    }
+  ]
+};
 ---
 
 <BaseLayout
   title={`${topic.name} Articles | PlanWell Blog`}
   description={topic.description}
 >
+  <!-- Schema.org structured data -->
+  <script type="application/ld+json" set:html={JSON.stringify(topicSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+
   <!-- Hero -->
   <section class="topic-hero">
     <div class="container">
       <a href="/blog" class="back-link">← Back to all articles</a>
-      <span class="topic-icon">{topic.icon}</span>
+      <div class="topic-icon">
+        {topic.icon === 'chart' && (
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10"></line>
+            <line x1="12" y1="20" x2="12" y2="4"></line>
+            <line x1="6" y1="20" x2="6" y2="14"></line>
+          </svg>
+        )}
+        {topic.icon === 'building' && (
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 21h18"></path>
+            <path d="M5 21V7l8-4v18"></path>
+            <path d="M19 21V11l-6-4"></path>
+            <path d="M9 9v.01"></path>
+            <path d="M9 12v.01"></path>
+            <path d="M9 15v.01"></path>
+            <path d="M9 18v.01"></path>
+          </svg>
+        )}
+        {topic.icon === 'health' && (
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
+          </svg>
+        )}
+        {topic.icon === 'dollar' && (
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="2" x2="12" y2="22"></line>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+          </svg>
+        )}
+      </div>
       <h1 class="topic-hero__title">{topic.name}</h1>
       <p class="topic-hero__desc">{topic.description}</p>
       <p class="topic-hero__count">{topicArticles.length} articles</p>
@@ -127,7 +225,37 @@ const articlesForClient = topicArticles.map(a => ({
       <div class="topics-grid">
         {Object.entries(topics).filter(([s]) => s !== slug).map(([s, t]) => (
           <a href={`/blog/topic/${s}`} class="topic-card">
-            <span class="topic-card__icon">{t.icon}</span>
+            <div class="topic-card__icon">
+              {t.icon === 'chart' && (
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="18" y1="20" x2="18" y2="10"></line>
+                  <line x1="12" y1="20" x2="12" y2="4"></line>
+                  <line x1="6" y1="20" x2="6" y2="14"></line>
+                </svg>
+              )}
+              {t.icon === 'building' && (
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 21h18"></path>
+                  <path d="M5 21V7l8-4v18"></path>
+                  <path d="M19 21V11l-6-4"></path>
+                  <path d="M9 9v.01"></path>
+                  <path d="M9 12v.01"></path>
+                  <path d="M9 15v.01"></path>
+                  <path d="M9 18v.01"></path>
+                </svg>
+              )}
+              {t.icon === 'health' && (
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
+                </svg>
+              )}
+              {t.icon === 'dollar' && (
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="2" x2="12" y2="22"></line>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+              )}
+            </div>
             <h3 class="topic-card__title">{t.name}</h3>
           </a>
         ))}
@@ -162,22 +290,16 @@ const articlesForClient = topicArticles.map(a => ({
   function createArticleCard(article) {
     return `
       <article class="post-card">
-        <a href="/blog/${article.slug}" class="post-card__image-link">
+        <a href="/${article.slug}" class="post-card__image-link">
           <img src="${article.image}" alt="${article.title}" class="post-card__image" loading="lazy"
                onerror="this.onerror=null; this.src='/images/blog/default-cover.jpg';" />
         </a>
         <div class="post-card__content">
-          <div class="post-card__meta-top">
-            <span class="post-card__category">${article.category}</span>
-            <span class="post-card__date">${article.date}</span>
-          </div>
+          <span class="post-card__category">${article.category}</span>
           <h3 class="post-card__title">
-            <a href="/blog/${article.slug}">${article.title}</a>
+            <a href="/${article.slug}">${article.title}</a>
           </h3>
-          <div class="post-card__author">
-            <img src="${article.authorImage}" alt="${article.authorName}" class="post-card__author-image" />
-            <span class="post-card__author-name">${article.authorName}</span>
-          </div>
+          <span class="post-card__author-name">${article.authorName}</span>
         </div>
       </article>
     `;
@@ -242,9 +364,20 @@ const articlesForClient = topicArticles.map(a => ({
   }
 
   .topic-icon {
-    font-size: 3rem;
-    display: block;
-    margin-bottom: var(--space-4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto var(--space-4);
+    background: var(--color-gold);
+    border-radius: 50%;
+    color: var(--color-navy);
+  }
+
+  .topic-icon svg {
+    width: 40px;
+    height: 40px;
   }
 
   .topic-hero__title {
@@ -339,12 +472,10 @@ const articlesForClient = topicArticles.map(a => ({
 
   .post-card__content {
     padding: var(--space-5);
-  }
-
-  .post-card__meta-top {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: var(--space-2);
+    flex-direction: column;
+    flex: 1;
+    gap: var(--space-2);
   }
 
   .post-card__category {
@@ -354,14 +485,8 @@ const articlesForClient = topicArticles.map(a => ({
     color: var(--color-gold);
   }
 
-  .post-card__date {
-    font-size: var(--text-xs);
-    color: var(--color-gray-500);
-  }
-
   .post-card__title {
     font-size: var(--text-lg);
-    margin-bottom: var(--space-3);
     line-height: 1.3;
   }
 
@@ -373,24 +498,10 @@ const articlesForClient = topicArticles.map(a => ({
     color: var(--color-gold);
   }
 
-  .post-card__author {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    padding-top: var(--space-3);
-    border-top: 1px solid var(--color-gray-100);
-  }
-
-  .post-card__author-image {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-
   .post-card__author-name {
     font-size: var(--text-sm);
-    color: var(--color-navy);
+    color: var(--color-gray-500);
+    margin-top: auto;
   }
 
   .load-more-wrapper {
@@ -431,9 +542,20 @@ const articlesForClient = topicArticles.map(a => ({
   }
 
   .topic-card__icon {
-    font-size: 2rem;
-    display: block;
-    margin-bottom: var(--space-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    margin: 0 auto var(--space-3);
+    background: var(--color-gold);
+    border-radius: 50%;
+    color: var(--color-navy);
+  }
+
+  .topic-card__icon svg {
+    width: 28px;
+    height: 28px;
   }
 
   .topic-card__title {

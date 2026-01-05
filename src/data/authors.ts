@@ -46,12 +46,12 @@ David's approach is grounded in education. He believes that when clients truly u
   'ben-derge': {
     slug: 'ben-derge',
     name: 'Ben Derge',
-    credentials: '',
-    title: 'Content Writer',
+    credentials: 'ChFEBC℠',
+    title: 'Writer & Benefits Consultant',
     image: '/images/authors/ben-derge.jpg',
-    bioShort: 'Ben specializes in making complex federal retirement topics accessible and easy to understand.',
-    bioFull: 'Ben brings clarity to federal retirement planning through well-researched articles and guides. His writing helps federal employees navigate FERS, TSP, and other benefits with confidence.',
-    personalNote: '',
+    bioShort: 'Chartered Federal Employee Benefits Consultant with over a decade of experience helping feds plan for retirement.',
+    bioFull: 'Ben is a Chartered Federal Employee Benefits Consultant (ChFEBC℠) with over a decade of experience advising federal employees on their retirement benefits. His passion for helping the federal community was inspired by his late grandfather, a colonel in the Army. Ben is dedicated to ensuring federal and military families receive quality, actionable information about FERS, TSP, survivor benefits, and more.',
+    personalNote: 'Ben is a regular contributor to FedSmith.com, where he writes in-depth articles on federal retirement topics.',
     email: '',
     phone: ''
   },

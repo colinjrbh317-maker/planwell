@@ -1,7 +1,7 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { articles } from '../../data/articles';
-import { getAuthorByName } from '../../data/authors';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { articles } from '../data/articles';
+import { getAuthor } from '../data/authors';
 
 // Required for dynamic routes - generate paths from our article data
 export function getStaticPaths() {
@@ -12,19 +12,124 @@ export function getStaticPaths() {
 }
 
 const { article } = Astro.props;
-const author = getAuthorByName(article.author);
+const author = getAuthor(article.author);
+
+// Determine if this is a TSP-focused article
+const isTSPArticle = article.title.toLowerCase().includes('tsp') ||
+                      article.slug.toLowerCase().includes('tsp') ||
+                      article.title.toLowerCase().includes('thrift savings');
 
 // Get related articles (same category, excluding current)
 const relatedArticles = Object.entries(articles)
   .filter(([slug, a]) => a.category === article.category && slug !== article.slug)
   .slice(0, 3)
   .map(([slug, a]) => ({ ...a, slug }));
+
+// Generate clean excerpt for meta description
+const cleanExcerpt = article.excerpt || article.content?.replace(/<[^>]*>/g, '').slice(0, 155) + '...';
+
+// Parse date for schema (convert "December 22, 2025" to ISO format)
+const parseDate = (dateStr: string) => {
+  try {
+    const date = new Date(dateStr);
+    return date.toISOString();
+  } catch {
+    return new Date().toISOString();
+  }
+};
+
+const publishedDate = parseDate(article.date);
+const articleUrl = `https://planwellfp.com/${article.slug}`;
+const articleImage = article.image?.startsWith('http')
+  ? article.image
+  : `https://planwellfp.com${article.image || '/images/blog/default-cover.jpg'}`;
+
+// Article Schema for rich snippets
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": article.title,
+  "description": cleanExcerpt,
+  "image": articleImage,
+  "datePublished": publishedDate,
+  "dateModified": publishedDate,
+  "author": {
+    "@type": "Person",
+    "name": author?.name || "PlanWell Team",
+    "jobTitle": author?.title || "Financial Planning Team",
+    "url": `https://planwellfp.com/about`,
+    ...(author?.credentials && { "hasCredential": author.credentials.split(', ') })
+  },
+  "publisher": {
+    "@type": "Organization",
+    "@id": "https://planwellfp.com/#organization",
+    "name": "PlanWell Financial Planning",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://planwellfp.com/images/planwell-logo.png"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": articleUrl
+  },
+  "articleSection": article.category,
+  "wordCount": article.content?.replace(/<[^>]*>/g, '').split(/\s+/).length || 1000,
+  "keywords": [
+    article.category,
+    "federal retirement",
+    "FERS",
+    ...(isTSPArticle ? ["TSP", "Thrift Savings Plan"] : []),
+    "federal employee benefits"
+  ].join(", ")
+};
+
+// BreadcrumbList Schema for navigation
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://planwellfp.com"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://planwellfp.com/blog"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": article.category,
+      "item": `https://planwellfp.com/blog/topic/${article.category.toLowerCase().replace(/\s+/g, '-')}`
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": article.title,
+      "item": articleUrl
+    }
+  ]
+};
 ---
 
 <BaseLayout
   title={`${article.title} | PlanWell Blog`}
-  description={article.content?.replace(/<[^>]*>/g, '').slice(0, 160)}
+  description={cleanExcerpt}
+  ogImage={articleImage}
+  ogType="article"
+  articleDate={publishedDate}
+  articleAuthor={author?.name || "PlanWell Team"}
+  articleSection={article.category}
 >
+  <!-- Schema.org structured data for rich snippets -->
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+
   <article class="article">
     <!-- Cover Image -->
     <div class="article__cover">
@@ -45,7 +150,6 @@ const relatedArticles = Object.entries(articles)
           Back to Blog
         </a>
 
-        <span class="article__category">{article.category}</span>
         <h1 class="article__title">{article.title}</h1>
 
         <div class="article__meta">
@@ -55,10 +159,11 @@ const relatedArticles = Object.entries(articles)
                 src={author.image}
                 alt={author.name}
                 class="article__author-image"
+                onerror="this.onerror=null; this.src='/images/authors/planwell-logo.png';"
               />
               <div class="article__author-info">
                 <span class="article__author-name">
-                  {author.name}, {author.credentials}
+                  {author.name}{author.credentials ? `, ${author.credentials}` : ''}
                 </span>
                 <span class="article__date">
                   {article.date} · {article.readTime}
@@ -79,26 +184,67 @@ const relatedArticles = Object.entries(articles)
             <div class="article__content" set:html={article.content} />
 
             <!-- Mid-Article CTA -->
-            <aside class="article__mid-cta">
-              <h4>Want personalized guidance?</h4>
-              <p>Get your specific retirement questions answered in our free FERS workshop.</p>
-              <a href="/webinar" class="btn btn--primary">Join Free Workshop</a>
-            </aside>
+            {isTSPArticle ? (
+              <aside class="article__mid-cta article__mid-cta--tsp">
+                <h4>Want personalized TSP guidance?</h4>
+                <p>Get clarity on your TSP investments, fund allocation, and withdrawal strategies in our free TSP training.</p>
+                <a href="/webinar/tsp" class="btn btn--primary">Join Free TSP Workshop</a>
+              </aside>
+            ) : (
+              <aside class="article__mid-cta">
+                <h4>Want personalized guidance?</h4>
+                <p>Get your specific retirement questions answered in our free FERS workshop.</p>
+                <a href="/webinar" class="btn btn--primary">Join Free Workshop</a>
+              </aside>
+            )}
           </div>
 
           <!-- Sticky Sidebar -->
           <aside class="article__sidebar">
             <div class="sidebar-sticky">
-              <div class="sidebar-cta">
-                <h4>Free FERS Workshop</h4>
-                <p>Get your federal retirement questions answered by certified planners.</p>
-                <ul class="sidebar-cta__benefits">
-                  <li>3-hour comprehensive overview</li>
-                  <li>Live Q&A session</li>
-                  <li>No sales pitch</li>
-                </ul>
-                <a href="/webinar" class="btn btn--primary btn--block">Reserve Your Seat</a>
-              </div>
+              <!-- Author Card -->
+              {author && (
+                <div class="sidebar-author">
+                  <img
+                    src={author.image}
+                    alt={author.name}
+                    class="sidebar-author__image"
+                    onerror="this.onerror=null; this.src='/images/authors/planwell-logo.png';"
+                  />
+                  <div class="sidebar-author__info">
+                    <p class="sidebar-author__label">Written by</p>
+                    <h4 class="sidebar-author__name">{author.name}</h4>
+                    {author.credentials && (
+                      <p class="sidebar-author__credentials">{author.credentials}</p>
+                    )}
+                    <p class="sidebar-author__bio">{author.bioShort}</p>
+                  </div>
+                </div>
+              )}
+
+              {isTSPArticle ? (
+                <div class="sidebar-cta sidebar-cta--tsp">
+                  <h4>Free TSP Workshop</h4>
+                  <p>Get clarity on your Thrift Savings Plan investments and withdrawal strategies.</p>
+                  <ul class="sidebar-cta__benefits">
+                    <li>Traditional vs Roth TSP</li>
+                    <li>Fund allocation strategies</li>
+                    <li>Withdrawal planning</li>
+                  </ul>
+                  <a href="/webinar/tsp" class="btn btn--primary btn--block">Join Free TSP Training</a>
+                </div>
+              ) : (
+                <div class="sidebar-cta">
+                  <h4>Free FERS Workshop</h4>
+                  <p>Get your federal retirement questions answered by certified planners.</p>
+                  <ul class="sidebar-cta__benefits">
+                    <li>3-hour comprehensive overview</li>
+                    <li>Live Q&A session</li>
+                    <li>Personalized answers</li>
+                  </ul>
+                  <a href="/webinar" class="btn btn--primary btn--block">Reserve Your Seat</a>
+                </div>
+              )}
 
               <div class="sidebar-book">
                 <p>Prefer 1-on-1?</p>
@@ -115,22 +261,23 @@ const relatedArticles = Object.entries(articles)
               src={author.image}
               alt={author.name}
               class="author-bio__image"
+              onerror="this.onerror=null; this.src='/images/authors/planwell-logo.png';"
             />
             <div class="author-bio__content">
               <h3 class="author-bio__name">About {author.name}</h3>
-              <p class="author-bio__credentials">{author.title} · {author.credentials}</p>
+              <p class="author-bio__credentials">{author.title}{author.credentials ? ` · ${author.credentials}` : ''}</p>
               <p class="author-bio__text">{author.bioFull}</p>
               {author.personalNote && (
                 <p class="author-bio__personal">{author.personalNote}</p>
               )}
-              <div class="author-bio__contact">
-                {author.email && (
+              {author.email && (
+                <div class="author-bio__contact">
                   <a href={`mailto:${author.email}`} class="author-bio__link">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
                     {author.email}
                   </a>
-                )}
-              </div>
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -138,29 +285,21 @@ const relatedArticles = Object.entries(articles)
         <!-- Related Articles -->
         {relatedArticles.length > 0 && (
           <nav class="related-articles">
-            <h3>More on {article.category}</h3>
+            <h3>Related Articles</h3>
             <div class="related-grid">
               {relatedArticles.map(related => {
-                const relatedAuthor = getAuthorByName(related.author);
+                const relatedAuthor = getAuthor(related.author);
                 return (
-                  <a href={`/blog/${related.slug}`} class="related-card">
+                  <a href={`/${related.slug}`} class="related-card">
                     <img
                       src={related.image || `/images/blog/covers/${related.slug}.png`}
                       alt={related.title}
                       class="related-card__image"
                     />
                     <div class="related-card__content">
-                      <span class="related-card__category">{related.category}</span>
                       <h4 class="related-card__title">{related.title}</h4>
                       <div class="related-card__meta">
-                        {relatedAuthor && (
-                          <img
-                            src={relatedAuthor.image}
-                            alt={relatedAuthor.name}
-                            class="related-card__author-image"
-                          />
-                        )}
-                        <span>{relatedAuthor?.name || related.author}</span>
+                        <span>{relatedAuthor?.name || 'PlanWell Team'}</span>
                       </div>
                     </div>
                   </a>
@@ -170,15 +309,6 @@ const relatedArticles = Object.entries(articles)
           </nav>
         )}
 
-        <!-- Bottom CTA -->
-        <div class="bottom-cta">
-          <h3>Ready to take control of your federal retirement?</h3>
-          <p>Join thousands of federal employees who've attended our free FERS workshop.</p>
-          <div class="bottom-cta__buttons">
-            <a href="/webinar" class="btn btn--primary btn--lg">Reserve My Workshop Seat</a>
-            <a href="/book-call" class="btn btn--secondary btn--lg">Schedule a Call Instead</a>
-          </div>
-        </div>
       </div>
     </div>
   </article>
@@ -281,13 +411,6 @@ const relatedArticles = Object.entries(articles)
     background: var(--color-gray-50);
   }
 
-  .article__layout {
-    display: grid;
-    grid-template-columns: 1fr 300px;
-    gap: var(--space-10);
-    margin-bottom: var(--space-12);
-  }
-
   /* Main Content */
   .article__main {
     background: var(--color-white);
@@ -344,71 +467,81 @@ const relatedArticles = Object.entries(articles)
     color: var(--color-navy);
   }
 
-  /* Mid CTA */
+  /* Layout with Sidebar */
+  .article__layout {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: var(--space-8);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* Mid-Article CTA */
   .article__mid-cta {
-    margin-top: var(--space-10);
-    padding: var(--space-8);
-    background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-light) 100%);
-    border-radius: var(--radius-lg);
-    text-align: center;
+    background: linear-gradient(135deg, var(--color-navy) 0%, #1e3a5f 100%);
     color: var(--color-white);
+    padding: var(--space-8);
+    border-radius: var(--radius-xl);
+    margin-top: var(--space-10);
+    text-align: center;
   }
 
   .article__mid-cta h4 {
-    color: var(--color-white);
+    font-size: var(--text-xl);
     margin-bottom: var(--space-2);
   }
 
   .article__mid-cta p {
-    color: var(--color-gray-300);
+    opacity: 0.9;
     margin-bottom: var(--space-4);
   }
 
-  /* Sidebar */
+  /* Sticky Sidebar */
   .article__sidebar {
-    position: relative;
+    align-self: start;
   }
 
   .sidebar-sticky {
     position: sticky;
     top: 100px;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-4);
   }
 
   .sidebar-cta {
     background: var(--color-white);
+    border-radius: var(--radius-xl);
     padding: var(--space-6);
-    border-radius: var(--radius-lg);
     box-shadow: var(--shadow-md);
+    margin-bottom: var(--space-4);
   }
 
   .sidebar-cta h4 {
+    color: var(--color-navy);
+    font-size: var(--text-lg);
     margin-bottom: var(--space-2);
   }
 
-  .sidebar-cta p {
-    color: var(--color-gray-600);
+  .sidebar-cta > p {
     font-size: var(--text-sm);
+    color: var(--color-gray-600);
     margin-bottom: var(--space-4);
   }
 
   .sidebar-cta__benefits {
     list-style: none;
-    margin-bottom: var(--space-4);
+    padding: 0;
+    margin: 0 0 var(--space-4) 0;
   }
 
   .sidebar-cta__benefits li {
-    position: relative;
-    padding-left: var(--space-5);
-    margin-bottom: var(--space-2);
     font-size: var(--text-sm);
     color: var(--color-gray-600);
+    padding-left: var(--space-5);
+    position: relative;
+    margin-bottom: var(--space-2);
   }
 
   .sidebar-cta__benefits li::before {
-    content: '✓';
+    content: "✓";
     position: absolute;
     left: 0;
     color: var(--color-gold);
@@ -416,22 +549,73 @@ const relatedArticles = Object.entries(articles)
   }
 
   .sidebar-book {
-    background: var(--color-gray-100);
-    padding: var(--space-4);
+    background: var(--color-gray-50);
     border-radius: var(--radius-lg);
+    padding: var(--space-4);
     text-align: center;
   }
 
   .sidebar-book p {
     font-size: var(--text-sm);
-    color: var(--color-gray-600);
+    color: var(--color-gray-500);
     margin-bottom: var(--space-2);
   }
 
-  .btn--block {
-    display: block;
-    width: 100%;
+  /* Sidebar Author Card */
+  .sidebar-author {
+    background: var(--color-white);
+    border-radius: var(--radius-xl);
+    padding: var(--space-5);
+    box-shadow: var(--shadow-md);
+    margin-bottom: var(--space-4);
     text-align: center;
+  }
+
+  .sidebar-author__image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: var(--space-3);
+    border: 3px solid var(--color-gold);
+  }
+
+  /* Fix for Ben Derge's headshot - zoom in to fill circle */
+  .sidebar-author__image[alt="Ben Derge"] {
+    object-position: center 20%;
+    object-fit: cover;
+    scale: 1.4;
+  }
+
+  .sidebar-author {
+    overflow: hidden;
+  }
+
+  .sidebar-author__label {
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-gray-500);
+    margin-bottom: var(--space-1);
+  }
+
+  .sidebar-author__name {
+    font-size: var(--text-base);
+    color: var(--color-navy);
+    margin-bottom: var(--space-1);
+  }
+
+  .sidebar-author__credentials {
+    font-size: var(--text-xs);
+    color: var(--color-gold);
+    font-weight: var(--font-semibold);
+    margin-bottom: var(--space-2);
+  }
+
+  .sidebar-author__bio {
+    font-size: var(--text-sm);
+    color: var(--color-gray-600);
+    line-height: 1.5;
   }
 
   /* Author Bio */
@@ -558,35 +742,6 @@ const relatedArticles = Object.entries(articles)
     object-fit: cover;
   }
 
-  /* Bottom CTA */
-  .bottom-cta {
-    text-align: center;
-    padding: var(--space-12);
-    background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-light) 100%);
-    border-radius: var(--radius-xl);
-    color: var(--color-white);
-  }
-
-  .bottom-cta h3 {
-    color: var(--color-white);
-    margin-bottom: var(--space-3);
-  }
-
-  .bottom-cta p {
-    color: var(--color-gray-300);
-    margin-bottom: var(--space-6);
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .bottom-cta__buttons {
-    display: flex;
-    justify-content: center;
-    gap: var(--space-4);
-    flex-wrap: wrap;
-  }
-
   /* Responsive */
   @media (max-width: 1024px) {
     .article__layout {
@@ -595,16 +750,11 @@ const relatedArticles = Object.entries(articles)
 
     .article__sidebar {
       order: -1;
+      margin-bottom: var(--space-6);
     }
 
     .sidebar-sticky {
       position: static;
-      flex-direction: row;
-    }
-
-    .sidebar-cta,
-    .sidebar-book {
-      flex: 1;
     }
   }
 
@@ -625,8 +775,8 @@ const relatedArticles = Object.entries(articles)
       padding: var(--space-6);
     }
 
-    .sidebar-sticky {
-      flex-direction: column;
+    .article__mid-cta {
+      padding: var(--space-6);
     }
 
     .author-bio {
@@ -640,10 +790,6 @@ const relatedArticles = Object.entries(articles)
 
     .related-grid {
       grid-template-columns: 1fr;
-    }
-
-    .bottom-cta__buttons {
-      flex-direction: column;
     }
   }
 </style>

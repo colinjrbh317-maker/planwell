@@ -10,15 +10,22 @@ interface Props {
   ogImage?: string;
   ogType?: 'website' | 'article';
   noindex?: boolean;
+  // Article-specific props for blog posts
+  articleDate?: string;
+  articleAuthor?: string;
+  articleSection?: string;
 }
 
-const { 
-  title, 
+const {
+  title,
   description = "Financial education for federal employees. Expert FERS retirement planning from Certified Financial Planners and Chartered Federal Employee Benefits Consultants.",
   canonical,
   ogImage = "/og-default.png",
   ogType = "website",
-  noindex = false
+  noindex = false,
+  articleDate,
+  articleAuthor,
+  articleSection
 } = Astro.props;
 
 // Build canonical URL from current path if not explicitly provided
@@ -159,6 +166,17 @@ const schemaData = {
     <meta property="og:image" content={new URL(ogImage, Astro.site).href} />
     <meta property="og:site_name" content="PlanWell Financial Planning" />
     <meta property="og:locale" content="en_US" />
+
+    {/* Article-specific OG tags for blog posts */}
+    {ogType === 'article' && articleDate && (
+      <meta property="article:published_time" content={articleDate} />
+    )}
+    {ogType === 'article' && articleAuthor && (
+      <meta property="article:author" content={articleAuthor} />
+    )}
+    {ogType === 'article' && articleSection && (
+      <meta property="article:section" content={articleSection} />
+    )}
     
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />

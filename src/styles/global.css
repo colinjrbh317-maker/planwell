@@ -8,12 +8,12 @@
 /* CSS Custom Properties */
 :root {
     /* Primary Brand Colors - From Logo */
-    --color-navy: #1e3a5f;
-    --color-navy-dark: #152a45;
-    --color-navy-light: #2d4a6f;
-    --color-gold: #c9a55c;
-    --color-gold-light: #e4c97f;
-    --color-gold-dark: #a88a44;
+    --color-navy: #000d3e;
+    --color-navy-dark: #000d3e;
+    --color-navy-light: #013a7e;
+    --color-gold: #d1a437;
+    --color-gold-light: #e6c25e;
+    --color-gold-dark: #d1a437;
 
     /* Neutral Colors */
     --color-white: #ffffff;

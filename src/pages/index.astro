@@ -14,12 +14,55 @@ import logoCeoWeekly from '../assets/logos/ceo-weekly.png';
 import logoFedsmith from '../assets/logos/fedsmith.png';
 import logoNyWeekly from '../assets/logos/new-york-weekly.avif';
 import logoNewsbreak from '../assets/logos/newsbreak.webp';
+
+// FAQ Schema for rich snippets
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "When can I retire under FERS?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Your FERS retirement eligibility depends on your age and years of service. The minimum retirement age (MRA) ranges from 55-57 depending on birth year. With 30 years of service, you can retire at your MRA. With 20 years, you can retire at age 60. With 5 years, you can retire at age 62. Our workshop covers eligibility rules in detail, and we calculate your exact retirement date in a personalized 1-on-1 meeting."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much will my FERS pension be?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Your FERS pension is calculated based on your high-3 average salary, years of creditable service, and retirement age. The basic formula is: High-3 × Years of Service × 1% (or 1.1% if retiring at 62+ with 20+ years). We provide precise calculations based on your actual service record, not generic online estimates."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What should I do with my TSP when I retire?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You have several options: leave your money in TSP, roll it to an IRA, take partial or full withdrawals, or purchase an annuity. The right choice depends on your tax situation, income needs, and estate planning goals. Rolling to an IRA offers more investment options, while keeping it in TSP maintains low fees. We help you analyze the best strategy for your specific situation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you charge for the FERS retirement workshop?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Our 3-hour comprehensive FERS workshop is completely free with no obligation. We cover FERS pension calculations, TSP strategies, FEHB in retirement, Medicare coordination, survivor benefits, and tax planning. Over 10,000 federal employees have attended our workshops."
+      }
+    }
+  ]
+};
 ---
 
-<BaseLayout 
+<BaseLayout
   title="Federal Retirement Planning for FERS & CSRS Employees"
   description="Expert FERS retirement planning from CFP® and ChFEBC℠ advisors. Free workshops and fee-only financial planning for federal employees."
 >
+  <!-- FAQ Schema for rich snippets -->
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
   <!-- Hero Section -->
   <section class="hero">
     <div class="container">
@@ -283,7 +326,7 @@ import logoNewsbreak from '../assets/logos/newsbreak.webp';
   <!-- Team Section -->
   <section class="section">
     <div class="container">
-      <h2 class="section-title">Meet Your Advisors</h2>
+      <h2 class="section-title">Leadership Team</h2>
       
       <div class="team-grid">
         <div class="team-member" data-animate="fade-in-up">

@@ -1,0 +1,317 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="FERS Pension Calculator | Calculate Your Federal Retirement Annuity"
+  description="Calculate your estimated FERS Basic Annuity. See how your High-3 salary and years of service impact your federal pension."
+>
+  <!-- Hero -->
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">FERS Retirement Tools</span>
+      <h1 class="heading-xl">FERS Pension Calculator</h1>
+      <p class="lead max-w-3xl">
+        Estimate your FERS Basic Annuity based on your High-3 Average Salary and years of creditable service.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--gray">
+    <div class="container">
+      <div class="calculator" data-animate="fade-in-up">
+        <div class="calculator__header">
+          <h2 class="heading-md">Calculate Your Benefit</h2>
+          <p>Enter your details below to see your estimated monthly and annual pension.</p>
+        </div>
+
+        <div class="calculator__grid">
+          <div class="calculator__form">
+            <div class="form-group">
+              <label class="form-label" for="fers-high3">High-3 Average Salary ($)</label>
+              <div class="input-wrapper">
+                <span class="input-prefix">$</span>
+                <input type="number" id="fers-high3" class="form-input" placeholder="e.g., 100000" value="100000" />
+              </div>
+              <span class="form-hint">Your highest 3 consecutive years of basic pay (including locality pay).</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="fers-years">Years of Creditable Service</label>
+              <input type="number" id="fers-years" class="form-input" placeholder="e.g., 30" value="30" step="0.5" />
+              <span class="form-hint">Total years of service, including bought-back military time.</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="fers-age">Age at Retirement</label>
+              <input type="number" id="fers-age" class="form-input" placeholder="e.g., 62" value="62" />
+              <span class="form-hint">Used to determine your multiplier (1.0% vs 1.1%).</span>
+            </div>
+
+            <button type="button" class="btn btn--primary btn--lg" style="width: 100%;" onclick="calculateFERS()">
+              Calculate My Pension
+            </button>
+          </div>
+
+          <div class="calculator__result" id="fers-result">
+            <div class="result-card">
+              <span class="result-label">Estimated Annual Pension</span>
+              <span class="result-value" id="fers-annual">$33,000</span>
+            </div>
+            <div class="result-card">
+              <span class="result-label">Estimated Monthly Pension</span>
+              <span class="result-value" id="fers-monthly">$2,750</span>
+            </div>
+            <div class="result-card result-card--note">
+              <span class="result-label">Multiplier Applied</span>
+              <span class="result-value" id="fers-multiplier">1.1%</span>
+            </div>
+            <div class="result-summary">
+              <p>Based on retiring at age <span id="summary-age">62</span> with <span id="summary-years">30</span> years of service.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="calculator__note">
+          <h3 class="font-bold text-navy mb-2">Understanding the 1.1% Multiplier</h3>
+          <p class="mb-2">Most FERS employees receive 1.0% of their High-3 for every year of service. However, if you retire at <strong>age 62 or older</strong> with at least <strong>20 years of service</strong>, your multiplier increases to <strong>1.1%</strong>. This 10% bonus is permanent for the life of your pension.</p>
+
+          <hr class="my-4 border-gray-200" />
+
+          <p class="text-sm"><strong>Note:</strong> This estimate does not include deductions for survivor benefits, FEHB premiums, or taxes. It also assumes you are eligible for an immediate, unreduced annuity.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section section--navy text-center">
+    <div class="container">
+      <div data-animate="fade-in-up">
+        <h2 class="heading-lg">Ready to Plan Your Escape?</h2>
+        <p class="lead" style="color: var(--color-gray-300); max-width: 36rem; margin: 0 auto var(--space-8);">
+          A calculator is a great start, but it doesn't tell the whole story.
+          Let's build a comprehensive retirement roadmap tailored to your goals.
+        </p>
+        <div class="flex justify-center gap-4" style="flex-wrap: wrap;">
+          <a href="/book-call" class="btn btn--white btn--lg">Book a Free Strategy Call</a>
+          <a href="/webinar" class="btn btn--primary btn--lg">Join Our Next Webinar</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero {
+    background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%);
+    color: var(--color-white);
+    padding: var(--space-20) 0 var(--space-16);
+    text-align: center;
+  }
+
+  .page-hero h1 {
+    color: var(--color-white);
+    margin-bottom: var(--space-4);
+  }
+
+  .page-hero .lead {
+    color: var(--color-gray-300);
+    margin: 0 auto;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-family: var(--font-heading);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-gold);
+    margin-bottom: var(--space-4);
+    font-size: var(--text-sm);
+  }
+
+  .calculator {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .calculator__header {
+    text-align: center;
+    margin-bottom: var(--space-8);
+  }
+
+  .calculator__header p {
+    color: var(--color-gray-600);
+    margin-top: var(--space-2);
+    font-size: var(--text-lg);
+  }
+
+  .calculator__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+    background: var(--color-white);
+    padding: var(--space-10);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .form-group {
+    margin-bottom: var(--space-6);
+  }
+
+  .input-wrapper {
+    position: relative;
+  }
+
+  .input-prefix {
+    position: absolute;
+    left: var(--space-4);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-gray-500);
+    font-weight: var(--font-medium);
+  }
+
+  .form-input {
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    padding-left: var(--space-4); /* Default padding */
+    border: 1px solid var(--color-gray-300);
+    border-radius: var(--radius-md);
+    font-size: var(--text-base);
+    transition: border-color var(--transition-fast);
+  }
+
+  .input-wrapper .form-input {
+    padding-left: var(--space-8);
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: var(--color-navy);
+    box-shadow: 0 0 0 3px rgba(10, 37, 64, 0.1);
+  }
+
+  .form-hint {
+    display: block;
+    font-size: var(--text-xs);
+    color: var(--color-gray-500);
+    margin-top: var(--space-2);
+  }
+
+  .calculator__result {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    background: var(--color-gray-50);
+    padding: var(--space-6);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-gray-200);
+  }
+
+  .result-card {
+    background: var(--color-white);
+    padding: var(--space-5);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .result-card--note {
+    background: var(--color-navy);
+    color: var(--color-white);
+  }
+
+  .result-label {
+    font-size: var(--text-sm);
+    color: var(--color-gray-600);
+    font-weight: var(--font-medium);
+  }
+
+  .result-card--note .result-label {
+    color: var(--color-gray-300);
+  }
+
+  .result-value {
+    font-family: var(--font-heading);
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    color: var(--color-navy);
+  }
+
+  .result-card--note .result-value {
+    color: var(--color-white);
+  }
+
+  .result-summary {
+    font-size: var(--text-sm);
+    color: var(--color-gray-500);
+    text-align: center;
+    margin-top: var(--space-2);
+  }
+
+  .calculator__note {
+    margin-top: var(--space-8);
+    padding: var(--space-6);
+    background: rgba(201, 165, 92, 0.1);
+    border-radius: var(--radius-lg);
+    border-left: 4px solid var(--color-gold);
+  }
+
+  .calculator__note h3 {
+    color: var(--color-navy);
+  }
+
+  .calculator__note p {
+    font-size: var(--text-sm);
+    color: var(--color-gray-700);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    .calculator__grid {
+      grid-template-columns: 1fr;
+      padding: var(--space-6);
+    }
+  }
+</style>
+
+<script is:inline>
+  function formatCurrency(num) {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 0
+    }).format(num);
+  }
+
+  function calculateFERS() {
+    const high3 = parseFloat(document.getElementById('fers-high3').value) || 0;
+    const years = parseFloat(document.getElementById('fers-years').value) || 0;
+    const age = parseFloat(document.getElementById('fers-age').value) || 0;
+
+    // FERS multiplier: 1% for most, 1.1% if retiring at 62+ with 20+ years
+    let multiplier = 0.01;
+    if (age >= 62 && years >= 20) {
+      multiplier = 0.011;
+    }
+
+    const annualPension = high3 * years * multiplier;
+    const monthlyPension = annualPension / 12;
+
+    document.getElementById('fers-annual').textContent = formatCurrency(annualPension);
+    document.getElementById('fers-monthly').textContent = formatCurrency(monthlyPension);
+    document.getElementById('fers-multiplier').textContent = (multiplier * 100).toFixed(1) + '%';
+
+    document.getElementById('summary-age').textContent = age;
+    document.getElementById('summary-years').textContent = years;
+  }
+
+  // Run initial calculation
+  // Wait for DOM content loaded to ensure elements exist
+  document.addEventListener('DOMContentLoaded', calculateFERS);
+</script>
