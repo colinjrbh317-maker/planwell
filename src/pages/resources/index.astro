@@ -102,7 +102,7 @@ const recentArticles = [
       
       <div class="featured-grid" data-animate="fade-in-up">
         {featuredArticles.map((article, index) => (
-          <a href={`/resources/${article.slug}`} class={`featured-card ${index === 0 ? 'featured-card--main' : ''}`}>
+          <a href={`/${article.slug}`} class={`featured-card ${index === 0 ? 'featured-card--main' : ''}`}>
             <div class="featured-card__content">
               <span class="featured-card__category">{article.category}</span>
               <h3>{article.title}</h3>
@@ -136,12 +136,12 @@ const recentArticles = [
     <div class="container">
       <div class="recent-header">
         <h2 class="heading-md">Latest Articles</h2>
-        <a href="/resources" class="btn btn--secondary btn--sm">View All →</a>
+        <a href="/blog" class="btn btn--secondary btn--sm">View All →</a>
       </div>
       
       <div class="recent-grid">
         {recentArticles.map(article => (
-          <a href={`/resources/${article.slug}`} class="recent-card" data-animate="fade-in-up">
+          <a href={`/${article.slug}`} class="recent-card" data-animate="fade-in-up">
             <div class="recent-card__content">
               <span class="recent-card__category">{article.category}</span>
               <h3>{article.title}</h3>
