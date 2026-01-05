@@ -15,12 +15,25 @@ import davidPhoto from '../assets/images/david-fei.jpg';
       <span class="eyebrow">About PlanWell</span>
       <h1 class="heading-xl">Retirement Planning Built for Federal Employees</h1>
       <p class="lead max-w-3xl">
-        We didn't start PlanWell to be another financial advisor. We built it because 
-        federal employees deserve specialists who actually understand their unique benefits.
+        Federal employees deserve financial advisors who actually understand FERS, TSP,
+        and the complex rules that govern your retirement.
       </p>
     </div>
   </section>
-  
+
+  <!-- Video Section -->
+  <section class="section video-section">
+    <div class="container">
+      <div class="video-wrapper" data-animate="fade-in-up">
+        <video controls preload="metadata">
+          <source src="/videos/planwell-intro.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      <p class="video-caption">See how we help federal employees retire with confidence</p>
+    </div>
+  </section>
+
   <!-- Meet the Team -->
   <section class="section section--gray">
     <div class="container">
@@ -192,9 +205,18 @@ import davidPhoto from '../assets/images/david-fei.jpg';
     <div class="container">
       <div class="section-header" data-animate="fade-in-up">
         <span class="eyebrow">The PlanWell Difference</span>
-        <h2 class="heading-lg">What Makes Us Different</h2>
+        <h2 class="heading-lg">Why Federal Employees Choose Us</h2>
+        <div class="difference-intro">
+          <p class="lead max-w-3xl mx-auto">
+            Your federal benefits are complicated. HR handles paperwork—not personalized advice.
+            Most financial advisors lack federal expertise, leading to costly mistakes.
+          </p>
+          <p class="lead max-w-3xl mx-auto difference-solution">
+            <strong>That's why we specialize exclusively in federal employees.</strong>
+          </p>
+        </div>
       </div>
-      
+
       <div class="difference-grid">
         <div class="difference-card" data-animate="fade-in-up">
           <div class="difference-icon">
@@ -238,15 +260,58 @@ import davidPhoto from '../assets/images/david-fei.jpg';
           </div>
           <h3>Long-Term Partnership</h3>
           <p>
-            We're not here for a one-time transaction. We work with you through 
-            retirement and beyond—adjusting your plan as life changes, laws evolve, 
-            and new opportunities arise.
+            We're not here for a one-time transaction. You'll have ongoing access
+            to your advisor for questions, annual reviews, and strategy adjustments
+            throughout your retirement.
           </p>
         </div>
       </div>
     </div>
   </section>
   
+  <!-- Our Process -->
+  <section class="section section--gray">
+    <div class="container">
+      <div class="section-header" data-animate="fade-in-up">
+        <span class="eyebrow">How It Works</span>
+        <h2 class="heading-lg">Our Process</h2>
+        <p class="lead max-w-3xl mx-auto">
+          A clear path from uncertainty to confidence in your federal retirement.
+        </p>
+      </div>
+
+      <div class="process-grid">
+        <div class="process-step" data-animate="fade-in-up">
+          <div class="process-step__number">1</div>
+          <h3>Attend Our Free Workshop</h3>
+          <p>
+            Our 3-hour virtual workshop covers everything you need to understand your
+            federal retirement: FERS pension, TSP strategies, FEHB, Medicare coordination,
+            Social Security, and survivor benefits.
+          </p>
+        </div>
+
+        <div class="process-step" data-animate="fade-in-up">
+          <div class="process-step__number">2</div>
+          <h3>Get Your Personalized Report</h3>
+          <p>
+            We create a comprehensive 22-page analysis tailored to your specific situation—
+            with precise pension calculations, TSP projections, and a prioritized action plan.
+          </p>
+        </div>
+
+        <div class="process-step" data-animate="fade-in-up">
+          <div class="process-step__number">3</div>
+          <h3>Retire With Confidence</h3>
+          <p>
+            We're your ongoing partner through retirement and beyond—adjusting your plan
+            as life changes, laws evolve, and new opportunities arise.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- CTA -->
   <section class="section section--navy text-center">
     <div class="container">
@@ -265,6 +330,88 @@ import davidPhoto from '../assets/images/david-fei.jpg';
 </BaseLayout>
 
 <style>
+  /* Video Section */
+  .video-section {
+    background: var(--color-white);
+    padding: var(--space-12) 0;
+  }
+
+  .video-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+    background: var(--color-navy-dark);
+  }
+
+  .video-wrapper video {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .video-caption {
+    text-align: center;
+    margin-top: var(--space-4);
+    color: var(--color-gray-600);
+    font-size: var(--text-base);
+  }
+
+  /* Difference Intro */
+  .difference-intro {
+    margin-bottom: var(--space-8);
+  }
+
+  .difference-intro .lead {
+    color: var(--color-gray-600);
+  }
+
+  .difference-solution {
+    color: var(--color-navy);
+    margin-top: var(--space-4);
+  }
+
+  /* Process Section */
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-8);
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .process-step {
+    text-align: center;
+    padding: var(--space-6);
+  }
+
+  .process-step__number {
+    width: 56px;
+    height: 56px;
+    background: var(--color-gold);
+    color: var(--color-navy-dark);
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--text-xl);
+    font-weight: var(--font-bold);
+    margin: 0 auto var(--space-4);
+    font-family: var(--font-heading);
+  }
+
+  .process-step h3 {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-3);
+    color: var(--color-navy);
+  }
+
+  .process-step p {
+    color: var(--color-gray-600);
+    line-height: 1.6;
+  }
+
   .page-hero {
     background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%);
     color: var(--color-white);
@@ -456,27 +603,36 @@ import davidPhoto from '../assets/images/david-fei.jpg';
     .story-grid {
       grid-template-columns: 1fr;
     }
-    
+
     .team-detail {
       grid-template-columns: 1fr;
     }
-    
+
     .team-detail:nth-child(even) {
       direction: ltr;
     }
-    
+
     .team-detail__image {
       aspect-ratio: 16/9;
     }
+
+    .process-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
   }
-  
+
   @media (max-width: 640px) {
     .story-stats {
       grid-template-columns: 1fr;
     }
-    
+
     .difference-grid {
       grid-template-columns: 1fr;
+    }
+
+    .video-wrapper {
+      border-radius: var(--radius-lg);
     }
   }
 </style>
