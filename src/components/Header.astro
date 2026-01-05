@@ -30,8 +30,8 @@ const currentPath = Astro.url.pathname;
         <ul class="nav__links">
           {navLinks.map(link => (
             <li>
-              <a 
-                href={link.href} 
+              <a
+                href={link.href}
                 class={`nav__link ${currentPath === link.href ? 'nav__link--active' : ''}`}
               >
                 {link.label}
@@ -39,12 +39,6 @@ const currentPath = Astro.url.pathname;
             </li>
           ))}
         </ul>
-        
-        <div class="nav__cta">
-          <a href="/webinar" class="btn btn--primary">
-            Free FERS Workshop
-          </a>
-        </div>
       </div>
     </nav>
   </div>
@@ -97,7 +91,6 @@ const currentPath = Astro.url.pathname;
   .nav__menu {
     display: flex;
     align-items: center;
-    gap: var(--space-6);
   }
   
   .nav__links {
@@ -189,15 +182,6 @@ const currentPath = Astro.url.pathname;
       display: block;
       padding: var(--space-3) 0;
       font-size: var(--text-lg);
-    }
-    
-    .nav__cta {
-      width: 100%;
-      margin-top: var(--space-6);
-    }
-    
-    .nav__cta .btn {
-      width: 100%;
     }
   }
 </style>
