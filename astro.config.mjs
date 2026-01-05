@@ -19,6 +19,6 @@ export default defineConfig({
     },
     redirects: {
         '/resources': '/blog',
-        '/resources/[slug]': '/blog/[slug]',
+        '/resources/:slug': '/:slug',
     },
 });
