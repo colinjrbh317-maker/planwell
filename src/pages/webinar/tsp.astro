@@ -106,6 +106,105 @@ const steps = [
               <span>Live Q&A with David Fei, CFP®</span>
             </li>
           </ul>
+
+          <!-- Learning Goals -->
+          <div class="learning-goals">
+            <h3 class="section-subheading">By the end of this session, you'll be able to:</h3>
+            <ul class="goals-list">
+              <li>Decide between Traditional and Roth TSP contributions</li>
+              <li>Build an investment allocation matching your goals</li>
+              <li>Plan penalty-free TSP withdrawals in retirement</li>
+              <li>Understand when to keep TSP vs roll to an IRA</li>
+              <li>Avoid the most common costly TSP mistakes</li>
+            </ul>
+          </div>
+
+          <!-- Topic Breakdown -->
+          <div class="topic-breakdown">
+            <h3 class="section-subheading">What You'll Learn <span class="duration">(45 minutes)</span></h3>
+
+            <div class="module-grid">
+              <div class="module-card">
+                <div class="module-number">1</div>
+                <h4>TSP Contribution Strategies</h4>
+                <ul>
+                  <li>Traditional vs Roth TSP: Which is right for you?</li>
+                  <li>Maximizing matching contributions</li>
+                  <li>Catch-up contributions for 50+</li>
+                  <li>Tax implications now vs retirement</li>
+                </ul>
+              </div>
+
+              <div class="module-card">
+                <div class="module-number">2</div>
+                <h4>Fund Allocation & Investment Mix</h4>
+                <ul>
+                  <li>Understanding C, S, I, F, G funds</li>
+                  <li>Risk tolerance and time horizon</li>
+                  <li>Lifecycle (L) funds explained</li>
+                  <li>Rebalancing your portfolio</li>
+                </ul>
+              </div>
+
+              <div class="module-card">
+                <div class="module-number">3</div>
+                <h4>Withdrawal Planning</h4>
+                <ul>
+                  <li>The 4% rule and TSP withdrawals</li>
+                  <li>Penalty-free withdrawals at 55/57</li>
+                  <li>Avoiding common tax mistakes</li>
+                  <li>IRA rollovers vs keeping it in TSP</li>
+                </ul>
+              </div>
+
+              <div class="module-card module-card--qa">
+                <div class="module-number">4</div>
+                <h4>Live Q&A <span class="duration-inline">(15 minutes)</span></h4>
+                <ul>
+                  <li>Your TSP questions answered live</li>
+                  <li>Real-world scenarios discussed</li>
+                  <li>Tips from David Fei, CFP®, ChFEBC℠</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- How This Works -->
+          <div class="how-it-works">
+            <h3 class="section-subheading">What to Expect</h3>
+
+            <div class="expectation-grid">
+              <div class="expectation-phase">
+                <div class="phase-label">Before the Session</div>
+                <ul>
+                  <li>You'll receive a Zoom link via email</li>
+                  <li>No preparation needed—come with questions</li>
+                  <li>Works on computer, tablet, or phone</li>
+                </ul>
+              </div>
+
+              <div class="expectation-phase">
+                <div class="phase-label">During the Session</div>
+                <ul>
+                  <li>Live presentation with screen sharing</li>
+                  <li>Real TSP examples and case studies</li>
+                  <li>Interactive Q&A throughout</li>
+                  <li>Stay on camera off, unmuted when asking questions</li>
+                </ul>
+              </div>
+
+              <div class="expectation-phase">
+                <div class="phase-label">After the Session</div>
+                <ul>
+                  <li>Downloadable TSP planning worksheet</li>
+                  <li>Recording available for 7 days</li>
+                  <li>Optional: Register for full FERS workshop</li>
+                  <li>No pressure, no sales pitch—just education</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
           <button type="button" class="btn-next btn-next--large" onclick="nextStep()">
             Reserve My Free Seat
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -643,13 +742,215 @@ const steps = [
       color: #fff;
     }
     
+    /* New Sections Styling */
+    .section-subheading {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #fff;
+      margin: 2.5rem 0 1.5rem;
+      text-align: center;
+    }
+
+    .duration {
+      font-size: 1.125rem;
+      color: #c9a55c;
+      font-weight: 500;
+    }
+
+    .duration-inline {
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.6);
+      font-weight: 500;
+    }
+
+    /* Learning Goals */
+    .learning-goals {
+      margin: 2rem 0;
+      padding: 1.5rem;
+      background: rgba(201, 165, 92, 0.08);
+      border: 1px solid rgba(201, 165, 92, 0.2);
+      border-radius: 1rem;
+    }
+
+    .goals-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .goals-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      font-size: 1rem;
+      color: rgba(255,255,255,0.9);
+      line-height: 1.5;
+    }
+
+    .goals-list li::before {
+      content: "✓";
+      color: #c9a55c;
+      font-weight: bold;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    /* Topic Breakdown */
+    .topic-breakdown {
+      margin: 2.5rem 0;
+    }
+
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .module-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      transition: all 0.2s;
+    }
+
+    .module-card:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(201, 165, 92, 0.3);
+    }
+
+    .module-card--qa {
+      grid-column: span 2;
+      background: rgba(201, 165, 92, 0.08);
+      border-color: rgba(201, 165, 92, 0.2);
+    }
+
+    .module-number {
+      width: 32px;
+      height: 32px;
+      background: rgba(201, 165, 92, 0.2);
+      color: #c9a55c;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .module-card h4 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 0.75rem;
+    }
+
+    .module-card ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .module-card ul li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      font-size: 0.9375rem;
+      color: rgba(255,255,255,0.8);
+      line-height: 1.5;
+    }
+
+    .module-card ul li::before {
+      content: "•";
+      color: #c9a55c;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    /* How This Works */
+    .how-it-works {
+      margin: 2.5rem 0;
+      padding: 1.5rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 1rem;
+    }
+
+    .expectation-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .expectation-phase {
+      text-align: left;
+    }
+
+    .phase-label {
+      font-weight: 600;
+      color: #c9a55c;
+      font-size: 1rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .expectation-phase ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .expectation-phase ul li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      font-size: 0.9375rem;
+      color: rgba(255,255,255,0.8);
+      line-height: 1.5;
+    }
+
+    .expectation-phase ul li::before {
+      content: "→";
+      color: #c9a55c;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
     @media (max-width: 640px) {
       .funnel-header {
         padding: 1rem;
       }
-      
+
       .funnel-content {
         padding: 1rem;
+      }
+
+      .module-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .module-card--qa {
+        grid-column: span 1;
+      }
+
+      .expectation-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .section-subheading {
+        font-size: 1.25rem;
       }
     }
   </style>
