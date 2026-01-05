@@ -107,6 +107,12 @@ const steps = [
             </li>
           </ul>
 
+          <button type="button" class="btn-next btn-next--large btn-cta-primary" onclick="nextStep()">
+            Reserve My Free Seat
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+          <p class="step-trust">Join 500+ federal employees who've attended</p>
+
           <!-- Learning Goals -->
           <div class="learning-goals">
             <h3 class="section-subheading">By the end of this session, you'll be able to:</h3>
@@ -616,7 +622,21 @@ const steps = [
       padding: 1.25rem 2.5rem;
       font-size: 1.25rem;
     }
-    
+
+    .btn-cta-primary {
+      margin-top: 2rem;
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% {
+        box-shadow: 0 10px 30px rgba(201, 165, 92, 0.3);
+      }
+      50% {
+        box-shadow: 0 10px 40px rgba(201, 165, 92, 0.5);
+      }
+    }
+
     .btn-next:hover {
       transform: translateY(-2px);
       box-shadow: 0 10px 30px rgba(201, 165, 92, 0.3);
