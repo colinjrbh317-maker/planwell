@@ -37,15 +37,32 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="fers-years">Years of Creditable Service</label>
-              <input type="number" id="fers-years" class="form-input" placeholder="e.g., 30" value="30" step="0.5" />
-              <span class="form-hint">Total years of service, including bought-back military time.</span>
+              <label class="form-label" for="fers-birthdate">Date of Birth</label>
+              <input type="date" id="fers-birthdate" class="form-input" />
+              <span class="form-hint">Used to calculate your age at retirement.</span>
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="fers-age">Age at Retirement</label>
-              <input type="number" id="fers-age" class="form-input" placeholder="e.g., 62" value="62" />
-              <span class="form-hint">Used to determine your multiplier (1.0% vs 1.1%).</span>
+              <label class="form-label" for="fers-start-date">Federal Service Start Date</label>
+              <input type="date" id="fers-start-date" class="form-input" />
+              <span class="form-hint">When you began your creditable federal service.</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="fers-retirement-date">Planned Retirement Date</label>
+              <input type="date" id="fers-retirement-date" class="form-input" />
+              <span class="form-hint">The date you plan to retire.</span>
+            </div>
+
+            <div class="calculated-values">
+              <div class="calculated-item">
+                <span class="calculated-label">Age at Retirement:</span>
+                <span class="calculated-value" id="fers-calc-age">--</span>
+              </div>
+              <div class="calculated-item">
+                <span class="calculated-label">Years of Service:</span>
+                <span class="calculated-value" id="fers-calc-years">--</span>
+              </div>
             </div>
 
             <button type="button" class="btn btn--primary btn--lg" style="width: 100%;" onclick="calculateFERS()">
@@ -272,10 +289,43 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     line-height: 1.6;
   }
 
+  .calculated-values {
+    background: var(--color-gray-100);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    margin-bottom: var(--space-6);
+    display: flex;
+    gap: var(--space-6);
+  }
+
+  .calculated-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .calculated-label {
+    font-size: var(--text-xs);
+    color: var(--color-gray-500);
+    font-weight: var(--font-medium);
+  }
+
+  .calculated-value {
+    font-family: var(--font-heading);
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    color: var(--color-navy);
+  }
+
   @media (max-width: 768px) {
     .calculator__grid {
       grid-template-columns: 1fr;
       padding: var(--space-6);
+    }
+
+    .calculated-values {
+      flex-direction: column;
+      gap: var(--space-3);
     }
   }
 </style>
@@ -289,10 +339,63 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     }).format(num);
   }
 
+  function calculateAge(birthDate, targetDate) {
+    let age = targetDate.getFullYear() - birthDate.getFullYear();
+    const monthDiff = targetDate.getMonth() - birthDate.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && targetDate.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  }
+
+  function calculateYearsOfService(startDate, endDate) {
+    const diffTime = endDate.getTime() - startDate.getTime();
+    const diffDays = diffTime / (1000 * 60 * 60 * 24);
+    const years = diffDays / 365.25;
+    return Math.round(years * 2) / 2; // Round to nearest 0.5
+  }
+
+  function updateCalculatedValues() {
+    const birthdateInput = document.getElementById('fers-birthdate').value;
+    const startDateInput = document.getElementById('fers-start-date').value;
+    const retirementDateInput = document.getElementById('fers-retirement-date').value;
+
+    let age = null;
+    let years = null;
+
+    if (birthdateInput && retirementDateInput) {
+      const birthDate = new Date(birthdateInput);
+      const retirementDate = new Date(retirementDateInput);
+      age = calculateAge(birthDate, retirementDate);
+      document.getElementById('fers-calc-age').textContent = age + ' years';
+    } else {
+      document.getElementById('fers-calc-age').textContent = '--';
+    }
+
+    if (startDateInput && retirementDateInput) {
+      const startDate = new Date(startDateInput);
+      const retirementDate = new Date(retirementDateInput);
+      years = calculateYearsOfService(startDate, retirementDate);
+      document.getElementById('fers-calc-years').textContent = years + ' years';
+    } else {
+      document.getElementById('fers-calc-years').textContent = '--';
+    }
+
+    return { age, years };
+  }
+
   function calculateFERS() {
     const high3 = parseFloat(document.getElementById('fers-high3').value) || 0;
-    const years = parseFloat(document.getElementById('fers-years').value) || 0;
-    const age = parseFloat(document.getElementById('fers-age').value) || 0;
+    const { age, years } = updateCalculatedValues();
+
+    if (age === null || years === null) {
+      document.getElementById('fers-annual').textContent = '--';
+      document.getElementById('fers-monthly').textContent = '--';
+      document.getElementById('fers-multiplier').textContent = '--';
+      document.getElementById('summary-age').textContent = '--';
+      document.getElementById('summary-years').textContent = '--';
+      return;
+    }
 
     // FERS multiplier: 1% for most, 1.1% if retiring at 62+ with 20+ years
     let multiplier = 0.01;
@@ -311,7 +414,28 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     document.getElementById('summary-years').textContent = years;
   }
 
-  // Run initial calculation
-  // Wait for DOM content loaded to ensure elements exist
-  document.addEventListener('DOMContentLoaded', calculateFERS);
+  // Set default dates and add event listeners
+  document.addEventListener('DOMContentLoaded', function() {
+    const today = new Date();
+
+    // Set default birthdate (62 years ago)
+    const defaultBirthdate = new Date(today.getFullYear() - 62, today.getMonth(), today.getDate());
+    document.getElementById('fers-birthdate').value = defaultBirthdate.toISOString().split('T')[0];
+
+    // Set default start date (30 years ago)
+    const defaultStartDate = new Date(today.getFullYear() - 30, today.getMonth(), today.getDate());
+    document.getElementById('fers-start-date').value = defaultStartDate.toISOString().split('T')[0];
+
+    // Set default retirement date (today)
+    document.getElementById('fers-retirement-date').value = today.toISOString().split('T')[0];
+
+    // Add event listeners for real-time updates
+    document.getElementById('fers-birthdate').addEventListener('change', calculateFERS);
+    document.getElementById('fers-start-date').addEventListener('change', calculateFERS);
+    document.getElementById('fers-retirement-date').addEventListener('change', calculateFERS);
+    document.getElementById('fers-high3').addEventListener('input', calculateFERS);
+
+    // Run initial calculation
+    calculateFERS();
+  });
 </script>

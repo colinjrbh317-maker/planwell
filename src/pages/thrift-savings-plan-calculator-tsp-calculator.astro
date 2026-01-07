@@ -45,8 +45,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="tsp-years">Years Until Retirement</label>
-              <input type="number" id="tsp-years" class="form-input" placeholder="e.g., 10" value="10" />
+              <label class="form-label" for="tsp-retirement-date">Planned Retirement Date</label>
+              <input type="date" id="tsp-retirement-date" class="form-input" />
+              <span class="form-hint">The date you plan to retire.</span>
+            </div>
+
+            <div class="calculated-values">
+              <div class="calculated-item">
+                <span class="calculated-label">Years Until Retirement:</span>
+                <span class="calculated-value" id="tsp-calc-years">--</span>
+              </div>
             </div>
 
             <div class="form-group">
@@ -268,10 +276,43 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     line-height: 1.6;
   }
 
+  .calculated-values {
+    background: var(--color-gray-100);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    margin-bottom: var(--space-6);
+    display: flex;
+    gap: var(--space-6);
+  }
+
+  .calculated-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .calculated-label {
+    font-size: var(--text-xs);
+    color: var(--color-gray-500);
+    font-weight: var(--font-medium);
+  }
+
+  .calculated-value {
+    font-family: var(--font-heading);
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    color: var(--color-navy);
+  }
+
   @media (max-width: 768px) {
     .calculator__grid {
       grid-template-columns: 1fr;
       padding: var(--space-6);
+    }
+
+    .calculated-values {
+      flex-direction: column;
+      gap: var(--space-3);
     }
   }
 </style>
@@ -285,11 +326,42 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     }).format(num);
   }
 
+  function calculateYearsUntilRetirement(retirementDate) {
+    const today = new Date();
+    const diffTime = retirementDate.getTime() - today.getTime();
+    const diffDays = diffTime / (1000 * 60 * 60 * 24);
+    const years = diffDays / 365.25;
+    return Math.max(0, Math.round(years * 10) / 10); // Round to 1 decimal, minimum 0
+  }
+
+  function updateCalculatedYears() {
+    const retirementDateInput = document.getElementById('tsp-retirement-date').value;
+
+    if (retirementDateInput) {
+      const retirementDate = new Date(retirementDateInput);
+      const years = calculateYearsUntilRetirement(retirementDate);
+      document.getElementById('tsp-calc-years').textContent = years + ' years';
+      return years;
+    } else {
+      document.getElementById('tsp-calc-years').textContent = '--';
+      return null;
+    }
+  }
+
   function calculateTSP() {
     const current = parseFloat(document.getElementById('tsp-current').value) || 0;
     const monthly = parseFloat(document.getElementById('tsp-contribution').value) || 0;
-    const years = parseFloat(document.getElementById('tsp-years').value) || 0;
+    const years = updateCalculatedYears();
     const rate = parseFloat(document.getElementById('tsp-return').value) / 100 || 0;
+
+    if (years === null || years <= 0) {
+      document.getElementById('tsp-balance').textContent = '--';
+      document.getElementById('tsp-contributions').textContent = '--';
+      document.getElementById('tsp-growth').textContent = '--';
+      document.getElementById('tsp-growth-percent').textContent = '';
+      document.getElementById('tsp-income').textContent = '--';
+      return;
+    }
 
     const monthlyRate = rate / 12;
     const months = years * 12;
@@ -324,6 +396,21 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     document.getElementById('tsp-income').textContent = formatCurrency(annualIncome) + ' / year';
   }
 
-  // Run initial calculation
-  document.addEventListener('DOMContentLoaded', calculateTSP);
+  // Set default date and add event listeners
+  document.addEventListener('DOMContentLoaded', function() {
+    const today = new Date();
+
+    // Set default retirement date (10 years from now)
+    const defaultRetirementDate = new Date(today.getFullYear() + 10, today.getMonth(), today.getDate());
+    document.getElementById('tsp-retirement-date').value = defaultRetirementDate.toISOString().split('T')[0];
+
+    // Add event listeners for real-time updates
+    document.getElementById('tsp-retirement-date').addEventListener('change', calculateTSP);
+    document.getElementById('tsp-current').addEventListener('input', calculateTSP);
+    document.getElementById('tsp-contribution').addEventListener('input', calculateTSP);
+    document.getElementById('tsp-return').addEventListener('input', calculateTSP);
+
+    // Run initial calculation
+    calculateTSP();
+  });
 </script>
