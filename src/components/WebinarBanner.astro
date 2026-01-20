@@ -178,24 +178,38 @@ const isSuperUrgent = daysUntil <= 3;
   
   @media (max-width: 768px) {
     .webinar-banner {
-      padding: 0.625rem 2.5rem 0.625rem 1rem;
+      padding: 0.625rem 3rem 0.625rem 1rem; /* Increase right to 48px */
     }
-    
+
     .webinar-banner__content {
       gap: 0.75rem;
     }
-    
+
     .webinar-banner__text {
       font-size: 0.8125rem;
     }
-    
+
     .webinar-banner__time {
       display: none;
     }
-    
+
     .webinar-banner__cta {
       font-size: 0.8125rem;
       padding: 0.375rem 0.75rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .webinar-banner {
+      padding: 0.5rem 2.5rem 0.5rem 0.75rem; /* Reduce all padding slightly */
+    }
+
+    .webinar-banner__content {
+      gap: 0.5rem; /* Tighter spacing */
+    }
+
+    .webinar-banner__text {
+      font-size: 0.75rem; /* Further reduce text size */
     }
   }
 </style>
