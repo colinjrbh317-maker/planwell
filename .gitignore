@@ -22,3 +22,12 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# GSD temporary files and research outputs
+.planning/research/*/CONTEXT.md
+.planning/quick/*/
+STATE.md.bak
+
+# Keep versioned GSD files (explicit inclusion not needed, just document here)
+# PROJECT.md, REQUIREMENTS.md, ROADMAP.md, STATE.md
+# .planning/phase-*/PLAN.md, .planning/phase-*/SUMMARY.md
