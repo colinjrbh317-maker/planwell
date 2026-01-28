@@ -1,0 +1,808 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Special Retirement Supplement Calculator | FERS Supplement Estimate"
+  description="Calculate your Special Retirement Supplement (SRS) for early FERS retirement. See your estimated monthly payment until age 62."
+>
+  <!-- Hero -->
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">FERS Retirement Tools</span>
+      <h1 class="heading-xl">Special Retirement Supplement Calculator</h1>
+      <p class="lead max-w-3xl">
+        Calculate your Special Retirement Supplement (SRS) for retiring before age 62.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--gray">
+    <div class="container">
+      <div class="calculator" data-animate="fade-in-up">
+        <div class="calculator__header">
+          <h2 class="heading-md">Calculate Your Supplement</h2>
+          <p>The Special Retirement Supplement bridges the gap between retirement and Social Security eligibility.</p>
+        </div>
+
+        <!-- Eligibility Alert -->
+        <div class="alert alert--warning">
+          <span class="alert-icon">⚠️</span>
+          <div class="alert-content">
+            <strong>Eligibility Requirements:</strong>
+            <p>You must retire at <strong>Age 57+ with 30+ years</strong> OR <strong>Age 60+ with 20+ years</strong> of service.</p>
+            <p style="margin-top: var(--space-2);"><strong>Important:</strong> The supplement STOPS at age 62 when you become eligible for Social Security.</p>
+          </div>
+        </div>
+
+        <div class="calculator__grid">
+          <div class="calculator__form">
+            <div class="form-group">
+              <label class="form-label" for="supplement-birthdate">Date of Birth</label>
+              <input type="date" id="supplement-birthdate" class="form-input" />
+              <span class="form-hint">Used to calculate your age at retirement.</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="supplement-retirement-date">Planned Retirement Date</label>
+              <input type="date" id="supplement-retirement-date" class="form-input" />
+              <span class="form-hint">The date you plan to retire.</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="supplement-service-date">Federal Service Start Date</label>
+              <input type="date" id="supplement-service-date" class="form-input" />
+              <span class="form-hint">
+                Your original federal service start date.
+                <strong>Note:</strong> Do NOT include sick leave or military buyback time.
+              </span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="supplement-ss-estimate">Estimated Social Security at Age 62 ($)</label>
+              <div class="input-wrapper">
+                <span class="input-prefix">$</span>
+                <input type="number" id="supplement-ss-estimate" class="form-input" placeholder="e.g., 2500" value="2500" inputmode="decimal" />
+              </div>
+              <span class="form-hint">
+                Your estimated monthly Social Security benefit at age 62.
+                <a href="https://www.ssa.gov/myaccount/" target="_blank" rel="noopener noreferrer" class="calculator-link">Check on SSA.gov →</a>
+              </span>
+            </div>
+
+            <!-- Calculated Values -->
+            <div class="calculated-values">
+              <div class="calculated-item">
+                <span class="calculated-label">Age at Retirement:</span>
+                <span class="calculated-value" id="calc-age">--</span>
+              </div>
+              <div class="calculated-item">
+                <span class="calculated-label">Years of Service:</span>
+                <span class="calculated-value" id="calc-years">--</span>
+              </div>
+            </div>
+
+            <!-- Eligibility Status -->
+            <div class="eligibility-status" id="eligibility-status">
+              <span class="eligibility-icon">ℹ️</span>
+              <span class="eligibility-text" id="eligibility-text">Enter your details to check eligibility.</span>
+            </div>
+
+            <button type="button" class="btn btn--primary btn--lg calculate-btn" onclick="calculateSupplement()">
+              Calculate Supplement
+            </button>
+
+            <button type="button" class="btn btn--ghost no-print" onclick="window.print()" style="width: 100%; margin-top: var(--space-3);">
+              🖨️ Print Results
+            </button>
+          </div>
+
+          <div class="calculator__result" id="supplement-result">
+            <div class="result-card result-card--highlight">
+              <span class="result-label">Monthly Supplement</span>
+              <span class="result-value" id="supplement-monthly">$1,875</span>
+            </div>
+
+            <div class="result-card">
+              <span class="result-label">Annual Supplement</span>
+              <span class="result-value" id="supplement-annual">$22,500</span>
+            </div>
+
+            <div class="result-card result-card--warning">
+              <span class="result-label">⏰ Supplement Ends</span>
+              <span class="result-value" id="supplement-ends" style="font-size: var(--text-xl);">At Age 62</span>
+            </div>
+
+            <!-- Calculation Breakdown -->
+            <details class="calculation-breakdown">
+              <summary class="breakdown-summary">View Calculation Details</summary>
+              <div class="breakdown-content">
+                <div class="breakdown-item">
+                  <strong>Years of Service:</strong> <span id="breakdown-years">--</span>
+                </div>
+                <div class="breakdown-item">
+                  <strong>Service Fraction:</strong> <span id="breakdown-fraction">--</span>
+                </div>
+                <div class="breakdown-item">
+                  <strong>SS Estimate at 62:</strong> <span id="breakdown-ss">--</span>
+                </div>
+                <hr style="margin: var(--space-3) 0; border-color: var(--color-gray-300);" />
+                <div class="breakdown-item">
+                  <strong>Formula:</strong> (Years of Service ÷ 40) × SS Estimate
+                </div>
+                <div class="breakdown-item">
+                  <span id="breakdown-formula">--</span>
+                </div>
+                <hr style="margin: var(--space-3) 0; border-color: var(--color-gray-300);" />
+                <div class="breakdown-item" style="font-size: var(--text-xs); color: var(--color-gray-600);">
+                  <strong>Note:</strong> This calculation does NOT include sick leave or military buyback time. It uses only your base federal service years.
+                </div>
+              </div>
+            </details>
+
+            <div class="result-summary">
+              <p><strong>Duration:</strong> From retirement at age <span id="summary-retirement-age">--</span> until age 62 (<span id="summary-months">--</span> months)</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="calculator__note">
+          <h3 class="font-bold text-navy mb-2">Understanding the Special Retirement Supplement</h3>
+          <p class="mb-2">The Special Retirement Supplement (SRS) is designed to bridge the income gap between FERS retirement and Social Security eligibility at age 62. It approximates what you would receive from Social Security if you were eligible immediately.</p>
+
+          <p class="mb-2"><strong>Key Facts:</strong></p>
+          <ul style="margin-left: var(--space-6); margin-bottom: var(--space-4); list-style: disc;">
+            <li><strong>Formula:</strong> (Years of Service ÷ 40) × Your Social Security Benefit at Age 62</li>
+            <li><strong>Ends at 62:</strong> The supplement automatically stops when you turn 62 and become eligible for Social Security</li>
+            <li><strong>Earnings Test:</strong> If you earn over the annual earnings limit, your supplement may be reduced</li>
+            <li><strong>Base Service Only:</strong> Sick leave and military buyback time are NOT included in the years calculation</li>
+          </ul>
+
+          <p class="mb-2"><strong>Example:</strong> If you retire with 30 years of service and your Social Security estimate at age 62 is $2,000/month, your supplement would be: (30 ÷ 40) × $2,000 = $1,500/month</p>
+
+          <hr class="my-4 border-gray-200" />
+
+          <p class="text-sm"><strong>Important:</strong> This is an estimate only. Your actual supplement may be affected by the Social Security earnings test, COLA adjustments, and other factors. Visit <a href="https://www.opm.gov/retirement-services/fers-information/special-retirement-supplement/" target="_blank" rel="noopener noreferrer" class="text-navy underline">OPM.gov</a> for official information.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section section--navy text-center">
+    <div class="container">
+      <div data-animate="fade-in-up">
+        <h2 class="heading-lg">Need Help Planning Your Early Retirement?</h2>
+        <p class="lead" style="color: var(--color-gray-300); max-width: 36rem; margin: 0 auto var(--space-8);">
+          Understanding the supplement is just one piece of your retirement puzzle. Let us help you create a comprehensive plan.
+        </p>
+        <div class="flex justify-center gap-4" style="flex-wrap: wrap;">
+          <a href="/book-call" class="btn btn--white btn--lg">Book a Free Strategy Call</a>
+          <a href="/fers-retirement-calculator" class="btn btn--primary btn--lg">Calculate My Pension</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Hero */
+  .page-hero {
+    background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%);
+    color: var(--color-white);
+    padding: var(--space-20) 0 var(--space-16);
+    text-align: center;
+  }
+
+  .page-hero h1 {
+    color: var(--color-white);
+    margin-bottom: var(--space-4);
+  }
+
+  .page-hero .lead {
+    color: var(--color-gray-300);
+    margin: 0 auto;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-family: var(--font-heading);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-gold);
+    margin-bottom: var(--space-4);
+    font-size: var(--text-sm);
+  }
+
+  /* Calculator */
+  .calculator {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .calculator__header {
+    text-align: center;
+    margin-bottom: var(--space-8);
+  }
+
+  .calculator__header p {
+    color: var(--color-gray-600);
+    margin-top: var(--space-2);
+    font-size: var(--text-lg);
+  }
+
+  /* Alert Box */
+  .alert {
+    display: flex;
+    gap: var(--space-4);
+    padding: var(--space-6);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-8);
+    border-left: 4px solid;
+  }
+
+  .alert--warning {
+    background: rgba(245, 158, 11, 0.1);
+    border-left-color: #f59e0b;
+  }
+
+  .alert-icon {
+    font-size: var(--text-3xl);
+    flex-shrink: 0;
+  }
+
+  .alert-content {
+    flex: 1;
+  }
+
+  .alert-content strong {
+    color: var(--color-navy);
+    display: block;
+    margin-bottom: var(--space-2);
+    font-size: var(--text-base);
+  }
+
+  .alert-content p {
+    font-size: var(--text-sm);
+    color: var(--color-gray-700);
+    line-height: 1.5;
+  }
+
+  /* Form */
+  .calculator__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+    background: var(--color-white);
+    padding: var(--space-10);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .form-group {
+    margin-bottom: var(--space-6);
+  }
+
+  .form-label {
+    display: block;
+    font-weight: var(--font-semibold);
+    color: var(--color-navy);
+    margin-bottom: var(--space-2);
+    font-size: var(--text-base);
+  }
+
+  .input-wrapper {
+    position: relative;
+  }
+
+  .input-prefix {
+    position: absolute;
+    left: var(--space-4);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-gray-500);
+    font-weight: var(--font-medium);
+  }
+
+  .form-input {
+    width: 100%;
+    padding: var(--space-4);
+    border: 1px solid var(--color-gray-300);
+    border-radius: var(--radius-md);
+    font-size: 16px;
+    transition: border-color var(--transition-fast);
+  }
+
+  .input-wrapper .form-input {
+    padding-left: var(--space-8);
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: var(--color-navy);
+    box-shadow: 0 0 0 3px rgba(10, 37, 64, 0.1);
+  }
+
+  .form-hint {
+    display: block;
+    font-size: var(--text-sm);
+    color: var(--color-gray-500);
+    margin-top: var(--space-2);
+    line-height: 1.5;
+  }
+
+  .calculator-link {
+    color: var(--color-navy);
+    font-weight: var(--font-semibold);
+    text-decoration: underline;
+    transition: color var(--transition-fast);
+  }
+
+  .calculator-link:hover {
+    color: var(--color-gold);
+  }
+
+  /* Calculated Values */
+  .calculated-values {
+    background: var(--color-gray-100);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    margin-bottom: var(--space-4);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+  }
+
+  .calculated-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .calculated-label {
+    font-size: var(--text-xs);
+    color: var(--color-gray-500);
+    font-weight: var(--font-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .calculated-value {
+    font-family: var(--font-heading);
+    font-size: var(--text-base);
+    font-weight: var(--font-bold);
+    color: var(--color-navy);
+  }
+
+  /* Eligibility Status */
+  .eligibility-status {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background: var(--color-gray-100);
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--color-gray-400);
+    margin-bottom: var(--space-6);
+    transition: all var(--transition-fast);
+  }
+
+  .eligibility-status.eligible {
+    background: rgba(34, 197, 94, 0.1);
+    border-left-color: #22c55e;
+  }
+
+  .eligibility-status.not-eligible {
+    background: rgba(239, 68, 68, 0.1);
+    border-left-color: #ef4444;
+  }
+
+  .eligibility-icon {
+    font-size: var(--text-2xl);
+    flex-shrink: 0;
+  }
+
+  .eligibility-text {
+    font-size: var(--text-sm);
+    color: var(--color-gray-700);
+    font-weight: var(--font-medium);
+    line-height: 1.5;
+  }
+
+  /* Button */
+  .calculate-btn {
+    width: 100%;
+    min-height: 56px;
+    font-size: var(--text-lg);
+  }
+
+  /* Results */
+  .calculator__result {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    background: var(--color-gray-50);
+    padding: var(--space-6);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-gray-200);
+  }
+
+  .result-card {
+    background: var(--color-white);
+    padding: var(--space-5);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .result-card--highlight {
+    background: linear-gradient(135deg, var(--color-gold-light) 0%, var(--color-gold) 100%);
+    color: var(--color-navy);
+  }
+
+  .result-card--warning {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    color: var(--color-navy);
+    border: 2px solid #f59e0b;
+  }
+
+  .result-label {
+    font-size: var(--text-sm);
+    color: var(--color-gray-600);
+    font-weight: var(--font-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .result-card--highlight .result-label,
+  .result-card--warning .result-label {
+    color: var(--color-navy);
+    opacity: 0.8;
+  }
+
+  .result-value {
+    font-family: var(--font-heading);
+    font-size: var(--text-3xl);
+    font-weight: var(--font-bold);
+    color: var(--color-navy);
+  }
+
+  /* Calculation Breakdown */
+  .calculation-breakdown {
+    background: var(--color-white);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-gray-200);
+    overflow: hidden;
+  }
+
+  .breakdown-summary {
+    padding: var(--space-4);
+    font-weight: var(--font-semibold);
+    color: var(--color-navy);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    transition: background-color var(--transition-fast);
+  }
+
+  .breakdown-summary:hover {
+    background: var(--color-gray-50);
+  }
+
+  .breakdown-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .breakdown-summary::before {
+    content: "▶";
+    display: inline-block;
+    margin-right: var(--space-2);
+    transition: transform var(--transition-fast);
+  }
+
+  details[open] .breakdown-summary::before {
+    transform: rotate(90deg);
+  }
+
+  .breakdown-content {
+    padding: var(--space-4);
+    border-top: 1px solid var(--color-gray-200);
+  }
+
+  .breakdown-item {
+    padding: var(--space-2) 0;
+    font-size: var(--text-sm);
+    color: var(--color-gray-700);
+  }
+
+  .breakdown-item strong {
+    color: var(--color-navy);
+  }
+
+  .result-summary {
+    font-size: var(--text-sm);
+    color: var(--color-gray-600);
+    padding: var(--space-4);
+    background: var(--color-white);
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--color-gold);
+  }
+
+  /* Educational Note */
+  .calculator__note {
+    margin-top: var(--space-8);
+    padding: var(--space-6);
+    background: rgba(201, 165, 92, 0.1);
+    border-radius: var(--radius-lg);
+    border-left: 4px solid var(--color-gold);
+  }
+
+  .calculator__note h3 {
+    color: var(--color-navy);
+    margin-bottom: var(--space-3);
+  }
+
+  .calculator__note p,
+  .calculator__note li {
+    font-size: var(--text-sm);
+    color: var(--color-gray-700);
+    line-height: 1.6;
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .page-hero {
+      padding: var(--space-16) 0 var(--space-12);
+    }
+
+    .alert {
+      flex-direction: column;
+      gap: var(--space-3);
+      padding: var(--space-4);
+    }
+
+    .calculator__grid {
+      grid-template-columns: 1fr;
+      padding: var(--space-6);
+      gap: var(--space-6);
+    }
+
+    .calculated-values {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+    }
+
+    .calculate-btn {
+      position: sticky;
+      bottom: var(--space-4);
+      z-index: 10;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .result-value {
+      font-size: var(--text-2xl);
+    }
+  }
+
+  /* Print Styles */
+  @media print {
+    .no-print,
+    .calculator__form,
+    .page-hero .eyebrow,
+    .calculator__header,
+    .section--navy,
+    .breakdown-summary {
+      display: none !important;
+    }
+
+    details[open] .breakdown-content {
+      display: block !important;
+    }
+
+    .calculator__grid {
+      display: block;
+      box-shadow: none;
+    }
+
+    .calculator__result {
+      width: 100%;
+      border: 2px solid var(--color-navy);
+    }
+
+    .alert {
+      border: 2px solid #f59e0b;
+    }
+  }
+</style>
+
+<script is:inline>
+  function formatCurrency(num) {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 0
+    }).format(num);
+  }
+
+  function calculateAge(birthDate, targetDate) {
+    let age = targetDate.getFullYear() - birthDate.getFullYear();
+    const monthDiff = targetDate.getMonth() - birthDate.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && targetDate.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  }
+
+  function calculateYearsOfService(startDate, endDate) {
+    const diffTime = endDate.getTime() - startDate.getTime();
+    const diffDays = diffTime / (1000 * 60 * 60 * 24);
+    const years = diffDays / 365.25;
+    return Math.round(years * 2) / 2; // Round to nearest 0.5
+  }
+
+  function calculateMonthsUntil62(birthDate, retirementDate) {
+    // Calculate when they turn 62
+    const age62Date = new Date(birthDate);
+    age62Date.setFullYear(age62Date.getFullYear() + 62);
+
+    // Calculate months between retirement and age 62
+    const yearDiff = age62Date.getFullYear() - retirementDate.getFullYear();
+    const monthDiff = age62Date.getMonth() - retirementDate.getMonth();
+    return yearDiff * 12 + monthDiff;
+  }
+
+  function validateSupplementEligibility(age, years) {
+    if (age === null || years === null) {
+      return {
+        eligible: null,
+        message: 'Enter your details to check eligibility.'
+      };
+    }
+
+    if (age >= 62) {
+      return {
+        eligible: false,
+        message: '✗ Not eligible: Special Retirement Supplement stops at age 62. You may be eligible for Social Security instead.'
+      };
+    }
+
+    if (age >= 57 && years >= 30) {
+      return {
+        eligible: true,
+        message: '✓ Eligible: Age 57+ with 30 years of service'
+      };
+    }
+
+    if (age >= 60 && years >= 20) {
+      return {
+        eligible: true,
+        message: '✓ Eligible: Age 60+ with 20 years of service'
+      };
+    }
+
+    return {
+      eligible: false,
+      message: '✗ Not eligible for Special Retirement Supplement. Requirements: Age 57+ with 30 years OR Age 60+ with 20 years.'
+    };
+  }
+
+  function updateCalculatedValues() {
+    const birthdateInput = document.getElementById('supplement-birthdate').value;
+    const retirementDateInput = document.getElementById('supplement-retirement-date').value;
+    const serviceDateInput = document.getElementById('supplement-service-date').value;
+
+    let age = null;
+    let years = null;
+
+    if (birthdateInput && retirementDateInput) {
+      const birthDate = new Date(birthdateInput);
+      const retirementDate = new Date(retirementDateInput);
+      age = calculateAge(birthDate, retirementDate);
+      document.getElementById('calc-age').textContent = age + ' years';
+    } else {
+      document.getElementById('calc-age').textContent = '--';
+    }
+
+    if (serviceDateInput && retirementDateInput) {
+      const serviceDate = new Date(serviceDateInput);
+      const retirementDate = new Date(retirementDateInput);
+      years = calculateYearsOfService(serviceDate, retirementDate);
+      document.getElementById('calc-years').textContent = years + ' years';
+    } else {
+      document.getElementById('calc-years').textContent = '--';
+    }
+
+    // Update eligibility
+    const result = validateSupplementEligibility(age, years);
+    const statusEl = document.getElementById('eligibility-status');
+    const textEl = document.getElementById('eligibility-text');
+
+    statusEl.className = 'eligibility-status';
+    if (result.eligible === true) {
+      statusEl.classList.add('eligible');
+      statusEl.querySelector('.eligibility-icon').textContent = '✓';
+    } else if (result.eligible === false) {
+      statusEl.classList.add('not-eligible');
+      statusEl.querySelector('.eligibility-icon').textContent = '✗';
+    } else {
+      statusEl.querySelector('.eligibility-icon').textContent = 'ℹ️';
+    }
+    textEl.textContent = result.message;
+
+    return { age, years };
+  }
+
+  function calculateSupplement() {
+    const data = updateCalculatedValues();
+    const ssEstimate = parseFloat(document.getElementById('supplement-ss-estimate').value) || 0;
+
+    if (data.age === null || data.years === null) {
+      document.getElementById('supplement-monthly').textContent = '--';
+      document.getElementById('supplement-annual').textContent = '--';
+      document.getElementById('summary-retirement-age').textContent = '--';
+      document.getElementById('summary-months').textContent = '--';
+      return;
+    }
+
+    // Check eligibility
+    const eligibility = validateSupplementEligibility(data.age, data.years);
+    if (!eligibility.eligible) {
+      document.getElementById('supplement-monthly').textContent = '--';
+      document.getElementById('supplement-annual').textContent = '--';
+      document.getElementById('summary-retirement-age').textContent = data.age;
+      document.getElementById('summary-months').textContent = '--';
+      return;
+    }
+
+    // Calculate supplement: (Years / 40) × SS Estimate
+    const serviceFraction = data.years / 40;
+    const monthlySupplement = ssEstimate * serviceFraction;
+    const annualSupplement = monthlySupplement * 12;
+
+    // Calculate months until 62
+    const birthDate = new Date(document.getElementById('supplement-birthdate').value);
+    const retirementDate = new Date(document.getElementById('supplement-retirement-date').value);
+    const monthsUntil62 = calculateMonthsUntil62(birthDate, retirementDate);
+
+    // Update results
+    document.getElementById('supplement-monthly').textContent = formatCurrency(monthlySupplement);
+    document.getElementById('supplement-annual').textContent = formatCurrency(annualSupplement);
+    document.getElementById('summary-retirement-age').textContent = data.age;
+    document.getElementById('summary-months').textContent = monthsUntil62;
+
+    // Update breakdown
+    document.getElementById('breakdown-years').textContent = data.years + ' years';
+    document.getElementById('breakdown-fraction').textContent = serviceFraction.toFixed(4) + ' (or ' + (serviceFraction * 100).toFixed(2) + '%)';
+    document.getElementById('breakdown-ss').textContent = formatCurrency(ssEstimate);
+    document.getElementById('breakdown-formula').textContent =
+      `(${data.years} ÷ 40) × ${formatCurrency(ssEstimate)} = ${formatCurrency(monthlySupplement)}/month`;
+  }
+
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    const today = new Date();
+
+    // Set default birthdate (57 years ago - minimum eligible age)
+    const defaultBirthdate = new Date(today.getFullYear() - 57, today.getMonth(), today.getDate());
+    document.getElementById('supplement-birthdate').value = defaultBirthdate.toISOString().split('T')[0];
+
+    // Set default service date (30 years ago)
+    const defaultServiceDate = new Date(today.getFullYear() - 30, today.getMonth(), today.getDate());
+    document.getElementById('supplement-service-date').value = defaultServiceDate.toISOString().split('T')[0];
+
+    // Set default retirement date (today)
+    document.getElementById('supplement-retirement-date').value = today.toISOString().split('T')[0];
+
+    // Add event listeners for real-time updates
+    document.getElementById('supplement-birthdate').addEventListener('change', calculateSupplement);
+    document.getElementById('supplement-service-date').addEventListener('change', calculateSupplement);
+    document.getElementById('supplement-retirement-date').addEventListener('change', calculateSupplement);
+    document.getElementById('supplement-ss-estimate').addEventListener('input', calculateSupplement);
+
+    // Run initial calculation
+    calculateSupplement();
+  });
+</script>

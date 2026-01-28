@@ -1,0 +1,754 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="High-3 Average Salary Calculator | Calculate Your Highest 36 Months"
+  description="Calculate your High-3 average salary for FERS retirement. Enter your salary history and get the weighted average of your highest 36 consecutive months."
+>
+  <!-- Hero -->
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">FERS Retirement Tools</span>
+      <h1 class="heading-xl">High-3 Average Salary Calculator</h1>
+      <p class="lead max-w-3xl">
+        Calculate the average of your highest 36 consecutive months of basic pay before retirement.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--gray">
+    <div class="container">
+      <div class="calculator" data-animate="fade-in-up">
+        <div class="calculator__header">
+          <h2 class="heading-md">Calculate Your High-3</h2>
+          <p>Enter your retirement date and salary periods to calculate your weighted average.</p>
+        </div>
+
+        <div class="calculator__grid">
+          <div class="calculator__form">
+            <!-- Retirement Date -->
+            <div class="form-group">
+              <label class="form-label" for="high3-retirement-date">Planned Retirement Date</label>
+              <input
+                type="date"
+                id="high3-retirement-date"
+                class="form-input"
+              />
+              <span class="form-hint">The calculator will use the 36 months before this date.</span>
+            </div>
+
+            <!-- Salary Periods -->
+            <div class="form-group">
+              <label class="form-label">Salary Periods (up to 4)</label>
+              <span class="form-hint" style="margin-bottom: var(--space-4); display: block;">
+                Enter your salary history. Only periods within the 36-month window will be used.
+              </span>
+
+              <div id="salary-periods-container">
+                <!-- Period 1 -->
+                <div class="salary-period" data-period="1">
+                  <div class="period-header">
+                    <span class="period-number">Period 1</span>
+                  </div>
+                  <div class="period-fields">
+                    <div class="form-group-compact">
+                      <label class="form-label-sm" for="period1-start">Start Date</label>
+                      <input type="date" id="period1-start" class="form-input-sm period-start" data-period="1" />
+                    </div>
+                    <div class="form-group-compact">
+                      <label class="form-label-sm" for="period1-end">End Date</label>
+                      <input type="date" id="period1-end" class="form-input-sm period-end" data-period="1" />
+                    </div>
+                    <div class="form-group-compact">
+                      <label class="form-label-sm" for="period1-salary">Annual Salary</label>
+                      <div class="input-wrapper-sm">
+                        <span class="input-prefix-sm">$</span>
+                        <input
+                          type="number"
+                          id="period1-salary"
+                          class="form-input-sm period-salary"
+                          data-period="1"
+                          placeholder="100000"
+                          inputmode="decimal"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Add/Remove Buttons -->
+              <div class="period-actions">
+                <button type="button" class="btn btn--sm btn--secondary" onclick="addPeriod()">
+                  + Add Salary Period
+                </button>
+              </div>
+            </div>
+
+            <button type="button" class="btn btn--primary btn--lg calculate-btn" onclick="calculateHigh3()">
+              Calculate High-3
+            </button>
+
+            <button type="button" class="btn btn--ghost no-print" onclick="window.print()" style="width: 100%; margin-top: var(--space-3);">
+              🖨️ Print Results
+            </button>
+          </div>
+
+          <div class="calculator__result" id="high3-result">
+            <div class="result-card result-card--highlight">
+              <span class="result-label">High-3 Average Salary</span>
+              <span class="result-value" id="high3-average">--</span>
+            </div>
+
+            <div class="result-card">
+              <span class="result-label">36-Month Window</span>
+              <span class="result-value" id="window-range" style="font-size: var(--text-lg);">--</span>
+            </div>
+
+            <div class="result-card">
+              <span class="result-label">Periods Analyzed</span>
+              <span class="result-value" id="periods-analyzed">--</span>
+            </div>
+
+            <!-- Calculation Breakdown -->
+            <details class="calculation-breakdown">
+              <summary class="breakdown-summary">View Calculation Details</summary>
+              <div class="breakdown-content" id="breakdown-content">
+                <p class="text-sm text-gray-600 mb-3">Weighted average based on months in 36-month window:</p>
+                <div id="breakdown-list"></div>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="calculator__note">
+          <h3 class="font-bold text-navy mb-2">Understanding High-3 Salary</h3>
+          <p class="mb-2">Your High-3 average salary is the average of your highest 36 consecutive months of basic pay (including locality pay) before retirement. This is the foundation of your FERS pension calculation.</p>
+
+          <p class="mb-2"><strong>How the calculation works:</strong></p>
+          <ul style="margin-left: var(--space-6); margin-bottom: var(--space-4); list-style: disc;">
+            <li>The calculator looks at the 36 months (3 years) before your retirement date</li>
+            <li>For each salary period, it calculates how many months fall within that window</li>
+            <li>It then calculates a weighted average: Sum(Salary × Months in Window) ÷ 36 months</li>
+            <li>Only periods overlapping the window contribute to the average</li>
+          </ul>
+
+          <p class="mb-2"><strong>Example:</strong> If you earned $90k for 12 months, $95k for 12 months, and $100k for 12 months (all within the 36-month window), your High-3 would be the average: $95,000.</p>
+
+          <hr class="my-4 border-gray-200" />
+
+          <p class="text-sm"><strong>Tip:</strong> Once you calculate your High-3, use it in the <a href="/fers-retirement-calculator" class="text-navy underline">FERS Pension Calculator</a> to see your estimated pension.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section section--navy text-center">
+    <div class="container">
+      <div data-animate="fade-in-up">
+        <h2 class="heading-lg">Ready to Calculate Your Pension?</h2>
+        <p class="lead" style="color: var(--color-gray-300); max-width: 36rem; margin: 0 auto var(--space-8);">
+          Now that you know your High-3 salary, calculate your full FERS pension estimate.
+        </p>
+        <div class="flex justify-center gap-4" style="flex-wrap: wrap;">
+          <a href="/fers-retirement-calculator" class="btn btn--white btn--lg">Calculate My Pension</a>
+          <a href="/calculators" class="btn btn--primary btn--lg">View All Calculators</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Hero */
+  .page-hero {
+    background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%);
+    color: var(--color-white);
+    padding: var(--space-20) 0 var(--space-16);
+    text-align: center;
+  }
+
+  .page-hero h1 {
+    color: var(--color-white);
+    margin-bottom: var(--space-4);
+  }
+
+  .page-hero .lead {
+    color: var(--color-gray-300);
+    margin: 0 auto;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-family: var(--font-heading);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-gold);
+    margin-bottom: var(--space-4);
+    font-size: var(--text-sm);
+  }
+
+  /* Calculator */
+  .calculator {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .calculator__header {
+    text-align: center;
+    margin-bottom: var(--space-8);
+  }
+
+  .calculator__header p {
+    color: var(--color-gray-600);
+    margin-top: var(--space-2);
+    font-size: var(--text-lg);
+  }
+
+  .calculator__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+    background: var(--color-white);
+    padding: var(--space-10);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+  }
+
+  /* Form Elements */
+  .form-group {
+    margin-bottom: var(--space-6);
+  }
+
+  .form-label {
+    display: block;
+    font-weight: var(--font-semibold);
+    color: var(--color-navy);
+    margin-bottom: var(--space-2);
+    font-size: var(--text-base);
+  }
+
+  .form-input {
+    width: 100%;
+    padding: var(--space-4);
+    border: 1px solid var(--color-gray-300);
+    border-radius: var(--radius-md);
+    font-size: 16px;
+    transition: border-color var(--transition-fast);
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: var(--color-navy);
+    box-shadow: 0 0 0 3px rgba(10, 37, 64, 0.1);
+  }
+
+  .form-hint {
+    display: block;
+    font-size: var(--text-sm);
+    color: var(--color-gray-500);
+    margin-top: var(--space-2);
+    line-height: 1.5;
+  }
+
+  /* Salary Period Cards */
+  .salary-period {
+    background: var(--color-gray-50);
+    border: 2px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    margin-bottom: var(--space-4);
+    transition: border-color var(--transition-fast);
+  }
+
+  .salary-period:hover {
+    border-color: var(--color-navy);
+  }
+
+  .period-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-4);
+  }
+
+  .period-number {
+    font-weight: var(--font-bold);
+    color: var(--color-navy);
+    font-size: var(--text-base);
+  }
+
+  .btn-remove {
+    background: transparent;
+    border: none;
+    color: var(--color-gray-500);
+    cursor: pointer;
+    padding: var(--space-2);
+    font-size: var(--text-lg);
+    transition: color var(--transition-fast);
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .btn-remove:hover {
+    color: #dc2626;
+  }
+
+  .period-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--space-3);
+  }
+
+  .form-group-compact {
+    margin-bottom: 0;
+  }
+
+  .form-label-sm {
+    display: block;
+    font-size: var(--text-xs);
+    font-weight: var(--font-semibold);
+    color: var(--color-gray-700);
+    margin-bottom: var(--space-1);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .form-input-sm {
+    width: 100%;
+    padding: var(--space-3);
+    border: 1px solid var(--color-gray-300);
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    transition: border-color var(--transition-fast);
+  }
+
+  .form-input-sm:focus {
+    outline: none;
+    border-color: var(--color-navy);
+    box-shadow: 0 0 0 2px rgba(10, 37, 64, 0.1);
+  }
+
+  .input-wrapper-sm {
+    position: relative;
+  }
+
+  .input-prefix-sm {
+    position: absolute;
+    left: var(--space-3);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-gray-500);
+    font-weight: var(--font-medium);
+    font-size: 14px;
+  }
+
+  .input-wrapper-sm .form-input-sm {
+    padding-left: var(--space-6);
+  }
+
+  /* Period Actions */
+  .period-actions {
+    display: flex;
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+  }
+
+  .calculate-btn {
+    width: 100%;
+    min-height: 56px;
+    font-size: var(--text-lg);
+    margin-top: var(--space-6);
+  }
+
+  /* Results */
+  .calculator__result {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    background: var(--color-gray-50);
+    padding: var(--space-6);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-gray-200);
+  }
+
+  .result-card {
+    background: var(--color-white);
+    padding: var(--space-6);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .result-card--highlight {
+    background: linear-gradient(135deg, var(--color-gold-light) 0%, var(--color-gold) 100%);
+    color: var(--color-navy);
+  }
+
+  .result-label {
+    font-size: var(--text-sm);
+    color: var(--color-gray-600);
+    font-weight: var(--font-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .result-card--highlight .result-label {
+    color: var(--color-navy);
+    opacity: 0.8;
+  }
+
+  .result-value {
+    font-family: var(--font-heading);
+    font-size: var(--text-3xl);
+    font-weight: var(--font-bold);
+    color: var(--color-navy);
+  }
+
+  /* Calculation Breakdown */
+  .calculation-breakdown {
+    background: var(--color-white);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-gray-200);
+    overflow: hidden;
+  }
+
+  .breakdown-summary {
+    padding: var(--space-4);
+    font-weight: var(--font-semibold);
+    color: var(--color-navy);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    transition: background-color var(--transition-fast);
+  }
+
+  .breakdown-summary:hover {
+    background: var(--color-gray-50);
+  }
+
+  .breakdown-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .breakdown-summary::before {
+    content: "▶";
+    display: inline-block;
+    margin-right: var(--space-2);
+    transition: transform var(--transition-fast);
+  }
+
+  details[open] .breakdown-summary::before {
+    transform: rotate(90deg);
+  }
+
+  .breakdown-content {
+    padding: var(--space-4);
+    border-top: 1px solid var(--color-gray-200);
+  }
+
+  .breakdown-item {
+    padding: var(--space-3);
+    background: var(--color-gray-50);
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--space-2);
+    font-size: var(--text-sm);
+  }
+
+  .breakdown-item strong {
+    color: var(--color-navy);
+  }
+
+  /* Educational Note */
+  .calculator__note {
+    margin-top: var(--space-8);
+    padding: var(--space-6);
+    background: rgba(201, 165, 92, 0.1);
+    border-radius: var(--radius-lg);
+    border-left: 4px solid var(--color-gold);
+  }
+
+  .calculator__note h3 {
+    color: var(--color-navy);
+    margin-bottom: var(--space-3);
+  }
+
+  .calculator__note p,
+  .calculator__note li {
+    font-size: var(--text-sm);
+    color: var(--color-gray-700);
+    line-height: 1.6;
+  }
+
+  /* Mobile Responsiveness */
+  @media (max-width: 1024px) {
+    .period-fields {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .page-hero {
+      padding: var(--space-16) 0 var(--space-12);
+    }
+
+    .calculator__grid {
+      grid-template-columns: 1fr;
+      padding: var(--space-6);
+      gap: var(--space-6);
+    }
+
+    .calculate-btn {
+      position: sticky;
+      bottom: var(--space-4);
+      z-index: 10;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .result-value {
+      font-size: var(--text-2xl);
+    }
+
+    .period-fields {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Print Styles */
+  @media print {
+    .no-print,
+    .calculator__form,
+    .page-hero .eyebrow,
+    .calculator__header,
+    .section--navy,
+    .breakdown-summary {
+      display: none !important;
+    }
+
+    details[open] .breakdown-content {
+      display: block !important;
+    }
+
+    .calculator__grid {
+      display: block;
+      box-shadow: none;
+    }
+
+    .calculator__result {
+      width: 100%;
+      border: 2px solid var(--color-navy);
+    }
+  }
+</style>
+
+<script is:inline>
+  let periodCount = 1;
+  const MAX_PERIODS = 4;
+
+  function formatCurrency(num) {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 0
+    }).format(num);
+  }
+
+  function formatDate(date) {
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+  }
+
+  function calculateMonthsOfService(startDate, endDate) {
+    const yearDiff = endDate.getFullYear() - startDate.getFullYear();
+    const monthDiff = endDate.getMonth() - startDate.getMonth();
+    const dayDiff = endDate.getDate() - startDate.getDate();
+
+    let totalMonths = yearDiff * 12 + monthDiff;
+    if (dayDiff > 0) {
+      totalMonths += dayDiff / 30;
+    }
+
+    return totalMonths;
+  }
+
+  function maxDate(date1, date2) {
+    return date1 > date2 ? date1 : date2;
+  }
+
+  function minDate(date1, date2) {
+    return date1 < date2 ? date1 : date2;
+  }
+
+  function addPeriod() {
+    if (periodCount >= MAX_PERIODS) {
+      alert(`Maximum of ${MAX_PERIODS} salary periods allowed.`);
+      return;
+    }
+
+    periodCount++;
+    const container = document.getElementById('salary-periods-container');
+
+    const periodDiv = document.createElement('div');
+    periodDiv.className = 'salary-period';
+    periodDiv.setAttribute('data-period', periodCount);
+    periodDiv.innerHTML = `
+      <div class="period-header">
+        <span class="period-number">Period ${periodCount}</span>
+        <button type="button" class="btn-remove" onclick="removePeriod(${periodCount})" aria-label="Remove period ${periodCount}">
+          ✕
+        </button>
+      </div>
+      <div class="period-fields">
+        <div class="form-group-compact">
+          <label class="form-label-sm" for="period${periodCount}-start">Start Date</label>
+          <input type="date" id="period${periodCount}-start" class="form-input-sm period-start" data-period="${periodCount}" />
+        </div>
+        <div class="form-group-compact">
+          <label class="form-label-sm" for="period${periodCount}-end">End Date</label>
+          <input type="date" id="period${periodCount}-end" class="form-input-sm period-end" data-period="${periodCount}" />
+        </div>
+        <div class="form-group-compact">
+          <label class="form-label-sm" for="period${periodCount}-salary">Annual Salary</label>
+          <div class="input-wrapper-sm">
+            <span class="input-prefix-sm">$</span>
+            <input type="number" id="period${periodCount}-salary" class="form-input-sm period-salary" data-period="${periodCount}" placeholder="100000" inputmode="decimal" />
+          </div>
+        </div>
+      </div>
+    `;
+
+    container.appendChild(periodDiv);
+  }
+
+  function removePeriod(periodNum) {
+    const periodDiv = document.querySelector(`.salary-period[data-period="${periodNum}"]`);
+    if (periodDiv) {
+      periodDiv.remove();
+    }
+  }
+
+  function calculateHigh3() {
+    const retirementDateInput = document.getElementById('high3-retirement-date').value;
+
+    if (!retirementDateInput) {
+      alert('Please enter a retirement date.');
+      return;
+    }
+
+    const retirementDate = new Date(retirementDateInput);
+
+    // Get all salary periods
+    const periods = [];
+    const periodElements = document.querySelectorAll('.salary-period');
+
+    periodElements.forEach(periodEl => {
+      const periodNum = periodEl.getAttribute('data-period');
+      const startInput = document.getElementById(`period${periodNum}-start`).value;
+      const endInput = document.getElementById(`period${periodNum}-end`).value;
+      const salaryInput = parseFloat(document.getElementById(`period${periodNum}-salary`).value) || 0;
+
+      if (startInput && endInput && salaryInput > 0) {
+        const startDate = new Date(startInput);
+        const endDate = new Date(endInput);
+
+        if (startDate >= endDate) {
+          alert(`Period ${periodNum}: Start date must be before end date.`);
+          return;
+        }
+
+        periods.push({
+          periodNum,
+          startDate,
+          endDate,
+          salary: salaryInput
+        });
+      }
+    });
+
+    if (periods.length === 0) {
+      alert('Please enter at least one complete salary period.');
+      return;
+    }
+
+    // Calculate 36-month window
+    const windowEnd = retirementDate;
+    const windowStart = new Date(retirementDate);
+    windowStart.setMonth(windowStart.getMonth() - 36);
+
+    // Calculate weighted average
+    let totalWeightedSalary = 0;
+    let totalMonths = 0;
+    const breakdown = [];
+
+    periods.forEach(period => {
+      const overlapStart = maxDate(period.startDate, windowStart);
+      const overlapEnd = minDate(period.endDate, windowEnd);
+
+      if (overlapStart < overlapEnd) {
+        const monthsInWindow = calculateMonthsOfService(overlapStart, overlapEnd);
+        const contribution = period.salary * monthsInWindow;
+        totalWeightedSalary += contribution;
+        totalMonths += monthsInWindow;
+
+        breakdown.push({
+          period: period.periodNum,
+          startDate: period.startDate,
+          endDate: period.endDate,
+          salary: period.salary,
+          monthsInWindow: monthsInWindow,
+          contribution: contribution
+        });
+      }
+    });
+
+    const high3Average = totalMonths > 0 ? totalWeightedSalary / totalMonths : 0;
+
+    // Update display
+    document.getElementById('high3-average').textContent = formatCurrency(high3Average);
+    document.getElementById('window-range').textContent =
+      `${formatDate(windowStart)} - ${formatDate(windowEnd)}`;
+    document.getElementById('periods-analyzed').textContent =
+      `${breakdown.length} period${breakdown.length !== 1 ? 's' : ''}`;
+
+    // Update breakdown
+    const breakdownList = document.getElementById('breakdown-list');
+    breakdownList.innerHTML = breakdown.map(item => `
+      <div class="breakdown-item">
+        <strong>Period ${item.period}:</strong> ${formatCurrency(item.salary)}<br>
+        ${formatDate(item.startDate)} - ${formatDate(item.endDate)}<br>
+        <span style="color: var(--color-gold);">${item.monthsInWindow.toFixed(1)} months in window</span><br>
+        Contribution: ${formatCurrency(item.contribution / item.monthsInWindow)} × ${item.monthsInWindow.toFixed(1)} months
+      </div>
+    `).join('');
+  }
+
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    // Set default retirement date (today + 1 year)
+    const defaultRetirement = new Date();
+    defaultRetirement.setFullYear(defaultRetirement.getFullYear() + 1);
+    document.getElementById('high3-retirement-date').value = defaultRetirement.toISOString().split('T')[0];
+
+    // Set default Period 1 dates and salary
+    const period1End = new Date();
+    period1End.setFullYear(period1End.getFullYear() + 1);
+    const period1Start = new Date(period1End);
+    period1Start.setFullYear(period1Start.getFullYear() - 3);
+
+    document.getElementById('period1-start').value = period1Start.toISOString().split('T')[0];
+    document.getElementById('period1-end').value = period1End.toISOString().split('T')[0];
+    document.getElementById('period1-salary').value = '100000';
+
+    // Run initial calculation
+    calculateHigh3();
+  });
+</script>

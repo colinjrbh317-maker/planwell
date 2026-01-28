@@ -4,7 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 <BaseLayout
   title="FERS Pension Calculator | Calculate Your Federal Retirement Annuity"
-  description="Calculate your estimated FERS Basic Annuity. See how your High-3 salary and years of service impact your federal pension."
+  description="Calculate your estimated FERS Basic Annuity including sick leave and military service credit. See how your High-3 salary and total years of service impact your federal pension."
 >
   <!-- Hero -->
   <section class="page-hero">
@@ -12,7 +12,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <span class="eyebrow">FERS Retirement Tools</span>
       <h1 class="heading-xl">FERS Pension Calculator</h1>
       <p class="lead max-w-3xl">
-        Estimate your FERS Basic Annuity based on your High-3 Average Salary and years of creditable service.
+        Estimate your FERS Basic Annuity including sick leave and military service credit.
       </p>
     </div>
   </section>
@@ -27,15 +27,30 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
         <div class="calculator__grid">
           <div class="calculator__form">
+            <!-- Retirement Type -->
+            <div class="form-group">
+              <label class="form-label" for="fers-retirement-type">Retirement Type</label>
+              <select id="fers-retirement-type" class="form-input" onchange="updateEligibility()">
+                <option value="normal">Normal Retirement (MRA+30, 60+20, 62+5)</option>
+                <option value="vera">VERA/Early Retirement</option>
+              </select>
+              <span class="form-hint">Select your retirement category.</span>
+            </div>
+
+            <!-- High-3 with calculator link -->
             <div class="form-group">
               <label class="form-label" for="fers-high3">High-3 Average Salary ($)</label>
               <div class="input-wrapper">
                 <span class="input-prefix">$</span>
-                <input type="number" id="fers-high3" class="form-input" placeholder="e.g., 100000" value="100000" />
+                <input type="number" id="fers-high3" class="form-input" placeholder="e.g., 100000" value="100000" inputmode="decimal" />
               </div>
-              <span class="form-hint">Your highest 3 consecutive years of basic pay (including locality pay).</span>
+              <span class="form-hint">
+                Your highest 3 consecutive years of basic pay.
+                <a href="/high-3-calculator" class="calculator-link">Calculate My High-3 →</a>
+              </span>
             </div>
 
+            <!-- Dates -->
             <div class="form-group">
               <label class="form-label" for="fers-birthdate">Date of Birth</label>
               <input type="date" id="fers-birthdate" class="form-input" />
@@ -43,9 +58,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="fers-start-date">Federal Service Start Date</label>
-              <input type="date" id="fers-start-date" class="form-input" />
-              <span class="form-hint">When you began your creditable federal service.</span>
+              <label class="form-label" for="fers-scd">Service Calculation Date (SCD)</label>
+              <input type="date" id="fers-scd" class="form-input" />
+              <span class="form-hint">Your official federal service start date (may differ from hire date).</span>
             </div>
 
             <div class="form-group">
@@ -54,24 +69,69 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               <span class="form-hint">The date you plan to retire.</span>
             </div>
 
+            <!-- Sick Leave with calculator link -->
+            <div class="form-group">
+              <label class="form-label" for="fers-sick-leave">Unused Sick Leave (Hours)</label>
+              <input type="number" id="fers-sick-leave" class="form-input" placeholder="e.g., 2087" value="0" min="0" inputmode="numeric" />
+              <span class="form-hint">
+                Total unused sick leave hours at retirement.
+                <a href="/sick-leave-conversion-calculator" class="calculator-link">Convert My Sick Leave →</a>
+              </span>
+            </div>
+
+            <!-- Military Service -->
+            <div class="form-group">
+              <label class="form-label">Military Leave Brought Back Time</label>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3);">
+                <div>
+                  <label class="form-label-sm" for="fers-military-years">Years</label>
+                  <input type="number" id="fers-military-years" class="form-input" placeholder="0" value="0" min="0" inputmode="numeric" />
+                </div>
+                <div>
+                  <label class="form-label-sm" for="fers-military-months">Months</label>
+                  <input type="number" id="fers-military-months" class="form-input" placeholder="0" value="0" min="0" max="11" inputmode="numeric" />
+                </div>
+              </div>
+              <span class="form-hint">Military service time purchased back for FERS credit.</span>
+            </div>
+
+            <!-- Calculated Values -->
             <div class="calculated-values">
               <div class="calculated-item">
                 <span class="calculated-label">Age at Retirement:</span>
                 <span class="calculated-value" id="fers-calc-age">--</span>
               </div>
               <div class="calculated-item">
-                <span class="calculated-label">Years of Service:</span>
+                <span class="calculated-label">Base Service:</span>
                 <span class="calculated-value" id="fers-calc-years">--</span>
+              </div>
+              <div class="calculated-item">
+                <span class="calculated-label">Sick Leave Credit:</span>
+                <span class="calculated-value" id="fers-sick-credit">--</span>
+              </div>
+              <div class="calculated-item">
+                <span class="calculated-label">Total Service:</span>
+                <span class="calculated-value" id="fers-total-years">--</span>
               </div>
             </div>
 
-            <button type="button" class="btn btn--primary btn--lg" style="width: 100%;" onclick="calculateFERS()">
+            <!-- Eligibility Status -->
+            <div class="eligibility-status" id="eligibility-status">
+              <span class="eligibility-icon">ℹ️</span>
+              <span class="eligibility-text" id="eligibility-text">Enter your details to check eligibility.</span>
+            </div>
+
+            <button type="button" class="btn btn--primary btn--lg calculate-btn" onclick="calculateFERS()">
               Calculate My Pension
+            </button>
+
+            <button type="button" class="btn btn--ghost no-print" onclick="window.print()" style="width: 100%; margin-top: var(--space-3);">
+              🖨️ Print Results
             </button>
           </div>
 
           <div class="calculator__result" id="fers-result">
-            <div class="result-card">
+            <div class="result-card result-card--highlight">
               <span class="result-label">Estimated Annual Pension</span>
               <span class="result-value" id="fers-annual">$33,000</span>
             </div>
@@ -83,19 +143,63 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               <span class="result-label">Multiplier Applied</span>
               <span class="result-value" id="fers-multiplier">1.1%</span>
             </div>
+
+            <!-- Calculation Breakdown -->
+            <details class="calculation-breakdown">
+              <summary class="breakdown-summary">View Calculation Details</summary>
+              <div class="breakdown-content" id="breakdown-content">
+                <div class="breakdown-item">
+                  <strong>Base Service:</strong> <span id="breakdown-base">--</span>
+                </div>
+                <div class="breakdown-item">
+                  <strong>Sick Leave Credit:</strong> <span id="breakdown-sick">--</span>
+                </div>
+                <div class="breakdown-item">
+                  <strong>Military Service:</strong> <span id="breakdown-military">--</span>
+                </div>
+                <div class="breakdown-item">
+                  <strong>Total Creditable Service:</strong> <span id="breakdown-total">--</span>
+                </div>
+                <hr style="margin: var(--space-3) 0; border-color: var(--color-gray-300);" />
+                <div class="breakdown-item">
+                  <strong>Formula:</strong> High-3 × Total Years × Multiplier
+                </div>
+                <div class="breakdown-item">
+                  <span id="breakdown-formula">--</span>
+                </div>
+              </div>
+            </details>
+
             <div class="result-summary">
-              <p>Based on retiring at age <span id="summary-age">62</span> with <span id="summary-years">30</span> years of service.</p>
+              <p>Based on retiring at age <span id="summary-age">62</span> with <span id="summary-years">30</span> years of total service.</p>
             </div>
+
+            <!-- Supplement Link -->
+            <a href="/special-retirement-supplement-calculator" class="btn btn--secondary" style="width: 100%; text-align: center;">
+              Calculate My Supplement →
+            </a>
           </div>
         </div>
 
         <div class="calculator__note">
-          <h3 class="font-bold text-navy mb-2">Understanding the 1.1% Multiplier</h3>
-          <p class="mb-2">Most FERS employees receive 1.0% of their High-3 for every year of service. However, if you retire at <strong>age 62 or older</strong> with at least <strong>20 years of service</strong>, your multiplier increases to <strong>1.1%</strong>. This 10% bonus is permanent for the life of your pension.</p>
+          <h3 class="font-bold text-navy mb-2">Understanding Your FERS Pension</h3>
+          <p class="mb-2">Your FERS pension is calculated using the formula: <strong>High-3 × Years of Service × Multiplier</strong></p>
+
+          <p class="mb-2"><strong>Multiplier Rates:</strong></p>
+          <ul style="margin-left: var(--space-6); margin-bottom: var(--space-4); list-style: disc;">
+            <li><strong>1.0%</strong> - Standard rate for most employees</li>
+            <li><strong>1.1%</strong> - Enhanced rate if you retire at age 62+ with 20+ years of service</li>
+          </ul>
+
+          <p class="mb-2"><strong>Service Credit Additions:</strong></p>
+          <ul style="margin-left: var(--space-6); margin-bottom: var(--space-4); list-style: disc;">
+            <li><strong>Unused Sick Leave:</strong> Automatically converts to additional service credit (days rounded up to months)</li>
+            <li><strong>Military Service:</strong> If you purchased back (bought back) your military time, it adds to your service years</li>
+          </ul>
 
           <hr class="my-4 border-gray-200" />
 
-          <p class="text-sm"><strong>Note:</strong> This estimate does not include deductions for survivor benefits, FEHB premiums, or taxes. It also assumes you are eligible for an immediate, unreduced annuity.</p>
+          <p class="text-sm"><strong>Note:</strong> This estimate does not include deductions for survivor benefits, FEHB premiums, or taxes. It assumes you are eligible for an immediate, unreduced annuity.</p>
         </div>
       </div>
     </div>
@@ -149,7 +253,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
 
   .calculator {
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
   }
 
@@ -178,6 +282,24 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     margin-bottom: var(--space-6);
   }
 
+  .form-label {
+    display: block;
+    font-weight: var(--font-semibold);
+    color: var(--color-navy);
+    margin-bottom: var(--space-2);
+    font-size: var(--text-base);
+  }
+
+  .form-label-sm {
+    display: block;
+    font-size: var(--text-xs);
+    font-weight: var(--font-semibold);
+    color: var(--color-gray-700);
+    margin-bottom: var(--space-1);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
   .input-wrapper {
     position: relative;
   }
@@ -191,21 +313,21 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     font-weight: var(--font-medium);
   }
 
-  .form-input {
+  .form-input, select.form-input {
     width: 100%;
-    padding: var(--space-3) var(--space-4);
-    padding-left: var(--space-4); /* Default padding */
+    padding: var(--space-4);
     border: 1px solid var(--color-gray-300);
     border-radius: var(--radius-md);
-    font-size: var(--text-base);
+    font-size: 16px;
     transition: border-color var(--transition-fast);
+    background: white;
   }
 
   .input-wrapper .form-input {
     padding-left: var(--space-8);
   }
 
-  .form-input:focus {
+  .form-input:focus, select.form-input:focus {
     outline: none;
     border-color: var(--color-navy);
     box-shadow: 0 0 0 3px rgba(10, 37, 64, 0.1);
@@ -213,11 +335,98 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   .form-hint {
     display: block;
-    font-size: var(--text-xs);
+    font-size: var(--text-sm);
     color: var(--color-gray-500);
     margin-top: var(--space-2);
+    line-height: 1.5;
   }
 
+  .calculator-link {
+    color: var(--color-navy);
+    font-weight: var(--font-semibold);
+    text-decoration: underline;
+    transition: color var(--transition-fast);
+  }
+
+  .calculator-link:hover {
+    color: var(--color-gold);
+  }
+
+  /* Calculated Values */
+  .calculated-values {
+    background: var(--color-gray-100);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    margin-bottom: var(--space-4);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+  }
+
+  .calculated-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .calculated-label {
+    font-size: var(--text-xs);
+    color: var(--color-gray-500);
+    font-weight: var(--font-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .calculated-value {
+    font-family: var(--font-heading);
+    font-size: var(--text-base);
+    font-weight: var(--font-bold);
+    color: var(--color-navy);
+  }
+
+  /* Eligibility Status */
+  .eligibility-status {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background: var(--color-gray-100);
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--color-gray-400);
+    margin-bottom: var(--space-6);
+    transition: all var(--transition-fast);
+  }
+
+  .eligibility-status.eligible {
+    background: rgba(34, 197, 94, 0.1);
+    border-left-color: #22c55e;
+  }
+
+  .eligibility-status.not-eligible {
+    background: rgba(239, 68, 68, 0.1);
+    border-left-color: #ef4444;
+  }
+
+  .eligibility-icon {
+    font-size: var(--text-2xl);
+    flex-shrink: 0;
+  }
+
+  .eligibility-text {
+    font-size: var(--text-sm);
+    color: var(--color-gray-700);
+    font-weight: var(--font-medium);
+    line-height: 1.5;
+  }
+
+  /* Calculate Button */
+  .calculate-btn {
+    width: 100%;
+    min-height: 56px;
+    font-size: var(--text-lg);
+  }
+
+  /* Results */
   .calculator__result {
     display: flex;
     flex-direction: column;
@@ -234,8 +443,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     border-radius: var(--radius-md);
     display: flex;
     flex-direction: column;
-    gap: var(--space-1);
+    gap: var(--space-2);
     box-shadow: var(--shadow-sm);
+  }
+
+  .result-card--highlight {
+    background: linear-gradient(135deg, var(--color-gold-light) 0%, var(--color-gold) 100%);
+    color: var(--color-navy);
   }
 
   .result-card--note {
@@ -247,15 +461,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     font-size: var(--text-sm);
     color: var(--color-gray-600);
     font-weight: var(--font-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
+  .result-card--highlight .result-label,
   .result-card--note .result-label {
     color: var(--color-gray-300);
   }
 
   .result-value {
     font-family: var(--font-heading);
-    font-size: var(--text-2xl);
+    font-size: var(--text-3xl);
     font-weight: var(--font-bold);
     color: var(--color-navy);
   }
@@ -264,13 +481,72 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     color: var(--color-white);
   }
 
-  .result-summary {
-    font-size: var(--text-sm);
-    color: var(--color-gray-500);
-    text-align: center;
-    margin-top: var(--space-2);
+  /* Calculation Breakdown */
+  .calculation-breakdown {
+    background: var(--color-white);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-gray-200);
+    overflow: hidden;
   }
 
+  .breakdown-summary {
+    padding: var(--space-4);
+    font-weight: var(--font-semibold);
+    color: var(--color-navy);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    transition: background-color var(--transition-fast);
+  }
+
+  .breakdown-summary:hover {
+    background: var(--color-gray-50);
+  }
+
+  .breakdown-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .breakdown-summary::before {
+    content: "▶";
+    display: inline-block;
+    margin-right: var(--space-2);
+    transition: transform var(--transition-fast);
+  }
+
+  details[open] .breakdown-summary::before {
+    transform: rotate(90deg);
+  }
+
+  .breakdown-content {
+    padding: var(--space-4);
+    border-top: 1px solid var(--color-gray-200);
+  }
+
+  .breakdown-item {
+    padding: var(--space-2) 0;
+    font-size: var(--text-sm);
+    color: var(--color-gray-700);
+  }
+
+  .breakdown-item strong {
+    color: var(--color-navy);
+  }
+
+  .result-summary {
+    font-size: var(--text-sm);
+    color: var(--color-gray-600);
+    padding: var(--space-4);
+    background: var(--color-white);
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--color-gold);
+  }
+
+  .result-summary strong {
+    color: var(--color-navy);
+  }
+
+  /* Educational Note */
   .calculator__note {
     margin-top: var(--space-8);
     padding: var(--space-6);
@@ -283,49 +559,65 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     color: var(--color-navy);
   }
 
-  .calculator__note p {
+  .calculator__note p,
+  .calculator__note li {
     font-size: var(--text-sm);
     color: var(--color-gray-700);
     line-height: 1.6;
   }
 
-  .calculated-values {
-    background: var(--color-gray-100);
-    border-radius: var(--radius-md);
-    padding: var(--space-4);
-    margin-bottom: var(--space-6);
-    display: flex;
-    gap: var(--space-6);
-  }
-
-  .calculated-item {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-1);
-  }
-
-  .calculated-label {
-    font-size: var(--text-xs);
-    color: var(--color-gray-500);
-    font-weight: var(--font-medium);
-  }
-
-  .calculated-value {
-    font-family: var(--font-heading);
-    font-size: var(--text-lg);
-    font-weight: var(--font-bold);
-    color: var(--color-navy);
-  }
-
+  /* Mobile Responsive */
   @media (max-width: 768px) {
+    .page-hero {
+      padding: var(--space-16) 0 var(--space-12);
+    }
+
     .calculator__grid {
       grid-template-columns: 1fr;
       padding: var(--space-6);
+      gap: var(--space-6);
     }
 
     .calculated-values {
-      flex-direction: column;
+      grid-template-columns: 1fr;
       gap: var(--space-3);
+    }
+
+    .calculate-btn {
+      position: sticky;
+      bottom: var(--space-4);
+      z-index: 10;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .result-value {
+      font-size: var(--text-2xl);
+    }
+  }
+
+  /* Print Styles */
+  @media print {
+    .no-print,
+    .calculator__form,
+    .page-hero .eyebrow,
+    .calculator__header,
+    .section--navy,
+    .breakdown-summary {
+      display: none !important;
+    }
+
+    details[open] .breakdown-content {
+      display: block !important;
+    }
+
+    .calculator__grid {
+      display: block;
+      box-shadow: none;
+    }
+
+    .calculator__result {
+      width: 100%;
+      border: 2px solid var(--color-navy);
     }
   }
 </style>
@@ -337,6 +629,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       currency: 'USD',
       maximumFractionDigits: 0
     }).format(num);
+  }
+
+  function formatServiceTime(years, months) {
+    if (months === undefined || months === 0) {
+      return `${years} year${years !== 1 ? 's' : ''}`;
+    }
+    const yearText = years > 0 ? `${years} year${years !== 1 ? 's' : ''}` : '';
+    const monthText = `${months} month${months !== 1 ? 's' : ''}`;
+    if (years === 0) return monthText;
+    return `${yearText}, ${monthText}`;
   }
 
   function calculateAge(birthDate, targetDate) {
@@ -355,40 +657,184 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     return Math.round(years * 2) / 2; // Round to nearest 0.5
   }
 
-  function updateCalculatedValues() {
+  function convertSickLeave(hours) {
+    if (hours <= 0) return { years: 0, months: 0, totalMonths: 0 };
+
+    // 2,087 hours = 1 work year
+    const fullYears = Math.floor(hours / 2087);
+    const remainingHours = hours % 2087;
+
+    // Approximate: ~174 hours per month
+    const remainingMonths = Math.floor(remainingHours / 174);
+    const remainingDays = Math.ceil((remainingHours % 174) / 6);
+
+    // Round days UP to next month
+    let months = remainingMonths;
+    if (remainingDays > 0) {
+      months += 1;
+    }
+
+    const additionalYears = Math.floor(months / 12);
+    const finalMonths = months % 12;
+    const totalYears = fullYears + additionalYears;
+    const totalMonthsForPension = fullYears * 12 + months;
+
+    return {
+      years: totalYears,
+      months: finalMonths,
+      totalMonths: totalMonthsForPension
+    };
+  }
+
+  function validateEligibility(retirementType, age, years) {
+    if (age === null || years === null) {
+      return {
+        eligible: null,
+        message: 'Enter your details to check eligibility.'
+      };
+    }
+
+    if (retirementType === 'normal') {
+      if (age >= 57 && years >= 30) {
+        return { eligible: true, message: '✓ Eligible: Age 57+ with 30 years of service (MRA)' };
+      }
+      if (age >= 60 && years >= 20) {
+        return { eligible: true, message: '✓ Eligible: Age 60+ with 20 years of service' };
+      }
+      if (age >= 62 && years >= 5) {
+        return { eligible: true, message: '✓ Eligible: Age 62+ with 5 years of service' };
+      }
+      return {
+        eligible: false,
+        message: '✗ Not eligible for Normal Retirement. Requirements: Age 57+ with 30 years, OR Age 60+ with 20 years, OR Age 62+ with 5 years.'
+      };
+    } else {
+      // VERA
+      if (years >= 25) {
+        return { eligible: true, message: '✓ Eligible: 25+ years of service (VERA)' };
+      }
+      if (age >= 50 && years >= 20) {
+        return { eligible: true, message: '✓ Eligible: Age 50+ with 20 years of service (VERA)' };
+      }
+      return {
+        eligible: false,
+        message: '✗ Not eligible for VERA/Early Retirement. Requirements: 25+ years OR Age 50+ with 20 years.'
+      };
+    }
+  }
+
+  function updateEligibility() {
+    const data = getFormData();
+    const result = validateEligibility(data.retirementType, data.age, data.totalYears);
+
+    const statusEl = document.getElementById('eligibility-status');
+    const textEl = document.getElementById('eligibility-text');
+
+    statusEl.className = 'eligibility-status';
+    if (result.eligible === true) {
+      statusEl.classList.add('eligible');
+      statusEl.querySelector('.eligibility-icon').textContent = '✓';
+    } else if (result.eligible === false) {
+      statusEl.classList.add('not-eligible');
+      statusEl.querySelector('.eligibility-icon').textContent = '✗';
+    } else {
+      statusEl.querySelector('.eligibility-icon').textContent = 'ℹ️';
+    }
+
+    textEl.textContent = result.message;
+  }
+
+  function getFormData() {
+    const retirementType = document.getElementById('fers-retirement-type').value;
+    const high3 = parseFloat(document.getElementById('fers-high3').value) || 0;
+    const sickLeaveHours = parseFloat(document.getElementById('fers-sick-leave').value) || 0;
+    const militaryYears = parseFloat(document.getElementById('fers-military-years').value) || 0;
+    const militaryMonths = parseFloat(document.getElementById('fers-military-months').value) || 0;
+
     const birthdateInput = document.getElementById('fers-birthdate').value;
-    const startDateInput = document.getElementById('fers-start-date').value;
+    const scdInput = document.getElementById('fers-scd').value;
     const retirementDateInput = document.getElementById('fers-retirement-date').value;
 
     let age = null;
-    let years = null;
+    let baseYears = null;
+    let totalYears = null;
 
     if (birthdateInput && retirementDateInput) {
       const birthDate = new Date(birthdateInput);
       const retirementDate = new Date(retirementDateInput);
       age = calculateAge(birthDate, retirementDate);
-      document.getElementById('fers-calc-age').textContent = age + ' years';
+    }
+
+    if (scdInput && retirementDateInput) {
+      const scd = new Date(scdInput);
+      const retirementDate = new Date(retirementDateInput);
+      baseYears = calculateYearsOfService(scd, retirementDate);
+
+      // Add sick leave credit
+      const sickCredit = convertSickLeave(sickLeaveHours);
+      const sickLeaveYears = sickCredit.totalMonths / 12;
+
+      // Add military time
+      const militaryTime = militaryYears + (militaryMonths / 12);
+
+      totalYears = baseYears + sickLeaveYears + militaryTime;
+      totalYears = Math.round(totalYears * 2) / 2; // Round to nearest 0.5
+    }
+
+    return {
+      retirementType,
+      high3,
+      age,
+      baseYears,
+      sickLeaveHours,
+      militaryYears,
+      militaryMonths,
+      totalYears
+    };
+  }
+
+  function updateCalculatedValues() {
+    const data = getFormData();
+    const sickCredit = convertSickLeave(data.sickLeaveHours);
+
+    // Display age
+    if (data.age !== null) {
+      document.getElementById('fers-calc-age').textContent = data.age + ' years';
     } else {
       document.getElementById('fers-calc-age').textContent = '--';
     }
 
-    if (startDateInput && retirementDateInput) {
-      const startDate = new Date(startDateInput);
-      const retirementDate = new Date(retirementDateInput);
-      years = calculateYearsOfService(startDate, retirementDate);
-      document.getElementById('fers-calc-years').textContent = years + ' years';
+    // Display base years
+    if (data.baseYears !== null) {
+      document.getElementById('fers-calc-years').textContent = data.baseYears + ' years';
     } else {
       document.getElementById('fers-calc-years').textContent = '--';
     }
 
-    return { age, years };
+    // Display sick leave credit
+    if (sickCredit.years > 0 || sickCredit.months > 0) {
+      document.getElementById('fers-sick-credit').textContent = formatServiceTime(sickCredit.years, sickCredit.months);
+    } else {
+      document.getElementById('fers-sick-credit').textContent = 'None';
+    }
+
+    // Display total years
+    if (data.totalYears !== null) {
+      document.getElementById('fers-total-years').textContent = data.totalYears + ' years';
+    } else {
+      document.getElementById('fers-total-years').textContent = '--';
+    }
+
+    // Update eligibility
+    updateEligibility();
+
+    return data;
   }
 
   function calculateFERS() {
-    const high3 = parseFloat(document.getElementById('fers-high3').value) || 0;
-    const { age, years } = updateCalculatedValues();
+    const data = updateCalculatedValues();
 
-    if (age === null || years === null) {
+    if (data.age === null || data.totalYears === null) {
       document.getElementById('fers-annual').textContent = '--';
       document.getElementById('fers-monthly').textContent = '--';
       document.getElementById('fers-multiplier').textContent = '--';
@@ -399,22 +845,34 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
     // FERS multiplier: 1% for most, 1.1% if retiring at 62+ with 20+ years
     let multiplier = 0.01;
-    if (age >= 62 && years >= 20) {
+    if (data.age >= 62 && data.totalYears >= 20) {
       multiplier = 0.011;
     }
 
-    const annualPension = high3 * years * multiplier;
+    const annualPension = data.high3 * data.totalYears * multiplier;
     const monthlyPension = annualPension / 12;
 
+    // Update results
     document.getElementById('fers-annual').textContent = formatCurrency(annualPension);
     document.getElementById('fers-monthly').textContent = formatCurrency(monthlyPension);
     document.getElementById('fers-multiplier').textContent = (multiplier * 100).toFixed(1) + '%';
+    document.getElementById('summary-age').textContent = data.age;
+    document.getElementById('summary-years').textContent = data.totalYears;
 
-    document.getElementById('summary-age').textContent = age;
-    document.getElementById('summary-years').textContent = years;
+    // Update breakdown
+    const sickCredit = convertSickLeave(data.sickLeaveHours);
+    const sickLeaveYears = sickCredit.totalMonths / 12;
+    const militaryTime = data.militaryYears + (data.militaryMonths / 12);
+
+    document.getElementById('breakdown-base').textContent = data.baseYears ? data.baseYears + ' years' : '--';
+    document.getElementById('breakdown-sick').textContent = sickLeaveYears > 0 ? sickLeaveYears.toFixed(2) + ' years' : 'None';
+    document.getElementById('breakdown-military').textContent = militaryTime > 0 ? militaryTime.toFixed(2) + ' years' : 'None';
+    document.getElementById('breakdown-total').textContent = data.totalYears + ' years';
+    document.getElementById('breakdown-formula').textContent =
+      `${formatCurrency(data.high3)} × ${data.totalYears} × ${(multiplier * 100).toFixed(1)}% = ${formatCurrency(annualPension)}`;
   }
 
-  // Set default dates and add event listeners
+  // Initialize on page load
   document.addEventListener('DOMContentLoaded', function() {
     const today = new Date();
 
@@ -422,18 +880,22 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     const defaultBirthdate = new Date(today.getFullYear() - 62, today.getMonth(), today.getDate());
     document.getElementById('fers-birthdate').value = defaultBirthdate.toISOString().split('T')[0];
 
-    // Set default start date (30 years ago)
-    const defaultStartDate = new Date(today.getFullYear() - 30, today.getMonth(), today.getDate());
-    document.getElementById('fers-start-date').value = defaultStartDate.toISOString().split('T')[0];
+    // Set default SCD (30 years ago)
+    const defaultSCD = new Date(today.getFullYear() - 30, today.getMonth(), today.getDate());
+    document.getElementById('fers-scd').value = defaultSCD.toISOString().split('T')[0];
 
     // Set default retirement date (today)
     document.getElementById('fers-retirement-date').value = today.toISOString().split('T')[0];
 
     // Add event listeners for real-time updates
+    document.getElementById('fers-retirement-type').addEventListener('change', calculateFERS);
     document.getElementById('fers-birthdate').addEventListener('change', calculateFERS);
-    document.getElementById('fers-start-date').addEventListener('change', calculateFERS);
+    document.getElementById('fers-scd').addEventListener('change', calculateFERS);
     document.getElementById('fers-retirement-date').addEventListener('change', calculateFERS);
     document.getElementById('fers-high3').addEventListener('input', calculateFERS);
+    document.getElementById('fers-sick-leave').addEventListener('input', calculateFERS);
+    document.getElementById('fers-military-years').addEventListener('input', calculateFERS);
+    document.getElementById('fers-military-months').addEventListener('input', calculateFERS);
 
     // Run initial calculation
     calculateFERS();

@@ -1,0 +1,426 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Sick Leave Conversion Calculator | Convert Unused Sick Leave to Service Credit"
+  description="Convert your unused sick leave hours to service credit for your FERS pension. Official USGS conversion chart with automatic rounding per OPM guidelines."
+>
+  <!-- Hero -->
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">FERS Retirement Tools</span>
+      <h1 class="heading-xl">Sick Leave Conversion Calculator</h1>
+      <p class="lead max-w-3xl">
+        Convert your unused sick leave hours into additional service credit for your FERS pension calculation.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--gray">
+    <div class="container">
+      <div class="calculator" data-animate="fade-in-up">
+        <div class="calculator__header">
+          <h2 class="heading-md">Convert Your Sick Leave</h2>
+          <p>Enter your total unused sick leave hours to see your service credit.</p>
+        </div>
+
+        <div class="calculator__grid">
+          <div class="calculator__form">
+            <div class="form-group">
+              <label class="form-label" for="sickleave-hours">Total Unused Sick Leave (Hours)</label>
+              <input
+                type="number"
+                id="sickleave-hours"
+                class="form-input"
+                placeholder="e.g., 2087"
+                value="2087"
+                min="0"
+                step="1"
+                inputmode="numeric"
+              />
+              <span class="form-hint">Enter the total hours of unused sick leave you will have at retirement.</span>
+            </div>
+
+            <button type="button" class="btn btn--primary btn--lg calculate-btn" onclick="convertSickLeave()">
+              Convert Sick Leave
+            </button>
+
+            <button type="button" class="btn btn--ghost no-print" onclick="window.print()" style="width: 100%; margin-top: var(--space-3);">
+              🖨️ Print Results
+            </button>
+          </div>
+
+          <div class="calculator__result" id="sickleave-result">
+            <div class="result-card result-card--highlight">
+              <span class="result-label">Service Credit Added</span>
+              <span class="result-value" id="service-credit">1 year, 0 months</span>
+            </div>
+
+            <div class="result-card">
+              <span class="result-label">Total Months</span>
+              <span class="result-value" id="total-months">12 months</span>
+            </div>
+
+            <div class="result-summary" id="result-note">
+              <p><strong>Note:</strong> This converts to <span id="summary-text">12 months</span> of additional service credit for your FERS pension calculation.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="calculator__note">
+          <h3 class="font-bold text-navy mb-2">How Sick Leave Conversion Works</h3>
+          <p class="mb-2">Federal employees can convert unused sick leave hours into additional service credit when calculating their FERS pension. This conversion uses the official USGS conversion chart based on OPM guidelines.</p>
+
+          <ul style="margin-left: var(--space-6); margin-bottom: var(--space-4); list-style: disc;">
+            <li><strong>1 work year = 2,087 hours</strong></li>
+            <li><strong>1 sick leave day = 6 hours</strong></li>
+            <li><strong>Rounding rule:</strong> Days are automatically rounded UP to the next full month</li>
+            <li><strong>Only years and months count</strong> - days under 30 are rounded up to months</li>
+          </ul>
+
+          <p class="mb-2"><strong>Example:</strong> 441 hours of sick leave converts to 2 months and 16 days, which rounds up to 3 months of service credit.</p>
+
+          <hr class="my-4 border-gray-200" />
+
+          <p class="text-sm"><strong>Important:</strong> This calculator shows how sick leave adds to your years of service for pension calculations. It does NOT show the dollar value impact - use the <a href="/fers-retirement-calculator" class="text-navy underline">FERS Pension Calculator</a> to see how this affects your pension amount.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section section--navy text-center">
+    <div class="container">
+      <div data-animate="fade-in-up">
+        <h2 class="heading-lg">Ready to Calculate Your Full Pension?</h2>
+        <p class="lead" style="color: var(--color-gray-300); max-width: 36rem; margin: 0 auto var(--space-8);">
+          Now that you know your sick leave credit, use our FERS Pension Calculator to see your complete retirement benefit.
+        </p>
+        <div class="flex justify-center gap-4" style="flex-wrap: wrap;">
+          <a href="/fers-retirement-calculator" class="btn btn--white btn--lg">Calculate My Pension</a>
+          <a href="/calculators" class="btn btn--primary btn--lg">View All Calculators</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Hero Section */
+  .page-hero {
+    background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%);
+    color: var(--color-white);
+    padding: var(--space-20) 0 var(--space-16);
+    text-align: center;
+  }
+
+  .page-hero h1 {
+    color: var(--color-white);
+    margin-bottom: var(--space-4);
+  }
+
+  .page-hero .lead {
+    color: var(--color-gray-300);
+    margin: 0 auto;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-family: var(--font-heading);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-gold);
+    margin-bottom: var(--space-4);
+    font-size: var(--text-sm);
+  }
+
+  /* Calculator */
+  .calculator {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .calculator__header {
+    text-align: center;
+    margin-bottom: var(--space-8);
+  }
+
+  .calculator__header p {
+    color: var(--color-gray-600);
+    margin-top: var(--space-2);
+    font-size: var(--text-lg);
+  }
+
+  .calculator__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+    background: var(--color-white);
+    padding: var(--space-10);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .form-group {
+    margin-bottom: var(--space-6);
+  }
+
+  .form-label {
+    display: block;
+    font-weight: var(--font-semibold);
+    color: var(--color-navy);
+    margin-bottom: var(--space-2);
+    font-size: var(--text-base);
+  }
+
+  .form-input {
+    width: 100%;
+    padding: var(--space-4);
+    border: 1px solid var(--color-gray-300);
+    border-radius: var(--radius-md);
+    font-size: 16px; /* Prevents zoom on iOS */
+    transition: border-color var(--transition-fast);
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: var(--color-navy);
+    box-shadow: 0 0 0 3px rgba(10, 37, 64, 0.1);
+  }
+
+  .form-hint {
+    display: block;
+    font-size: var(--text-sm);
+    color: var(--color-gray-500);
+    margin-top: var(--space-2);
+    line-height: 1.5;
+  }
+
+  /* Calculate Button - Mobile Optimized */
+  .calculate-btn {
+    width: 100%;
+    min-height: 56px; /* Larger touch target for mobile */
+    font-size: var(--text-lg);
+  }
+
+  /* Results */
+  .calculator__result {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    background: var(--color-gray-50);
+    padding: var(--space-6);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-gray-200);
+  }
+
+  .result-card {
+    background: var(--color-white);
+    padding: var(--space-6);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .result-card--highlight {
+    background: linear-gradient(135deg, var(--color-gold-light) 0%, var(--color-gold) 100%);
+    color: var(--color-navy);
+  }
+
+  .result-label {
+    font-size: var(--text-sm);
+    color: var(--color-gray-600);
+    font-weight: var(--font-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .result-card--highlight .result-label {
+    color: var(--color-navy);
+    opacity: 0.8;
+  }
+
+  .result-value {
+    font-family: var(--font-heading);
+    font-size: var(--text-3xl);
+    font-weight: var(--font-bold);
+    color: var(--color-navy);
+  }
+
+  .result-summary {
+    font-size: var(--text-sm);
+    color: var(--color-gray-600);
+    padding: var(--space-4);
+    background: var(--color-white);
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--color-gold);
+  }
+
+  .result-summary strong {
+    color: var(--color-navy);
+  }
+
+  /* Educational Note */
+  .calculator__note {
+    margin-top: var(--space-8);
+    padding: var(--space-6);
+    background: rgba(201, 165, 92, 0.1);
+    border-radius: var(--radius-lg);
+    border-left: 4px solid var(--color-gold);
+  }
+
+  .calculator__note h3 {
+    color: var(--color-navy);
+    margin-bottom: var(--space-3);
+  }
+
+  .calculator__note p,
+  .calculator__note li {
+    font-size: var(--text-sm);
+    color: var(--color-gray-700);
+    line-height: 1.6;
+  }
+
+  .calculator__note ul {
+    margin: var(--space-4) 0;
+  }
+
+  .calculator__note li {
+    margin-bottom: var(--space-2);
+  }
+
+  /* Mobile Responsiveness */
+  @media (max-width: 768px) {
+    .page-hero {
+      padding: var(--space-16) 0 var(--space-12);
+    }
+
+    .calculator__grid {
+      grid-template-columns: 1fr;
+      padding: var(--space-6);
+      gap: var(--space-6);
+    }
+
+    .calculate-btn {
+      position: sticky;
+      bottom: var(--space-4);
+      z-index: 10;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .result-value {
+      font-size: var(--text-2xl);
+    }
+
+    .calculator__note {
+      padding: var(--space-4);
+    }
+  }
+
+  /* Print Styles */
+  @media print {
+    .no-print,
+    .calculator__form,
+    .page-hero .eyebrow,
+    .calculator__header,
+    .section--navy {
+      display: none !important;
+    }
+
+    .calculator__grid {
+      display: block;
+      box-shadow: none;
+    }
+
+    .calculator__result {
+      width: 100%;
+      border: 2px solid var(--color-navy);
+    }
+
+    .result-card {
+      break-inside: avoid;
+    }
+
+    .calculator__note {
+      break-inside: avoid;
+      margin-top: var(--space-6);
+    }
+  }
+</style>
+
+<script is:inline>
+  // Import conversion function (inline for Astro)
+  function convertSickLeave() {
+    const hoursInput = document.getElementById('sickleave-hours');
+    const hours = parseFloat(hoursInput.value) || 0;
+
+    if (hours < 0) {
+      alert('Please enter a positive number of hours.');
+      return;
+    }
+
+    // Convert using USGS chart formula
+    // 2,087 hours = 1 work year
+    const fullYears = Math.floor(hours / 2087);
+    const remainingHours = hours % 2087;
+
+    // Approximate conversion: ~174 hours per month
+    const remainingMonths = Math.floor(remainingHours / 174);
+    const remainingDays = Math.ceil((remainingHours % 174) / 6);
+
+    // Apply rounding: days always round UP to next month
+    let months = remainingMonths;
+    if (remainingDays > 0) {
+      months += 1;
+    }
+
+    // Calculate total
+    const additionalYears = Math.floor(months / 12);
+    const finalMonths = months % 12;
+    const totalYears = fullYears + additionalYears;
+    const totalMonthsForPension = fullYears * 12 + months;
+
+    // Format output
+    let serviceCreditText = '';
+    if (totalYears > 0 && finalMonths > 0) {
+      serviceCreditText = `${totalYears} year${totalYears !== 1 ? 's' : ''}, ${finalMonths} month${finalMonths !== 1 ? 's' : ''}`;
+    } else if (totalYears > 0) {
+      serviceCreditText = `${totalYears} year${totalYears !== 1 ? 's' : ''}`;
+    } else if (finalMonths > 0) {
+      serviceCreditText = `${finalMonths} month${finalMonths !== 1 ? 's' : ''}`;
+    } else {
+      serviceCreditText = '0 months';
+    }
+
+    // Update display
+    document.getElementById('service-credit').textContent = serviceCreditText || '0 months';
+    document.getElementById('total-months').textContent = `${totalMonthsForPension} month${totalMonthsForPension !== 1 ? 's' : ''}`;
+    document.getElementById('summary-text').textContent = serviceCreditText;
+
+    // Show note if days were rounded
+    const noteElement = document.getElementById('result-note');
+    if (remainingDays > 0) {
+      noteElement.innerHTML = `
+        <p><strong>Note:</strong> Your sick leave converted to ${totalMonthsForPension} month${totalMonthsForPension !== 1 ? 's' : ''} of service credit.
+        <span style="color: var(--color-gold); font-weight: 600;">Days were automatically rounded UP to the next full month per OPM guidelines.</span></p>
+      `;
+    } else {
+      noteElement.innerHTML = `
+        <p><strong>Note:</strong> This converts to ${totalMonthsForPension} month${totalMonthsForPension !== 1 ? 's' : ''} of additional service credit for your FERS pension calculation.</p>
+      `;
+    }
+  }
+
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    // Add real-time conversion on input change
+    document.getElementById('sickleave-hours').addEventListener('input', convertSickLeave);
+
+    // Run initial conversion
+    convertSickLeave();
+  });
+</script>
