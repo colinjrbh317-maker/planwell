@@ -1,0 +1,273 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - navigation [ref=e4]:
+      - link "PlanWell Financial Planning" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - img "PlanWell Financial Planning" [ref=e6]
+      - list [ref=e8]:
+        - listitem [ref=e9]:
+          - link "About" [ref=e10] [cursor=pointer]:
+            - /url: /about
+        - listitem [ref=e11]:
+          - link "Services" [ref=e12] [cursor=pointer]:
+            - /url: /services
+        - listitem [ref=e13]:
+          - link "Blog" [ref=e14] [cursor=pointer]:
+            - /url: /blog
+        - listitem [ref=e15]:
+          - link "Calculators" [ref=e16] [cursor=pointer]:
+            - /url: /calculators
+        - listitem [ref=e17]:
+          - link "Contact" [ref=e18] [cursor=pointer]:
+            - /url: https://planwell.vercel.app/webinars
+  - main [ref=e19]:
+    - generic [ref=e21]:
+      - generic [ref=e22]: FERS Retirement Tools
+      - heading "Special Retirement Supplement Calculator" [level=1] [ref=e23]
+      - paragraph [ref=e24]: Calculate your Special Retirement Supplement (SRS) for retiring before age 62.
+    - generic [ref=e27]:
+      - generic [ref=e28]:
+        - heading "Calculate Your Supplement" [level=2] [ref=e29]
+        - paragraph [ref=e30]: The Special Retirement Supplement bridges the gap between retirement and Social Security eligibility.
+      - generic [ref=e31]:
+        - generic [ref=e32]: ⚠️
+        - generic [ref=e33]:
+          - strong [ref=e34]: "Eligibility Requirements:"
+          - paragraph [ref=e35]:
+            - text: You must retire at
+            - strong [ref=e36]: Age 57+ with 30+ years
+            - text: OR
+            - strong [ref=e37]: Age 60+ with 20+ years
+            - text: of service.
+          - paragraph [ref=e38]:
+            - strong [ref=e39]: "Important:"
+            - text: The supplement STOPS at age 62 when you become eligible for Social Security.
+      - generic [ref=e40]:
+        - generic [ref=e41]:
+          - generic [ref=e42]:
+            - generic [ref=e43]: Date of Birth
+            - textbox "Date of Birth" [ref=e44]: 1969-01-28
+            - generic [ref=e45]: Used to calculate your age at retirement.
+          - generic [ref=e46]:
+            - generic [ref=e47]: Planned Retirement Date
+            - textbox "Planned Retirement Date" [ref=e48]: 2026-01-28
+            - generic [ref=e49]: The date you plan to retire.
+          - generic [ref=e50]:
+            - generic [ref=e51]: Federal Service Start Date
+            - textbox "Federal Service Start Date" [ref=e52]: 1996-01-28
+            - generic [ref=e53]:
+              - text: Your original federal service start date.
+              - strong [ref=e54]: "Note:"
+              - text: Do NOT include sick leave or military buyback time.
+          - generic [ref=e55]:
+            - generic [ref=e56]: Estimated Social Security at Age 62 ($)
+            - generic [ref=e57]:
+              - generic [ref=e58]: $
+              - spinbutton "Estimated Social Security at Age 62 ($)" [ref=e59]: "2500"
+            - generic [ref=e60]:
+              - text: Your estimated monthly Social Security benefit at age 62.
+              - link "Check on SSA.gov →" [ref=e61] [cursor=pointer]:
+                - /url: https://www.ssa.gov/myaccount/
+          - generic [ref=e62]:
+            - generic [ref=e63]:
+              - generic [ref=e64]: "Age at Retirement:"
+              - generic [ref=e65]: 57 years
+            - generic [ref=e66]:
+              - generic [ref=e67]: "Years of Service:"
+              - generic [ref=e68]: 30 years
+          - generic [ref=e69]:
+            - generic [ref=e70]: ✓
+            - generic [ref=e71]: "✓ Eligible: Age 57+ with 30 years of service"
+          - button "Calculate Supplement" [ref=e72] [cursor=pointer]
+          - button "🖨️ Print Results" [ref=e73] [cursor=pointer]
+        - generic [ref=e74]:
+          - generic [ref=e75]:
+            - generic [ref=e76]: Monthly Supplement
+            - generic [ref=e77]: $1,875
+          - generic [ref=e78]:
+            - generic [ref=e79]: Annual Supplement
+            - generic [ref=e80]: $22,500
+          - generic [ref=e81]:
+            - generic [ref=e82]: ⏰ Supplement Ends
+            - generic [ref=e83]: At Age 62
+          - group [ref=e84]:
+            - generic "▶ View Calculation Details" [ref=e85] [cursor=pointer]
+          - paragraph [ref=e87]:
+            - strong [ref=e88]: "Duration:"
+            - text: From retirement at age 57 until age 62 (60 months)
+      - generic [ref=e89]:
+        - heading "Understanding the Special Retirement Supplement" [level=3] [ref=e90]
+        - paragraph [ref=e91]: The Special Retirement Supplement (SRS) is designed to bridge the income gap between FERS retirement and Social Security eligibility at age 62. It approximates what you would receive from Social Security if you were eligible immediately.
+        - paragraph [ref=e92]:
+          - strong [ref=e93]: "Key Facts:"
+        - list [ref=e94]:
+          - listitem [ref=e95]:
+            - strong [ref=e96]: "Formula:"
+            - text: (Years of Service ÷ 40) × Your Social Security Benefit at Age 62
+          - listitem [ref=e97]:
+            - strong [ref=e98]: "Ends at 62:"
+            - text: The supplement automatically stops when you turn 62 and become eligible for Social Security
+          - listitem [ref=e99]:
+            - strong [ref=e100]: "Earnings Test:"
+            - text: If you earn over the annual earnings limit, your supplement may be reduced
+          - listitem [ref=e101]:
+            - strong [ref=e102]: "Base Service Only:"
+            - text: Sick leave and military buyback time are NOT included in the years calculation
+        - paragraph [ref=e103]:
+          - strong [ref=e104]: "Example:"
+          - text: "If you retire with 30 years of service and your Social Security estimate at age 62 is $2,000/month, your supplement would be: (30 ÷ 40) × $2,000 = $1,500/month"
+        - separator [ref=e105]
+        - paragraph [ref=e106]:
+          - strong [ref=e107]: "Important:"
+          - text: This is an estimate only. Your actual supplement may be affected by the Social Security earnings test, COLA adjustments, and other factors. Visit
+          - link "OPM.gov" [ref=e108] [cursor=pointer]:
+            - /url: https://www.opm.gov/retirement-services/fers-information/special-retirement-supplement/
+          - text: for official information.
+    - generic [ref=e111]:
+      - heading "Need Help Planning Your Early Retirement?" [level=2] [ref=e112]
+      - paragraph [ref=e113]: Understanding the supplement is just one piece of your retirement puzzle. Let us help you create a comprehensive plan.
+      - generic [ref=e114]:
+        - link "Book a Free Strategy Call" [ref=e115] [cursor=pointer]:
+          - /url: /book-call
+        - link "Calculate My Pension" [ref=e116] [cursor=pointer]:
+          - /url: /fers-retirement-calculator
+  - contentinfo [ref=e117]:
+    - generic [ref=e118]:
+      - generic [ref=e119]:
+        - generic [ref=e120]:
+          - heading "PlanWell Financial Planning" [level=3] [ref=e121]
+          - paragraph [ref=e122]: Helping federal employees retire with confidence since 2004.
+          - generic [ref=e123]:
+            - paragraph [ref=e124]:
+              - strong [ref=e125]: "David Fei:"
+              - link "301-388-5489" [ref=e126] [cursor=pointer]:
+                - /url: tel:301-388-5489
+            - paragraph [ref=e127]:
+              - strong [ref=e128]: "Brennan Rhule:"
+              - link "571-543-2783" [ref=e129] [cursor=pointer]:
+                - /url: tel:571-543-2783
+          - generic [ref=e130]:
+            - link "Facebook" [ref=e131] [cursor=pointer]:
+              - /url: https://www.facebook.com/profile.php?id=61552242031737
+              - img [ref=e132]
+            - link "LinkedIn" [ref=e134] [cursor=pointer]:
+              - /url: https://www.linkedin.com/company/planwell-financial-planning
+              - img [ref=e135]
+        - generic [ref=e137]:
+          - generic [ref=e138]:
+            - heading "Company" [level=4] [ref=e139]
+            - list [ref=e140]:
+              - listitem [ref=e141]:
+                - link "About Us" [ref=e142] [cursor=pointer]:
+                  - /url: /about
+              - listitem [ref=e143]:
+                - link "Our Services" [ref=e144] [cursor=pointer]:
+                  - /url: /services
+              - listitem [ref=e145]:
+                - link "Learning Center" [ref=e146] [cursor=pointer]:
+                  - /url: /resources
+              - listitem [ref=e147]:
+                - link "Calculators" [ref=e148] [cursor=pointer]:
+                  - /url: /calculators
+              - listitem [ref=e149]:
+                - link "Contact" [ref=e150] [cursor=pointer]:
+                  - /url: /book-call
+          - generic [ref=e151]:
+            - heading "Locations" [level=4] [ref=e152]
+            - list [ref=e153]:
+              - listitem [ref=e154]:
+                - link "Washington DC" [ref=e155] [cursor=pointer]:
+                  - /url: /locations/washington-dc
+              - listitem [ref=e156]:
+                - link "Northern Virginia" [ref=e157] [cursor=pointer]:
+                  - /url: /locations/northern-virginia
+              - listitem [ref=e158]:
+                - link "Maryland" [ref=e159] [cursor=pointer]:
+                  - /url: /locations/maryland
+              - listitem [ref=e160]:
+                - link "Denver, CO" [ref=e161] [cursor=pointer]:
+                  - /url: /locations/denver
+              - listitem [ref=e162]:
+                - link "Atlanta, GA" [ref=e163] [cursor=pointer]:
+                  - /url: /locations/atlanta
+              - listitem [ref=e164]:
+                - link "San Antonio, TX" [ref=e165] [cursor=pointer]:
+                  - /url: /locations/san-antonio
+          - generic [ref=e166]:
+            - heading "Resources" [level=4] [ref=e167]
+            - list [ref=e168]:
+              - listitem [ref=e169]:
+                - link "FERS Guide" [ref=e170] [cursor=pointer]:
+                  - /url: /resources#fers
+              - listitem [ref=e171]:
+                - link "TSP Strategies" [ref=e172] [cursor=pointer]:
+                  - /url: /resources#tsp
+              - listitem [ref=e173]:
+                - link "FEHB & Medicare" [ref=e174] [cursor=pointer]:
+                  - /url: /resources#fehb-medicare
+              - listitem [ref=e175]:
+                - link "Social Security" [ref=e176] [cursor=pointer]:
+                  - /url: /resources#social-security
+              - listitem [ref=e177]:
+                - link "Tax Strategy" [ref=e178] [cursor=pointer]:
+                  - /url: /resources#tax-strategy
+          - generic [ref=e179]:
+            - heading "Get Started" [level=4] [ref=e180]
+            - list [ref=e181]:
+              - listitem [ref=e182]:
+                - link "Book a Call" [ref=e183] [cursor=pointer]:
+                  - /url: /book-call
+              - listitem [ref=e184]:
+                - link "FERS Workshop" [ref=e185] [cursor=pointer]:
+                  - /url: /webinar
+      - generic [ref=e186]:
+        - paragraph [ref=e187]:
+          - text: Securities and advisory services offered through
+          - strong [ref=e188]: Osaic
+          - text: Wealth, Inc., member
+          - link "FINRA" [ref=e189] [cursor=pointer]:
+            - /url: https://www.finra.org/
+          - text: ","
+          - link "SIPC" [ref=e190] [cursor=pointer]:
+            - /url: https://www.sipc.org/
+          - text: .
+          - strong [ref=e191]: Osaic
+          - text: Wealth is separately owned and other entities and/or marketing names, products or services referenced here are independent of
+          - strong [ref=e192]: Osaic
+          - text: Wealth.
+        - paragraph [ref=e193]: PlanWell Financial Planning, LLC is not affiliated with, endorsed by, or authorized to speak on behalf of the U.S. Government, OPM, the Federal Employee Retirement System, or any other federal agency benefits programs or retirement plans, including the Thrift Savings Plan.
+        - paragraph [ref=e194]: The content is developed from sources believed to be providing accurate information. The information in this material is not intended as tax or legal advice. Please consult legal or tax professionals for specific information regarding your individual situation.
+        - paragraph [ref=e195]:
+          - text: Check the background of your financial professional on FINRA's
+          - link "BrokerCheck" [ref=e196] [cursor=pointer]:
+            - /url: https://brokercheck.finra.org/
+          - text: . View Osaic
+          - link "Form CRS" [ref=e197] [cursor=pointer]:
+            - /url: https://www.osaic.com/crs
+          - text: .
+      - generic [ref=e198]:
+        - paragraph [ref=e199]: © 2026 PlanWell Financial Planning. All rights reserved.
+        - generic [ref=e200]:
+          - link "Privacy Policy" [ref=e201] [cursor=pointer]:
+            - /url: /privacy
+          - link "Terms of Service" [ref=e202] [cursor=pointer]:
+            - /url: /terms
+  - generic [ref=e205]:
+    - button "Menu" [ref=e206]:
+      - img [ref=e208]
+      - generic: Menu
+    - button "Inspect" [ref=e212]:
+      - img [ref=e214]
+      - generic: Inspect
+    - button "Audit" [ref=e216]:
+      - generic [ref=e217]:
+        - img [ref=e218]
+        - img [ref=e221]
+      - generic: Audit
+    - button "Settings" [ref=e224]:
+      - img [ref=e226]
+      - generic: Settings
+```

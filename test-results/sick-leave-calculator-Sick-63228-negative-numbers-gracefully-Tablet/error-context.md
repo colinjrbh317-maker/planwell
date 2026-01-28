@@ -1,0 +1,219 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - banner [ref=e2]:
+    - navigation [ref=e4]:
+      - link "PlanWell Financial Planning" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - img "PlanWell Financial Planning" [ref=e6]
+      - list [ref=e8]:
+        - listitem [ref=e9]:
+          - link "About" [ref=e10] [cursor=pointer]:
+            - /url: /about
+        - listitem [ref=e11]:
+          - link "Services" [ref=e12] [cursor=pointer]:
+            - /url: /services
+        - listitem [ref=e13]:
+          - link "Blog" [ref=e14] [cursor=pointer]:
+            - /url: /blog
+        - listitem [ref=e15]:
+          - link "Calculators" [ref=e16] [cursor=pointer]:
+            - /url: /calculators
+        - listitem [ref=e17]:
+          - link "Contact" [ref=e18] [cursor=pointer]:
+            - /url: https://planwell.vercel.app/webinars
+  - main [ref=e19]:
+    - generic [ref=e21]:
+      - generic [ref=e22]: FERS Retirement Tools
+      - heading "Sick Leave Conversion Calculator" [level=1] [ref=e23]
+      - paragraph [ref=e24]: Convert your unused sick leave hours into additional service credit for your FERS pension calculation.
+    - generic [ref=e27]:
+      - generic [ref=e28]:
+        - heading "Convert Your Sick Leave" [level=2] [ref=e29]
+        - paragraph [ref=e30]: Enter your total unused sick leave hours to see your service credit.
+      - generic [ref=e31]:
+        - generic [ref=e32]:
+          - generic [ref=e33]:
+            - generic [ref=e34]: Total Unused Sick Leave (Hours)
+            - spinbutton "Total Unused Sick Leave (Hours)" [ref=e35]: "-100"
+            - generic [ref=e36]: Enter the total hours of unused sick leave you will have at retirement.
+          - button "Convert Sick Leave" [active] [ref=e37] [cursor=pointer]
+          - button "🖨️ Print Results" [ref=e38] [cursor=pointer]
+        - generic [ref=e39]:
+          - generic [ref=e40]:
+            - generic [ref=e41]: Service Credit Added
+            - generic [ref=e42]: 1 year
+          - generic [ref=e43]:
+            - generic [ref=e44]: Total Months
+            - generic [ref=e45]: 12 months
+          - paragraph [ref=e47]:
+            - strong [ref=e48]: "Note:"
+            - text: This converts to 12 months of additional service credit for your FERS pension calculation.
+      - generic [ref=e49]:
+        - heading "How Sick Leave Conversion Works" [level=3] [ref=e50]
+        - paragraph [ref=e51]: Federal employees can convert unused sick leave hours into additional service credit when calculating their FERS pension. This conversion uses the official USGS conversion chart based on OPM guidelines.
+        - list [ref=e52]:
+          - listitem [ref=e53]:
+            - strong [ref=e54]: 1 work year = 2,087 hours
+          - listitem [ref=e55]:
+            - strong [ref=e56]: 1 sick leave day = 6 hours
+          - listitem [ref=e57]:
+            - strong [ref=e58]: "Rounding rule:"
+            - text: Days are automatically rounded UP to the next full month
+          - listitem [ref=e59]:
+            - strong [ref=e60]: Only years and months count
+            - text: "- days under 30 are rounded up to months"
+        - paragraph [ref=e61]:
+          - strong [ref=e62]: "Example:"
+          - text: 441 hours of sick leave converts to 2 months and 16 days, which rounds up to 3 months of service credit.
+        - separator [ref=e63]
+        - paragraph [ref=e64]:
+          - strong [ref=e65]: "Important:"
+          - text: This calculator shows how sick leave adds to your years of service for pension calculations. It does NOT show the dollar value impact - use the
+          - link "FERS Pension Calculator" [ref=e66] [cursor=pointer]:
+            - /url: /fers-retirement-calculator
+          - text: to see how this affects your pension amount.
+    - generic [ref=e69]:
+      - heading "Ready to Calculate Your Full Pension?" [level=2] [ref=e70]
+      - paragraph [ref=e71]: Now that you know your sick leave credit, use our FERS Pension Calculator to see your complete retirement benefit.
+      - generic [ref=e72]:
+        - link "Calculate My Pension" [ref=e73] [cursor=pointer]:
+          - /url: /fers-retirement-calculator
+        - link "View All Calculators" [ref=e74] [cursor=pointer]:
+          - /url: /calculators
+  - contentinfo [ref=e75]:
+    - generic [ref=e76]:
+      - generic [ref=e77]:
+        - generic [ref=e78]:
+          - heading "PlanWell Financial Planning" [level=3] [ref=e79]
+          - paragraph [ref=e80]: Helping federal employees retire with confidence since 2004.
+          - generic [ref=e81]:
+            - paragraph [ref=e82]:
+              - strong [ref=e83]: "David Fei:"
+              - link "301-388-5489" [ref=e84] [cursor=pointer]:
+                - /url: tel:301-388-5489
+            - paragraph [ref=e85]:
+              - strong [ref=e86]: "Brennan Rhule:"
+              - link "571-543-2783" [ref=e87] [cursor=pointer]:
+                - /url: tel:571-543-2783
+          - generic [ref=e88]:
+            - link "Facebook" [ref=e89] [cursor=pointer]:
+              - /url: https://www.facebook.com/profile.php?id=61552242031737
+              - img [ref=e90]
+            - link "LinkedIn" [ref=e92] [cursor=pointer]:
+              - /url: https://www.linkedin.com/company/planwell-financial-planning
+              - img [ref=e93]
+        - generic [ref=e95]:
+          - generic [ref=e96]:
+            - heading "Company" [level=4] [ref=e97]
+            - list [ref=e98]:
+              - listitem [ref=e99]:
+                - link "About Us" [ref=e100] [cursor=pointer]:
+                  - /url: /about
+              - listitem [ref=e101]:
+                - link "Our Services" [ref=e102] [cursor=pointer]:
+                  - /url: /services
+              - listitem [ref=e103]:
+                - link "Learning Center" [ref=e104] [cursor=pointer]:
+                  - /url: /resources
+              - listitem [ref=e105]:
+                - link "Calculators" [ref=e106] [cursor=pointer]:
+                  - /url: /calculators
+              - listitem [ref=e107]:
+                - link "Contact" [ref=e108] [cursor=pointer]:
+                  - /url: /book-call
+          - generic [ref=e109]:
+            - heading "Locations" [level=4] [ref=e110]
+            - list [ref=e111]:
+              - listitem [ref=e112]:
+                - link "Washington DC" [ref=e113] [cursor=pointer]:
+                  - /url: /locations/washington-dc
+              - listitem [ref=e114]:
+                - link "Northern Virginia" [ref=e115] [cursor=pointer]:
+                  - /url: /locations/northern-virginia
+              - listitem [ref=e116]:
+                - link "Maryland" [ref=e117] [cursor=pointer]:
+                  - /url: /locations/maryland
+              - listitem [ref=e118]:
+                - link "Denver, CO" [ref=e119] [cursor=pointer]:
+                  - /url: /locations/denver
+              - listitem [ref=e120]:
+                - link "Atlanta, GA" [ref=e121] [cursor=pointer]:
+                  - /url: /locations/atlanta
+              - listitem [ref=e122]:
+                - link "San Antonio, TX" [ref=e123] [cursor=pointer]:
+                  - /url: /locations/san-antonio
+          - generic [ref=e124]:
+            - heading "Resources" [level=4] [ref=e125]
+            - list [ref=e126]:
+              - listitem [ref=e127]:
+                - link "FERS Guide" [ref=e128] [cursor=pointer]:
+                  - /url: /resources#fers
+              - listitem [ref=e129]:
+                - link "TSP Strategies" [ref=e130] [cursor=pointer]:
+                  - /url: /resources#tsp
+              - listitem [ref=e131]:
+                - link "FEHB & Medicare" [ref=e132] [cursor=pointer]:
+                  - /url: /resources#fehb-medicare
+              - listitem [ref=e133]:
+                - link "Social Security" [ref=e134] [cursor=pointer]:
+                  - /url: /resources#social-security
+              - listitem [ref=e135]:
+                - link "Tax Strategy" [ref=e136] [cursor=pointer]:
+                  - /url: /resources#tax-strategy
+          - generic [ref=e137]:
+            - heading "Get Started" [level=4] [ref=e138]
+            - list [ref=e139]:
+              - listitem [ref=e140]:
+                - link "Book a Call" [ref=e141] [cursor=pointer]:
+                  - /url: /book-call
+              - listitem [ref=e142]:
+                - link "FERS Workshop" [ref=e143] [cursor=pointer]:
+                  - /url: /webinar
+      - generic [ref=e144]:
+        - paragraph [ref=e145]:
+          - text: Securities and advisory services offered through
+          - strong [ref=e146]: Osaic
+          - text: Wealth, Inc., member
+          - link "FINRA" [ref=e147] [cursor=pointer]:
+            - /url: https://www.finra.org/
+          - text: ","
+          - link "SIPC" [ref=e148] [cursor=pointer]:
+            - /url: https://www.sipc.org/
+          - text: .
+          - strong [ref=e149]: Osaic
+          - text: Wealth is separately owned and other entities and/or marketing names, products or services referenced here are independent of
+          - strong [ref=e150]: Osaic
+          - text: Wealth.
+        - paragraph [ref=e151]: PlanWell Financial Planning, LLC is not affiliated with, endorsed by, or authorized to speak on behalf of the U.S. Government, OPM, the Federal Employee Retirement System, or any other federal agency benefits programs or retirement plans, including the Thrift Savings Plan.
+        - paragraph [ref=e152]: The content is developed from sources believed to be providing accurate information. The information in this material is not intended as tax or legal advice. Please consult legal or tax professionals for specific information regarding your individual situation.
+        - paragraph [ref=e153]:
+          - text: Check the background of your financial professional on FINRA's
+          - link "BrokerCheck" [ref=e154] [cursor=pointer]:
+            - /url: https://brokercheck.finra.org/
+          - text: . View Osaic
+          - link "Form CRS" [ref=e155] [cursor=pointer]:
+            - /url: https://www.osaic.com/crs
+          - text: .
+      - generic [ref=e156]:
+        - paragraph [ref=e157]: © 2026 PlanWell Financial Planning. All rights reserved.
+        - generic [ref=e158]:
+          - link "Privacy Policy" [ref=e159] [cursor=pointer]:
+            - /url: /privacy
+          - link "Terms of Service" [ref=e160] [cursor=pointer]:
+            - /url: /terms
+  - generic [ref=e163]:
+    - button "Menu" [ref=e164]:
+      - img [ref=e166]
+      - generic: Menu
+    - button "Inspect" [ref=e170]:
+      - img [ref=e172]
+      - generic: Inspect
+    - button "Audit" [ref=e174]:
+      - img [ref=e176]
+      - generic: Audit
+    - button "Settings" [ref=e179]:
+      - img [ref=e181]
+      - generic: Settings
+```

@@ -1,0 +1,237 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - navigation [ref=e4]:
+      - link "PlanWell Financial Planning" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - img "PlanWell Financial Planning" [ref=e6]
+      - list [ref=e8]:
+        - listitem [ref=e9]:
+          - link "About" [ref=e10] [cursor=pointer]:
+            - /url: /about
+        - listitem [ref=e11]:
+          - link "Services" [ref=e12] [cursor=pointer]:
+            - /url: /services
+        - listitem [ref=e13]:
+          - link "Blog" [ref=e14] [cursor=pointer]:
+            - /url: /blog
+        - listitem [ref=e15]:
+          - link "Calculators" [ref=e16] [cursor=pointer]:
+            - /url: /calculators
+        - listitem [ref=e17]:
+          - link "Contact" [ref=e18] [cursor=pointer]:
+            - /url: https://planwell.vercel.app/webinars
+  - main [ref=e19]:
+    - generic [ref=e21]:
+      - generic [ref=e22]: FERS Retirement Tools
+      - heading "High-3 Average Salary Calculator" [level=1] [ref=e23]
+      - paragraph [ref=e24]: Calculate the average of your highest 36 consecutive months of basic pay before retirement.
+    - generic [ref=e27]:
+      - generic [ref=e28]:
+        - heading "Calculate Your High-3" [level=2] [ref=e29]
+        - paragraph [ref=e30]: Enter your retirement date and salary periods to calculate your weighted average.
+      - generic [ref=e31]:
+        - generic [ref=e32]:
+          - generic [ref=e33]:
+            - generic [ref=e34]: Planned Retirement Date
+            - textbox "Planned Retirement Date" [ref=e35]: 2027-01-28
+            - generic [ref=e36]: The calculator will use the 36 months before this date.
+          - generic [ref=e37]:
+            - generic [ref=e38]: Salary Periods (up to 4)
+            - generic [ref=e39]: Enter your salary history. Only periods within the 36-month window will be used.
+            - generic [ref=e41]:
+              - generic [ref=e43]: Period 1
+              - generic [ref=e44]:
+                - generic [ref=e45]:
+                  - generic [ref=e46]: Start Date
+                  - textbox "Start Date" [ref=e47]: 2024-01-28
+                - generic [ref=e48]:
+                  - generic [ref=e49]: End Date
+                  - textbox "End Date" [ref=e50]: 2027-01-28
+                - generic [ref=e51]:
+                  - generic [ref=e52]: Annual Salary
+                  - generic [ref=e53]:
+                    - generic [ref=e54]: $
+                    - spinbutton "Annual Salary" [ref=e55]: "100000"
+            - button "+ Add Salary Period" [ref=e57] [cursor=pointer]
+          - button "Calculate High-3" [ref=e58] [cursor=pointer]
+          - button "🖨️ Print Results" [ref=e59] [cursor=pointer]
+        - generic [ref=e60]:
+          - generic [ref=e61]:
+            - generic [ref=e62]: High-3 Average Salary
+            - generic [ref=e63]: $100,000
+          - generic [ref=e64]:
+            - generic [ref=e65]: 36-Month Window
+            - generic [ref=e66]: Jan 27, 2024 - Jan 27, 2027
+          - generic [ref=e67]:
+            - generic [ref=e68]: Periods Analyzed
+            - generic [ref=e69]: 1 period
+          - group [ref=e70]:
+            - generic "▶ View Calculation Details" [ref=e71] [cursor=pointer]
+      - generic [ref=e72]:
+        - heading "Understanding High-3 Salary" [level=3] [ref=e73]
+        - paragraph [ref=e74]: Your High-3 average salary is the average of your highest 36 consecutive months of basic pay (including locality pay) before retirement. This is the foundation of your FERS pension calculation.
+        - paragraph [ref=e75]:
+          - strong [ref=e76]: "How the calculation works:"
+        - list [ref=e77]:
+          - listitem [ref=e78]: The calculator looks at the 36 months (3 years) before your retirement date
+          - listitem [ref=e79]: For each salary period, it calculates how many months fall within that window
+          - listitem [ref=e80]: "It then calculates a weighted average: Sum(Salary × Months in Window) ÷ 36 months"
+          - listitem [ref=e81]: Only periods overlapping the window contribute to the average
+        - paragraph [ref=e82]:
+          - strong [ref=e83]: "Example:"
+          - text: "If you earned $90k for 12 months, $95k for 12 months, and $100k for 12 months (all within the 36-month window), your High-3 would be the average: $95,000."
+        - separator [ref=e84]
+        - paragraph [ref=e85]:
+          - strong [ref=e86]: "Tip:"
+          - text: Once you calculate your High-3, use it in the
+          - link "FERS Pension Calculator" [ref=e87] [cursor=pointer]:
+            - /url: /fers-retirement-calculator
+          - text: to see your estimated pension.
+    - generic [ref=e90]:
+      - heading "Ready to Calculate Your Pension?" [level=2] [ref=e91]
+      - paragraph [ref=e92]: Now that you know your High-3 salary, calculate your full FERS pension estimate.
+      - generic [ref=e93]:
+        - link "Calculate My Pension" [ref=e94] [cursor=pointer]:
+          - /url: /fers-retirement-calculator
+        - link "View All Calculators" [ref=e95] [cursor=pointer]:
+          - /url: /calculators
+  - contentinfo [ref=e96]:
+    - generic [ref=e97]:
+      - generic [ref=e98]:
+        - generic [ref=e99]:
+          - heading "PlanWell Financial Planning" [level=3] [ref=e100]
+          - paragraph [ref=e101]: Helping federal employees retire with confidence since 2004.
+          - generic [ref=e102]:
+            - paragraph [ref=e103]:
+              - strong [ref=e104]: "David Fei:"
+              - link "301-388-5489" [ref=e105] [cursor=pointer]:
+                - /url: tel:301-388-5489
+            - paragraph [ref=e106]:
+              - strong [ref=e107]: "Brennan Rhule:"
+              - link "571-543-2783" [ref=e108] [cursor=pointer]:
+                - /url: tel:571-543-2783
+          - generic [ref=e109]:
+            - link "Facebook" [ref=e110] [cursor=pointer]:
+              - /url: https://www.facebook.com/profile.php?id=61552242031737
+              - img [ref=e111]
+            - link "LinkedIn" [ref=e113] [cursor=pointer]:
+              - /url: https://www.linkedin.com/company/planwell-financial-planning
+              - img [ref=e114]
+        - generic [ref=e116]:
+          - generic [ref=e117]:
+            - heading "Company" [level=4] [ref=e118]
+            - list [ref=e119]:
+              - listitem [ref=e120]:
+                - link "About Us" [ref=e121] [cursor=pointer]:
+                  - /url: /about
+              - listitem [ref=e122]:
+                - link "Our Services" [ref=e123] [cursor=pointer]:
+                  - /url: /services
+              - listitem [ref=e124]:
+                - link "Learning Center" [ref=e125] [cursor=pointer]:
+                  - /url: /resources
+              - listitem [ref=e126]:
+                - link "Calculators" [ref=e127] [cursor=pointer]:
+                  - /url: /calculators
+              - listitem [ref=e128]:
+                - link "Contact" [ref=e129] [cursor=pointer]:
+                  - /url: /book-call
+          - generic [ref=e130]:
+            - heading "Locations" [level=4] [ref=e131]
+            - list [ref=e132]:
+              - listitem [ref=e133]:
+                - link "Washington DC" [ref=e134] [cursor=pointer]:
+                  - /url: /locations/washington-dc
+              - listitem [ref=e135]:
+                - link "Northern Virginia" [ref=e136] [cursor=pointer]:
+                  - /url: /locations/northern-virginia
+              - listitem [ref=e137]:
+                - link "Maryland" [ref=e138] [cursor=pointer]:
+                  - /url: /locations/maryland
+              - listitem [ref=e139]:
+                - link "Denver, CO" [ref=e140] [cursor=pointer]:
+                  - /url: /locations/denver
+              - listitem [ref=e141]:
+                - link "Atlanta, GA" [ref=e142] [cursor=pointer]:
+                  - /url: /locations/atlanta
+              - listitem [ref=e143]:
+                - link "San Antonio, TX" [ref=e144] [cursor=pointer]:
+                  - /url: /locations/san-antonio
+          - generic [ref=e145]:
+            - heading "Resources" [level=4] [ref=e146]
+            - list [ref=e147]:
+              - listitem [ref=e148]:
+                - link "FERS Guide" [ref=e149] [cursor=pointer]:
+                  - /url: /resources#fers
+              - listitem [ref=e150]:
+                - link "TSP Strategies" [ref=e151] [cursor=pointer]:
+                  - /url: /resources#tsp
+              - listitem [ref=e152]:
+                - link "FEHB & Medicare" [ref=e153] [cursor=pointer]:
+                  - /url: /resources#fehb-medicare
+              - listitem [ref=e154]:
+                - link "Social Security" [ref=e155] [cursor=pointer]:
+                  - /url: /resources#social-security
+              - listitem [ref=e156]:
+                - link "Tax Strategy" [ref=e157] [cursor=pointer]:
+                  - /url: /resources#tax-strategy
+          - generic [ref=e158]:
+            - heading "Get Started" [level=4] [ref=e159]
+            - list [ref=e160]:
+              - listitem [ref=e161]:
+                - link "Book a Call" [ref=e162] [cursor=pointer]:
+                  - /url: /book-call
+              - listitem [ref=e163]:
+                - link "FERS Workshop" [ref=e164] [cursor=pointer]:
+                  - /url: /webinar
+      - generic [ref=e165]:
+        - paragraph [ref=e166]:
+          - text: Securities and advisory services offered through
+          - strong [ref=e167]: Osaic
+          - text: Wealth, Inc., member
+          - link "FINRA" [ref=e168] [cursor=pointer]:
+            - /url: https://www.finra.org/
+          - text: ","
+          - link "SIPC" [ref=e169] [cursor=pointer]:
+            - /url: https://www.sipc.org/
+          - text: .
+          - strong [ref=e170]: Osaic
+          - text: Wealth is separately owned and other entities and/or marketing names, products or services referenced here are independent of
+          - strong [ref=e171]: Osaic
+          - text: Wealth.
+        - paragraph [ref=e172]: PlanWell Financial Planning, LLC is not affiliated with, endorsed by, or authorized to speak on behalf of the U.S. Government, OPM, the Federal Employee Retirement System, or any other federal agency benefits programs or retirement plans, including the Thrift Savings Plan.
+        - paragraph [ref=e173]: The content is developed from sources believed to be providing accurate information. The information in this material is not intended as tax or legal advice. Please consult legal or tax professionals for specific information regarding your individual situation.
+        - paragraph [ref=e174]:
+          - text: Check the background of your financial professional on FINRA's
+          - link "BrokerCheck" [ref=e175] [cursor=pointer]:
+            - /url: https://brokercheck.finra.org/
+          - text: . View Osaic
+          - link "Form CRS" [ref=e176] [cursor=pointer]:
+            - /url: https://www.osaic.com/crs
+          - text: .
+      - generic [ref=e177]:
+        - paragraph [ref=e178]: © 2026 PlanWell Financial Planning. All rights reserved.
+        - generic [ref=e179]:
+          - link "Privacy Policy" [ref=e180] [cursor=pointer]:
+            - /url: /privacy
+          - link "Terms of Service" [ref=e181] [cursor=pointer]:
+            - /url: /terms
+  - generic [ref=e184]:
+    - button "Menu" [ref=e185]:
+      - img [ref=e187]
+      - generic: Menu
+    - button "Inspect" [ref=e191]:
+      - img [ref=e193]
+      - generic: Inspect
+    - button "Audit" [ref=e195]:
+      - generic [ref=e196]:
+        - img [ref=e197]
+        - img [ref=e200]
+      - generic: Audit
+    - button "Settings" [ref=e203]:
+      - img [ref=e205]
+      - generic: Settings
+```

@@ -6,12 +6,19 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:report": "playwright show-report"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.6.0",
     "@portabletext/react": "^6.0.0",
     "@sanity/client": "^7.13.2",
     "astro": "^5.16.5"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.0"
   }
 }
