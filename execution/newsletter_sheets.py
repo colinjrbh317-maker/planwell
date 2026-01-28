@@ -92,10 +92,10 @@ def setup_sheet():
     sheet_id = result['spreadsheetId']
 
     # Add headers
-    headers = [['Email', 'Source', 'Subscribed At', 'Status']]
+    headers = [['Email', 'Name', 'Source', 'Subscribed At', 'Status']]
     sheets_service.spreadsheets().values().update(
         spreadsheetId=sheet_id,
-        range='Subscribers!A1:D1',
+        range='Subscribers!A1:E1',
         valueInputOption='RAW',
         body={'values': headers}
     ).execute()
@@ -103,7 +103,7 @@ def setup_sheet():
     # Format header row
     requests = [{
         'repeatCell': {
-            'range': {'sheetId': 0, 'startRowIndex': 0, 'endRowIndex': 1, 'startColumnIndex': 0, 'endColumnIndex': 4},
+            'range': {'sheetId': 0, 'startRowIndex': 0, 'endRowIndex': 1, 'startColumnIndex': 0, 'endColumnIndex': 5},
             'cell': {
                 'userEnteredFormat': {
                     'backgroundColor': {'red': 0.1, 'green': 0.2, 'blue': 0.4},

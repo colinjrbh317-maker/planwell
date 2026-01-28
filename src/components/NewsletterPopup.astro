@@ -1,0 +1,499 @@
+---
+// Newsletter popup component - shown only on homepage after 7 seconds
+// Max 3 views per user tracked in localStorage
+---
+
+<div id="newsletter-popup" class="newsletter-popup" style="display: none;">
+  <div class="newsletter-popup__overlay"></div>
+  <div class="newsletter-popup__modal">
+    <button class="newsletter-popup__close" aria-label="Close popup">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+
+    <div class="newsletter-popup__content">
+      <div class="newsletter-popup__icon">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+      </div>
+
+      <h2 class="newsletter-popup__title">Get Your Free Federal Retirement Guide</h2>
+      <p class="newsletter-popup__description">
+        Join 10,000+ federal employees who receive our weekly insights on FERS, TSP,
+        and retirement planning. Plus, get instant access to our comprehensive retirement planning guide.
+      </p>
+
+      <form class="newsletter-popup__form" id="newsletter-form">
+        <div class="newsletter-popup__input-group">
+          <input
+            type="text"
+            name="name"
+            placeholder="Your name"
+            class="newsletter-popup__input"
+            required
+          />
+        </div>
+        <div class="newsletter-popup__input-group">
+          <input
+            type="email"
+            name="email"
+            placeholder="Your email address"
+            class="newsletter-popup__input"
+            required
+          />
+        </div>
+        <button type="submit" class="newsletter-popup__submit">
+          Get My Free Guide
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </form>
+
+      <p class="newsletter-popup__privacy">
+        We respect your privacy. Unsubscribe anytime.
+      </p>
+    </div>
+
+    <!-- Success State (hidden by default) -->
+    <div class="newsletter-popup__success" id="newsletter-success" style="display: none;">
+      <div class="newsletter-popup__success-icon">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <path d="M22 4L12 14.01l-3-3"/>
+        </svg>
+      </div>
+      <h2 class="newsletter-popup__success-title">Check Your Email!</h2>
+      <p class="newsletter-popup__success-text">
+        We've sent your free retirement guide to your inbox.
+        Check your email (and spam folder) in the next few minutes.
+      </p>
+      <button class="newsletter-popup__success-close">
+        Got It!
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .newsletter-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .newsletter-popup__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+  }
+
+  .newsletter-popup__modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--color-white);
+    border-radius: 1rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    width: calc(100% - 2rem);
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+    animation: slideUp 0.3s ease;
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -45%);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  .newsletter-popup__close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: var(--color-gray-500);
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    transition: all var(--transition-fast);
+    z-index: 1;
+  }
+
+  .newsletter-popup__close:hover {
+    background-color: var(--color-gray-100);
+    color: var(--color-gray-700);
+  }
+
+  .newsletter-popup__content {
+    padding: 3rem 2rem 2rem;
+    text-align: center;
+  }
+
+  .newsletter-popup__icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-gold);
+  }
+
+  .newsletter-popup__title {
+    font-family: 'Outfit', sans-serif;
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    color: var(--color-navy);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+
+  .newsletter-popup__description {
+    font-size: var(--text-base);
+    color: var(--color-gray-700);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+
+  .newsletter-popup__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .newsletter-popup__input-group {
+    position: relative;
+  }
+
+  .newsletter-popup__input {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    font-size: var(--text-base);
+    font-family: inherit;
+    border: 2px solid var(--color-gray-300);
+    border-radius: 0.5rem;
+    transition: all var(--transition-fast);
+  }
+
+  .newsletter-popup__input:focus {
+    outline: none;
+    border-color: var(--color-navy);
+    box-shadow: 0 0 0 3px rgba(1, 58, 126, 0.1);
+  }
+
+  .newsletter-popup__input::placeholder {
+    color: var(--color-gray-500);
+  }
+
+  .newsletter-popup__submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    font-size: var(--text-base);
+    font-weight: var(--font-semibold);
+    font-family: inherit;
+    background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-dark) 100%);
+    color: var(--color-navy);
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    margin-top: 0.5rem;
+  }
+
+  .newsletter-popup__submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(201, 165, 92, 0.3);
+  }
+
+  .newsletter-popup__submit:active {
+    transform: translateY(0);
+  }
+
+  .newsletter-popup__privacy {
+    font-size: var(--text-sm);
+    color: var(--color-gray-500);
+    margin-top: 1.5rem;
+  }
+
+  /* Success State */
+  .newsletter-popup__success {
+    padding: 3rem 2rem 2rem;
+    text-align: center;
+  }
+
+  .newsletter-popup__success-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 1.5rem;
+    background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-dark) 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-navy);
+  }
+
+  .newsletter-popup__success-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    color: var(--color-navy);
+    margin-bottom: 1rem;
+  }
+
+  .newsletter-popup__success-text {
+    font-size: var(--text-base);
+    color: var(--color-gray-700);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+
+  .newsletter-popup__success-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem;
+    font-size: var(--text-base);
+    font-weight: var(--font-semibold);
+    font-family: inherit;
+    background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-dark) 100%);
+    color: var(--color-navy);
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .newsletter-popup__success-close:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(201, 165, 92, 0.3);
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 640px) {
+    .newsletter-popup__content,
+    .newsletter-popup__success {
+      padding: 2rem 1.5rem 1.5rem;
+    }
+
+    .newsletter-popup__title,
+    .newsletter-popup__success-title {
+      font-size: var(--text-xl);
+    }
+
+    .newsletter-popup__description,
+    .newsletter-popup__success-text {
+      font-size: var(--text-sm);
+    }
+
+    .newsletter-popup__icon {
+      width: 64px;
+      height: 64px;
+    }
+
+    .newsletter-popup__icon svg {
+      width: 32px;
+      height: 32px;
+    }
+
+    .newsletter-popup__success-icon {
+      width: 80px;
+      height: 80px;
+    }
+
+    .newsletter-popup__success-icon svg {
+      width: 48px;
+      height: 48px;
+    }
+  }
+</style>
+
+<script>
+  // Configuration
+  const STORAGE_KEY = 'newsletter_popup_views';
+  const MAX_VIEWS = 3;
+  const DELAY_MS = 7000; // 7 seconds
+  const API_ENDPOINT = 'http://localhost:5001/api/newsletter'; // Update for production
+
+  // Check if we should show the popup
+  function shouldShowPopup() {
+    try {
+      const views = parseInt(localStorage.getItem(STORAGE_KEY) || '0', 10);
+      return views < MAX_VIEWS;
+    } catch (e) {
+      console.error('LocalStorage not available:', e);
+      return false;
+    }
+  }
+
+  // Increment view count
+  function incrementViewCount() {
+    try {
+      const views = parseInt(localStorage.getItem(STORAGE_KEY) || '0', 10);
+      localStorage.setItem(STORAGE_KEY, String(views + 1));
+    } catch (e) {
+      console.error('LocalStorage not available:', e);
+    }
+  }
+
+  // Show popup
+  function showPopup() {
+    const popup = document.getElementById('newsletter-popup');
+    if (popup) {
+      popup.style.display = 'block';
+      document.body.style.overflow = 'hidden';
+      incrementViewCount();
+    }
+  }
+
+  // Hide popup
+  function hidePopup() {
+    const popup = document.getElementById('newsletter-popup');
+    if (popup) {
+      popup.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+  }
+
+  // Show success state
+  function showSuccess() {
+    const content = document.querySelector('.newsletter-popup__content');
+    const success = document.getElementById('newsletter-success');
+
+    if (content && success) {
+      content.style.display = 'none';
+      success.style.display = 'block';
+    }
+  }
+
+  // Handle form submission
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    const form = e.target;
+    const formData = new FormData(form);
+    const data = {
+      name: formData.get('name'),
+      email: formData.get('email'),
+      source: 'homepage_popup',
+      timestamp: new Date().toISOString()
+    };
+
+    try {
+      const response = await fetch(API_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        console.log('Newsletter subscription successful');
+        showSuccess();
+
+        // Store in localStorage as backup
+        const subscriptions = JSON.parse(localStorage.getItem('newsletter_subscriptions') || '[]');
+        subscriptions.push({ ...data, synced: true });
+        localStorage.setItem('newsletter_subscriptions', JSON.stringify(subscriptions));
+      } else {
+        throw new Error('Submission failed');
+      }
+    } catch (error) {
+      console.error('Newsletter submission error:', error);
+
+      // Store locally for later sync
+      const subscriptions = JSON.parse(localStorage.getItem('newsletter_subscriptions') || '[]');
+      subscriptions.push({ ...data, synced: false });
+      localStorage.setItem('newsletter_subscriptions', JSON.stringify(subscriptions));
+
+      // Still show success to user
+      showSuccess();
+    }
+  }
+
+  // Initialize popup
+  function initPopup() {
+    if (!shouldShowPopup()) {
+      return;
+    }
+
+    // Show after delay
+    setTimeout(() => {
+      showPopup();
+    }, DELAY_MS);
+
+    // Close button handler
+    const closeBtn = document.querySelector('.newsletter-popup__close');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', hidePopup);
+    }
+
+    // Overlay click handler
+    const overlay = document.querySelector('.newsletter-popup__overlay');
+    if (overlay) {
+      overlay.addEventListener('click', hidePopup);
+    }
+
+    // Form submission handler
+    const form = document.getElementById('newsletter-form');
+    if (form) {
+      form.addEventListener('submit', handleSubmit);
+    }
+
+    // Success close button handler
+    const successCloseBtn = document.querySelector('.newsletter-popup__success-close');
+    if (successCloseBtn) {
+      successCloseBtn.addEventListener('click', hidePopup);
+    }
+
+    // ESC key handler
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        hidePopup();
+      }
+    });
+  }
+
+  // Run on page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPopup);
+  } else {
+    initPopup();
+  }
+</script>

@@ -5,6 +5,7 @@ Single Flask server that handles all PlanWell webhooks:
 - /api/webinar - Webinar registration
 - /api/contact - Contact form
 - /api/book-call - Call booking
+- /api/newsletter - Newsletter subscription
 
 Run this instead of individual handlers:
     python webhook_server.py
@@ -25,10 +26,12 @@ CORS(app)
 # Import and register blueprints/routes from individual handlers
 from webinar_nurture_handler import handle_webinar_registration
 from contact_form_handler import handle_contact_form
+from newsletter_handler import handle_newsletter_subscription
 
 # Re-register routes on the combined app
 app.add_url_rule('/api/webinar', 'webinar', handle_webinar_registration, methods=['POST'])
 app.add_url_rule('/api/contact', 'contact', handle_contact_form, methods=['POST'])
+app.add_url_rule('/api/newsletter', 'newsletter', handle_newsletter_subscription, methods=['POST'])
 
 
 @app.route('/health', methods=['GET'])
@@ -45,6 +48,7 @@ def index():
         'endpoints': [
             {'path': '/api/webinar', 'method': 'POST', 'description': 'Webinar registration'},
             {'path': '/api/contact', 'method': 'POST', 'description': 'Contact form'},
+            {'path': '/api/newsletter', 'method': 'POST', 'description': 'Newsletter subscription'},
             {'path': '/health', 'method': 'GET', 'description': 'Health check'},
         ]
     }
@@ -57,8 +61,9 @@ if __name__ == '__main__':
     print(f"{'='*60}")
     print(f"Running on http://localhost:{port}")
     print(f"\nEndpoints:")
-    print(f"  POST /api/webinar  - Webinar registration")
-    print(f"  POST /api/contact  - Contact form")
-    print(f"  GET  /health       - Health check")
+    print(f"  POST /api/webinar     - Webinar registration")
+    print(f"  POST /api/contact     - Contact form")
+    print(f"  POST /api/newsletter  - Newsletter subscription")
+    print(f"  GET  /health          - Health check")
     print(f"{'='*60}\n")
     app.run(host='0.0.0.0', port=port, debug=True)

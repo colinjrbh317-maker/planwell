@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import NewsletterPopup from '../components/NewsletterPopup.astro';
 import heroImage from '../assets/images/hero-couple.png';
 import brennanPhoto from '../assets/images/brennan-rhule.jpg';
 import davidPhoto from '../assets/images/david-fei.jpg';
@@ -447,6 +448,9 @@ const faqSchema = {
       </div>
     </div>
   </section>
+
+  <!-- Newsletter Popup (homepage only) -->
+  <NewsletterPopup />
 </BaseLayout>
 
 <style>
