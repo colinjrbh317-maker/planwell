@@ -1,0 +1,653 @@
+---
+// SEO-optimized content component for TSP Calculator
+---
+
+<section class="seo-content-section">
+  <div class="container-narrow">
+
+    <!-- Introduction Section -->
+    <div class="content-block">
+      <h2>Understanding Your Thrift Savings Plan (TSP) Growth</h2>
+      <p>
+        The Thrift Savings Plan (TSP) is the federal government's version of a 401(k) retirement savings plan, serving over 6 million
+        federal employees and members of the uniformed services. As one of the largest defined contribution plans in the world with
+        over $850 billion in assets, the TSP offers low-cost investment options and generous employer matching to help you build wealth for retirement.
+      </p>
+      <p>
+        Unlike your FERS pension which provides guaranteed income, your TSP balance depends entirely on how much you contribute,
+        how your agency matches those contributions, and how your investments perform over time. This calculator helps you project
+        your future TSP balance based on compound growth—what Albert Einstein allegedly called "the eighth wonder of the world."
+      </p>
+    </div>
+
+    <!-- How TSP Growth Works -->
+    <div class="content-block">
+      <h2>How the TSP Calculator Projects Your Balance</h2>
+      <p>
+        Your TSP balance grows through three mechanisms:
+      </p>
+
+      <h3>1. Your Contributions</h3>
+      <p>
+        As a FERS employee, you can contribute up to the annual IRS limit ($23,000 in 2024, or $30,500 if age 50+). Contributions
+        can be made on a pre-tax basis (Traditional TSP) or after-tax basis (Roth TSP), each with distinct tax implications.
+      </p>
+      <ul class="content-list">
+        <li><strong>Traditional TSP:</strong> Contributions reduce your taxable income now; withdrawals are fully taxable in retirement</li>
+        <li><strong>Roth TSP:</strong> Contributions are after-tax; qualified withdrawals (age 59½+ with 5-year account age) are completely tax-free</li>
+        <li><strong>Catch-Up Contributions:</strong> After age 50, you can contribute an additional $7,500 per year (2024 limit)</li>
+      </ul>
+
+      <h3>2. Agency Matching Contributions</h3>
+      <p>
+        FERS employees receive automatic agency contributions worth up to <strong>5% of your salary</strong>:
+      </p>
+      <ul class="content-list">
+        <li><strong>1% Automatic:</strong> Contributed whether you participate or not</li>
+        <li><strong>Up to 4% Matching:</strong> Dollar-for-dollar match on first 3% + 50 cents per dollar on next 2%</li>
+        <li><strong>Total Possible:</strong> 5% of your salary in free money—the single best guaranteed "return" available</li>
+      </ul>
+      <p class="highlight-text">
+        <strong>Important:</strong> You must contribute at least 5% of your salary to receive the full 5% match. Contributing less
+        means leaving free money on the table that you can never recover.
+      </p>
+
+      <h3>3. Investment Growth (Compound Interest)</h3>
+      <p>
+        The TSP offers five individual funds and multiple Lifecycle (L) Funds that automatically adjust allocation as you near retirement:
+      </p>
+      <ul class="content-list">
+        <li><strong>G Fund (Government Securities):</strong> Principal guaranteed, low returns (~3-4% historically)</li>
+        <li><strong>F Fund (Bond Index):</strong> Investment-grade bonds, moderate risk (~6% historically)</li>
+        <li><strong>C Fund (S&P 500 Index):</strong> Large U.S. companies, higher risk/reward (~10% historically)</li>
+        <li><strong>S Fund (Small-Cap Stock Index):</strong> Small/medium U.S. companies, high risk/reward (~11% historically)</li>
+        <li><strong>I Fund (International Stock Index):</strong> International stocks (excluding U.S.), variable returns</li>
+        <li><strong>L Funds (Lifecycle Funds):</strong> Professionally managed mix that becomes more conservative as target retirement date approaches</li>
+      </ul>
+      <p>
+        Historical returns vary significantly by fund and time period. The calculator defaults to 7% annual return—a conservative estimate
+        that accounts for market volatility over long time horizons. Aggressive investors in stocks have historically achieved 9-11%,
+        while conservative G Fund investors earn 3-4%.
+      </p>
+    </div>
+
+    <!-- Compound Interest Explanation -->
+    <div class="content-block">
+      <h2>The Power of Compound Interest in Your TSP</h2>
+      <p>
+        Compound interest means you earn returns not just on your contributions, but on your previous returns as well. Over decades,
+        this compounding effect creates exponential growth. Consider these examples:
+      </p>
+
+      <div class="example-box">
+        <h4>Example 1: Starting Early vs. Starting Late</h4>
+        <p><strong>Scenario A:</strong> Age 25, contribute $500/month for 40 years at 7% return = <strong>$1.2 million</strong></p>
+        <p><strong>Scenario B:</strong> Age 35, contribute $500/month for 30 years at 7% return = <strong>$566,000</strong></p>
+        <p class="highlight-text">
+          Starting 10 years earlier more than doubles your ending balance despite only contributing an additional $60,000.
+          Time in the market matters more than timing the market.
+        </p>
+      </div>
+
+      <div class="example-box">
+        <h4>Example 2: The Cost of Not Maxing the Match</h4>
+        <p><strong>Salary:</strong> $80,000 | <strong>Your Contribution:</strong> 2% ($1,600/year) | <strong>Agency Match:</strong> 2% ($1,600/year)</p>
+        <p><strong>Missed Opportunity:</strong> By not contributing 5%, you forfeit $2,400 annually in matching contributions—$96,000 over 40 years before growth!</p>
+        <p class="highlight-text">
+          Always contribute at least 5% to capture the full match. This is an immediate 100% return on your investment.
+        </p>
+      </div>
+    </div>
+
+    <!-- TSP Allocation Strategy -->
+    <div class="content-block">
+      <h2>Choosing the Right TSP Allocation Strategy</h2>
+      <p>
+        Your investment allocation should align with your retirement timeline and risk tolerance:
+      </p>
+
+      <h3>Aggressive Strategy (20+ Years to Retirement)</h3>
+      <ul class="content-list">
+        <li><strong>Allocation:</strong> 80-100% stocks (C, S, I Funds)</li>
+        <li><strong>Pros:</strong> Maximum long-term growth potential, time to recover from market downturns</li>
+        <li><strong>Cons:</strong> High volatility, paper losses during bear markets can be psychologically difficult</li>
+        <li><strong>Best For:</strong> Young employees with stable income and long time horizon</li>
+      </ul>
+
+      <h3>Moderate Strategy (10-20 Years to Retirement)</h3>
+      <ul class="content-list">
+        <li><strong>Allocation:</strong> 60-70% stocks, 30-40% bonds/G Fund</li>
+        <li><strong>Pros:</strong> Balanced growth with reduced volatility</li>
+        <li><strong>Cons:</strong> Lower upside potential than aggressive allocation</li>
+        <li><strong>Best For:</strong> Mid-career employees focused on steady accumulation</li>
+      </ul>
+
+      <h3>Conservative Strategy (5-10 Years to Retirement)</h3>
+      <ul class="content-list">
+        <li><strong>Allocation:</strong> 40-50% stocks, 50-60% bonds/G Fund</li>
+        <li><strong>Pros:</strong> Protects accumulated wealth, reduces sequence-of-returns risk</li>
+        <li><strong>Cons:</strong> May not keep pace with inflation long-term</li>
+        <li><strong>Best For:</strong> Pre-retirees who cannot afford significant losses</li>
+      </ul>
+
+      <div class="tip-box">
+        <strong>Lifecycle Funds Simplify Everything:</strong> If choosing your own allocation feels overwhelming, L Funds automatically
+        adjust from aggressive to conservative as your target retirement date approaches. They're professionally managed, diversified,
+        and rebalanced automatically—perfect for hands-off investors.
+      </div>
+    </div>
+
+    <!-- The 4% Rule Section -->
+    <div class="content-block">
+      <h2>The 4% Rule: Converting Your TSP to Retirement Income</h2>
+      <p>
+        Once you retire, you'll need to convert your TSP balance into sustainable retirement income. The "4% Rule" is a widely-used
+        guideline suggesting you can safely withdraw 4% of your portfolio in the first year of retirement, then adjust for inflation
+        annually, with a high probability your money will last 30+ years.
+      </p>
+
+      <h3>How the 4% Rule Works</h3>
+      <ul class="content-list">
+        <li><strong>Year 1:</strong> Withdraw 4% of starting balance (e.g., $500,000 balance = $20,000 withdrawal)</li>
+        <li><strong>Year 2+:</strong> Increase previous year's withdrawal by inflation rate (e.g., $20,000 × 1.03 = $20,600)</li>
+        <li><strong>Historical Success Rate:</strong> 95%+ probability of lasting 30 years based on historical market data</li>
+      </ul>
+
+      <p>
+        However, the 4% rule has limitations for federal retirees:
+      </p>
+      <ul class="content-list">
+        <li>Assumes you don't have a pension—but you do (FERS and Social Security)</li>
+        <li>Doesn't account for Required Minimum Distributions (RMDs) starting at age 73</li>
+        <li>Tax implications vary significantly between Traditional and Roth TSP withdrawals</li>
+        <li>TSP withdrawal rules differ from private-sector IRAs</li>
+      </ul>
+
+      <div class="tip-box">
+        <strong>Federal Retirees Can Often Withdraw More:</strong> Since your FERS pension and Social Security cover essential expenses,
+        your TSP can be more aggressively withdrawn or preserved for legacy goals. Many federal retirees safely withdraw 5-6% when
+        coordinated with guaranteed pension income.
+      </div>
+    </div>
+
+    <!-- TSP Withdrawal Options -->
+    <div class="content-block">
+      <h2>TSP Withdrawal Strategies in Retirement</h2>
+      <p>
+        The TSP offers several withdrawal options, each with distinct tax and income implications:
+      </p>
+
+      <h3>1. Monthly Payments</h3>
+      <p>
+        Receive a fixed dollar amount or payments based on IRS life expectancy tables. Flexible and can be started, stopped, or
+        adjusted annually.
+      </p>
+
+      <h3>2. Single or Partial Withdrawals</h3>
+      <p>
+        Take one lump sum or schedule up to four partial withdrawals per year. Useful for large expenses or planned Roth conversions.
+      </p>
+
+      <h3>3. TSP Annuity (Generally Not Recommended)</h3>
+      <p>
+        Convert your balance to a lifetime annuity. <strong>Warning:</strong> TSP annuity rates are often 20-30% worse than private
+        annuities, offer no inflation protection, and cannot be undone. Consult a financial advisor before selecting this option.
+      </p>
+
+      <h3>4. Leave It in TSP</h3>
+      <p>
+        You're not required to withdraw immediately upon retirement. Many retirees leave their TSP intact until age 73 when RMDs begin,
+        allowing continued tax-deferred (or tax-free Roth) growth.
+      </p>
+
+      <div class="warning-box">
+        <strong>Critical Tax Planning:</strong> Traditional TSP withdrawals are taxed as ordinary income. If you retire before age 59½
+        and take withdrawals before the year you turn 55 (or 50 for special provision employees), you may face an additional 10% early
+        withdrawal penalty. Careful tax planning can save tens of thousands in taxes over your retirement.
+      </div>
+    </div>
+
+    <!-- Common Mistakes -->
+    <div class="content-block warning-block">
+      <h2>Common TSP Mistakes That Cost Federal Employees Thousands</h2>
+      <ul class="content-list">
+        <li><strong>Not Contributing Enough to Get the Full Match:</strong> Leaving 2-4% free money on the table compounds to six figures over a career</li>
+        <li><strong>Panic Selling During Market Downturns:</strong> Moving to G Fund during crashes locks in losses; markets always recover over time</li>
+        <li><strong>Ignoring Roth TSP:</strong> Younger employees in lower tax brackets miss opportunities for decades of tax-free growth</li>
+        <li><strong>Stopping Contributions After Reaching Annual Limit:</strong> Agency match requires ongoing contributions each pay period</li>
+        <li><strong>Choosing TSP Annuity Without Shopping Around:</strong> Private annuities often provide 20-30% higher payouts</li>
+        <li><strong>Not Naming Beneficiaries:</strong> Without a designation, your TSP may go through probate instead of directly to heirs</li>
+        <li><strong>Over-Concentrating in G Fund:</strong> "Safe" doesn't mean optimal—inflation erodes purchasing power of low returns</li>
+      </ul>
+    </div>
+
+    <!-- Traditional vs Roth Section -->
+    <div class="content-block">
+      <h2>Traditional TSP vs. Roth TSP: Which Should You Choose?</h2>
+      <p>
+        One of the most important TSP decisions is choosing between Traditional (pre-tax) and Roth (after-tax) contributions:
+      </p>
+
+      <h3>Choose Traditional TSP If:</h3>
+      <ul class="content-list">
+        <li>You're in a high tax bracket now (22% or higher)</li>
+        <li>You expect to be in a lower tax bracket in retirement</li>
+        <li>You want to maximize take-home pay today</li>
+        <li>You're close to retirement and need tax deductions now</li>
+      </ul>
+
+      <h3>Choose Roth TSP If:</h3>
+      <ul class="content-list">
+        <li>You're early in your career with lower current income</li>
+        <li>You expect higher income (and tax brackets) in retirement</li>
+        <li>You want tax diversification in retirement</li>
+        <li>You have 20+ years until retirement to maximize tax-free growth</li>
+        <li>You want to avoid Required Minimum Distributions (RMDs) by converting to Roth IRA</li>
+      </ul>
+
+      <div class="tip-box">
+        <strong>Best Strategy for Most Federal Employees:</strong> Split contributions between Traditional and Roth for tax diversification.
+        For example, contribute enough Traditional TSP to get the full match (5%), then direct additional contributions to Roth TSP.
+        This gives you flexibility to manage taxes in retirement by choosing which account to withdraw from based on your tax situation each year.
+      </div>
+    </div>
+
+    <!-- Maximizing TSP Section -->
+    <div class="content-block">
+      <h2>Advanced TSP Strategies to Maximize Your Balance</h2>
+
+      <h3>1. Max Out Contributions If Possible</h3>
+      <p>
+        Contributing the annual maximum ($23,000 in 2024, or $30,500 if 50+) dramatically accelerates wealth accumulation.
+        If you cannot max out immediately, increase contributions by 1% annually until you reach the limit.
+      </p>
+
+      <h3>2. Take Advantage of Catch-Up Contributions</h3>
+      <p>
+        Once you turn 50, you can contribute an additional $7,500 per year. Use this to supercharge savings in your final working years
+        when your income is typically highest and expenses (like mortgage and children) may be lower.
+      </p>
+
+      <h3>3. Don't Time the Market</h3>
+      <p>
+        Studies consistently show that staying invested through market volatility outperforms trying to time buy/sell decisions.
+        Dollar-cost averaging (investing consistently every pay period) reduces the impact of market volatility.
+      </p>
+
+      <h3>4. Rebalance Annually</h3>
+      <p>
+        If you manage your own allocation (not using L Funds), rebalance once per year to maintain your target allocation.
+        This forces you to "buy low, sell high" by moving gains from winning funds into underperforming assets.
+      </p>
+
+      <h3>5. Consider Mega Backdoor Roth (If Eligible)</h3>
+      <p>
+        Some agencies allow after-tax contributions beyond the annual limit, which can be converted to Roth. This advanced strategy
+        requires specific agency participation and careful execution but can dramatically increase Roth savings.
+      </p>
+    </div>
+
+    <!-- FAQs -->
+    <div class="content-block">
+      <h2>Frequently Asked Questions About TSP</h2>
+
+      <div class="faq-item">
+        <h3>Can I borrow from my TSP?</h3>
+        <p>
+          Yes, TSP offers two types of loans: General Purpose (up to $50,000, repaid over 1-5 years) and Residential (for primary home
+          purchase, repaid over 1-15 years). Interest paid goes back into your account. However, loans should be a last resort—you miss
+          out on investment growth, and if you separate from service, the loan must be repaid in full or it's treated as a taxable distribution.
+        </p>
+      </div>
+
+      <div class="faq-item">
+        <h3>What happens to my TSP when I leave federal service?</h3>
+        <p>
+          You have several options: (1) Leave it in TSP to continue growing, (2) Roll it over to an IRA for more investment options,
+          (3) Roll it to a new employer's 401(k), or (4) Withdraw it (not recommended before retirement age due to taxes and penalties).
+          Most financial advisors recommend leaving it in TSP due to the incredibly low fees (0.042% expense ratio).
+        </p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Should I roll my TSP to an IRA when I retire?</h3>
+        <p>
+          Not necessarily. TSP offers some of the lowest fees in the industry and solid fund options. However, IRAs provide more
+          investment choices, easier access to funds, and better estate planning options (like naming trusts as beneficiaries).
+          The decision depends on your specific situation—consult a financial advisor who specializes in federal benefits.
+        </p>
+      </div>
+
+      <div class="faq-item">
+        <h3>When do Required Minimum Distributions (RMDs) start?</h3>
+        <p>
+          Traditional TSP participants must begin RMDs in the year they turn 73 (increased from 72 in 2023). Roth TSP also has RMDs,
+          but you can avoid them by rolling your Roth TSP to a Roth IRA before age 73. RMDs are calculated based on IRS life expectancy
+          tables and your prior year-end balance.
+        </p>
+      </div>
+
+      <div class="faq-item">
+        <h3>What are the TSP fees?</h3>
+        <p>
+          TSP has an expense ratio of just 0.042% (about $0.42 per $1,000 invested annually)—one of the lowest in the industry.
+          Private sector 401(k) plans average 0.50-1.00%, meaning TSP saves you thousands in fees over a career.
+        </p>
+      </div>
+    </div>
+
+    <!-- Related Tools -->
+    <div class="content-block related-tools">
+      <h2>Related Federal Retirement Calculators</h2>
+      <div class="tools-grid">
+        <a href="/fers-retirement-calculator" class="tool-card">
+          <h3>FERS Pension Calculator</h3>
+          <p>Calculate your estimated FERS retirement annuity with sick leave and military credits</p>
+        </a>
+        <a href="/high-3-calculator" class="tool-card">
+          <h3>High-3 Salary Calculator</h3>
+          <p>Determine your highest 36 consecutive months of basic pay</p>
+        </a>
+        <a href="/special-retirement-supplement-calculator" class="tool-card">
+          <h3>FERS Supplement Calculator</h3>
+          <p>Estimate your Special Retirement Supplement income until age 62</p>
+        </a>
+        <a href="/leo-atc-fers-special-provision-retirement-calculator" class="tool-card">
+          <h3>Special Provision Calculator</h3>
+          <p>Calculate enhanced benefits for Law Enforcement, ATC, and Firefighters</p>
+        </a>
+      </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="content-block cta-block">
+      <h2>Build a Comprehensive TSP Strategy</h2>
+      <p>
+        While calculators show projections, optimizing your TSP requires personalized strategies around contribution rates,
+        Traditional vs. Roth allocation, investment selection, withdrawal sequencing, and tax minimization.
+      </p>
+      <p>
+        We specialize in federal employee retirement planning and will help you:
+      </p>
+      <ul class="content-list">
+        <li>Optimize your TSP contribution strategy to maximize growth and matching</li>
+        <li>Determine the right Traditional/Roth split based on your tax situation</li>
+        <li>Select appropriate fund allocations aligned with your retirement timeline</li>
+        <li>Plan tax-efficient withdrawal strategies coordinating TSP, FERS, and Social Security</li>
+        <li>Analyze whether to keep TSP or roll to an IRA after retirement</li>
+      </ul>
+      <div class="cta-buttons">
+        <a href="/book-call" class="btn btn--primary btn--lg">Schedule Your Free Consultation</a>
+        <a href="/blog" class="btn btn--secondary btn--lg">Read TSP Planning Guides</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .seo-content-section {
+    background: var(--color-white);
+    padding: var(--space-16) 0;
+  }
+
+  .container-narrow {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+  }
+
+  .content-block {
+    margin-bottom: var(--space-12);
+  }
+
+  .content-block h2 {
+    color: var(--color-navy);
+    font-family: var(--font-heading);
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    margin-bottom: var(--space-4);
+    line-height: 1.3;
+  }
+
+  .content-block h3 {
+    color: var(--color-navy);
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: var(--font-semibold);
+    margin-top: var(--space-6);
+    margin-bottom: var(--space-3);
+    line-height: 1.4;
+  }
+
+  .content-block h4 {
+    color: var(--color-navy);
+    font-family: var(--font-heading);
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    margin-bottom: var(--space-2);
+  }
+
+  .content-block p {
+    color: var(--color-gray-700);
+    font-size: var(--text-base);
+    line-height: 1.7;
+    margin-bottom: var(--space-4);
+  }
+
+  .content-list {
+    list-style: disc;
+    margin-left: var(--space-8);
+    margin-bottom: var(--space-4);
+    color: var(--color-gray-700);
+  }
+
+  .content-list li {
+    margin-bottom: var(--space-2);
+    line-height: 1.7;
+    padding-left: var(--space-2);
+  }
+
+  .content-list li strong {
+    color: var(--color-navy);
+    font-weight: var(--font-semibold);
+  }
+
+  .inline-link {
+    color: var(--color-navy);
+    text-decoration: underline;
+    font-weight: var(--font-medium);
+    transition: color var(--transition-fast);
+  }
+
+  .inline-link:hover {
+    color: var(--color-gold);
+  }
+
+  .highlight-text {
+    background: rgba(201, 165, 92, 0.1);
+    border-left: 3px solid var(--color-gold);
+    padding: var(--space-3) var(--space-4);
+    margin: var(--space-4) 0;
+    font-weight: var(--font-medium);
+  }
+
+  /* Example Box */
+  .example-box {
+    background: var(--color-gray-50);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-md);
+    padding: var(--space-5);
+    margin: var(--space-4) 0;
+  }
+
+  .example-box h4 {
+    margin-top: 0;
+  }
+
+  .example-box p {
+    margin-bottom: var(--space-2);
+  }
+
+  .example-box .highlight-text {
+    margin-top: var(--space-3);
+  }
+
+  /* Tip Box */
+  .tip-box {
+    background: rgba(34, 197, 94, 0.1);
+    border-left: 4px solid #22c55e;
+    padding: var(--space-4);
+    border-radius: var(--radius-md);
+    margin: var(--space-4) 0;
+  }
+
+  .tip-box strong {
+    color: var(--color-navy);
+    display: block;
+    margin-bottom: var(--space-2);
+  }
+
+  /* Warning Block */
+  .warning-block {
+    background: rgba(239, 68, 68, 0.05);
+    border-left: 4px solid #ef4444;
+    padding: var(--space-6);
+    border-radius: var(--radius-md);
+  }
+
+  .warning-box {
+    background: rgba(245, 158, 11, 0.1);
+    border-left: 4px solid #f59e0b;
+    padding: var(--space-4);
+    border-radius: var(--radius-md);
+    margin: var(--space-4) 0;
+  }
+
+  .warning-box strong {
+    color: var(--color-navy);
+    display: block;
+    margin-bottom: var(--space-2);
+  }
+
+  /* FAQs */
+  .faq-item {
+    margin-bottom: var(--space-6);
+    padding-bottom: var(--space-6);
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .faq-item:last-child {
+    border-bottom: none;
+  }
+
+  .faq-item h3 {
+    margin-top: 0;
+    color: var(--color-navy);
+    font-size: var(--text-lg);
+  }
+
+  /* Related Tools Grid */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+
+  .tool-card {
+    background: var(--color-gray-50);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-md);
+    padding: var(--space-5);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+  }
+
+  .tool-card:hover {
+    background: var(--color-white);
+    border-color: var(--color-navy);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  .tool-card h3 {
+    margin: 0 0 var(--space-2) 0;
+    color: var(--color-navy);
+    font-size: var(--text-base);
+    font-weight: var(--font-bold);
+  }
+
+  .tool-card p {
+    margin: 0;
+    color: var(--color-gray-600);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+  }
+
+  /* CTA Block */
+  .cta-block {
+    background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%);
+    color: var(--color-white);
+    padding: var(--space-10);
+    border-radius: var(--radius-lg);
+    text-align: center;
+  }
+
+  .cta-block h2 {
+    color: var(--color-white);
+    margin-bottom: var(--space-4);
+  }
+
+  .cta-block p {
+    color: var(--color-gray-300);
+    margin-bottom: var(--space-4);
+  }
+
+  .cta-block .content-list {
+    text-align: left;
+    max-width: 600px;
+    margin: var(--space-6) auto;
+    color: var(--color-gray-300);
+  }
+
+  .cta-block .content-list li strong {
+    color: var(--color-white);
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: var(--space-4);
+    justify-content: center;
+    margin-top: var(--space-8);
+    flex-wrap: wrap;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .container-narrow {
+      padding: 0 var(--space-4);
+    }
+
+    .content-block h2 {
+      font-size: var(--text-xl);
+    }
+
+    .content-block h3 {
+      font-size: var(--text-lg);
+    }
+
+    .tools-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .cta-buttons {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .cta-buttons .btn {
+      width: 100%;
+    }
+  }
+</style>
