@@ -82,28 +82,23 @@ const faqSchema = {
     <div class="container">
       <div class="hero__content">
         <h1 class="hero__title">
-          <span class="hero__title-main">Retire with Confidence</span>
-          <span class="hero__title-accent">Using Our Fed-Expert Financial Blueprint</span>
+          <span class="hero__title-main">Retire on Your Terms.</span>
+          <span class="hero__title-accent">Federal Benefits Made Simple.</span>
         </h1>
 
         <p class="hero__subtitle">
-          We specialize in helping Federal & Military employees simplify complex
-          benefits so you can retire on your terms.
+          Stop second-guessing your FERS retirement. Our Certified Financial Planners
+          have helped thousands of feds turn complex rules into confident retirements.
         </p>
 
         <div class="hero__cta">
           <a href="https://planwell.vercel.app/webinars" class="btn btn--primary btn--lg">
-            Reserve My Free Federal Retirement Workshop Seat
+            Free Federal Employee Webinars
+          </a>
+          <a href="/book-call" class="btn btn--ghost btn--lg">
+            Book a 1-on-1 Call
           </a>
         </div>
-
-        <a href="#process" class="hero__process-link">
-          <svg class="hero__process-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
-            <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
-          </svg>
-          How our 3-step process works
-        </a>
 
         <div class="hero__trust">
           <span class="hero__trust-item">100% Fiduciary</span>
@@ -553,25 +548,16 @@ const faqSchema = {
     margin-bottom: var(--space-6);
   }
 
-  .hero__process-link {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
+  /* Ghost Button for Hero */
+  .hero .btn--ghost {
+    background: transparent;
+    border: 2px solid var(--color-white);
     color: var(--color-white);
-    font-size: var(--text-sm);
-    text-decoration: underline;
-    text-underline-offset: 4px;
-    margin-bottom: var(--space-8);
-    transition: color var(--transition-fast);
   }
 
-  .hero__process-link:hover {
-    color: var(--color-gold);
-  }
-
-  .hero__process-icon {
-    width: 16px;
-    height: 16px;
+  .hero .btn--ghost:hover {
+    background: var(--color-white);
+    color: var(--color-navy);
   }
 
   .hero__trust {
@@ -638,10 +624,6 @@ const faqSchema = {
     }
 
     .hero__cta {
-      justify-content: center;
-    }
-
-    .hero__process-link {
       justify-content: center;
     }
 

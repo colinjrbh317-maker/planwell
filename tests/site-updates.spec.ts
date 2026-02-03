@@ -27,8 +27,8 @@ test.describe('Homepage Updates', () => {
     await expect(heroContent).toBeVisible();
 
     // Check main title text
-    await expect(page.locator('.hero__title-main')).toContainText('Retire with Confidence');
-    await expect(page.locator('.hero__title-accent')).toContainText('Fed-Expert Financial Blueprint');
+    await expect(page.locator('.hero__title-main')).toContainText('Retire on Your Terms');
+    await expect(page.locator('.hero__title-accent')).toContainText('Federal Benefits Made Simple');
   });
 
   test('hero shows Fee-Based in trust badges', async ({ page }) => {
@@ -40,16 +40,16 @@ test.describe('Homepage Updates', () => {
     await expect(trustSection).not.toContainText('Fee-Only');
   });
 
-  test('hero CTA button is visible', async ({ page }) => {
-    const ctaButton = page.locator('.hero__cta a.btn--primary');
-    await expect(ctaButton).toBeVisible();
-    await expect(ctaButton).toContainText('Reserve My Free Federal Retirement Workshop Seat');
-  });
+  test('hero CTA buttons are visible', async ({ page }) => {
+    // Primary button - Free webinars
+    const primaryButton = page.locator('.hero__cta a.btn--primary');
+    await expect(primaryButton).toBeVisible();
+    await expect(primaryButton).toContainText('Free Federal Employee Webinars');
 
-  test('hero process link is visible', async ({ page }) => {
-    const processLink = page.locator('.hero__process-link');
-    await expect(processLink).toBeVisible();
-    await expect(processLink).toContainText('How our 3-step process works');
+    // Secondary button - Book a call
+    const ghostButton = page.locator('.hero__cta a.btn--ghost');
+    await expect(ghostButton).toBeVisible();
+    await expect(ghostButton).toContainText('Book a 1-on-1 Call');
   });
 });
 
