@@ -69542,6 +69542,343 @@ Want to fast-track your federal retirement plan? Skip the FERS webinar and start
 		</section>
 				</div>`
   },
+  '2026-retirement-plan-annual-limits-updated-for-tsp-401k-ira-and-more': {
+    slug: '2026-retirement-plan-annual-limits-updated-for-tsp-401k-ira-and-more',
+    title: '2026 Retirement Plan Annual Limits Updated for TSP, 401(k), IRA, and More',
+    excerpt: 'Updated 2026 retirement plan contribution limits! Plan your 2026 retirement with new IRS limits. See updated 401(k), IRA, and more. Start planning now!',
+    category: 'FERS',
+    author: 'david-fei',
+    authorDisplay: 'David Fei, CFP®, ChFEBC℠, AIF®',
+    date: 'January 30, 2026',
+    readTime: '10 min read',
+    image: '/images/blog/default.jpg',
+    content: `<h1>2026 Retirement Plan Annual Limits Updated for TSP, 401(k), IRA, and More</h1>
+<p><em>Updated 2026 retirement plan contribution limits! Plan your 2026 retirement with new IRS limits. See updated 401(k), IRA, and more. Start planning now!</em></p>
+<h2>2026 Financial Planning Chart for IRS Annual Limits for Contributions to Retirement Savings</h2>
+<p>Here's what you need to know about the 2026 limits for your retirement plan.</p>
+<h3>Importance of Annual Contribution Limits</h3>
+<p><strong>Understanding the annual contribution limit is paramount for maximizing retirement savings within tax-advantaged accounts.</strong> As inflation rises, the IRS often adjusts annual contribution limits for retirement accounts, like 401(k)s, the TSP, and IRAs, allowing individuals to save more and maintain the real value of their retirement nest egg over time.</p>
+<h3>TSP Contribution Limits for 2026</h3>
+<table><tr><th>Category</th><th>2026</th><th>2025</th></tr><tr><td>Limit for all participants</td><td>$24,500</td><td>$23,500</td></tr><tr><td>Age 50 or Older</td><td>+$8,000 ($32,500 total)</td><td>$7,500</td></tr><tr><td>Ages 60–63</td><td>+$11,250 ($35,750 total)</td><td>$11,250</td></tr></table>
+<h3>Employee Elective Deferral Limit</h3>
+<p>The employee elective deferral limit for the Thrift Savings Plan (TSP) in 2026 has been updated, increasing $1,000 from the 2025 TSP contribution limits, allowing participants to contribute more toward their retirement. Catch-up amounts increased by $500 from last year.</p>
+<h3>401(k) and 403(b) Limits for 2026</h3>
+<table><tr><th>Category</th><th>2026</th><th>2025</th></tr><tr><td>Total limit (employee + employer)</td><td>$72,000</td><td>$69,000</td></tr></table>
+<h3>IRA Contribution Limits for 2026</h3>
+<table><tr><th>Category</th><th>2026</th><th>2025</th></tr><tr><td>Limit for all participants</td><td>$7,500</td><td>$7,000</td></tr><tr><td>Age 50 or Older</td><td>+$1,100 ($8,600 total)</td><td>$1,000</td></tr></table>
+<h3>HSA Contribution Limits for 2026</h3>
+<table><tr><th>Category</th><th>2026</th><th>2025</th></tr><tr><td>Individuals</td><td>$4,400</td><td>$4,300</td></tr><tr><td>Families</td><td>$8,750</td><td>$8,550</td></tr><tr><td>Age 50 or Older</td><td>+$1,000</td><td>$1,000</td></tr></table>`
+  },
+  '2026-gsa-mileage-reimbursement-rate-standard-mileage-rates-updated': {
+    slug: '2026-gsa-mileage-reimbursement-rate-standard-mileage-rates-updated',
+    title: '2026 GSA Mileage Reimbursement Rate: Standard Mileage Rates Updated',
+    excerpt: 'The General Services Administration (GSA) has announced the updated standard mileage rates for 2026 for federal employees.',
+    category: 'FERS',
+    author: 'ben-derge',
+    authorDisplay: 'Ben Derge',
+    date: 'January 9, 2026',
+    readTime: '5 min read',
+    image: '/images/blog/default.jpg',
+    content: `<h1>2026 GSA Mileage Reimbursement Rate: Updated Standard Mileage Rate for Gas</h1>
+<p>The General Services Administration (GSA) has announced the updated standard mileage rates for 2026. These rates, aligned with the IRS standard rate, determine how much federal agencies reimburse employees for vehicle expenses incurred during work-related travel.</p>
+<h2>2026 Mileage Rates Table</h2>
+<table><tr><th>Vehicle Type</th><th>2026 Rate</th><th>2025 Rate</th></tr><tr><td>Privately Owned Automobiles (business)</td><td>72.5¢ per mile</td><td>70¢ per mile</td></tr><tr><td>Government-furnished automobile unavailable</td><td>20.5¢ per mile</td><td>21¢ per mile</td></tr><tr><td>Airplane</td><td>$1.78 per mile</td><td>$1.76 per mile</td></tr><tr><td>Motorcycle</td><td>70.5¢ per mile</td><td>68¢ per mile</td></tr><tr><td>Moving Expenses</td><td>20.5¢ per mile</td><td>21¢ per mile</td></tr></table>
+<h2>2026 vs 2025 Comparison</h2>
+<ul><li>Private automobiles increased from 70¢ to 72.5¢ per mile</li><li>Government-furnished auto rates decreased from 21¢ to 20.5¢ per mile</li><li>Airplane reimbursement rose from $1.76 to $1.78 per mile</li><li>Motorcycle rates increased from 68¢ to 70.5¢ per mile</li></ul>
+<h2>Key Factors Driving Rate Changes</h2>
+<p>Rising vehicle ownership costs, including gas prices, insurance premiums, and maintenance expenses, influenced the 2026 adjustments. The IRS publishes these rates in fall; the GSA announced the new rate via bulletin FTR 26-02 on December 30.</p>`
+  },
+  '2026-irmaa-brackets-and-medicare-part-b-and-part-d-premium-surcharges': {
+    slug: '2026-irmaa-brackets-and-medicare-part-b-and-part-d-premium-surcharges',
+    title: '2026 IRMAA Brackets and Medicare Part B and Part D Premium Surcharges',
+    excerpt: 'The Income-Related Monthly Adjustment Amount (IRMAA) brackets for 2026 determine Medicare premium surcharges for higher-income beneficiaries.',
+    category: 'FEHB & Medicare',
+    author: 'david-fei',
+    authorDisplay: 'David Fei, CFP®, ChFEBC℠, AIF®',
+    date: 'January 7, 2026',
+    readTime: '8 min read',
+    image: '/images/blog/default.jpg',
+    content: `<h2>2026 IRMAA Brackets Published: Medicare Part B and Part D Premiums</h2>
+<p>The Income-Related Monthly Adjustment Amount (IRMAA) brackets for 2026 were published in November. Individuals covered by Medicare Part B or Part D with incomes exceeding certain thresholds (based on 2024 tax returns) will pay additional surcharges on their Medicare premiums.</p>
+<h3>Understanding IRMAA in 2026</h3>
+<p>IRMAA represents a surcharge that Medicare beneficiaries with higher incomes must pay in addition to their standard Medicare Part B and Medicare Part D premiums. This surcharge applies when modified adjusted gross income exceeds specified limits.</p>
+<h3>How IRMAA is Calculated</h3>
+<p>The surcharge is determined using tax return data from two years prior. For 2026, the Social Security Administration reviews 2024 tax returns to assess eligibility. The Centers for Medicare employs five income brackets to calculate surcharge amounts.</p>
+<h3>2026 Income Brackets</h3>
+<p>For single filers, Part B premiums range from $202.90 (at or below $109,000) to $689.90 (at $500,000 or above). Part D IRMAA ranges from $0 to $91.00 depending on income bracket.</p>
+<h3>Managing IRMAA Costs</h3>
+<p>Strategies to reduce IRMAA include tax-efficient investment strategies, Roth conversions, or careful planning of distributions from retirement accounts.</p>`
+  },
+  'average-pension-amount-for-federal-employee-retirement-system-fers': {
+    slug: 'average-pension-amount-for-federal-employee-retirement-system-fers',
+    title: 'Average Pension Amount for Federal Employee Retirement System (FERS)',
+    excerpt: 'This article explores average pension amounts under FERS, eligibility requirements, and financial planning importance for federal retirees.',
+    category: 'FERS',
+    author: 'brennan-rhule',
+    authorDisplay: 'Brennan Rhule, CFP®, ChFEBC℠, AIF®',
+    date: 'January 7, 2026',
+    readTime: '7 min read',
+    image: '/images/blog/default.jpg',
+    content: `<h1>Average Pension Amount for Federal Employee Retirement System (FERS)</h1>
+<p>Federal Retirement Income Estimates: Average FERS Pension System Amount</p>
+<p>This article explores average pension amounts under FERS, eligibility requirements, and financial planning importance for federal retirees.</p>
+<h2>Understanding FERS Pension System</h2>
+<p>The Federal Employee Retirement System (FERS) is the retirement system covering most federal employees hired after 1983. It is a three-tiered system designed to provide comprehensive retirement packages through a basic annuity, Social Security benefits, and a Thrift Savings Plan (TSP).</p>
+<h3>Average Pension Amount by GS-Step and Length of Service</h3>
+<p><strong>GS-1 to GS-4 Positions</strong> (average high-3: $34,164.00)</p>
+<ul><li>Age 62 with 5 years: $142.35/month</li><li>Age 62 with 20 years: $626.34/month</li><li>MRA with 30 years: $854.10/month</li></ul>
+<p><strong>GS-5 to GS-9 Positions</strong> (average high-3: $56,461.20)</p>
+<ul><li>Age 62 with 5 years: $235.26/month</li><li>Age 62 with 20 years: $1,035.12/month</li><li>MRA with 30 years: $1,411.53/month</li></ul>
+<p><strong>GS-10 to GS-15 Positions</strong> (average high-3: $113,332.17)</p>
+<ul><li>Age 62 with 5 years: $472.22/month</li><li>Age 62 with 20 years: $2,077.76/month</li><li>MRA with 30 years: $2,833.30/month</li></ul>`
+  },
+  'avoid-the-early-tsp-withdrawal-penalty-thrift-savings-plan-tips': {
+    slug: 'avoid-the-early-tsp-withdrawal-penalty-thrift-savings-plan-tips',
+    title: 'Avoid the Early TSP Withdrawal Penalty: Thrift Savings Plan Tips',
+    excerpt: 'Essential tips to help you avoid costly penalties and make informed decisions about your TSP account withdrawals.',
+    category: 'FERS',
+    author: 'david-fei',
+    authorDisplay: 'David Fei, CFP®, ChFEBC℠, AIF®',
+    date: 'January 26, 2026',
+    readTime: '9 min read',
+    image: '/images/blog/default.jpg',
+    content: `<h2>Withdraw Thrift Savings Plan Money from Your Account & Avoid Early TSP Withdrawal Penalty</h2>
+<p>The Thrift Savings Plan (TSP) can be complex, especially when it comes to the rules surrounding TSP withdrawals, particularly the early withdrawal penalty. This article provides essential tips to help you avoid costly penalties and make informed decisions about your TSP account.</p>
+<h3>Understanding TSP Withdrawal Options</h3>
+<p>TSP participants have several options when it comes to withdrawals in retirement. These include single lump-sum distributions, monthly payments, or a combination of both.</p>
+<h3>Rule of 55: Withdrawals in Retirement</h3>
+<p>After the SECURE Act 2.0, age 55 became a new exception to the early withdrawal penalty for federal employees. If you separate from service in the calendar year you reach age 55 or later, you can begin taking money from your TSP without penalty.</p>
+<h3>Special Provisions Withdrawal Rules</h3>
+<p>Certain federal employees such as law enforcement officers, firefighters, and air traffic controllers have more favorable rules. These employees can access their TSP funds without penalty at age 50 if they separate from service.</p>
+<h3>Using SEPP for Early In-Service Withdrawals Before Age 59.5</h3>
+<p>Substantially Equal Periodic Payments (SEPP), also known as the 72(t) rule, offers a method for accessing funds without penalty before age 59.5.</p>
+<p><strong>Key SEPP Requirements:</strong></p>
+<ul><li>Payments must continue for 5 years or until age 59½, whichever is longer</li><li>Cannot modify, pause, or stop without retroactive penalties</li><li>Applies to Traditional and Roth TSP</li></ul>`
+  },
+  'best-life-insurance-for-feds-fegli-option-b-vs-private-policy': {
+    slug: 'best-life-insurance-for-feds-fegli-option-b-vs-private-policy',
+    title: 'Best Life Insurance for Feds: FEGLI Option B vs. Private Policy',
+    excerpt: 'Compare FEGLI coverage options with private life insurance policies to determine the best choice for federal employees.',
+    category: 'FERS',
+    author: 'brennan-rhule',
+    authorDisplay: 'Brennan Rhule, CFP®, ChFEBC℠, AIF®',
+    date: 'January 12, 2026',
+    readTime: '10 min read',
+    image: '/images/blog/default.jpg',
+    content: `<h1>Best Life Insurance for Feds: Reviewing FEGLI Option B vs. Private Policy Options</h1>
+<p>Life insurance options as a federal employee can be complex. This article will help you understand the nuances of FEGLI coverage and whether FEGLI Option B stacks up against private life insurance policies.</p>
+<h2>The Federal Employee Group Life Insurance Program (FEGLI)</h2>
+<p><strong>FEGLI provides group life insurance to federal employees.</strong> You're automatically enrolled in basic coverage when hired with the option to opt-out or elect additional coverage.</p>
+<h3>FEGLI Basic Coverage</h3>
+<p>FEGLI basic coverage equals your annual salary, rounded up to the next $1,000, plus $2,000. The cost is subsidized by the government, making FEGLI basic a cost-effective option.</p>
+<h3>FEGLI Option B: Costly Coverage in Retirement</h3>
+<p><strong>FEGLI Option B allows you to elect coverage of one to five times your annual salary; however, it becomes increasingly expensive, especially after retirement.</strong> As FEGLI premiums increase with age, many retirees find that keeping FEGLI option B is no longer cost-effective.</p>
+<h2>Comparing FEGLI Option B and Private Policies</h2>
+<p><strong>Maintaining FEGLI Option B after retirement can become prohibitively expensive as FEGLI premiums increase significantly with age.</strong> Many federal employees find that the cost outweighs the benefits when compared to private term life insurance.</p>
+<h3>Benefits of Private Term Life Insurance</h3>
+<p>For healthier individuals, private term life insurance often provides a more cost-effective solution than FEGLI Option B, typically offering lower premiums for the same level of death benefit.</p>`
+  },
+  'enhanced-retirement-for-air-traffic-controller-supervisors': {
+    slug: 'enhanced-retirement-for-air-traffic-controller-supervisors',
+    title: 'Enhanced Retirement for Air Traffic Controller Supervisors',
+    excerpt: 'ATC retirement age and enhanced pension benefits for air traffic controllers in supervisor roles explained.',
+    category: 'FERS',
+    author: 'ben-derge',
+    authorDisplay: 'Ben Derge',
+    date: 'January 16, 2026',
+    readTime: '6 min read',
+    image: '/images/blog/default.jpg',
+    content: `<h2>ATC Retirement Age and Enhanced Pension for Air Traffic Controllers in Supervisor Roles</h2>
+<p>For most in the air traffic controller (ATC) position, "good time" is defined as qualifying service years for which your FERS pension calculation uses a 1.7% multiplier instead of the normal 1.0 or 1.1 percent for regular federal occupations.</p>
+<p>As stated in 5 U.S. Code § 8415(a), any ATC employee who served any time as a second level supervisor, or an ATC that served any time as a first level supervisor with some experience in a non-supervisor ATC job, can receive the 1.7 percent multiplier for all of their "good time" in an ATC position, even beyond 20 years, so long as they have at least 30 years of total service when they retire.</p>
+<h3>Federal Retirement Age Guide for Air Traffic Controllers</h3>
+<p>Due to the cognitive demands of managing airspace, the oldest air traffic controller retirement age attainable is 56, whereas other demanding occupations like federal firefighters and law enforcement officers (LEOs) have to retire at age 57.</p>
+<h3>Eligibility for FERS Retirement</h3>
+<p>Generally, ATCs can retire with full benefits if they meet one of the following criteria:</p>
+<ul><li>Stay on the job for 20 years of service, you can retire starting at age 50</li><li>Any age after completing at least 25 years of service</li></ul>`
+  },
+  'federal-employee-divorce-and-fers-dividing-federal-pension-and-tsp': {
+    slug: 'federal-employee-divorce-and-fers-dividing-federal-pension-and-tsp',
+    title: 'Federal Employee Divorce and FERS: Dividing Federal Pension and TSP',
+    excerpt: 'Understanding how your federal pension and TSP are treated during divorce proceedings as a federal employee.',
+    category: 'FERS',
+    author: 'david-fei',
+    authorDisplay: 'David Fei, CFP®, ChFEBC℠, AIF®',
+    date: 'January 15, 2026',
+    readTime: '9 min read',
+    image: '/images/blog/default.jpg',
+    content: `<h1>Federal Employee Divorce and FERS Retirement Pension, TSP, and Survivor Benefits</h1>
+<p>Going through a divorce as a federal employee involves understanding how your federal pension and TSP, along with other federal benefits such as the FERS Supplement, are treated during the divorce proceedings.</p>
+<h2>Understanding Federal Employee Retirement Systems</h2>
+<p>FERS, established in 1987, covers most federal employees, incorporating social security, a basic annuity, and the TSP.</p>
+<h3>Impact of Divorce on FERS Benefits</h3>
+<p>A divorce can significantly impact your FERS benefits. Your former spouse might be entitled to a portion of the federal FERS plan, TSP, and even survivor benefits. The exact distribution is typically determined by a divorce decree and any related court order.</p>
+<h3>Legal Framework: Court Orders and Acceptable Processing</h3>
+<p>A court order acceptable for processing (COAP) is required by OPM to divide the pension benefits. This order must precisely outline how the annuity, TSP, and survivor benefits are to be split.</p>
+<h2>Thrift Savings Plan and Divorce</h2>
+<p>After a divorce, the TSP account is typically divided according to the order from the courts. Usually, a separate account is created for the former spouse to manage their share of the retirement savings.</p>`
+  },
+  'federal-employee-retirement-planning-choosing-a-financial-advisor': {
+    slug: 'federal-employee-retirement-planning-choosing-a-financial-advisor',
+    title: 'Federal Employee Retirement Planning: Choosing a Financial Advisor',
+    excerpt: 'How to choose a financial advisor who can provide tailored planning services for federal employees.',
+    category: 'FERS',
+    author: 'ben-derge',
+    authorDisplay: 'Ben Derge',
+    date: 'January 29, 2026',
+    readTime: '7 min read',
+    image: '/images/blog/default.jpg',
+    content: `<h2>Choosing a Financial Advisor for Federal Employees: Federal Retirement Planning</h2>
+<p>Retirement planning for federal employees involves understanding intricacies of their benefits and often requires a specialized professional.</p>
+<h3>Find the Right Advisor for Federal Employee Retirement Planning</h3>
+<p>Federal employees benefits are multifaceted, involving a FERS or CSRS pension, the TSP, FEHB, FEGLI, and Social Security. Expert guidance is crucial to optimize these benefits.</p>
+<h3>Key Qualifications for Financial Advisors</h3>
+<ul><li><strong>Certified Financial Planner™ (CFP®️)</strong> – demonstrates expertise of financial products</li><li><strong>Accredited Investment Fiduciary (AIF®️)</strong> – holds financial planners to the fiduciary standard</li><li><strong>Chartered Federal Employee Benefits Consultant (ChFEBC℠)</strong> – designation recognized by FINRA for federal benefits expertise</li></ul>
+<h3>Questions to Ask Before Hiring</h3>
+<ul><li>Who will be my advisor and point of contact?</li><li>How is the Advisor compensated? Are they held to the Fiduciary Standard?</li><li>How long have they been working with federal employees?</li><li>Are they being completely transparent?</li></ul>`
+  },
+  'fers-survivor-benefit-federal-retirement-annuity-options': {
+    slug: 'fers-survivor-benefit-federal-retirement-annuity-options',
+    title: 'FERS Survivor Benefit: Federal Retirement Annuity Options',
+    excerpt: 'Explore FERS survivor benefits and the various options available to federal employees and their families.',
+    category: 'FERS',
+    author: 'brennan-rhule',
+    authorDisplay: 'Brennan Rhule, CFP®, ChFEBC℠, AIF®',
+    date: 'January 29, 2026',
+    readTime: '8 min read',
+    image: '/images/blog/default.jpg',
+    content: `<h2>Federal Employee Retirement System Survivor Benefits: Guide for FERS Survivor Annuity Options</h2>
+<p>This article explores aspects of FERS survivor benefits, the various options available to federal employees and their families.</p>
+<h3>Understanding Survivor Benefits and Options</h3>
+<p><strong>Survivor elections within the FERS retirement system</strong> determine the type and level of survivor benefit your spouse and eligible dependents will receive.</p>
+<h3>Full Survivor Annuity (50%)</h3>
+<p>The full survivor annuity offers the surviving spouse 50% of the federal employee's FERS annuity for the remainder of their life. In exchange, the federal employee's annuity is permanently reduced by 10%.</p>
+<h3>Partial Survivor Annuity (25%)</h3>
+<p>The partial survivor annuity provides the surviving spouse with 25% of the FERS annuity for life. This option reduces the employee's annuity by 5%.</p>
+<h3>No Survivor Annuity Election</h3>
+<p>Electing no survivor annuity means the surviving spouse will not receive ongoing annuity payments. This requires notarized spousal consent.</p>
+<h3>Survivor Annuity and FEHB Eligibility</h3>
+<p>The election of a FERS survivor benefit is intrinsically linked to the surviving spouse's eligibility to continue FEHB coverage.</p>`
+  },
+  'how-to-contact-opm-retirement-services-federal-retirement-guide': {
+    slug: 'how-to-contact-opm-retirement-services-federal-retirement-guide',
+    title: 'How to Contact OPM Retirement Services: Federal Retirement Guide',
+    excerpt: 'Guide for federal employees trying to reach OPM during retirement application processing.',
+    category: 'FERS',
+    author: 'ben-derge',
+    authorDisplay: 'Ben Derge',
+    date: 'January 8, 2026',
+    readTime: '6 min read',
+    image: '/images/blog/default.jpg',
+    content: `<h1>How to Contact OPM Retirement Services: Federal Retirement Guide</h1>
+<p>This article provides guidance for federal employees trying to reach the Office of Personnel Management (OPM) during a backlog of retirement applications.</p>
+<h2>Contact Information</h2>
+<ul><li>Main Phone: 202-606-1800</li><li>Retirement Services: 888-767-6738</li><li>Email: retire@opm.gov</li></ul>
+<h2>Key Topics</h2>
+<ul><li>Overview of OPM retirement services and their role in administering federal pensions</li><li>Importance of obtaining your Claim number (CSA) for tracking applications</li><li>Processing timelines (interim payments within 3-6 weeks, full annuity within 3-5 months)</li><li>Strategies for managing delays, such as using annual leave payouts and TSP funds</li><li>Understanding 1099-R tax forms and state tax withholding adjustments</li><li>Online account management through OPM's retirement services portal</li></ul>`
+  },
+  'pending-federal-retirement-claims-in-opm-backlog-hits-50000': {
+    slug: 'pending-federal-retirement-claims-in-opm-backlog-hits-50000',
+    title: 'Pending Federal Retirement Claims in OPM Backlog Hits 50,000',
+    excerpt: 'OPM Backlog December 2025 update: Processing time for paper and digital retirement applications.',
+    category: 'FERS',
+    author: 'david-fei',
+    authorDisplay: 'David Fei, CFP®, ChFEBC℠, AIF®',
+    date: 'January 7, 2026',
+    readTime: '5 min read',
+    image: '/images/blog/default.jpg',
+    content: `<h2>OPM Backlog: December 2025 Processing Time for Paper and Digital Retirement Applications</h2>
+<p>The Office of Personnel Management received 13,174 federal retirement claims in December 2025, with 6,055 submitted via the new ORA portal. OPM processed 9,428 total claims, leaving <strong>50,566 claims pending</strong> at month's end.</p>
+<table><tr><th></th><th>Digital</th><th>Paper</th><th>Total</th></tr><tr><td>October 2025</td><td>10,252</td><td>24,335</td><td>34,587</td></tr><tr><td>November 2025</td><td>13,835</td><td>34,561</td><td>48,396</td></tr><tr><td>December 2025</td><td>15,295</td><td>35,271</td><td>50,566</td></tr></table>
+<h3>Monthly Average Processing Time</h3>
+<p>Average processing increased from 66 days in November to 67 days in December. Digital claims average 38 days; paper applications average 94 days.</p>
+<h3>Common Causes of Delays</h3>
+<p>Application errors—including corrections, cross-outs, or whiteouts—are the primary cause of processing delays.</p>`
+  },
+  'starting-2026-mandatory-catch-up-contributions-to-the-roth-tsp': {
+    slug: 'starting-2026-mandatory-catch-up-contributions-to-the-roth-tsp',
+    title: 'Starting 2026, Mandatory Catch-Up Contributions to the Roth TSP',
+    excerpt: 'SECURE Act 2.0 provisions affecting federal employees who earn over $150,000 and make catch-up contributions.',
+    category: 'FERS',
+    author: 'ben-derge',
+    authorDisplay: 'Ben Derge',
+    date: 'December 30, 2025',
+    readTime: '6 min read',
+    image: '/images/blog/default.jpg',
+    content: `<h1>Starting 2026, Mandatory Catch-Up Contributions to the Roth TSP</h1>
+<p>Beginning January 1, 2026, federal employees whose 2025 taxable income exceeded $150,000 must contribute catch-up amounts to Roth TSP accounts rather than traditional accounts.</p>
+<h2>Key Points</h2>
+<ul><li>Government matching contributions (5%) still go to traditional TSP regardless</li><li>Traditional TSP contributions reduce taxable income but withdrawals are taxed</li><li>Roth contributions are after-tax but qualified withdrawals are tax-free</li><li>Traditional accounts require RMDs at specified ages; Roth accounts don't</li><li>High earners can strategically contribute $8,600 to traditional IRAs instead</li><li>In-plan Roth conversions will become available in TSP starting January 2026</li></ul>
+<h2>Strategic Recommendations</h2>
+<p>Consult financial advisors to evaluate individual circumstances, as the decision between mandatory Roth contributions and alternative strategies depends on anticipated future income and tax rates.</p>`
+  },
+  'thrift-savings-plan-g-fund-current-rate-january-2026-tsp-planner': {
+    slug: 'thrift-savings-plan-g-fund-current-rate-january-2026-tsp-planner',
+    title: 'Thrift Savings Plan G Fund Current Rate – January 2026 TSP Planner',
+    excerpt: 'The TSP G fund rate for January 2026 and understanding the Government Securities Investment Option.',
+    category: 'FERS',
+    author: 'brennan-rhule',
+    authorDisplay: 'Brennan Rhule, CFP®, ChFEBC℠, AIF®',
+    date: 'January 6, 2026',
+    readTime: '5 min read',
+    image: '/images/blog/default.jpg',
+    content: `<h2>Thrift Savings Plan G Fund Current Rate – January 2026 TSP Planner</h2>
+<p>The TSP G fund rate currently sits at 4.250% for the loan rate, matching October 2025 levels.</p>
+<h3>TSP G Fund: Understanding the Government Securities Investment Option</h3>
+<p>The Thrift Savings Plan (TSP) serves federal employees and uniformed services members, offering various investment funds for retirement planning. The G Fund provides a stable, low-risk investment choice designed for participants seeking security.</p>
+<h3>How does the TSP G Fund Yield and Return work?</h3>
+<p>The G Fund earns interest based on U.S. Treasury securities with guaranteed principal and monthly-adjusted yields. It provides a "long-term rate" on short-term securities, typically exceeding regular Treasury bill returns, though inflation risk remains its primary concern.</p>
+<h3>Current Rate: 4.250%</h3>
+<p>Historical rates show rates have ranged from 4.125% to 4.625% recently, with January 2026 at 4.250%.</p>`
+  },
+  'tsp-investment-guidance-for-building-your-thrift-savings-plan-strategy': {
+    slug: 'tsp-investment-guidance-for-building-your-thrift-savings-plan-strategy',
+    title: 'TSP Investment Guidance for Building Your Thrift Savings Plan Strategy',
+    excerpt: 'In-depth investment advice to help understand your TSP investment options and build a personalized investment plan.',
+    category: 'FERS',
+    author: 'brennan-rhule',
+    authorDisplay: 'Brennan Rhule, CFP®, ChFEBC℠, AIF®',
+    date: 'January 22, 2026',
+    readTime: '10 min read',
+    image: '/images/blog/default.jpg',
+    content: `<h1>TSP Financial Guide: Investment Strategy to Maximize Your Thrift Savings Plan</h1>
+<p>Your Thrift Savings Plan is often the largest retirement asset you will possess as a federal employee. Developing a sound TSP investment strategy is necessary for securing your financial future.</p>
+<h2>Key Components of Your Thrift Savings Plan</h2>
+<p>The TSP offers five core funds: G Fund (government securities), F Fund (fixed income), C Fund (S&P 500 index), S Fund (US stock market completion index), and I Fund (international stocks).</p>
+<h2>Step One: Assessing Your Time Horizon</h2>
+<p>Your time horizon—the amount of time until retirement—is critical for determining ideal asset allocation. Generally, longer time horizons support more aggressive stock-focused strategies.</p>
+<h2>Step Two: Evaluating Your Risk Tolerance</h2>
+<p>Understanding how much market fluctuation you can handle without panicking is essential. Differentiate between capacity for risk and willingness to take it.</p>
+<h2>Step Three: Crafting Your TSP Investment Mix</h2>
+<p>Custom fund mixes are typically more appropriate than lifecycle funds for those with clear investment goals and risk understanding.</p>
+<h2>Step Four: Regular Contributions</h2>
+<p>Consistent contributions enable dollar-cost averaging benefits. The 2026 TSP contribution limit is $24,500 ($32,500 for age 50+).</p>
+<h2>Roth vs. Traditional TSP</h2>
+<p>Roth contributions are after-tax with tax-free retirement withdrawals; traditional TSP offers tax-deferred growth but taxable withdrawals.</p>`
+  },
+  '2025-tax-deduction-standard-deduction-for-seniors-explained': {
+    slug: '2025-tax-deduction-standard-deduction-for-seniors-explained',
+    title: '2025 Tax Deduction: Standard Deduction for Seniors Explained',
+    excerpt: 'Tax benefits for seniors aged 65+ under the 2025 tax code including additional standard deduction amounts.',
+    category: 'Tax Strategy',
+    author: 'david-fei',
+    authorDisplay: 'David Fei, CFP®, ChFEBC℠, AIF®',
+    date: 'January 20, 2026',
+    readTime: '6 min read',
+    image: '/images/blog/default.jpg',
+    content: `<h1>2025 Tax Deduction: Standard Deduction for Seniors Explained</h1>
+<p>The article explains tax benefits for seniors aged 65+ under the 2025 tax code.</p>
+<h2>Additional Standard Deduction Amounts</h2>
+<ul><li>Single filers: $2,050</li><li>Married filing jointly (per individual): $1,650</li></ul>
+<h2>Eligibility Requirements</h2>
+<p>Seniors must be age 65 or older by year-end 2025. The deduction applies through tax year 2028.</p>
+<h2>Income Phase-Out Thresholds</h2>
+<ul><li>Single filers: Full deduction below $75,000 MAGI; completely phases out at $175,000</li><li>Married couples: Full deduction below $150,000 MAGI; phases out at $250,000</li><li>Phase-out rate: 6% reduction per $1 over threshold</li></ul>
+<h2>Key Benefit</h2>
+<p>The deduction helps to lower your taxable income, potentially reducing overall federal tax liability and moving taxpayers into lower brackets.</p>
+<h2>Strategic Planning</h2>
+<p>For federal employees and retirees, combining this deduction with others may enable favorable Roth conversions, TSP withdrawals, and Social Security optimization strategies.</p>`
+  },
 }
 
 export function getArticleSlugs(): string[] {
