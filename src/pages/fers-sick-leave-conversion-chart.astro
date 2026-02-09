@@ -42,7 +42,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               <span class="form-hint">Enter the total hours of unused sick leave you will have at retirement.</span>
             </div>
 
-            <button type="button" class="btn btn--primary btn--lg calculate-btn" onclick="convertSickLeave()">
+            <button type="button" class="btn btn--primary btn--lg calculate-btn" onclick="convertSickLeave(); document.getElementById('sickleave-result').scrollIntoView({ behavior: 'smooth', block: 'start' });">
               Convert Sick Leave
             </button>
 
@@ -74,12 +74,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
           <ul style="margin-left: var(--space-6); margin-bottom: var(--space-4); list-style: disc;">
             <li><strong>1 work year = 2,087 hours</strong></li>
-            <li><strong>1 sick leave day = 6 hours</strong></li>
-            <li><strong>Rounding rule:</strong> Days are automatically rounded UP to the next full month</li>
-            <li><strong>Only years and months count</strong> - days under 30 are rounded up to months</li>
+            <li><strong>1 month = 174 hours</strong> (2,087 / 12)</li>
+            <li><strong>1 day ≈ 5.8 hours</strong> (174 / 30 days per month)</li>
+            <li><strong>Result shows years, months, and days</strong> of additional service credit</li>
           </ul>
 
-          <p class="mb-2"><strong>Example:</strong> 441 hours of sick leave converts to 2 months and 16 days, which rounds up to 3 months of service credit.</p>
+          <p class="mb-2"><strong>Example:</strong> 441 hours of sick leave converts to 2 months and 16 days of additional service credit.</p>
 
           <hr class="my-4 border-gray-200" />
 
@@ -353,7 +353,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 </style>
 
 <script is:inline>
-  // Import conversion function (inline for Astro)
+  // FERS Sick Leave Conversion using 2087-hour chart
+  // 1 work year = 2,087 hours | 1 month = 174 hours | 1 day = 5.8 hours (174/30)
   function convertSickLeave() {
     const hoursInput = document.getElementById('sickleave-hours');
     const hours = parseFloat(hoursInput.value) || 0;
@@ -363,56 +364,45 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       return;
     }
 
-    // Convert using USGS chart formula
-    // 2,087 hours = 1 work year
+    // Convert using 2,087-hour chart formula
     const fullYears = Math.floor(hours / 2087);
     const remainingHours = hours % 2087;
 
-    // Approximate conversion: ~174 hours per month
-    const remainingMonths = Math.floor(remainingHours / 174);
-    const remainingDays = Math.ceil((remainingHours % 174) / 6);
+    // Calculate months and days (174 hours/month, 30 days/month)
+    const months = Math.floor(remainingHours / 174);
+    const days = Math.round((remainingHours % 174) / (174 / 30));
 
-    // Apply rounding: days always round UP to next month
-    let months = remainingMonths;
-    if (remainingDays > 0) {
-      months += 1;
-    }
-
-    // Calculate total
+    // Calculate totals
     const additionalYears = Math.floor(months / 12);
     const finalMonths = months % 12;
     const totalYears = fullYears + additionalYears;
     const totalMonthsForPension = fullYears * 12 + months;
 
-    // Format output
+    // Format output with months AND days
     let serviceCreditText = '';
-    if (totalYears > 0 && finalMonths > 0) {
-      serviceCreditText = `${totalYears} year${totalYears !== 1 ? 's' : ''}, ${finalMonths} month${finalMonths !== 1 ? 's' : ''}`;
-    } else if (totalYears > 0) {
-      serviceCreditText = `${totalYears} year${totalYears !== 1 ? 's' : ''}`;
-    } else if (finalMonths > 0) {
-      serviceCreditText = `${finalMonths} month${finalMonths !== 1 ? 's' : ''}`;
-    } else {
-      serviceCreditText = '0 months';
+    const parts = [];
+    if (totalYears > 0) {
+      parts.push(`${totalYears} year${totalYears !== 1 ? 's' : ''}`);
     }
+    if (finalMonths > 0) {
+      parts.push(`${finalMonths} month${finalMonths !== 1 ? 's' : ''}`);
+    }
+    if (days > 0) {
+      parts.push(`${days} day${days !== 1 ? 's' : ''}`);
+    }
+    serviceCreditText = parts.length > 0 ? parts.join(', ') : '0 months';
 
     // Update display
-    document.getElementById('service-credit').textContent = serviceCreditText || '0 months';
-    document.getElementById('total-months').textContent = `${totalMonthsForPension} month${totalMonthsForPension !== 1 ? 's' : ''}`;
-    document.getElementById('summary-text').textContent = serviceCreditText;
+    document.getElementById('service-credit').textContent = serviceCreditText;
+    document.getElementById('total-months').textContent = days > 0
+      ? `${totalMonthsForPension} month${totalMonthsForPension !== 1 ? 's' : ''} and ${days} day${days !== 1 ? 's' : ''}`
+      : `${totalMonthsForPension} month${totalMonthsForPension !== 1 ? 's' : ''}`;
 
-    // Show note if days were rounded
+    // Update conversion note (replaces initial HTML including #summary-text)
     const noteElement = document.getElementById('result-note');
-    if (remainingDays > 0) {
-      noteElement.innerHTML = `
-        <p><strong>Note:</strong> Your sick leave converted to ${totalMonthsForPension} month${totalMonthsForPension !== 1 ? 's' : ''} of service credit.
-        <span style="color: var(--color-gold); font-weight: 600;">Days were automatically rounded UP to the next full month per OPM guidelines.</span></p>
-      `;
-    } else {
-      noteElement.innerHTML = `
-        <p><strong>Note:</strong> This converts to ${totalMonthsForPension} month${totalMonthsForPension !== 1 ? 's' : ''} of additional service credit for your FERS pension calculation.</p>
-      `;
-    }
+    noteElement.innerHTML = `
+      <p><strong>Note:</strong> Your ${hours.toLocaleString()} hours of sick leave converts to <strong>${serviceCreditText}</strong> of additional service credit for your FERS pension calculation.</p>
+    `;
   }
 
   // Initialize on page load

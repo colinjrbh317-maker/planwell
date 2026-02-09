@@ -43,17 +43,24 @@ test.describe('Sick Leave Conversion Calculator', () => {
     await expect(serviceCredit).toContainText('1 month');
   });
 
-  test('should round days up to next month (441 hours example)', async ({ page }) => {
-    // 441 hours = 2 months 16 days → should round to 3 months
+  test('should show months and days without rounding (441 hours)', async ({ page }) => {
+    // 441 hours = 2 months, 16 days (no rounding up to 3 months)
     await page.fill('#sickleave-hours', '441');
     await page.waitForTimeout(500);
 
     const serviceCredit = page.locator('#service-credit');
-    await expect(serviceCredit).toContainText('3 months');
+    await expect(serviceCredit).toContainText('2 months');
+    await expect(serviceCredit).toContainText('16 days');
+  });
 
-    // Check rounding note is displayed
-    const resultNote = page.locator('#result-note');
-    await expect(resultNote).toContainText('rounded');
+  test('should show months and days for 400 hours', async ({ page }) => {
+    // 400 hours = 2 months, 9 days
+    await page.fill('#sickleave-hours', '400');
+    await page.waitForTimeout(500);
+
+    const serviceCredit = page.locator('#service-credit');
+    await expect(serviceCredit).toContainText('2 months');
+    await expect(serviceCredit).toContainText('9 days');
   });
 
   test('should handle amounts over 2087 hours (multiple years)', async ({ page }) => {
@@ -128,23 +135,23 @@ test.describe('Sick Leave Conversion Calculator', () => {
   });
 
   test('should handle negative numbers gracefully', async ({ page }) => {
-    await page.fill('#sickleave-hours', '-100');
+    // Dismiss the alert that fires for negative numbers
+    page.on('dialog', dialog => dialog.dismiss());
 
-    // Click calculate or wait for real-time update
+    await page.fill('#sickleave-hours', '-100');
     await page.click('.calculate-btn');
     await page.waitForTimeout(500);
 
-    // Should show 0 or validation error
+    // Result should still show previous valid value or default (not crash)
     const serviceCredit = page.locator('#service-credit');
-    const text = await serviceCredit.textContent();
-    expect(text).toContain('0');
+    await expect(serviceCredit).toBeVisible();
   });
 
   test('should display calculation example in educational section', async ({ page }) => {
-    // Check that example is shown (441 hours → 3 months)
+    // Check that example is shown (441 hours → 2 months and 16 days)
     const content = page.locator('.calculator__note');
     await expect(content).toContainText('441');
-    await expect(content).toContainText('3 months');
+    await expect(content).toContainText('2 months and 16 days');
   });
 
   test('should have print functionality', async ({ page }) => {
@@ -154,10 +161,13 @@ test.describe('Sick Leave Conversion Calculator', () => {
 
   test('should show result summary with converted time', async ({ page }) => {
     await page.fill('#sickleave-hours', '2087');
+    await page.click('.calculate-btn');
     await page.waitForTimeout(500);
 
-    const summaryText = page.locator('#summary-text');
-    await expect(summaryText).toContainText('12 months');
+    // 2087 hours = 1 year; result-note shows the formatted conversion
+    const resultNote = page.locator('#result-note');
+    await expect(resultNote).toContainText('1 year');
+    await expect(resultNote).toContainText('additional service credit');
   });
 
   test('should format results correctly', async ({ page }) => {
@@ -174,11 +184,25 @@ test.describe('Sick Leave Conversion Calculator', () => {
     await expect(serviceCredit).toContainText('1 month');
   });
 
-  test('should show OPM rounding guideline note', async ({ page }) => {
-    await page.fill('#sickleave-hours', '175'); // Has remaining days
+  test('should show conversion note with service credit details', async ({ page }) => {
+    await page.fill('#sickleave-hours', '500');
+    await page.click('.calculate-btn');
     await page.waitForTimeout(500);
 
     const resultNote = page.locator('#result-note');
-    await expect(resultNote).toContainText('OPM');
+    await expect(resultNote).toContainText('500');
+    await expect(resultNote).toContainText('additional service credit');
+  });
+
+  test('should auto-scroll to results when Calculate is clicked', async ({ page }) => {
+    await page.fill('#sickleave-hours', '500');
+
+    // Click calculate button (which triggers scroll)
+    await page.click('.calculate-btn');
+    await page.waitForTimeout(1000);
+
+    // Result section should be visible in viewport
+    const resultSection = page.locator('#sickleave-result');
+    await expect(resultSection).toBeInViewport();
   });
 });

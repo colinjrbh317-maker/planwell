@@ -9,11 +9,13 @@ const daysUntil = nextWebinar ? getDaysUntil(nextWebinar) : 0;
 const webinarTime = nextWebinar ? `${nextWebinar.startTime} – ${nextWebinar.endTime} ${nextWebinar.timezone}` : '';
 const webinarId = nextWebinar?.id || '';
 
-// Optimized form - only 3 essential fields for maximum conversion
+// Form fields: first name, last name, email, phone (optional), agency
 const steps = [
-  { id: 1, question: "What's your name?", field: "name", type: "text", placeholder: "Full name" },
-  { id: 2, question: "Where should we send the details?", field: "email", type: "email", placeholder: "your.email@example.com" },
-  { id: 3, question: "What federal agency do you work for?", field: "agency", type: "text", placeholder: "e.g., DoD, VA, IRS, GSA" },
+  { id: 1, question: "What's your first name?", field: "firstName", type: "text", placeholder: "First name" },
+  { id: 2, question: "And your last name?", field: "lastName", type: "text", placeholder: "Last name" },
+  { id: 3, question: "Where should we send the details?", field: "email", type: "email", placeholder: "your.email@example.com" },
+  { id: 4, question: "Phone number?", field: "phone", type: "tel", placeholder: "(optional)", required: false },
+  { id: 5, question: "What federal agency do you work for?", field: "agency", type: "text", placeholder: "e.g., DoD, VA, IRS, GSA" },
 ];
 ---
 
@@ -43,16 +45,14 @@ const steps = [
 </head>
 <body>
   <div class="funnel">
-    <!-- Header -->
+    <!-- Header / Minimal Nav -->
     <header class="funnel-header">
       <a href="/" class="funnel-logo">
         <img src={logo.src} alt="PlanWell" />
       </a>
-      <a href="/" class="funnel-close" aria-label="Close">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M18 6L6 18M6 6l12 12"/>
-        </svg>
-      </a>
+      <nav class="funnel-nav">
+        <a href="/" class="funnel-nav__link">Back to Site</a>
+      </nav>
     </header>
     
     <!-- Progress Bar -->
@@ -231,17 +231,17 @@ const steps = [
           <div class="step-content">
             <span class="step-counter">Step {index + 1} of {steps.length}</span>
             <h2 class="step-question">{step.question}</h2>
-            
+
             <div class="input-wrapper">
-              <input 
+              <input
                 type={step.type}
                 id={step.field}
                 name={step.field}
                 class="funnel-input"
                 placeholder={step.placeholder}
-                required
+                required={step.required !== false}
                 onkeydown="handleEnter(event)"
-                autocomplete={step.field === 'email' ? 'email' : step.field === 'name' ? 'given-name' : 'organization'}
+                autocomplete={step.field === 'email' ? 'email' : step.field === 'firstName' ? 'given-name' : step.field === 'lastName' ? 'family-name' : step.field === 'phone' ? 'tel' : 'organization'}
               />
               <button type="button" class="btn-next" onclick="nextStep()">
                 {index === steps.length - 1 ? 'Complete Registration' : 'Continue'}
@@ -340,12 +340,14 @@ const steps = [
       width: auto;
     }
     
-    .funnel-close {
+    .funnel-nav__link {
       color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      font-size: 0.9rem;
       transition: color 0.2s;
     }
-    
-    .funnel-close:hover {
+
+    .funnel-nav__link:hover {
       color: #fff;
     }
     
@@ -885,7 +887,7 @@ const steps = [
     } : {};
     
     let currentStep = 0;
-    const totalSteps = 4; // intro + 3 questions
+    const totalSteps = 6; // intro + 5 questions (firstName, lastName, email, phone, agency)
     const formData = {};
     
     function updateProgress() {
@@ -944,7 +946,9 @@ const steps = [
       // Validate current step if it has input
       const currentStepEl = document.querySelector('[data-step="' + currentStep + '"]');
       const input = currentStepEl?.querySelector('input');
-      if (input && !input.value.trim()) {
+      // Phone field (step 4) is optional — allow empty
+      const isOptional = input && input.name === 'phone';
+      if (input && !input.value.trim() && !isOptional) {
         input.focus();
         input.style.borderColor = '#dc3545';
         return;

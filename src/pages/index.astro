@@ -5,6 +5,13 @@ import NewsletterPopup from '../components/NewsletterPopup.astro';
 import homepageHero from '../assets/images/homepage-hero.png';
 import brennanPhoto from '../assets/images/brennan-rhule.jpg';
 import davidPhoto from '../assets/images/david-fei.jpg';
+import { articles } from '../data/articles';
+
+// Get 3 most recent blog articles sorted by date
+const recentArticles = Object.entries(articles)
+  .map(([slug, article]) => ({ ...article, slug }))
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  .slice(0, 3);
 
 // Logo imports
 import logoCnbc from '../assets/logos/cnbc.png';
@@ -382,6 +389,36 @@ const faqSchema = {
     </div>
   </section>
 
+  <!-- Recent Articles Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Latest From the Learning Center</h2>
+      <div class="articles-grid">
+        {recentArticles.map((article) => (
+          <a href={`/${article.slug}`} class="article-card" data-animate="fade-in-up">
+            <div class="article-card__image-wrap">
+              <img
+                src={article.image || `/images/blog/covers/${article.slug}.png`}
+                alt={article.title}
+                class="article-card__image"
+                loading="lazy"
+              />
+            </div>
+            <div class="article-card__content">
+              <span class="article-card__category">{article.category}</span>
+              <h3 class="article-card__title">{article.title}</h3>
+              <p class="article-card__excerpt">{article.excerpt}</p>
+              <span class="article-card__meta">{article.date} · {article.readTime}</span>
+            </div>
+          </a>
+        ))}
+      </div>
+      <div style="text-align: center; margin-top: var(--space-8);">
+        <a href="/blog" class="btn btn--secondary btn--lg">View All Articles</a>
+      </div>
+    </div>
+  </section>
+
   <!-- FAQ Section -->
   <section class="section section--gray">
     <div class="container">
@@ -476,7 +513,7 @@ const faqSchema = {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 35%;
+    object-position: center center;
   }
 
   /* Left fade gradient - blends image into navy background */
@@ -985,6 +1022,78 @@ const faqSchema = {
     line-height: 1.6;
   }
 
+  /* Recent Articles */
+  .articles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+  }
+
+  .article-card {
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .article-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .article-card__image-wrap {
+    height: 200px;
+    overflow: hidden;
+  }
+
+  .article-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+  }
+
+  .article-card__content {
+    padding: var(--space-5);
+  }
+
+  .article-card__category {
+    display: inline-block;
+    font-size: var(--text-xs);
+    font-weight: var(--font-semibold);
+    color: var(--color-gold-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-2);
+  }
+
+  .article-card__title {
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    color: var(--color-navy);
+    line-height: 1.3;
+    margin-bottom: var(--space-2);
+  }
+
+  .article-card__excerpt {
+    font-size: var(--text-sm);
+    color: var(--color-gray-600);
+    line-height: 1.5;
+    margin-bottom: var(--space-3);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .article-card__meta {
+    font-size: var(--text-xs);
+    color: var(--color-gray-400);
+  }
+
   /* FAQ Section */
   .faq-grid {
     max-width: 800px;
@@ -1113,8 +1222,12 @@ const faqSchema = {
       grid-template-columns: 1fr;
       max-width: 500px;
     }
+
+    .articles-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
-  
+
   @media (max-width: 768px) {
     .hero__grid {
       gap: var(--space-10); /* Further reduce gap */
@@ -1220,6 +1333,16 @@ const faqSchema = {
     .section-title {
       font-size: var(--text-2xl);
       margin-bottom: var(--space-8);
+    }
+
+    /* Articles Grid */
+    .articles-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+
+    .article-card__image-wrap {
+      height: 180px;
     }
 
     /* FAQ Items */

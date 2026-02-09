@@ -122,7 +122,7 @@ import FERSCalculatorSEOContent from '../components/calculators/FERSCalculatorSE
               <span class="eligibility-text" id="eligibility-text">Enter your details to check eligibility.</span>
             </div>
 
-            <button type="button" class="btn btn--primary btn--lg calculate-btn" onclick="calculateFERS()">
+            <button type="button" class="btn btn--primary btn--lg calculate-btn" onclick="calculateFERS(); document.getElementById('fers-result').scrollIntoView({ behavior: 'smooth', block: 'start' });">
               Calculate My Pension
             </button>
 
@@ -635,14 +635,12 @@ import FERSCalculatorSEOContent from '../components/calculators/FERSCalculatorSE
     }).format(num);
   }
 
-  function formatServiceTime(years, months) {
-    if (months === undefined || months === 0) {
-      return `${years} year${years !== 1 ? 's' : ''}`;
-    }
-    const yearText = years > 0 ? `${years} year${years !== 1 ? 's' : ''}` : '';
-    const monthText = `${months} month${months !== 1 ? 's' : ''}`;
-    if (years === 0) return monthText;
-    return `${yearText}, ${monthText}`;
+  function formatServiceTime(years, months, days) {
+    const parts = [];
+    if (years > 0) parts.push(`${years} year${years !== 1 ? 's' : ''}`);
+    if (months > 0) parts.push(`${months} month${months !== 1 ? 's' : ''}`);
+    if (days > 0) parts.push(`${days} day${days !== 1 ? 's' : ''}`);
+    return parts.length > 0 ? parts.join(', ') : '0 months';
   }
 
   function calculateAge(birthDate, targetDate) {
@@ -662,21 +660,14 @@ import FERSCalculatorSEOContent from '../components/calculators/FERSCalculatorSE
   }
 
   function convertSickLeave(hours) {
-    if (hours <= 0) return { years: 0, months: 0, totalMonths: 0 };
+    if (hours <= 0) return { years: 0, months: 0, days: 0, totalMonths: 0 };
 
-    // 2,087 hours = 1 work year
+    // 2,087 hours = 1 work year | 174 hours/month | 30 days/month
     const fullYears = Math.floor(hours / 2087);
     const remainingHours = hours % 2087;
 
-    // Approximate: ~174 hours per month
-    const remainingMonths = Math.floor(remainingHours / 174);
-    const remainingDays = Math.ceil((remainingHours % 174) / 6);
-
-    // Round days UP to next month
-    let months = remainingMonths;
-    if (remainingDays > 0) {
-      months += 1;
-    }
+    const months = Math.floor(remainingHours / 174);
+    const days = Math.round((remainingHours % 174) / (174 / 30));
 
     const additionalYears = Math.floor(months / 12);
     const finalMonths = months % 12;
@@ -686,6 +677,7 @@ import FERSCalculatorSEOContent from '../components/calculators/FERSCalculatorSE
     return {
       years: totalYears,
       months: finalMonths,
+      days: days,
       totalMonths: totalMonthsForPension
     };
   }
@@ -816,8 +808,8 @@ import FERSCalculatorSEOContent from '../components/calculators/FERSCalculatorSE
     }
 
     // Display sick leave credit
-    if (sickCredit.years > 0 || sickCredit.months > 0) {
-      document.getElementById('fers-sick-credit').textContent = formatServiceTime(sickCredit.years, sickCredit.months);
+    if (sickCredit.years > 0 || sickCredit.months > 0 || sickCredit.days > 0) {
+      document.getElementById('fers-sick-credit').textContent = formatServiceTime(sickCredit.years, sickCredit.months, sickCredit.days);
     } else {
       document.getElementById('fers-sick-credit').textContent = 'None';
     }
@@ -869,7 +861,7 @@ import FERSCalculatorSEOContent from '../components/calculators/FERSCalculatorSE
     const militaryTime = data.militaryYears + (data.militaryMonths / 12);
 
     document.getElementById('breakdown-base').textContent = data.baseYears ? data.baseYears + ' years' : '--';
-    document.getElementById('breakdown-sick').textContent = sickLeaveYears > 0 ? sickLeaveYears.toFixed(2) + ' years' : 'None';
+    document.getElementById('breakdown-sick').textContent = (sickCredit.months > 0 || sickCredit.days > 0 || sickCredit.years > 0) ? formatServiceTime(sickCredit.years, sickCredit.months, sickCredit.days) : 'None';
     document.getElementById('breakdown-military').textContent = militaryTime > 0 ? militaryTime.toFixed(2) + ' years' : 'None';
     document.getElementById('breakdown-total').textContent = data.totalYears + ' years';
     document.getElementById('breakdown-formula').textContent =

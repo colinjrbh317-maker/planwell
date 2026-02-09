@@ -5,7 +5,7 @@
  * Formula:
  * - 1 work year = 2,087 hours
  * - 1 month ≈ 174 hours (2087 / 12 = 173.92)
- * - 1 day = 6 hours
+ * - 1 day ≈ 5.8 hours (174 / 30 days per month)
  *
  * Rounding Rule: "If the number of hours falls between two figures shown on the table,
  * use the next higher figure" - OPM guidelines

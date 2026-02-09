@@ -1,8 +1,8 @@
 """
 Newsletter Subscription Handler
 ================================
-Receives newsletter subscriptions from the homepage popup
-and stores them in Google Sheets.
+Receives newsletter subscriptions from the homepage popup,
+stores them in Google Sheets, and adds to Mailchimp.
 
 Endpoint: POST /api/newsletter
 Payload: { name, email, source, timestamp }
@@ -19,6 +19,7 @@ sys.path.append(str(Path(__file__).parent))
 
 from newsletter_sheets import get_credentials, find_sheet_by_name, SHEET_NAME
 from googleapiclient.discovery import build
+from mailchimp_client import add_subscriber as mailchimp_add_subscriber
 
 
 def handle_newsletter_subscription():
@@ -86,11 +87,23 @@ def handle_newsletter_subscription():
             body={'values': values}
         ).execute()
 
-        print(f"Newsletter subscription added: {email} from {source}")
+        print(f"Newsletter subscription added to Sheets: {email} from {source}")
+
+        # Also add to Mailchimp
+        mc_result = mailchimp_add_subscriber(
+            email=email,
+            first_name=name.split()[0] if name else '',
+            tags=['free-guide', source]
+        )
+        if mc_result.get('success'):
+            print(f"Mailchimp: {email} - {mc_result.get('status', 'subscribed')}")
+        else:
+            print(f"Mailchimp warning (non-blocking): {mc_result.get('error', 'unknown')}")
 
         return jsonify({
             'success': True,
-            'message': 'Subscribed successfully'
+            'message': 'Subscribed successfully',
+            'mailchimp': mc_result.get('status', 'unknown')
         })
 
     except Exception as e:

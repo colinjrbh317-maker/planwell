@@ -2,15 +2,17 @@
 Webinar Nurture Handler
 ========================
 Flask webhook endpoint to handle webinar registration submissions.
-Adds to Google Sheet and sends confirmation email immediately.
+Adds to Google Sheet, registers in Zoom, and sends confirmation email.
 
 Usage:
     python webinar_nurture_handler.py
 
 Expects POST to /api/webinar with JSON:
 {
-    "name": "John Smith",
+    "firstName": "John",
+    "lastName": "Smith",
     "email": "john@example.com",
+    "phone": "555-0100",       (optional)
     "agency": "DoD",
     "webinar_id": "dec-30-2025",
     "webinar_date": "2025-12-30T11:00:00-05:00"
@@ -30,6 +32,7 @@ load_dotenv(Path(__file__).parent.parent / '.env')
 # Import our modules
 from google_sheets_client import SheetsClient
 from webinar_emails import send_webinar_confirmation
+from zoom_client import add_registrant as zoom_add_registrant, find_webinar_by_date
 
 app = Flask(__name__)
 CORS(app)
@@ -79,46 +82,82 @@ def handle_webinar_registration():
     if not email:
         return jsonify({'success': False, 'error': 'Email is required'}), 400
     
+    # Support both old (name) and new (firstName/lastName) field formats
+    first_name = data.get('firstName', '')
+    last_name = data.get('lastName', '')
+    if not first_name and data.get('name'):
+        parts = data['name'].split(None, 1)
+        first_name = parts[0]
+        last_name = parts[1] if len(parts) > 1 else ''
+
+    phone = data.get('phone', '')
+    full_name = f"{first_name} {last_name}".strip()
+
     try:
         # Initialize sheets client
         sheets = SheetsClient()
         sheets.ensure_headers()
-        
+
         # Add registrant to sheet
         row_num = sheets.add_registrant({
-            'name': data.get('name', ''),
+            'name': full_name,
             'email': email,
             'agency': data.get('agency', ''),
+            'phone': phone,
             'timeline': data.get('timeline', ''),
             'source': 'webinar_registration',
             'webinar_id': data.get('webinar_id', ''),
             'webinar_date': data.get('webinar_date', ''),
         })
-        
+
         print(f"Added registrant to row {row_num}")
-        
+
+        # Register in Zoom
+        zoom_result = {'success': False, 'join_url': ''}
+        webinar_date_str = data.get('webinar_date', '')
+        if webinar_date_str:
+            # Extract date portion for matching (e.g., "2026-02-27")
+            target_date = webinar_date_str[:10]
+            zoom_webinar_id = find_webinar_by_date(target_date)
+
+            if zoom_webinar_id:
+                zoom_result = zoom_add_registrant(
+                    webinar_id=zoom_webinar_id,
+                    first_name=first_name or 'Attendee',
+                    last_name=last_name or '',
+                    email=email,
+                    phone=phone,
+                )
+                if zoom_result.get('success'):
+                    print(f"Zoom registration successful: {email} → webinar {zoom_webinar_id}")
+                else:
+                    print(f"Zoom registration warning (non-blocking): {zoom_result.get('error', 'unknown')}")
+            else:
+                print(f"No Zoom webinar found for date {target_date} — skipping Zoom registration")
+
         # Format date for email
-        webinar_date = format_webinar_date(data.get('webinar_date', ''))
-        timezone = get_timezone_from_date(data.get('webinar_date', ''))
-        first_name = data.get('name', '').split()[0] if data.get('name') else 'there'
-        
+        webinar_date = format_webinar_date(webinar_date_str)
+        timezone = get_timezone_from_date(webinar_date_str)
+
         # Send confirmation email
         email_sent = send_webinar_confirmation(
             to_email=email,
-            first_name=first_name,
+            first_name=first_name or 'there',
             webinar_date=webinar_date,
             timezone=timezone
         )
-        
+
         # Update email sent timestamp
         if email_sent and row_num > 0:
             sheets.update_email_sent(row_num, 'Email_Confirmation_Sent')
             print(f"Updated confirmation timestamp for row {row_num}")
-        
+
         return jsonify({
             'success': True,
             'message': 'Registration received',
-            'email_sent': email_sent
+            'email_sent': email_sent,
+            'zoom_registered': zoom_result.get('success', False),
+            'zoom_join_url': zoom_result.get('join_url', ''),
         })
         
     except Exception as e:
