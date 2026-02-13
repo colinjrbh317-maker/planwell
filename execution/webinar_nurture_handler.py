@@ -1,8 +1,8 @@
 """
-Webinar Nurture Handler
-========================
+Webinar Registration Handler
+==============================
 Flask webhook endpoint to handle webinar registration submissions.
-Adds to Google Sheet, registers in Zoom, and sends confirmation email.
+Registers in Zoom; Zoom handles its own confirmation email.
 
 Usage:
     python webinar_nurture_handler.py
@@ -20,7 +20,6 @@ Expects POST to /api/webinar with JSON:
 """
 
 import os
-from datetime import datetime
 from pathlib import Path
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -30,47 +29,19 @@ from dotenv import load_dotenv
 load_dotenv(Path(__file__).parent.parent / '.env')
 
 # Import our modules
-from google_sheets_client import SheetsClient
-from webinar_emails import send_webinar_confirmation
 from zoom_client import add_registrant as zoom_add_registrant, find_webinar_by_date
 
 app = Flask(__name__)
 CORS(app)
 
 
-def format_webinar_date(iso_date: str) -> str:
-    """Convert ISO date to human-readable format."""
-    try:
-        dt = datetime.fromisoformat(iso_date.replace('Z', '+00:00'))
-        return dt.strftime('%A, %B %d')  # e.g., "Monday, December 30"
-    except:
-        return iso_date
-
-
-def get_timezone_from_date(iso_date: str) -> str:
-    """Extract timezone abbreviation from ISO date."""
-    try:
-        dt = datetime.fromisoformat(iso_date.replace('Z', '+00:00'))
-        offset = dt.utcoffset()
-        if offset:
-            hours = offset.total_seconds() / 3600
-            if hours == -5:
-                return 'EST'
-            elif hours == -4:
-                return 'EDT'
-        return 'EST'
-    except:
-        return 'EST'
-
-
 @app.route('/api/webinar', methods=['POST'])
 def handle_webinar_registration():
     """
     Handle webinar registration form submission.
-    
-    1. Add to Google Sheet
-    2. Send confirmation email
-    3. Return success response
+
+    1. Register in Zoom (auto-discovers webinar by date)
+    2. Return success response
     """
     data = request.json
     
@@ -94,24 +65,6 @@ def handle_webinar_registration():
     full_name = f"{first_name} {last_name}".strip()
 
     try:
-        # Initialize sheets client
-        sheets = SheetsClient()
-        sheets.ensure_headers()
-
-        # Add registrant to sheet
-        row_num = sheets.add_registrant({
-            'name': full_name,
-            'email': email,
-            'agency': data.get('agency', ''),
-            'phone': phone,
-            'timeline': data.get('timeline', ''),
-            'source': 'webinar_registration',
-            'webinar_id': data.get('webinar_id', ''),
-            'webinar_date': data.get('webinar_date', ''),
-        })
-
-        print(f"Added registrant to row {row_num}")
-
         # Register in Zoom
         zoom_result = {'success': False, 'join_url': ''}
         webinar_date_str = data.get('webinar_date', '')
@@ -135,27 +88,9 @@ def handle_webinar_registration():
             else:
                 print(f"No Zoom webinar found for date {target_date} — skipping Zoom registration")
 
-        # Format date for email
-        webinar_date = format_webinar_date(webinar_date_str)
-        timezone = get_timezone_from_date(webinar_date_str)
-
-        # Send confirmation email
-        email_sent = send_webinar_confirmation(
-            to_email=email,
-            first_name=first_name or 'there',
-            webinar_date=webinar_date,
-            timezone=timezone
-        )
-
-        # Update email sent timestamp
-        if email_sent and row_num > 0:
-            sheets.update_email_sent(row_num, 'Email_Confirmation_Sent')
-            print(f"Updated confirmation timestamp for row {row_num}")
-
         return jsonify({
             'success': True,
             'message': 'Registration received',
-            'email_sent': email_sent,
             'zoom_registered': zoom_result.get('success', False),
             'zoom_join_url': zoom_result.get('join_url', ''),
         })

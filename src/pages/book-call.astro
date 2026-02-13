@@ -1,726 +1,197 @@
 ---
-import logo from '../assets/images/planwell-logo.png';
-
-// Screening questions - must pass to proceed
-const screeningQuestions = [
-  { 
-    id: 'is_federal_employee', 
-    question: "Are you a civilian federal employee (or retiree or survivor)?",
-    options: [
-      { value: 'yes', label: 'Yes' },
-      { value: 'no', label: 'No' }
-    ],
-    disqualifyOn: 'no',
-    disqualifyMessage: "We exclusively serve federal employees, retirees, and survivors. Our free webinar may still be helpful for you!"
-  },
-  { 
-    id: 'wants_advisor', 
-    question: "Are you looking to work with a financial advisor and receive guidance on your federal employee benefits?",
-    options: [
-      { value: 'yes', label: 'Yes' },
-      { value: 'no', label: 'No' }
-    ],
-    disqualifyOn: 'no',
-    disqualifyRedirect: '/webinar'
-  },
-  { 
-    id: 'single_question', 
-    question: "Are you seeking an answer to a SINGLE federal benefits question?",
-    options: [
-      { value: 'yes', label: 'Yes, I just had ONE question to ask' },
-      { value: 'no', label: 'No, I have lots of questions' }
-    ],
-    disqualifyOn: 'yes',
-    disqualifyRedirect: '/webinar'
-  }
-];
-
-// Contact info questions (only shown if qualified)
-const contactQuestions = [
-  { id: 'name', question: "What's your name?", type: "text", placeholder: "Your name", field: "name" },
-  { id: 'email', question: "What's your email?", type: "email", placeholder: "your.email@example.com", field: "email" },
-  { id: 'phone', question: "Best phone number to reach you?", type: "tel", placeholder: "(555) 123-4567", field: "phone" },
-  { id: 'topic', question: "What would you like to discuss?", type: "select", field: "topic", options: [
-    { value: "retirement-timing", label: "When I can retire" },
-    { value: "pension-estimate", label: "My pension estimate" },
-    { value: "tsp-strategy", label: "TSP withdrawal strategy" },
-    { value: "fehb-medicare", label: "FEHB and Medicare" },
-    { value: "comprehensive", label: "Full retirement review" },
-    { value: "other", label: "Something else" }
-  ]}
-];
-
-const totalSteps = screeningQuestions.length + contactQuestions.length + 2; // +2 for intro and success
+import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Schedule a free 30-minute consultation with our CFP® and ChFEBC℠ advisors to discuss your federal retirement questions." />
-  <title>Book a Federal Retirement Planning Call | PlanWell</title>
-  <link rel="canonical" href="https://planwellfp.com/book-call/" />
-  
-  <!-- Open Graph -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://planwellfp.com/book-call/" />
-  <meta property="og:title" content="Book a Federal Retirement Planning Call | PlanWell" />
-  <meta property="og:description" content="Schedule a free 30-minute consultation with our CFP® and ChFEBC℠ advisors to discuss your federal retirement questions." />
-  <meta property="og:site_name" content="PlanWell Financial Planning" />
-  
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Book a Federal Retirement Planning Call | PlanWell" />
-  <meta name="twitter:description" content="Schedule a free 30-minute consultation with our CFP® and ChFEBC℠ advisors to discuss your federal retirement questions." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet" />
-</head>
-<body>
-  <div class="funnel">
-    <!-- Header -->
-    <header class="funnel-header">
-      <a href="/" class="funnel-logo">
-        <img src={logo.src} alt="PlanWell" />
-      </a>
-      <a href="/" class="funnel-close" aria-label="Close">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M18 6L6 18M6 6l12 12"/>
-        </svg>
-      </a>
-    </header>
-    
-    <!-- Progress Bar -->
-    <div class="progress-bar">
-      <div class="progress-fill" id="progress-fill"></div>
+<BaseLayout
+  title="Book a Federal Retirement Planning Call | PlanWell"
+  description="Schedule a free discovery call with our CFP® and ChFEBC℠ advisors. Get personalized guidance on your FERS pension, TSP, and federal benefits."
+>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">1-on-1 Consultation</span>
+      <h1 class="heading-xl">Schedule Your Free Discovery Call</h1>
+      <p class="lead max-w-3xl">
+        Pick a time that works for you. You'll speak directly with David or Brennan&mdash;CFP&reg; and ChFEBC&#8480; advisors who specialize exclusively in federal retirement planning.
+      </p>
     </div>
-    
-    <!-- Content Area -->
-    <main class="funnel-content">
-      <!-- Intro Step (Step 0) -->
-      <div class="step step--active" data-step="0">
-        <div class="step-content">
-          <span class="step-eyebrow">1-on-1 Strategy Call</span>
-          <h1 class="step-title">Get Personalized Answers to Your Federal Retirement Questions</h1>
-          <p class="step-description">
-            Schedule a free 30-minute call with a CFP who specializes in 
-            federal benefits. No sales pitches, just honest guidance tailored 
-            to your situation.
-          </p>
-          <ul class="step-benefits">
-            <li>
-              <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>
-              <span>30-minute private consultation</span>
-            </li>
-            <li>
-              <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>
-              <span>Speak directly with David or Brennan</span>
-            </li>
-            <li>
-              <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>
-              <span>Phone or video, your choice</span>
-            </li>
-          </ul>
-          <button type="button" class="btn-next" onclick="nextStep()">
-            Let's Get Started
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-        </div>
-      </div>
-      
-      <!-- Screening Questions -->
-      {screeningQuestions.map((q, index) => (
-        <div class="step" data-step={index + 1} data-screening="true" data-disqualify-on={q.disqualifyOn} data-disqualify-redirect={q.disqualifyRedirect || ''} data-disqualify-message={q.disqualifyMessage || ''}>
-          <div class="step-content">
-            <span class="step-counter">Quick Question {index + 1} of {screeningQuestions.length}</span>
-            <h2 class="step-question">{q.question}</h2>
-            <div class="option-grid">
-              {q.options.map(option => (
-                <button 
-                  type="button" 
-                  class="option-btn" 
-                  data-value={option.value}
-                  data-field={q.id}
-                  onclick={'selectScreeningOption(this, "' + q.id + '")'}
-                >
-                  {option.label}
-                </button>
-              ))}
-            </div>
-            <button type="button" class="btn-back" onclick="prevStep()">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-              Back
-            </button>
-          </div>
-        </div>
-      ))}
-      
-      <!-- Disqualified Step (hidden by default) -->
-      <div class="step" data-step="disqualified" id="disqualified-step">
-        <div class="step-content step-content--disqualified">
-          <div class="disqualified-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"/>
-              <path d="M12 8v4M12 16h.01"/>
-            </svg>
-          </div>
-          <h2 class="step-title" id="disqualified-title">Thanks for your interest!</h2>
-          <p class="step-description" id="disqualified-message">
-            Based on your answers, our free webinar might be a better fit for you right now.
-          </p>
-          <a href="https://planwell.vercel.app/webinars" class="btn-next" id="disqualified-cta">
-            Check Out Our Free Webinar
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </a>
-          <a href="/" class="btn-back-link">Return to Homepage</a>
-        </div>
-      </div>
-      
-      <!-- Contact Info Questions -->
-      {contactQuestions.map((q, index) => (
-        <div class="step" data-step={screeningQuestions.length + index + 1}>
-          <div class="step-content">
-            <span class="step-counter">Step {index + 1} of {contactQuestions.length}</span>
-            <h2 class="step-question">{q.question}</h2>
-            
-            {q.type === 'select' ? (
-              <div class="option-grid">
-                {q.options?.map(option => (
-                  <button 
-                    type="button" 
-                    class="option-btn" 
-                    data-value={option.value}
-                    data-field={q.field}
-                    onclick={'selectOption(this, "' + q.field + '")'}
-                  >
-                    {option.label}
-                  </button>
-                ))}
-              </div>
-            ) : (
-              <div class="input-wrapper">
-                <input 
-                  type={q.type}
-                  id={q.field}
-                  name={q.field}
-                  class="funnel-input"
-                  placeholder={q.placeholder}
-                  required
-                  onkeydown="handleEnter(event)"
-                />
-                <button type="button" class="btn-next" onclick="nextStep()">
-                  Continue
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </button>
-              </div>
-            )}
-            
-            <button type="button" class="btn-back" onclick="prevStep()">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-              Back
-            </button>
-          </div>
-        </div>
-      ))}
-      
-      <!-- Success Step -->
-      <div class="step" data-step={screeningQuestions.length + contactQuestions.length + 1}>
-        <div class="step-content step-content--success">
-          <div class="success-icon">
-            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-              <path d="M22 4L12 14.01l-3-3"/>
-            </svg>
-          </div>
-          <h2 class="step-title">You're Matched!</h2>
-          <p class="step-description" id="success-message">
-            One of our advisors will reach out within 1 business day 
-            to schedule your call at a time that works for you.
-          </p>
-          <div class="advisor-card" id="advisor-card" style="display: none;">
-            <div class="advisor-name" id="advisor-name"></div>
-            <div class="advisor-title" id="advisor-title"></div>
-            <p class="advisor-bio" id="advisor-bio"></p>
-          </div>
-          <a href="/" class="btn-next">
-            Return to Homepage
-          </a>
-        </div>
-      </div>
-    </main>
-  </div>
+  </section>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: linear-gradient(135deg, #000d3e 0%, #013a7e 100%);
-      min-height: 100vh;
-      color: #fff;
-    }
-    
-    .funnel {
-      min-height: 100vh;
-      display: flex;
+  <section class="section">
+    <div class="container">
+      <div class="calendar-wrapper">
+        <div class="calendar-features">
+          <div class="feature">
+            <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 13l4 4L19 7"/>
+            </svg>
+            <span>30-minute private consultation</span>
+          </div>
+          <div class="feature">
+            <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 13l4 4L19 7"/>
+            </svg>
+            <span>Phone or video&mdash;your choice</span>
+          </div>
+          <div class="feature">
+            <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 13l4 4L19 7"/>
+            </svg>
+            <span>No obligation, no sales pitch</span>
+          </div>
+        </div>
+
+        <div class="calendar-embed">
+          <iframe
+            src="https://app.greminders.com/t/a8048453/initialdiscover"
+            title="Schedule a discovery call with PlanWell"
+            width="100%"
+            height="700"
+            frameborder="0"
+            loading="lazy"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--gray">
+    <div class="container text-center">
+      <h2 class="heading-md">What to Expect on Your Call</h2>
+      <div class="expect-grid">
+        <div class="expect-item">
+          <div class="expect-number">1</div>
+          <h3>We Listen</h3>
+          <p>Tell us about your situation, timeline, and biggest retirement questions.</p>
+        </div>
+        <div class="expect-item">
+          <div class="expect-number">2</div>
+          <h3>We Assess</h3>
+          <p>We'll identify opportunities in your FERS benefits, TSP, and tax situation.</p>
+        </div>
+        <div class="expect-item">
+          <div class="expect-number">3</div>
+          <h3>You Decide</h3>
+          <p>We'll recommend next steps&mdash;whether that's working with us or resources to explore on your own.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero {
+    background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%);
+    color: var(--color-white);
+    padding: var(--space-24) 0 var(--space-16);
+    text-align: center;
+  }
+
+  .page-hero h1 {
+    color: var(--color-white);
+    margin-bottom: var(--space-4);
+  }
+
+  .page-hero .lead {
+    color: var(--color-gray-300);
+    margin: 0 auto;
+  }
+
+  .calendar-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .calendar-features {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-8);
+    margin-bottom: var(--space-8);
+    flex-wrap: wrap;
+  }
+
+  .feature {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-weight: var(--font-medium);
+    color: var(--color-gray-700);
+  }
+
+  .feature-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--color-gold);
+    flex-shrink: 0;
+  }
+
+  .calendar-embed {
+    background: var(--color-white);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    padding: var(--space-4);
+  }
+
+  .calendar-embed iframe {
+    width: 100%;
+    min-height: 700px;
+    border: none;
+    border-radius: var(--radius-lg);
+  }
+
+  .expect-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-8);
+    max-width: 900px;
+    margin: var(--space-10) auto 0;
+  }
+
+  .expect-item {
+    padding: var(--space-6);
+  }
+
+  .expect-number {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-light) 100%);
+    color: var(--color-navy-dark);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: var(--text-xl);
+    border-radius: 50%;
+    margin: 0 auto var(--space-4);
+  }
+
+  .expect-item h3 {
+    margin-bottom: var(--space-2);
+    color: var(--color-navy);
+  }
+
+  .expect-item p {
+    color: var(--color-gray-600);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    .calendar-features {
       flex-direction: column;
-    }
-    
-    .funnel-header {
-      display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding: 1.5rem 2rem;
+      gap: var(--space-3);
     }
-    
-    .funnel-logo img {
-      height: 60px;
-      width: auto;
+
+    .calendar-embed iframe {
+      min-height: 600px;
     }
-    
-    .funnel-close {
-      color: rgba(255,255,255,0.6);
-      transition: color 0.2s;
-    }
-    
-    .funnel-close:hover {
-      color: #fff;
-    }
-    
-    .progress-bar {
-      height: 4px;
-      background: rgba(255,255,255,0.1);
-    }
-    
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #d1a437 0%, #e6c25e 100%);
-      transition: width 0.4s ease;
-    }
-    
-    .funnel-content {
-      flex: 1;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      padding: 3rem 2rem 2rem;
-    }
-    
-    .step {
-      display: none;
-      width: 100%;
-      max-width: 600px;
-      animation: fadeIn 0.4s ease;
-    }
-    
-    .step--active {
-      display: block;
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .step-content {
-      text-align: center;
-    }
-    
-    .step-eyebrow {
-      display: inline-block;
-      font-size: 0.875rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: #d1a437;
-      margin-bottom: 1rem;
-    }
-    
-    .step-counter {
-      display: block;
-      font-size: 0.875rem;
-      color: rgba(255,255,255,0.5);
-      margin-bottom: 0.5rem;
-    }
-    
-    .step-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: clamp(1.75rem, 5vw, 2.5rem);
-      font-weight: 700;
-      line-height: 1.1;
-      margin-bottom: 1.5rem;
-    }
-    
-    .step-question {
-      font-family: 'Outfit', sans-serif;
-      font-size: clamp(1.25rem, 4vw, 2rem);
-      font-weight: 600;
-      margin-bottom: 2rem;
-      line-height: 1.3;
-    }
-    
-    .step-description {
-      font-size: 1.125rem;
-      color: rgba(255,255,255,0.8);
-      line-height: 1.6;
-      margin-bottom: 2rem;
-      max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    
-    .step-benefits {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      margin-bottom: 2.5rem;
-    }
-    
-    .step-benefits li {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      font-size: 1rem;
-      color: rgba(255,255,255,0.9);
-    }
-    
-    .benefit-icon {
-      width: 20px;
-      height: 20px;
-      color: #d1a437;
-      flex-shrink: 0;
-    }
-    
-    .input-wrapper {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      max-width: 400px;
-      margin: 0 auto;
-    }
-    
-    .funnel-input {
-      width: 100%;
-      padding: 1.25rem 1.5rem;
-      font-size: 1.25rem;
-      font-family: inherit;
-      background: rgba(255,255,255,0.1);
-      border: 2px solid rgba(255,255,255,0.2);
-      border-radius: 0.75rem;
-      color: #fff;
-      text-align: center;
-      transition: all 0.2s;
-    }
-    
-    .funnel-input::placeholder {
-      color: rgba(255,255,255,0.4);
-    }
-    
-    .funnel-input:focus {
-      outline: none;
-      border-color: #d1a437;
-      background: rgba(255,255,255,0.15);
-    }
-    
-    .option-grid {
-      display: grid;
+
+    .expect-grid {
       grid-template-columns: 1fr;
-      gap: 0.75rem;
-      max-width: 450px;
-      margin: 0 auto 1.5rem;
+      gap: var(--space-4);
     }
-    
-    .option-btn {
-      padding: 1rem 1.5rem;
-      font-size: 1.125rem;
-      font-family: inherit;
-      font-weight: 500;
-      background: rgba(255,255,255,0.1);
-      border: 2px solid rgba(255,255,255,0.2);
-      border-radius: 0.75rem;
-      color: #fff;
-      cursor: pointer;
-      transition: all 0.2s;
-      text-align: left;
-    }
-    
-    .option-btn:hover {
-      background: rgba(255,255,255,0.2);
-      border-color: rgba(255,255,255,0.3);
-    }
-    
-    .option-btn--selected {
-      background: #d1a437;
-      border-color: #d1a437;
-      color: #000d3e;
-    }
-    
-    .btn-next {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      padding: 1rem 2rem;
-      font-size: 1.125rem;
-      font-weight: 600;
-      font-family: inherit;
-      background: linear-gradient(135deg, #d1a437 0%, #d1a437 100%);
-      color: #000d3e;
-      border: none;
-      border-radius: 0.5rem;
-      cursor: pointer;
-      transition: all 0.2s;
-      text-decoration: none;
-    }
-    
-    .btn-next:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba(201, 165, 92, 0.3);
-    }
-    
-    .btn-back {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.25rem;
-      margin-top: 2rem;
-      padding: 0.5rem 1rem;
-      font-size: 0.875rem;
-      font-family: inherit;
-      color: rgba(255,255,255,0.5);
-      background: none;
-      border: none;
-      cursor: pointer;
-      transition: color 0.2s;
-    }
-    
-    .btn-back:hover {
-      color: #fff;
-    }
-    
-    .btn-back-link {
-      display: block;
-      margin-top: 1.5rem;
-      color: rgba(255,255,255,0.5);
-      text-decoration: none;
-      font-size: 0.875rem;
-    }
-    
-    .btn-back-link:hover {
-      color: #fff;
-    }
-    
-    .step-content--success .success-icon,
-    .step-content--disqualified .disqualified-icon {
-      width: 100px;
-      height: 100px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 1.5rem;
-      background: linear-gradient(135deg, #d1a437 0%, #d1a437 100%);
-      border-radius: 50%;
-      color: #000d3e;
-    }
-    
-    .step-content--disqualified .disqualified-icon {
-      background: rgba(255,255,255,0.1);
-      color: #d1a437;
-    }
-    
-    .advisor-card {
-      background: rgba(255,255,255,0.1);
-      border-radius: 1rem;
-      padding: 1.5rem;
-      margin: 1.5rem auto;
-      max-width: 400px;
-      text-align: left;
-    }
-    
-    .advisor-name {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: #fff;
-      margin-bottom: 0.25rem;
-    }
-    
-    .advisor-title {
-      font-size: 0.875rem;
-      color: #d1a437;
-      margin-bottom: 0.75rem;
-    }
-    
-    .advisor-bio {
-      font-size: 0.9rem;
-      color: rgba(255,255,255,0.8);
-      line-height: 1.5;
-    }
-    
-    @media (max-width: 640px) {
-      .funnel-header {
-        padding: 1rem;
-      }
-      
-      .funnel-content {
-        padding: 2rem 1rem;
-      }
-    }
-  </style>
-
-  <script is:inline>
-    var currentStep = 0;
-    var totalSteps = 8; // Will be updated based on actual steps
-    var formData = {};
-    var screeningData = {};
-    
-    // API endpoint for form submission (change for production)
-    var API_ENDPOINT = 'http://localhost:5001/api/book-call';
-    
-    function updateProgress() {
-      var progress = (currentStep / totalSteps) * 100;
-      document.getElementById('progress-fill').style.width = progress + '%';
-    }
-    
-    function showStep(stepNum) {
-      document.querySelectorAll('.step').forEach(function(step) {
-        step.classList.remove('step--active');
-      });
-      var targetStep = document.querySelector('[data-step="' + stepNum + '"]');
-      if (targetStep) {
-        targetStep.classList.add('step--active');
-        var input = targetStep.querySelector('input');
-        if (input) setTimeout(function() { input.focus(); }, 100);
-      }
-      updateProgress();
-    }
-    
-    function showDisqualified(message, redirectUrl) {
-      document.querySelectorAll('.step').forEach(function(step) {
-        step.classList.remove('step--active');
-      });
-      
-      var disqualifiedStep = document.getElementById('disqualified-step');
-      if (message) {
-        document.getElementById('disqualified-message').textContent = message;
-      }
-      if (redirectUrl) {
-        document.getElementById('disqualified-cta').href = redirectUrl;
-      }
-      
-      disqualifiedStep.classList.add('step--active');
-    }
-    
-    function selectScreeningOption(btn, field) {
-      // Remove selection from siblings
-      btn.parentElement.querySelectorAll('.option-btn').forEach(function(b) {
-        b.classList.remove('option-btn--selected');
-      });
-      btn.classList.add('option-btn--selected');
-      screeningData[field] = btn.dataset.value;
-      
-      // Check if disqualified
-      var stepEl = btn.closest('.step');
-      var disqualifyOn = stepEl.dataset.disqualifyOn;
-      var disqualifyRedirect = stepEl.dataset.disqualifyRedirect;
-      var disqualifyMessage = stepEl.dataset.disqualifyMessage;
-      
-      if (btn.dataset.value === disqualifyOn) {
-        // User is disqualified
-        setTimeout(function() {
-          showDisqualified(disqualifyMessage, disqualifyRedirect || '/webinar');
-        }, 300);
-        return;
-      }
-      
-      // Auto advance after short delay
-      setTimeout(function() { nextStep(); }, 300);
-    }
-    
-    function selectOption(btn, field) {
-      btn.parentElement.querySelectorAll('.option-btn').forEach(function(b) {
-        b.classList.remove('option-btn--selected');
-      });
-      btn.classList.add('option-btn--selected');
-      formData[field] = btn.dataset.value;
-      
-      setTimeout(function() { nextStep(); }, 300);
-    }
-    
-    function nextStep() {
-      // Validate current step if it has input
-      var currentStepEl = document.querySelector('[data-step="' + currentStep + '"]');
-      var input = currentStepEl ? currentStepEl.querySelector('input') : null;
-      if (input && !input.value.trim()) {
-        input.focus();
-        input.style.borderColor = '#dc3545';
-        return;
-      }
-      if (input) {
-        formData[input.name] = input.value;
-        input.style.borderColor = '';
-      }
-      
-      currentStep++;
-      showStep(currentStep);
-      
-      // If we're on the success step, submit the form
-      var successStep = document.querySelector('.step-content--success');
-      if (successStep && successStep.closest('.step').classList.contains('step--active')) {
-        submitForm();
-      }
-    }
-    
-    function prevStep() {
-      if (currentStep > 0) {
-        currentStep--;
-        showStep(currentStep);
-      }
-    }
-    
-    function handleEnter(e) {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        nextStep();
-      }
-    }
-    
-    function submitForm() {
-      var payload = Object.assign({}, formData, screeningData);
-      
-      console.log('Submitting form:', payload);
-      
-      fetch(API_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      })
-      .then(function(response) { return response.json(); })
-      .then(function(data) {
-        console.log('Response:', data);
-        if (data.success && data.advisor) {
-          // Show advisor info
-          document.getElementById('advisor-card').style.display = 'block';
-          document.getElementById('advisor-name').textContent = data.advisor.name;
-          document.getElementById('advisor-title').textContent = data.advisor.title;
-          document.getElementById('advisor-bio').textContent = data.advisor.bio;
-          document.getElementById('success-message').textContent = data.message;
-        }
-      })
-      .catch(function(error) {
-        console.error('Error submitting form:', error);
-      });
-    }
-    
-    // Initialize
-    updateProgress();
-  </script>
-</body>
-</html>
+  }
+</style>

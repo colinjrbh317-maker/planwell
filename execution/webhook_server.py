@@ -2,10 +2,9 @@
 Combined Webhook Server
 ========================
 Single Flask server that handles all PlanWell webhooks:
-- /api/webinar - Webinar registration
-- /api/contact - Contact form
-- /api/book-call - Call booking
-- /api/newsletter - Newsletter subscription
+- /api/webinar - Webinar registration (Zoom)
+- /api/contact - Contact form (Google Sheets)
+- /api/newsletter - Newsletter subscription (Mailchimp)
 
 Run this instead of individual handlers:
     python webhook_server.py
