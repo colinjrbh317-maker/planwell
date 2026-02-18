@@ -77,8 +77,8 @@ const faqSchema = {
       <Image
         src={homepageHero}
         alt="Person standing triumphantly on mountain peak at sunset"
-        width={1920}
-        height={1080}
+        width={2064}
+        height={1904}
         loading="eager"
         fetchpriority="high"
         format="webp"
@@ -94,8 +94,8 @@ const faqSchema = {
         </h1>
 
         <p class="hero__subtitle">
-          Stop second-guessing your FERS retirement. Our Certified Financial Planners
-          have helped thousands of feds turn complex rules into confident retirements.
+          Our team of Fed-Experts have helped thousands of feds turn
+          complex federal benefits into a confident retirement.
         </p>
 
         <div class="hero__cta">
@@ -108,7 +108,7 @@ const faqSchema = {
         </div>
 
         <div class="hero__trust">
-          <span class="hero__trust-item">100% Fiduciary</span>
+          <span class="hero__trust-item">Fiduciary</span>
           <span class="hero__trust-divider">•</span>
           <span class="hero__trust-item">Fee-Based</span>
           <span class="hero__trust-divider">•</span>
@@ -198,7 +198,7 @@ const faqSchema = {
             <div class="problem__icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
             </div>
-            <h3>Leave $50K+ on the Table</h3>
+            <h3>Leave Thousands on the Table</h3>
             <p>Mis-timed TSP withdrawals, wrong survivor benefit elections, and undervalued sick leave add up.</p>
           </div>
           
@@ -214,8 +214,8 @@ const faqSchema = {
             <div class="problem__icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
             </div>
-            <h3>Overpay Taxes for Decades</h3>
-            <p>Without Roth conversions and withdrawal sequencing, you pay far more than necessary.</p>
+            <h3>Overpay Taxes Now and in Retirement</h3>
+            <p>TSP withdrawal strategy, Roth conversions, and other overlooked tax strategies can save you now and in the long-term.</p>
           </div>
         </div>
         
@@ -283,6 +283,16 @@ const faqSchema = {
           <div class="benefit-card__content">
             <h3>Survivor Benefits Decision</h3>
             <p>Should you elect full, partial, or none? We'll show you the math.</p>
+          </div>
+        </div>
+
+        <div class="benefit-card" data-animate="fade-in-up">
+          <div class="benefit-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <div class="benefit-card__content">
+            <h3>Your Tax-Smart Withdrawal Plan</h3>
+            <p>Roth conversions, bracket management, and strategies to keep more of what you've earned.</p>
           </div>
         </div>
       </div>
@@ -478,6 +488,7 @@ const faqSchema = {
         <div class="final-cta__buttons">
           <a href="https://planwell.vercel.app/webinars" class="btn btn--navy btn--lg">Free FERS Workshop</a>
           <a href="/book-call" class="btn btn--outline-dark btn--lg">Book a 1-on-1 Call</a>
+          <button type="button" class="btn btn--outline-dark btn--lg" onclick="document.querySelector('.newsletter-popup')?.classList.add('active')">Get Our Newsletter</button>
         </div>
       </div>
     </div>
@@ -513,8 +524,7 @@ const faqSchema = {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 65%;
-    transform: scale(0.9);
+    object-position: center 25%;
   }
 
   /* Left fade gradient - blends image into navy background */
@@ -634,14 +644,15 @@ const faqSchema = {
   @media (max-width: 768px) {
     .hero {
       min-height: auto;
-      padding: var(--space-12) 0;
+      padding: 0 0 var(--space-12);
+      flex-direction: column;
     }
 
     .hero__background {
       position: relative;
       width: 100%;
-      height: 300px;
-      margin-bottom: var(--space-8);
+      height: 350px;
+      margin-bottom: 0;
     }
 
     .hero__background::before {
@@ -743,6 +754,8 @@ const faqSchema = {
     height: 50px;
     width: auto;
     object-fit: contain;
+    filter: grayscale(100%);
+    opacity: 0.7;
   }
 
   /* Tablet - moderate reduction */

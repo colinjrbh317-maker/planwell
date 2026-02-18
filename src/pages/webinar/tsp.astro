@@ -111,7 +111,7 @@ const steps = [
             Reserve My Free Seat
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </button>
-          <p class="step-trust">Join 500+ federal employees who've attended</p>
+          <p class="step-trust">Join 10,000+ federal employees who've attended</p>
 
           <!-- Learning Goals -->
           <div class="learning-goals">
@@ -163,8 +163,19 @@ const steps = [
                 </ul>
               </div>
 
-              <div class="module-card module-card--qa">
+              <div class="module-card">
                 <div class="module-number">4</div>
+                <h4>Tax-Smart TSP Strategies</h4>
+                <ul>
+                  <li>Roth conversion timing and strategy</li>
+                  <li>Tax bracket management in retirement</li>
+                  <li>RMD planning and IRMAA avoidance</li>
+                  <li>Coordinating TSP with other income</li>
+                </ul>
+              </div>
+
+              <div class="module-card module-card--qa">
+                <div class="module-number">5</div>
                 <h4>Live Q&A <span class="duration-inline">(15 minutes)</span></h4>
                 <ul>
                   <li>Your TSP questions answered live</li>
@@ -215,7 +226,7 @@ const steps = [
             Reserve My Free Seat
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </button>
-          <p class="step-trust">Join 500+ federal employees who've attended</p>
+          <p class="step-trust">Join 10,000+ federal employees who've attended</p>
         </div>
       </div>
       
@@ -307,7 +318,7 @@ const steps = [
               Now that your TSP is optimized, get the full FERS strategy: pension timing, 
               FEHB & Medicare coordination, survivor benefits, and tax planning.
             </p>
-            <a href="https://planwell.vercel.app/webinars" class="btn-upsell">
+            <a href="/webinar" class="btn-upsell">
               Also Register for FERS Workshop
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -344,7 +355,7 @@ const steps = [
     
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: linear-gradient(135deg, #1e3a5f 0%, #152a45 100%);
+      background: linear-gradient(135deg, #013a7e 0%, #000d3e 100%);
       min-height: 100vh;
       color: #fff;
     }
@@ -384,7 +395,7 @@ const steps = [
     .progress-fill {
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, #c9a55c 0%, #e4c97f 100%);
+      background: linear-gradient(90deg, #d1a437 0%, #e6c25e 100%);
       transition: width 0.4s ease;
     }
     
@@ -423,7 +434,7 @@ const steps = [
       gap: 0.5rem;
       background: rgba(201, 165, 92, 0.15);
       border: 1px solid rgba(201, 165, 92, 0.4);
-      color: #e4c97f;
+      color: #e6c25e;
       padding: 0.5rem 1rem;
       border-radius: 2rem;
       font-size: 0.875rem;
@@ -453,7 +464,7 @@ const steps = [
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      color: #c9a55c;
+      color: #d1a437;
       margin-bottom: 0.5rem;
     }
     
@@ -499,7 +510,7 @@ const steps = [
     
     .success-date {
       font-size: 1.25rem;
-      color: #e4c97f;
+      color: #e6c25e;
     }
     
     .success-date strong {
@@ -526,7 +537,7 @@ const steps = [
     .benefit-icon {
       width: 20px;
       height: 20px;
-      color: #c9a55c;
+      color: #d1a437;
       flex-shrink: 0;
     }
     
@@ -563,7 +574,7 @@ const steps = [
     
     .funnel-input:focus {
       outline: none;
-      border-color: #c9a55c;
+      border-color: #d1a437;
       background: rgba(255,255,255,0.15);
     }
     
@@ -595,8 +606,8 @@ const steps = [
     }
     
     .option-btn--selected {
-      background: #c9a55c;
-      border-color: #c9a55c;
+      background: #d1a437;
+      border-color: #d1a437;
       color: #152a45;
     }
     
@@ -609,7 +620,7 @@ const steps = [
       font-size: 1.125rem;
       font-weight: 600;
       font-family: inherit;
-      background: linear-gradient(135deg, #c9a55c 0%, #a88a44 100%);
+      background: linear-gradient(135deg, #d1a437 0%, #d1a437 100%);
       color: #152a45;
       border: none;
       border-radius: 0.5rem;
@@ -668,7 +679,7 @@ const steps = [
       align-items: center;
       justify-content: center;
       margin: 0 auto 1.5rem;
-      background: linear-gradient(135deg, #c9a55c 0%, #a88a44 100%);
+      background: linear-gradient(135deg, #d1a437 0%, #d1a437 100%);
       border-radius: 50%;
       color: #152a45;
     }
@@ -716,7 +727,7 @@ const steps = [
       font-family: 'Outfit', sans-serif;
       font-size: 1.5rem;
       font-weight: 600;
-      color: #e4c97f;
+      color: #e6c25e;
       margin-bottom: 1rem;
     }
     
@@ -735,7 +746,7 @@ const steps = [
       font-size: 1rem;
       font-weight: 600;
       font-family: inherit;
-      background: linear-gradient(135deg, #c9a55c 0%, #a88a44 100%);
+      background: linear-gradient(135deg, #d1a437 0%, #d1a437 100%);
       color: #152a45;
       border: none;
       border-radius: 0.5rem;
@@ -774,7 +785,7 @@ const steps = [
 
     .duration {
       font-size: 1.125rem;
-      color: #c9a55c;
+      color: #d1a437;
       font-weight: 500;
     }
 
@@ -812,7 +823,7 @@ const steps = [
 
     .goals-list li::before {
       content: "✓";
-      color: #c9a55c;
+      color: #d1a437;
       font-weight: bold;
       font-size: 1.25rem;
       flex-shrink: 0;
@@ -853,7 +864,7 @@ const steps = [
       width: 32px;
       height: 32px;
       background: rgba(201, 165, 92, 0.2);
-      color: #c9a55c;
+      color: #d1a437;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -889,7 +900,7 @@ const steps = [
 
     .module-card ul li::before {
       content: "•";
-      color: #c9a55c;
+      color: #d1a437;
       font-weight: bold;
       flex-shrink: 0;
     }
@@ -916,7 +927,7 @@ const steps = [
 
     .phase-label {
       font-weight: 600;
-      color: #c9a55c;
+      color: #d1a437;
       font-size: 1rem;
       margin-bottom: 0.75rem;
       display: flex;
@@ -942,7 +953,7 @@ const steps = [
 
     .expectation-phase ul li::before {
       content: "→";
-      color: #c9a55c;
+      color: #d1a437;
       font-weight: bold;
       flex-shrink: 0;
     }
@@ -995,6 +1006,17 @@ const steps = [
     let currentStep = 0;
     const totalSteps = 4; // intro + 3 questions
     const formData = {};
+
+    // Prefill email from URL params (e.g., ?email=user@example.com)
+    const urlParams = new URLSearchParams(window.location.search);
+    const prefillEmail = urlParams.get('email');
+    if (prefillEmail) {
+      formData.email = prefillEmail;
+      setTimeout(() => {
+        const emailInput = document.getElementById('email');
+        if (emailInput) emailInput.value = prefillEmail;
+      }, 100);
+    }
     
     function updateProgress() {
       const progress = (currentStep / totalSteps) * 100;

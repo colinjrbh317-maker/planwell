@@ -9,13 +9,11 @@ const daysUntil = nextWebinar ? getDaysUntil(nextWebinar) : 0;
 const webinarTime = nextWebinar ? `${nextWebinar.startTime} – ${nextWebinar.endTime} ${nextWebinar.timezone}` : '';
 const webinarId = nextWebinar?.id || '';
 
-// Form fields: first name, last name, email, phone (optional), agency
+// Form fields: full name, email, phone (optional)
 const steps = [
-  { id: 1, question: "What's your first name?", field: "firstName", type: "text", placeholder: "First name" },
-  { id: 2, question: "And your last name?", field: "lastName", type: "text", placeholder: "Last name" },
-  { id: 3, question: "Where should we send the details?", field: "email", type: "email", placeholder: "your.email@example.com" },
-  { id: 4, question: "Phone number?", field: "phone", type: "tel", placeholder: "(optional)", required: false },
-  { id: 5, question: "What federal agency do you work for?", field: "agency", type: "text", placeholder: "e.g., DoD, VA, IRS, GSA" },
+  { id: 1, question: "What's your full name?", field: "fullName", type: "text", placeholder: "Full name" },
+  { id: 2, question: "Where should we send the details?", field: "email", type: "email", placeholder: "your.email@example.com" },
+  { id: 3, question: "Phone number?", field: "phone", type: "tel", placeholder: "(optional)", required: false },
 ];
 ---
 
@@ -83,8 +81,8 @@ const steps = [
             <span class="step-time">{webinarTime}</span>
           </h1>
           <p class="step-description">
-            Join our 3-hour virtual workshop led by Certified Financial Planners. 
-            We'll cover your FERS pension, TSP strategies, FEHB, Medicare, 
+            Join our 3-hour virtual workshop led by our team of Chartered Federal Employee Benefits Consultants.
+            We'll cover your FERS pension, TSP strategies, FEHB, Medicare,
             survivor benefits, and answer your questions live.
           </p>
           <ul class="step-benefits">
@@ -106,7 +104,7 @@ const steps = [
             Reserve My Free Seat
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </button>
-          <p class="step-trust">Join 500+ federal employees who've attended</p>
+          <p class="step-trust">Join 10,000+ federal employees who've attended</p>
 
           <!-- Learning Goals -->
           <div class="learning-goals">
@@ -221,7 +219,7 @@ const steps = [
             Reserve My Free Seat
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </button>
-          <p class="step-trust">Join 500+ federal employees who've attended</p>
+          <p class="step-trust">Join 10,000+ federal employees who've attended</p>
         </div>
       </div>
       
@@ -241,7 +239,7 @@ const steps = [
                 placeholder={step.placeholder}
                 required={step.required !== false}
                 onkeydown="handleEnter(event)"
-                autocomplete={step.field === 'email' ? 'email' : step.field === 'firstName' ? 'given-name' : step.field === 'lastName' ? 'family-name' : step.field === 'phone' ? 'tel' : 'organization'}
+                autocomplete={step.field === 'email' ? 'email' : step.field === 'fullName' ? 'name' : step.field === 'phone' ? 'tel' : 'off'}
               />
               <button type="button" class="btn-next" onclick="nextStep()">
                 {index === steps.length - 1 ? 'Complete Registration' : 'Continue'}
@@ -288,6 +286,15 @@ const steps = [
             </button>
           </div>
           
+          <!-- Cross-promotion: TSP Webinar -->
+          <div class="cross-promo">
+            <p class="cross-promo__label">Also interested in TSP strategies?</p>
+            <a href="/webinar/tsp" class="btn-cross-promo">
+              Register for Free TSP Workshop
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+
           <a href="/" class="btn-home">
             Return to Homepage
           </a>
@@ -655,7 +662,42 @@ const steps = [
     .btn-home:hover {
       color: #fff;
     }
-    
+
+    /* Cross-promotion */
+    .cross-promo {
+      margin: 2rem 0 1rem;
+      padding: 1.5rem;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 1rem;
+    }
+
+    .cross-promo__label {
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 0.75rem;
+    }
+
+    .btn-cross-promo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      background: rgba(209, 164, 55, 0.15);
+      border: 1px solid rgba(209, 164, 55, 0.4);
+      color: #e6c25e;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn-cross-promo:hover {
+      background: rgba(209, 164, 55, 0.25);
+      border-color: rgba(209, 164, 55, 0.6);
+    }
+
     /* New Sections Styling */
     .section-subheading {
       font-family: 'Outfit', sans-serif;
@@ -887,8 +929,20 @@ const steps = [
     } : {};
     
     let currentStep = 0;
-    const totalSteps = 6; // intro + 5 questions (firstName, lastName, email, phone, agency)
+    const totalSteps = 4; // intro + 3 questions (fullName, email, phone)
     const formData = {};
+
+    // Prefill email from URL params (e.g., ?email=user@example.com)
+    const urlParams = new URLSearchParams(window.location.search);
+    const prefillEmail = urlParams.get('email');
+    if (prefillEmail) {
+      formData.email = prefillEmail;
+      // Set the email input value once it's rendered
+      setTimeout(() => {
+        const emailInput = document.getElementById('email');
+        if (emailInput) emailInput.value = prefillEmail;
+      }, 100);
+    }
     
     function updateProgress() {
       const progress = (currentStep / totalSteps) * 100;
@@ -963,8 +1017,16 @@ const steps = [
       
       // If we're on the success step, submit the form
       if (currentStep === totalSteps) {
-        console.log('Webinar registration submitted:', formData);
-        submitToWebhook(formData);
+        // Split fullName into firstName/lastName for backend compatibility
+        const nameParts = (formData.fullName || '').trim().split(/\s+/);
+        const submitData = {
+          firstName: nameParts[0] || '',
+          lastName: nameParts.slice(1).join(' ') || '',
+          email: formData.email || '',
+          phone: formData.phone || ''
+        };
+        console.log('Webinar registration submitted:', submitData);
+        submitToWebhook(submitData);
       }
     }
     

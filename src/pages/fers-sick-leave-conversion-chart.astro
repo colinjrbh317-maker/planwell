@@ -89,6 +89,67 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </div>
   </section>
 
+  <!-- Conversion Chart -->
+  <section class="section">
+    <div class="container">
+      <div class="chart-wrapper" data-animate="fade-in-up">
+        <h2 class="heading-md" style="text-align: center; margin-bottom: var(--space-4);">Sick Leave Conversion Chart</h2>
+        <p style="text-align: center; color: var(--color-gray-600); margin-bottom: var(--space-8); max-width: 600px; margin-left: auto; margin-right: auto;">
+          Quick reference: find your sick leave hours and see how much additional service credit you'll receive.
+        </p>
+
+        <div class="conversion-table-wrapper">
+          <table class="conversion-table">
+            <thead>
+              <tr>
+                <th>Sick Leave Hours</th>
+                <th>Years</th>
+                <th>Months</th>
+                <th>Days</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>100</td><td>0</td><td>0</td><td>17</td></tr>
+              <tr><td>174</td><td>0</td><td>1</td><td>0</td></tr>
+              <tr><td>250</td><td>0</td><td>1</td><td>13</td></tr>
+              <tr><td>500</td><td>0</td><td>2</td><td>26</td></tr>
+              <tr><td>750</td><td>0</td><td>4</td><td>9</td></tr>
+              <tr><td>1,000</td><td>0</td><td>5</td><td>22</td></tr>
+              <tr class="highlight-row"><td>1,250</td><td>0</td><td>7</td><td>5</td></tr>
+              <tr><td>1,500</td><td>0</td><td>8</td><td>18</td></tr>
+              <tr><td>1,750</td><td>0</td><td>10</td><td>1</td></tr>
+              <tr class="highlight-row"><td>2,087</td><td>1</td><td>0</td><td>0</td></tr>
+              <tr><td>2,500</td><td>1</td><td>2</td><td>11</td></tr>
+              <tr><td>3,000</td><td>1</td><td>5</td><td>6</td></tr>
+              <tr><td>3,500</td><td>1</td><td>8</td><td>1</td></tr>
+              <tr class="highlight-row"><td>4,174</td><td>2</td><td>0</td><td>0</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="margin-top: var(--space-10); margin-bottom: var(--space-4); color: var(--color-navy);">Real-World Examples</h3>
+
+        <div class="examples-grid">
+          <div class="example-card">
+            <h4>Early Career (5 years)</h4>
+            <p class="example-hours">~520 hours accumulated</p>
+            <p>Adds approximately <strong>3 months</strong> of service credit to your pension calculation.</p>
+          </div>
+          <div class="example-card">
+            <h4>Mid-Career (15 years)</h4>
+            <p class="example-hours">~1,560 hours accumulated</p>
+            <p>Adds approximately <strong>9 months</strong> of service credit — nearly a full year of pension time.</p>
+          </div>
+          <div class="example-card">
+            <h4>Full Career (30 years)</h4>
+            <p class="example-hours">~3,120 hours accumulated</p>
+            <p>Adds approximately <strong>1 year and 6 months</strong> of service credit, significantly boosting your pension.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- CTA -->
   <section class="section section--navy text-center">
     <div class="container">
@@ -348,6 +409,87 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     .calculator__note {
       break-inside: avoid;
       margin-top: var(--space-6);
+    }
+  }
+
+  /* Conversion Chart */
+  .chart-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .conversion-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .conversion-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+  }
+
+  .conversion-table th {
+    background: var(--color-navy);
+    color: var(--color-white);
+    padding: var(--space-3) var(--space-4);
+    text-align: center;
+    font-weight: var(--font-semibold);
+  }
+
+  .conversion-table td {
+    padding: var(--space-3) var(--space-4);
+    text-align: center;
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .conversion-table tbody tr:hover {
+    background: var(--color-gray-50);
+  }
+
+  .conversion-table .highlight-row {
+    background: rgba(209, 164, 55, 0.1);
+    font-weight: var(--font-semibold);
+  }
+
+  .conversion-table .highlight-row:hover {
+    background: rgba(209, 164, 55, 0.15);
+  }
+
+  .examples-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+  }
+
+  .example-card {
+    background: var(--color-gray-50);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+  }
+
+  .example-card h4 {
+    color: var(--color-navy);
+    margin-bottom: var(--space-2);
+  }
+
+  .example-hours {
+    color: var(--color-gold-dark, #b8941f);
+    font-weight: var(--font-semibold);
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-3);
+  }
+
+  .example-card p:last-child {
+    color: var(--color-gray-600);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    .examples-grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>
