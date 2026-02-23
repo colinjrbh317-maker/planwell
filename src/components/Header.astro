@@ -329,6 +329,7 @@ const currentPath = Astro.url.pathname;
 
     .nav__links > li {
       position: static;
+      display: block;
     }
 
     .nav__link {
@@ -336,12 +337,14 @@ const currentPath = Astro.url.pathname;
       padding: var(--space-3) 0;
       font-size: var(--text-lg);
       width: 100%;
-      text-align: left;
+      text-align: center;
     }
 
     .nav__link--dropdown {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
+      gap: var(--space-2);
+      width: 100%;
     }
 
     /* Mobile Dropdown */
