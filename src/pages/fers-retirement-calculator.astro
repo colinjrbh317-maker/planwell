@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import FERSCalculatorSEOContent from '../components/calculators/FERSCalculatorSEOContent.astro';
+import CalculatorDisclosure from '../components/calculators/CalculatorDisclosure.astro';
 ---
 
 <BaseLayout
@@ -33,6 +34,7 @@ import FERSCalculatorSEOContent from '../components/calculators/FERSCalculatorSE
               <label class="form-label" for="fers-retirement-type">Retirement Type</label>
               <select id="fers-retirement-type" class="form-input" onchange="updateEligibility()">
                 <option value="normal">Normal Retirement (MRA+30, 60+20, 62+5)</option>
+                <option value="mra10">MRA+10 with Penalty</option>
                 <option value="vera">VERA/Early Retirement</option>
               </select>
               <span class="form-hint">Select your retirement category.</span>
@@ -68,6 +70,10 @@ import FERSCalculatorSEOContent from '../components/calculators/FERSCalculatorSE
               <label class="form-label" for="fers-retirement-date">Planned Retirement Date</label>
               <input type="date" id="fers-retirement-date" class="form-input" />
               <span class="form-hint">The date you plan to retire.</span>
+              <div class="age-at-retirement" id="age-at-retirement-display">
+                <span class="age-label">Your age at retirement:</span>
+                <span class="age-value" id="inline-retirement-age">--</span>
+              </div>
             </div>
 
             <!-- Sick Leave with calculator link -->
@@ -80,7 +86,7 @@ import FERSCalculatorSEOContent from '../components/calculators/FERSCalculatorSE
               </span>
             </div>
 
-            <!-- Military Service -->
+            <!-- MILITARY BUYBACK — Commented out for potential standalone calculator later
             <div class="form-group">
               <label class="form-label">Military Time Buy-Back</label>
               <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3);">
@@ -95,6 +101,7 @@ import FERSCalculatorSEOContent from '../components/calculators/FERSCalculatorSE
               </div>
               <span class="form-hint">Military service time purchased back for FERS credit.</span>
             </div>
+            END MILITARY BUYBACK -->
 
             <!-- Calculated Values -->
             <div class="calculated-values">
@@ -145,6 +152,33 @@ import FERSCalculatorSEOContent from '../components/calculators/FERSCalculatorSE
               <span class="result-value" id="fers-multiplier">1.1%</span>
             </div>
 
+            <!-- MRA+10 Penalty Card — only visible when MRA+10 type selected -->
+            <div class="result-card result-card--penalty" id="penalty-card" style="display: none;">
+              <span class="result-label">MRA+10 Early Retirement Penalty</span>
+              <div class="penalty-details">
+                <span class="penalty-percentage" id="penalty-percentage">-25%</span>
+                <span class="penalty-explanation" id="penalty-explanation">5% per year under age 62</span>
+              </div>
+              <div class="penalty-amounts">
+                <div class="penalty-line">
+                  <span>Unreduced Annual Pension:</span>
+                  <span id="penalty-unreduced">$0</span>
+                </div>
+                <div class="penalty-line">
+                  <span>Penalty Reduction:</span>
+                  <span id="penalty-reduction" class="penalty-negative">-$0</span>
+                </div>
+                <div class="penalty-line penalty-line--total">
+                  <span>Reduced Annual Pension:</span>
+                  <span id="penalty-reduced">$0</span>
+                </div>
+                <div class="penalty-line">
+                  <span>Reduced Monthly Pension:</span>
+                  <span id="penalty-monthly-reduced">$0</span>
+                </div>
+              </div>
+            </div>
+
             <!-- Calculation Breakdown -->
             <details class="calculation-breakdown">
               <summary class="breakdown-summary">View Calculation Details</summary>
@@ -155,9 +189,11 @@ import FERSCalculatorSEOContent from '../components/calculators/FERSCalculatorSE
                 <div class="breakdown-item">
                   <strong>Sick Leave Credit:</strong> <span id="breakdown-sick">--</span>
                 </div>
+                <!-- MILITARY BUYBACK — preserved for potential standalone calculator
                 <div class="breakdown-item">
-                  <strong>Military Service:</strong> <span id="breakdown-military">--</span>
+                  <strong>Military Service:</strong> <span id="breakdown-military">- -</span>
                 </div>
+                END MILITARY BUYBACK -->
                 <div class="breakdown-item">
                   <strong>Total Creditable Service:</strong> <span id="breakdown-total">--</span>
                 </div>
@@ -225,6 +261,7 @@ import FERSCalculatorSEOContent from '../components/calculators/FERSCalculatorSE
 
   <!-- SEO-Optimized Content -->
   <FERSCalculatorSEOContent />
+  <CalculatorDisclosure />
 </BaseLayout>
 
 <style>
@@ -354,6 +391,96 @@ import FERSCalculatorSEOContent from '../components/calculators/FERSCalculatorSE
 
   .calculator-link:hover {
     color: var(--color-gold);
+  }
+
+  /* Inline Age at Retirement Display */
+  .age-at-retirement {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    background: linear-gradient(135deg, rgba(10, 37, 64, 0.06) 0%, rgba(201, 165, 92, 0.1) 100%);
+    border-radius: var(--radius-md);
+    border-left: 3px solid var(--color-gold);
+  }
+
+  .age-label {
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--color-gray-600);
+  }
+
+  .age-value {
+    font-family: var(--font-heading);
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    color: var(--color-navy);
+  }
+
+  /* MRA+10 Penalty Card */
+  .result-card--penalty {
+    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+    border: 2px solid #ef4444;
+    padding: var(--space-5);
+    border-radius: var(--radius-md);
+  }
+
+  .result-card--penalty .result-label {
+    color: #991b1b;
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-2);
+    display: block;
+  }
+
+  .penalty-details {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .penalty-percentage {
+    font-family: var(--font-heading);
+    font-size: var(--text-3xl);
+    font-weight: var(--font-bold);
+    color: #dc2626;
+  }
+
+  .penalty-explanation {
+    font-size: var(--text-sm);
+    color: #991b1b;
+    font-weight: var(--font-medium);
+  }
+
+  .penalty-amounts {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .penalty-line {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--text-sm);
+    color: var(--color-gray-700);
+    padding: var(--space-1) 0;
+  }
+
+  .penalty-line--total {
+    border-top: 2px solid #dc2626;
+    padding-top: var(--space-2);
+    margin-top: var(--space-1);
+    font-weight: var(--font-bold);
+    color: var(--color-navy);
+  }
+
+  .penalty-negative {
+    color: #dc2626;
+    font-weight: var(--font-semibold);
   }
 
   /* Calculated Values */
@@ -704,6 +831,20 @@ import FERSCalculatorSEOContent from '../components/calculators/FERSCalculatorSE
         eligible: false,
         message: '✗ Not eligible for Normal Retirement. Requirements: Age 57+ with 30 years, OR Age 60+ with 20 years, OR Age 62+ with 5 years.'
       };
+    } else if (retirementType === 'mra10') {
+      // MRA+10: Must have reached MRA with at least 10 years of service
+      if (age >= 57 && years >= 10) {
+        const penaltyYears = Math.max(0, 62 - age);
+        const penaltyPct = penaltyYears * 5;
+        if (penaltyPct > 0) {
+          return { eligible: true, message: `✓ Eligible: MRA+10. Note: ${penaltyPct}% early retirement penalty applies (5% per year under age 62).` };
+        }
+        return { eligible: true, message: '✓ Eligible: MRA+10 with no penalty (age 62+). Consider Normal Retirement instead.' };
+      }
+      return {
+        eligible: false,
+        message: '✗ Not eligible for MRA+10. Requirements: Reached Minimum Retirement Age (57) with at least 10 years of service.'
+      };
     } else {
       // VERA
       if (years >= 25) {
@@ -744,8 +885,11 @@ import FERSCalculatorSEOContent from '../components/calculators/FERSCalculatorSE
     const retirementType = document.getElementById('fers-retirement-type').value;
     const high3 = parseFloat(document.getElementById('fers-high3').value) || 0;
     const sickLeaveHours = parseFloat(document.getElementById('fers-sick-leave').value) || 0;
-    const militaryYears = parseFloat(document.getElementById('fers-military-years').value) || 0;
-    const militaryMonths = parseFloat(document.getElementById('fers-military-months').value) || 0;
+    // MILITARY BUYBACK — preserved for potential standalone calculator
+    // const militaryYears = parseFloat(document.getElementById('fers-military-years').value) || 0;
+    // const militaryMonths = parseFloat(document.getElementById('fers-military-months').value) || 0;
+    const militaryYears = 0;
+    const militaryMonths = 0;
 
     const birthdateInput = document.getElementById('fers-birthdate').value;
     const scdInput = document.getElementById('fers-scd').value;
@@ -793,11 +937,13 @@ import FERSCalculatorSEOContent from '../components/calculators/FERSCalculatorSE
     const data = getFormData();
     const sickCredit = convertSickLeave(data.sickLeaveHours);
 
-    // Display age
+    // Display age (both in summary box and inline below retirement date)
     if (data.age !== null) {
       document.getElementById('fers-calc-age').textContent = data.age + ' years';
+      document.getElementById('inline-retirement-age').textContent = data.age;
     } else {
       document.getElementById('fers-calc-age').textContent = '--';
+      document.getElementById('inline-retirement-age').textContent = '--';
     }
 
     // Display base years
@@ -845,7 +991,31 @@ import FERSCalculatorSEOContent from '../components/calculators/FERSCalculatorSE
       multiplier = 0.011;
     }
 
-    const annualPension = data.high3 * data.totalYears * multiplier;
+    const unreducedAnnual = data.high3 * data.totalYears * multiplier;
+
+    // MRA+10 penalty: 5% per year under age 62
+    let penaltyPct = 0;
+    let annualPension = unreducedAnnual;
+    const penaltyCard = document.getElementById('penalty-card');
+
+    if (data.retirementType === 'mra10' && data.age < 62) {
+      penaltyPct = Math.max(0, (62 - data.age) * 5);
+      const penaltyAmount = unreducedAnnual * (penaltyPct / 100);
+      annualPension = unreducedAnnual - penaltyAmount;
+
+      // Show penalty card with details
+      penaltyCard.style.display = 'block';
+      document.getElementById('penalty-percentage').textContent = '-' + penaltyPct + '%';
+      document.getElementById('penalty-explanation').textContent = '5% × ' + (62 - data.age) + ' years under age 62';
+      document.getElementById('penalty-unreduced').textContent = formatCurrency(unreducedAnnual);
+      document.getElementById('penalty-reduction').textContent = '-' + formatCurrency(penaltyAmount);
+      document.getElementById('penalty-reduced').textContent = formatCurrency(annualPension);
+      document.getElementById('penalty-monthly-reduced').textContent = formatCurrency(annualPension / 12);
+    } else {
+      // Hide penalty card for all other retirement types
+      penaltyCard.style.display = 'none';
+    }
+
     const monthlyPension = annualPension / 12;
 
     // Update results
@@ -862,7 +1032,8 @@ import FERSCalculatorSEOContent from '../components/calculators/FERSCalculatorSE
 
     document.getElementById('breakdown-base').textContent = data.baseYears ? data.baseYears + ' years' : '--';
     document.getElementById('breakdown-sick').textContent = (sickCredit.months > 0 || sickCredit.days > 0 || sickCredit.years > 0) ? formatServiceTime(sickCredit.years, sickCredit.months, sickCredit.days) : 'None';
-    document.getElementById('breakdown-military').textContent = militaryTime > 0 ? militaryTime.toFixed(2) + ' years' : 'None';
+    // MILITARY BUYBACK — preserved for potential standalone calculator
+    // document.getElementById('breakdown-military').textContent = militaryTime > 0 ? militaryTime.toFixed(2) + ' years' : 'None';
     document.getElementById('breakdown-total').textContent = data.totalYears + ' years';
     document.getElementById('breakdown-formula').textContent =
       `${formatCurrency(data.high3)} × ${data.totalYears} × ${(multiplier * 100).toFixed(1)}% = ${formatCurrency(annualPension)}`;
@@ -890,8 +1061,9 @@ import FERSCalculatorSEOContent from '../components/calculators/FERSCalculatorSE
     document.getElementById('fers-retirement-date').addEventListener('change', calculateFERS);
     document.getElementById('fers-high3').addEventListener('input', calculateFERS);
     document.getElementById('fers-sick-leave').addEventListener('input', calculateFERS);
-    document.getElementById('fers-military-years').addEventListener('input', calculateFERS);
-    document.getElementById('fers-military-months').addEventListener('input', calculateFERS);
+    // MILITARY BUYBACK — preserved for potential standalone calculator
+    // document.getElementById('fers-military-years').addEventListener('input', calculateFERS);
+    // document.getElementById('fers-military-months').addEventListener('input', calculateFERS);
 
     // Run initial calculation
     calculateFERS();

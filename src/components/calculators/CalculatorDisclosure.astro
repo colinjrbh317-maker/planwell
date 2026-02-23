@@ -1,0 +1,36 @@
+---
+// Reusable disclosure component for all calculator pages
+---
+
+<div class="calculator-disclosure">
+  <p>
+    <strong>Disclosures:</strong> This calculator is for educational use only and is provided for informational purposes
+    and should not be considered financial, investment, tax, or legal advice. Results are estimates based on stated assumptions
+    and historical TSP data. Historical TSP fund returns are not indicative of future performance. Actual results may differ
+    materially from projections. Projections are based on long-term historical averages of TSP funds since inception,
+    reflecting published returns that account for fund expenses and operating costs. Catch-up contribution limits for ages
+    60-63 reflect current SECURE Act 2.0 provisions and are subject to legislative change. Consult a qualified tax
+    professional regarding your specific situation. Commentary regarding diversification and concentration risk is general
+    in nature. Investment allocation decisions should align with your personal goals, time horizon, and risk tolerance.
+    For personalized retirement guidance, seek advice from a qualified financial professional familiar with federal benefits
+    and current retirement legislation.
+  </p>
+</div>
+
+<style>
+  .calculator-disclosure {
+    margin-top: var(--space-12);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-gray-200);
+  }
+
+  .calculator-disclosure p {
+    font-size: var(--text-xs);
+    color: var(--color-gray-500);
+    line-height: 1.6;
+  }
+
+  .calculator-disclosure strong {
+    color: var(--color-gray-600);
+  }
+</style>

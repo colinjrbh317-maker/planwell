@@ -468,6 +468,30 @@ const breadcrumbSchema = {
     color: var(--color-navy);
   }
 
+  /* Fix WordPress Elementor SVG icons (render as black circles without Elementor CSS) */
+  .article__content :global(.e-font-icon-svg) {
+    display: none;
+  }
+
+  .article__content :global(.elementor-icon-list-icon) {
+    display: none;
+  }
+
+  .article__content :global(.elementor-icon-list-item) {
+    display: list-item;
+    list-style-type: disc;
+    margin-left: var(--space-6);
+  }
+
+  .article__content :global(.elementor-icon-list-text) {
+    display: inline;
+  }
+
+  .article__content :global(.elementor-icon-list-items) {
+    list-style: none;
+    padding: 0;
+  }
+
   /* Layout with Sidebar */
   .article__layout {
     display: grid;

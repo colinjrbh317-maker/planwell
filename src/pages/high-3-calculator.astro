@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import CalculatorDisclosure from '../components/calculators/CalculatorDisclosure.astro';
 ---
 
 <BaseLayout
@@ -36,6 +37,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
                 class="form-input"
               />
               <span class="form-hint">The calculator will use the 36 months before this date.</span>
+            </div>
+
+            <!-- RSCD -->
+            <div class="form-group">
+              <label class="form-label" for="high3-rscd">Retirement Service Computation Date (RSCD)</label>
+              <span class="form-hint" style="margin-bottom: var(--space-2); display: block; color: var(--color-gray-500);">When you began your covered special provision service.</span>
+              <input
+                type="date"
+                id="high3-rscd"
+                class="form-input"
+              />
             </div>
 
             <!-- Salary Periods -->
@@ -159,6 +171,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
     </div>
   </section>
+  <CalculatorDisclosure />
 </BaseLayout>
 
 <style>

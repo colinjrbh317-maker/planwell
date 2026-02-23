@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import TSPCalculatorSEOContent from '../components/calculators/TSPCalculatorSEOContent.astro';
+import CalculatorDisclosure from '../components/calculators/CalculatorDisclosure.astro';
 ---
 
 <BaseLayout
@@ -105,7 +106,7 @@ import TSPCalculatorSEOContent from '../components/calculators/TSPCalculatorSEOC
           We can help you develop a tax-efficient withdrawal strategy using Roth conversions and more.
         </p>
         <div class="flex justify-center gap-4" style="flex-wrap: wrap;">
-          <a href="/webinars" class="btn btn--white btn--lg">Get a Tax Analysis</a>
+          <a href="/book-call" class="btn btn--white btn--lg">Get a Tax Analysis</a>
         </div>
       </div>
     </div>
@@ -113,6 +114,7 @@ import TSPCalculatorSEOContent from '../components/calculators/TSPCalculatorSEOC
 
   <!-- SEO-Optimized Content -->
   <TSPCalculatorSEOContent />
+  <CalculatorDisclosure />
 </BaseLayout>
 
 <style>
