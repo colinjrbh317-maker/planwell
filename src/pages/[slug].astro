@@ -1,48 +1,132 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { articles } from '../data/articles';
-import { getAuthor } from '../data/authors';
+import { sanityClient } from '../lib/sanity';
 
-// Required for dynamic routes - generate paths from our article data
-export function getStaticPaths() {
-  return Object.keys(articles).map(slug => ({
-    params: { slug },
-    props: { article: { ...articles[slug], slug } }
-  }));
+// Fetch all posts with full content for static path generation
+export async function getStaticPaths() {
+  const posts = await sanityClient.fetch(`
+    *[_type == "post"] | order(publishedAt desc) {
+      _id,
+      title,
+      "slug": slug.current,
+      publishedAt,
+      body,
+      htmlBody,
+      excerpt,
+      readTime,
+      author->{
+        name,
+        "slug": slug.current,
+        credentials,
+        title,
+        bioShort,
+        bioFull,
+        email,
+        phone,
+        image { asset->{url} }
+      },
+      category->{
+        title,
+        "slug": slug.current
+      },
+      mainImage { asset->{url} }
+    }
+  `);
+
+  return posts.map(post => {
+    const related = posts
+      .filter(p => p.category?.title === post.category?.title && p.slug !== post.slug)
+      .slice(0, 3);
+    return {
+      params: { slug: post.slug },
+      props: { article: post, relatedArticles: related },
+    };
+  });
 }
 
-const { article } = Astro.props;
-const author = getAuthor(article.author);
+const { article, relatedArticles } = Astro.props;
+const author = article.author;
+const authorImageUrl = author?.image?.asset?.url || `/images/authors/${author?.slug || 'planwell-team'}.jpg`;
 
-// Determine if this is a TSP-focused article
-const isTSPArticle = article.title.toLowerCase().includes('tsp') ||
-                      article.slug.toLowerCase().includes('tsp') ||
-                      article.title.toLowerCase().includes('thrift savings');
-
-// Get related articles (same category, excluding current)
-const relatedArticles = Object.entries(articles)
-  .filter(([slug, a]) => a.category === article.category && slug !== article.slug)
-  .slice(0, 3)
-  .map(([slug, a]) => ({ ...a, slug }));
-
-// Generate clean excerpt for meta description
-const cleanExcerpt = article.excerpt || article.content?.replace(/<[^>]*>/g, '').slice(0, 155) + '...';
-
-// Parse date for schema (convert "December 22, 2025" to ISO format)
-const parseDate = (dateStr: string) => {
+// Format ISO date for display (e.g. "February 20, 2026")
+function formatDate(isoDate: string): string {
+  if (!isoDate) return '';
   try {
-    const date = new Date(dateStr);
-    return date.toISOString();
-  } catch {
-    return new Date().toISOString();
-  }
-};
+    return new Date(isoDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  } catch { return ''; }
+}
 
-const publishedDate = parseDate(article.date);
+// Simple Portable Text to HTML converter for new Studio posts
+function portableTextToHtml(blocks: any[]): string {
+  if (!blocks || !Array.isArray(blocks)) return '';
+  let html = '';
+  let listOpen = false;
+  let listType = '';
+
+  for (const block of blocks) {
+    if (block._type === 'block') {
+      if (block.listItem) {
+        const newListType = block.listItem === 'number' ? 'ol' : 'ul';
+        if (!listOpen || listType !== newListType) {
+          if (listOpen) html += `</${listType}>`;
+          html += `<${newListType}>`;
+          listOpen = true;
+          listType = newListType;
+        }
+        html += `<li>${renderChildren(block)}</li>`;
+        continue;
+      }
+      if (listOpen) { html += `</${listType}>`; listOpen = false; }
+      const text = renderChildren(block);
+      switch (block.style) {
+        case 'h1': html += `<h1>${text}</h1>`; break;
+        case 'h2': html += `<h2>${text}</h2>`; break;
+        case 'h3': html += `<h3>${text}</h3>`; break;
+        case 'h4': html += `<h4>${text}</h4>`; break;
+        case 'blockquote': html += `<blockquote>${text}</blockquote>`; break;
+        default: html += `<p>${text}</p>`;
+      }
+    } else if (block._type === 'image') {
+      if (listOpen) { html += `</${listType}>`; listOpen = false; }
+      html += `<img src="${block.asset?.url || ''}" alt="${block.alt || ''}" />`;
+    }
+  }
+  if (listOpen) html += `</${listType}>`;
+  return html;
+}
+
+function renderChildren(block: any): string {
+  if (!block.children) return '';
+  return block.children.map((child: any) => {
+    let text = (child.text || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    if (child.marks) {
+      for (const mark of child.marks) {
+        if (mark === 'strong') text = `<strong>${text}</strong>`;
+        else if (mark === 'em') text = `<em>${text}</em>`;
+        else if (mark === 'underline') text = `<u>${text}</u>`;
+        else if (mark === 'code') text = `<code>${text}</code>`;
+        else {
+          const def = block.markDefs?.find((d: any) => d._key === mark);
+          if (def?._type === 'link') text = `<a href="${def.href}">${text}</a>`;
+        }
+      }
+    }
+    return text;
+  }).join('');
+}
+
+// Get article content - prefer htmlBody (legacy), fall back to Portable Text body
+const articleContent = article.htmlBody || portableTextToHtml(article.body) || '';
+
+const isTSPArticle = article.title?.toLowerCase().includes('tsp') ||
+                      article.slug?.toLowerCase().includes('tsp') ||
+                      article.title?.toLowerCase().includes('thrift savings');
+
+const displayDate = formatDate(article.publishedAt);
+const cleanExcerpt = article.excerpt || articleContent.replace(/<[^>]*>/g, '').slice(0, 155) + '...';
 const articleUrl = `https://planwellfp.com/${article.slug}`;
-const articleImage = article.image?.startsWith('http')
-  ? article.image
-  : `https://planwellfp.com${article.image || '/images/blog/default-cover.jpg'}`;
+const articleImage = article.mainImage?.asset?.url || '/images/blog/default-cover.jpg';
+const fullArticleImage = articleImage.startsWith('http') ? articleImage : `https://planwellfp.com${articleImage}`;
 
 // Article Schema for rich snippets
 const articleSchema = {
@@ -50,33 +134,27 @@ const articleSchema = {
   "@type": "Article",
   "headline": article.title,
   "description": cleanExcerpt,
-  "image": articleImage,
-  "datePublished": publishedDate,
-  "dateModified": publishedDate,
+  "image": fullArticleImage,
+  "datePublished": article.publishedAt || new Date().toISOString(),
+  "dateModified": article.publishedAt || new Date().toISOString(),
   "author": {
     "@type": "Person",
     "name": author?.name || "PlanWell Team",
     "jobTitle": author?.title || "Financial Planning Team",
-    "url": `https://planwellfp.com/about`,
+    "url": "https://planwellfp.com/about",
     ...(author?.credentials && { "hasCredential": author.credentials.split(', ') })
   },
   "publisher": {
     "@type": "Organization",
     "@id": "https://planwellfp.com/#organization",
     "name": "PlanWell Financial Planning",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://planwellfp.com/images/planwell-logo.png"
-    }
+    "logo": { "@type": "ImageObject", "url": "https://planwellfp.com/images/planwell-logo.png" }
   },
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": articleUrl
-  },
-  "articleSection": article.category,
-  "wordCount": article.content?.replace(/<[^>]*>/g, '').split(/\s+/).length || 1000,
+  "mainEntityOfPage": { "@type": "WebPage", "@id": articleUrl },
+  "articleSection": article.category?.title || '',
+  "wordCount": articleContent.replace(/<[^>]*>/g, '').split(/\s+/).length || 1000,
   "keywords": [
-    article.category,
+    article.category?.title || '',
     "federal retirement",
     "FERS",
     ...(isTSPArticle ? ["TSP", "Thrift Savings Plan"] : []),
@@ -89,30 +167,10 @@ const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": "https://planwellfp.com"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Blog",
-      "item": "https://planwellfp.com/blog"
-    },
-    {
-      "@type": "ListItem",
-      "position": 3,
-      "name": article.category,
-      "item": `https://planwellfp.com/blog/topic/${article.category.toLowerCase().replace(/\s+/g, '-')}`
-    },
-    {
-      "@type": "ListItem",
-      "position": 4,
-      "name": article.title,
-      "item": articleUrl
-    }
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://planwellfp.com" },
+    { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://planwellfp.com/blog" },
+    { "@type": "ListItem", "position": 3, "name": article.category?.title || 'Blog', "item": `https://planwellfp.com/blog/topic/${(article.category?.slug || '').toLowerCase()}` },
+    { "@type": "ListItem", "position": 4, "name": article.title, "item": articleUrl }
   ]
 };
 ---
@@ -120,11 +178,11 @@ const breadcrumbSchema = {
 <BaseLayout
   title={`${article.title} | PlanWell Blog`}
   description={cleanExcerpt}
-  ogImage={articleImage}
+  ogImage={fullArticleImage}
   ogType="article"
-  articleDate={publishedDate}
+  articleDate={article.publishedAt || ''}
   articleAuthor={author?.name || "PlanWell Team"}
-  articleSection={article.category}
+  articleSection={article.category?.title || ''}
 >
   <!-- Schema.org structured data for rich snippets -->
   <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
@@ -145,7 +203,7 @@ const breadcrumbSchema = {
           {author && (
             <div class="article__author">
               <img
-                src={author.image}
+                src={authorImageUrl}
                 alt={author.name}
                 class="article__author-image"
                 onerror="this.onerror=null; this.src='/images/authors/planwell-logo.png';"
@@ -155,7 +213,7 @@ const breadcrumbSchema = {
                   {author.name}{author.credentials ? `, ${author.credentials}` : ''}
                 </span>
                 <span class="article__date">
-                  {article.date} · {article.readTime}
+                  {displayDate} · {article.readTime}
                 </span>
               </div>
             </div>
@@ -170,7 +228,7 @@ const breadcrumbSchema = {
         <div class="article__layout">
           <!-- Main Content -->
           <div class="article__main">
-            <div class="article__content" set:html={article.content} />
+            <div class="article__content" set:html={articleContent} />
 
             <!-- Mid-Article CTA -->
             {isTSPArticle ? (
@@ -195,7 +253,7 @@ const breadcrumbSchema = {
               {author && (
                 <div class="sidebar-author">
                   <img
-                    src={author.image}
+                    src={authorImageUrl}
                     alt={author.name}
                     class="sidebar-author__image"
                     onerror="this.onerror=null; this.src='/images/authors/planwell-logo.png';"
@@ -247,7 +305,7 @@ const breadcrumbSchema = {
         {author && (
           <div class="author-bio">
             <img
-              src={author.image}
+              src={authorImageUrl}
               alt={author.name}
               class="author-bio__image"
               onerror="this.onerror=null; this.src='/images/authors/planwell-logo.png';"
@@ -276,24 +334,21 @@ const breadcrumbSchema = {
           <nav class="related-articles">
             <h3>Related Articles</h3>
             <div class="related-grid">
-              {relatedArticles.map(related => {
-                const relatedAuthor = getAuthor(related.author);
-                return (
+              {relatedArticles.map(related => (
                   <a href={`/${related.slug}`} class="related-card">
                     <img
-                      src={related.image || `/images/blog/covers/${related.slug}.png`}
+                      src={related.mainImage?.asset?.url || '/images/blog/default-cover.jpg'}
                       alt={related.title}
                       class="related-card__image"
                     />
                     <div class="related-card__content">
                       <h4 class="related-card__title">{related.title}</h4>
                       <div class="related-card__meta">
-                        <span>{relatedAuthor?.name || 'PlanWell Team'}</span>
+                        <span>{related.author?.name || 'PlanWell Team'}</span>
                       </div>
                     </div>
                   </a>
-                );
-              })}
+              ))}
             </div>
           </nav>
         )}

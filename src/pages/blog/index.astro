@@ -1,19 +1,17 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { articles } from '../../data/articles';
-import { authors, getAllAuthors, getAuthor } from '../../data/authors';
+import { getBlogPosts, getAuthors } from '../../lib/sanity';
 
-// Get all articles as array with proper author lookup
-const allArticles = Object.entries(articles).map(([slug, article]) => ({
-  ...article,
-  slug,
-  authorData: getAuthor(article.author)
-}));
+// Fetch all blog posts and authors from Sanity CMS
+const allPosts = await getBlogPosts();
+const sanityAuthors = await getAuthors();
 
-// Authors with article counts (include all authors)
-const blogAuthors = getAllAuthors().map(author => ({
-  ...author,
-  articleCount: allArticles.filter(a => a.author === author.slug).length
+// Authors with article counts (for filter buttons and team section)
+const blogAuthors = sanityAuthors.map(author => ({
+  slug: author.slug,
+  name: author.name,
+  credentials: author.credentials || '',
+  articleCount: allPosts.filter(p => p.author?.slug === author.slug).length,
 }));
 
 // Featured/Trending topics - curated list of what's most relevant now
@@ -25,17 +23,17 @@ const featuredTopics = [
 ];
 
 // Prepare articles data for client-side use (minimal data to reduce page size)
-const articlesForClient = allArticles.map(a => ({
-  slug: a.slug,
-  title: a.title,
-  excerpt: a.excerpt?.slice(0, 150) || '',
-  category: a.category || 'FERS',
-  date: a.date,
-  author: a.author,
-  authorName: a.authorData?.name || 'PlanWell Team',
-  authorImage: a.authorData?.image || '/images/authors/planwell-team.jpg',
-  authorCreds: a.authorData?.credentials || '',
-  image: a.image || '/images/blog/default-cover.jpg',
+const articlesForClient = allPosts.map(post => ({
+  slug: post.slug,
+  title: post.title,
+  excerpt: (post.excerpt || '').slice(0, 150),
+  category: post.category?.title || 'FERS',
+  date: post.publishedAt || '',
+  author: post.author?.slug || 'planwell-team',
+  authorName: post.author?.name || 'PlanWell Team',
+  authorImage: post.author?.image?.asset?.url || '/images/authors/planwell-team.jpg',
+  authorCreds: post.author?.credentials || '',
+  image: post.mainImage?.asset?.url || '/images/blog/default-cover.jpg',
 }));
 
 // CollectionPage schema for blog index
@@ -45,24 +43,17 @@ const blogSchema = {
   "name": "Federal Retirement Blog",
   "description": "Expert articles on FERS pension, TSP investing, FEHB health insurance, and federal employee benefits from certified financial planners.",
   "url": "https://planwellfp.com/blog",
-  "isPartOf": {
-    "@id": "https://planwellfp.com/#website"
-  },
-  "about": {
-    "@type": "Thing",
-    "name": "Federal Employee Retirement Planning"
-  },
-  "publisher": {
-    "@id": "https://planwellfp.com/#organization"
-  },
+  "isPartOf": { "@id": "https://planwellfp.com/#website" },
+  "about": { "@type": "Thing", "name": "Federal Employee Retirement Planning" },
+  "publisher": { "@id": "https://planwellfp.com/#organization" },
   "mainEntity": {
     "@type": "ItemList",
-    "numberOfItems": allArticles.length,
-    "itemListElement": allArticles.slice(0, 10).map((article, index) => ({
+    "numberOfItems": allPosts.length,
+    "itemListElement": allPosts.slice(0, 10).map((post, index) => ({
       "@type": "ListItem",
       "position": index + 1,
-      "url": `https://planwellfp.com/${article.slug}`,
-      "name": article.title
+      "url": `https://planwellfp.com/${post.slug}`,
+      "name": post.title
     }))
   }
 };
@@ -72,18 +63,8 @@ const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": "https://planwellfp.com"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Blog",
-      "item": "https://planwellfp.com/blog"
-    }
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://planwellfp.com" },
+    { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://planwellfp.com/blog" }
   ]
 };
 ---
@@ -101,7 +82,7 @@ const breadcrumbSchema = {
     <div class="container">
       <h1 class="blog-hero__title">Federal Retirement Resources</h1>
       <p class="blog-hero__subtitle">
-        {allArticles.length} articles from our certified federal benefits specialists
+        {allPosts.length} articles from our certified federal benefits specialists
       </p>
 
       <!-- Search Bar -->
@@ -187,7 +168,7 @@ const breadcrumbSchema = {
           </div>
         </div>
         <div class="results-info" id="results-info">
-          Showing all {allArticles.length} articles
+          Showing all {allPosts.length} articles
         </div>
       </div>
     </div>

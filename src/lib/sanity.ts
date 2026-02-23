@@ -47,6 +47,7 @@ export async function getBlogPost(slug: string) {
       "slug": slug.current,
       publishedAt,
       body,
+      htmlBody,
       excerpt,
       readTime,
       author->{
@@ -157,6 +158,59 @@ export async function getAuthors() {
       phone,
       image {
         asset->{url}
+      }
+    }
+  `);
+}
+
+// Homepage content queries
+export async function getHomepageHero() {
+    return await sanityClient.fetch(`
+    *[_type == "homepageHero"][0] {
+      heading,
+      subheading,
+      ctaText,
+      ctaLink,
+      backgroundImage {
+        asset->{url}
+      }
+    }
+  `);
+}
+
+export async function getTestimonials() {
+    return await sanityClient.fetch(`
+    *[_type == "testimonials"][0] {
+      items[] {
+        quote,
+        authorName,
+        authorTitle,
+        rating
+      }
+    }
+  `);
+}
+
+export async function getFaqSection() {
+    return await sanityClient.fetch(`
+    *[_type == "faqSection"][0] {
+      items[] {
+        question,
+        answer
+      }
+    }
+  `);
+}
+
+export async function getMediaLogos() {
+    return await sanityClient.fetch(`
+    *[_type == "mediaLogos"][0] {
+      items[] {
+        name,
+        logo {
+          asset->{url}
+        },
+        url
       }
     }
   `);
