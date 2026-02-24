@@ -438,15 +438,6 @@
 
   // Initialize popup
   function initPopup() {
-    if (!shouldShowPopup()) {
-      return;
-    }
-
-    // Show after delay
-    setTimeout(() => {
-      showPopup();
-    }, DELAY_MS);
-
     // Close button handler
     const closeBtn = document.querySelector('.newsletter-popup__close');
     if (closeBtn) {
@@ -477,6 +468,19 @@
         hidePopup();
       }
     });
+
+    // External trigger button (e.g. "Get Our Newsletter" on homepage)
+    const triggerBtn = document.getElementById('newsletter-trigger');
+    if (triggerBtn) {
+      triggerBtn.addEventListener('click', showPopup);
+    }
+
+    // Auto-show after delay (only if under max views)
+    if (shouldShowPopup()) {
+      setTimeout(() => {
+        showPopup();
+      }, DELAY_MS);
+    }
   }
 
   // Run on page load
