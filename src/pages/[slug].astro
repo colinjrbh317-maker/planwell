@@ -15,7 +15,7 @@ for (const file of coverFiles) {
 // Fetch all posts with full content for static path generation
 export async function getStaticPaths() {
   const posts = await sanityClient.fetch(`
-    *[_type == "post"] | order(publishedAt desc) {
+    *[_type == "post" && (!defined(publishedAt) || publishedAt <= now())] | order(publishedAt desc) {
       _id,
       title,
       "slug": slug.current,
@@ -199,6 +199,20 @@ const breadcrumbSchema = {
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
 
   <article class="article">
+    <!-- Featured Image -->
+    {articleImage && (
+      <div class="article__featured-image">
+        <div class="container">
+          <img
+            src={articleImage}
+            alt={article.title}
+            class="article__cover"
+            loading="eager"
+          />
+        </div>
+      </div>
+    )}
+
     <!-- Article Header -->
     <header class="article__header">
       <div class="container">
@@ -251,7 +265,7 @@ const breadcrumbSchema = {
               <aside class="article__mid-cta">
                 <h4>Want personalized guidance?</h4>
                 <p>Get your specific retirement questions answered in our free FERS workshop.</p>
-                <a href="https://planwell.vercel.app/webinars" class="btn btn--primary">Join Free Workshop</a>
+                <a href="/webinars" class="btn btn--primary">Join Free Workshop</a>
               </aside>
             )}
           </div>
@@ -299,7 +313,7 @@ const breadcrumbSchema = {
                     <li>Live Q&A session</li>
                     <li>Personalized answers</li>
                   </ul>
-                  <a href="https://planwell.vercel.app/webinars" class="btn btn--primary btn--block">Reserve Your Seat</a>
+                  <a href="/webinars" class="btn btn--primary btn--block">Reserve Your Seat</a>
                 </div>
               )}
 
@@ -368,7 +382,155 @@ const breadcrumbSchema = {
   </article>
 </BaseLayout>
 
+<script is:inline>
+  // Replace broken Elementor Table of Contents with native version
+  document.addEventListener('DOMContentLoaded', () => {
+    const tocWidget = document.querySelector('.elementor-widget-table-of-contents');
+    if (!tocWidget) return;
+
+    // Find all h2 headings in the article content
+    const articleContent = document.querySelector('.article__content');
+    if (!articleContent) return;
+
+    const headings = articleContent.querySelectorAll('h2');
+    if (headings.length === 0) return;
+
+    // Add IDs to headings for anchor links
+    headings.forEach((h, i) => {
+      const text = h.textContent.trim();
+      const id = 'section-' + text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      h.id = id;
+    });
+
+    // Build native TOC
+    const toc = document.createElement('div');
+    toc.className = 'native-toc';
+    toc.innerHTML = `
+      <button class="native-toc__toggle" aria-expanded="false">
+        <span>Table of Contents</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <nav class="native-toc__list" style="display: none;">
+        <ol>
+          ${Array.from(headings).map(h => {
+            const text = h.textContent.trim();
+            if (text === 'Reach Out to Us!' || text === ' ') return '';
+            return `<li><a href="#${h.id}">${text}</a></li>`;
+          }).filter(Boolean).join('')}
+        </ol>
+      </nav>
+    `;
+
+    // Replace Elementor widget
+    tocWidget.replaceWith(toc);
+
+    // Toggle behavior
+    const toggle = toc.querySelector('.native-toc__toggle');
+    const list = toc.querySelector('.native-toc__list');
+    toggle.addEventListener('click', () => {
+      const expanded = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', !expanded);
+      list.style.display = expanded ? 'none' : 'block';
+      toggle.querySelector('svg').style.transform = expanded ? '' : 'rotate(180deg)';
+    });
+
+    // Smooth scroll on click
+    toc.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  });
+</script>
+
 <style>
+  /* Native Table of Contents (replaces broken Elementor TOC) */
+  .native-toc {
+    max-width: 600px;
+    margin: var(--space-6) auto;
+    background: var(--color-white);
+    border: 2px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .native-toc__toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: var(--space-4) var(--space-5);
+    background: var(--color-navy);
+    color: var(--color-white);
+    border: none;
+    cursor: pointer;
+    font-size: var(--text-base);
+    font-weight: var(--font-semibold);
+  }
+
+  .native-toc__toggle svg {
+    transition: transform 0.2s ease;
+    color: var(--color-gold);
+  }
+
+  .native-toc__list {
+    padding: var(--space-4) var(--space-5);
+  }
+
+  .native-toc__list ol {
+    list-style: decimal;
+    padding-left: var(--space-5);
+    margin: 0;
+  }
+
+  .native-toc__list li {
+    margin-bottom: var(--space-2);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+  }
+
+  .native-toc__list a {
+    color: var(--color-navy);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .native-toc__list a:hover {
+    color: var(--color-gold);
+    text-decoration: underline;
+  }
+</style>
+
+<style>
+  /* Featured Image */
+  .article__featured-image {
+    background: var(--color-white);
+    padding: var(--space-8) 0 0;
+  }
+
+  .article__featured-image .container {
+    max-width: 900px;
+  }
+
+  .article__cover {
+    width: 100%;
+    max-height: 480px;
+    object-fit: cover;
+    border-radius: var(--radius-xl);
+    display: block;
+  }
+
+  @media (max-width: 768px) {
+    .article__cover {
+      max-height: 280px;
+      border-radius: var(--radius-lg);
+    }
+  }
+
   /* Header */
   .article__header {
     background: var(--color-white);

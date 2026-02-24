@@ -912,10 +912,8 @@ const steps = [
   </style>
 
   <script is:inline>
-    // Configuration - Set your webhook URL here
-    // For local development: http://localhost:5001/api/webinar
-    // For production: Update to your deployed Flask server URL
-    const WEBINAR_WEBHOOK_URL = 'http://localhost:5001/api/webinar';
+    // Configuration - Webinar registration webhook (Zoom auto-registration via Railway)
+    const WEBINAR_WEBHOOK_URL = 'https://pleasant-vision-production.up.railway.app/api/webinar';
     
     // Get webinar data from data attributes
     const webinarDataEl = document.getElementById('webinar-data');
@@ -976,22 +974,14 @@ const steps = [
             source: 'webinar_registration'
           })
         });
-        
+
         if (response.ok) {
-          console.log('Webinar registration submitted successfully');
-          // Store locally as backup
-          const submissions = JSON.parse(localStorage.getItem('webinar_submissions') || '[]');
-          submissions.push({ ...data, synced: true, submitted_at: new Date().toISOString() });
-          localStorage.setItem('webinar_submissions', JSON.stringify(submissions));
-          return true;
+          const result = await response.json();
+          console.log('Webinar registration submitted:', result);
         }
-        throw new Error('Webhook failed');
+        return true;
       } catch (error) {
         console.error('Webhook submission error:', error);
-        // Store locally for later sync
-        const submissions = JSON.parse(localStorage.getItem('webinar_submissions') || '[]');
-        submissions.push({ ...data, synced: false, submitted_at: new Date().toISOString() });
-        localStorage.setItem('webinar_submissions', JSON.stringify(submissions));
         return false;
       }
     }

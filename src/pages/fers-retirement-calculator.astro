@@ -253,7 +253,7 @@ import CalculatorDisclosure from '../components/calculators/CalculatorDisclosure
         </p>
         <div class="flex justify-center gap-4" style="flex-wrap: wrap;">
           <a href="/book-call" class="btn btn--white btn--lg">Book a Free Strategy Call</a>
-          <a href="https://planwell.vercel.app/webinars" class="btn btn--primary btn--lg">Join Our Next Webinar</a>
+          <a href="/webinars" class="btn btn--primary btn--lg">Join Our Next Webinar</a>
         </div>
       </div>
     </div>
@@ -973,6 +973,13 @@ import CalculatorDisclosure from '../components/calculators/CalculatorDisclosure
     return data;
   }
 
+  function meetsNormalRetirement(age, years) {
+    if (age >= 57 && years >= 30) return true;
+    if (age >= 60 && years >= 20) return true;
+    if (age >= 62 && years >= 5) return true;
+    return false;
+  }
+
   function calculateFERS() {
     const data = updateCalculatedValues();
 
@@ -982,8 +989,26 @@ import CalculatorDisclosure from '../components/calculators/CalculatorDisclosure
       document.getElementById('fers-multiplier').textContent = '--';
       document.getElementById('summary-age').textContent = '--';
       document.getElementById('summary-years').textContent = '--';
+      document.getElementById('penalty-card').style.display = 'none';
       return;
     }
+
+    // If Normal Retirement selected but not eligible, suppress results
+    if (data.retirementType === 'normal' && !meetsNormalRetirement(data.age, data.totalYears)) {
+      document.getElementById('fers-annual').textContent = 'Not eligible — change Retirement Type to MRA + 10 or VERA';
+      document.getElementById('fers-annual').style.fontSize = 'var(--text-lg)';
+      document.getElementById('fers-monthly').textContent = '- -';
+      document.getElementById('fers-multiplier').textContent = '- -';
+      document.getElementById('summary-age').textContent = data.age;
+      document.getElementById('summary-years').textContent = data.totalYears;
+      document.getElementById('penalty-card').style.display = 'none';
+      document.getElementById('breakdown-formula').textContent = '--';
+      return;
+    }
+
+    // For MRA+10: check if they actually qualify for normal retirement
+    // If they do, skip the penalty entirely
+    const qualifiesForNormal = meetsNormalRetirement(data.age, data.totalYears);
 
     // FERS multiplier: 1% for most, 1.1% if retiring at 62+ with 20+ years
     let multiplier = 0.01;
@@ -994,11 +1019,12 @@ import CalculatorDisclosure from '../components/calculators/CalculatorDisclosure
     const unreducedAnnual = data.high3 * data.totalYears * multiplier;
 
     // MRA+10 penalty: 5% per year under age 62
+    // But skip penalty if person qualifies for normal retirement
     let penaltyPct = 0;
     let annualPension = unreducedAnnual;
     const penaltyCard = document.getElementById('penalty-card');
 
-    if (data.retirementType === 'mra10' && data.age < 62) {
+    if (data.retirementType === 'mra10' && data.age < 62 && !qualifiesForNormal) {
       penaltyPct = Math.max(0, (62 - data.age) * 5);
       const penaltyAmount = unreducedAnnual * (penaltyPct / 100);
       annualPension = unreducedAnnual - penaltyAmount;
@@ -1019,6 +1045,7 @@ import CalculatorDisclosure from '../components/calculators/CalculatorDisclosure
     const monthlyPension = annualPension / 12;
 
     // Update results
+    document.getElementById('fers-annual').style.fontSize = '';
     document.getElementById('fers-annual').textContent = formatCurrency(annualPension);
     document.getElementById('fers-monthly').textContent = formatCurrency(monthlyPension);
     document.getElementById('fers-multiplier').textContent = (multiplier * 100).toFixed(1) + '%';

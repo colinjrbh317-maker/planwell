@@ -10,7 +10,7 @@ export const sanityClient = createClient({
 // Blog post list query with author details
 export async function getBlogPosts() {
     return await sanityClient.fetch(`
-    *[_type == "post"] | order(publishedAt desc) {
+    *[_type == "post" && (!defined(publishedAt) || publishedAt <= now())] | order(publishedAt desc) {
       _id,
       title,
       "slug": slug.current,
@@ -41,7 +41,7 @@ export async function getBlogPosts() {
 // Single blog post query with full author details
 export async function getBlogPost(slug: string) {
     return await sanityClient.fetch(`
-    *[_type == "post" && slug.current == $slug][0] {
+    *[_type == "post" && slug.current == $slug && (!defined(publishedAt) || publishedAt <= now())][0] {
       _id,
       title,
       "slug": slug.current,
@@ -77,7 +77,7 @@ export async function getBlogPost(slug: string) {
 // Get posts by category
 export async function getBlogPostsByCategory(categorySlug: string) {
     return await sanityClient.fetch(`
-    *[_type == "post" && category->slug.current == $categorySlug] | order(publishedAt desc) {
+    *[_type == "post" && category->slug.current == $categorySlug && (!defined(publishedAt) || publishedAt <= now())] | order(publishedAt desc) {
       _id,
       title,
       "slug": slug.current,
@@ -105,7 +105,7 @@ export async function getBlogPostsByCategory(categorySlug: string) {
 // Get posts by author
 export async function getBlogPostsByAuthor(authorSlug: string) {
     return await sanityClient.fetch(`
-    *[_type == "post" && author->slug.current == $authorSlug] | order(publishedAt desc) {
+    *[_type == "post" && author->slug.current == $authorSlug && (!defined(publishedAt) || publishedAt <= now())] | order(publishedAt desc) {
       _id,
       title,
       "slug": slug.current,

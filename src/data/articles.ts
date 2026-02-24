@@ -38896,7 +38896,7 @@ Accredited Investment Fiduciary (AIF) professionals is here to help you navigate
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-d562257 elementor-widget__width-initial elementor-widget elementor-widget-image" data-id="d562257" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																														</div>
+					<img src="/images/blog/fers/rscd-form.png" alt="FERS Retirement Service Computation Date form SF3107" style="max-width:100%;height:auto;" loading="lazy" />				</div>
 				</div>
 					</div>
 		</div>
@@ -38968,7 +38968,7 @@ Accredited Investment Fiduciary (AIF) professionals is here to help you navigate
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-33d77b0 elementor-widget elementor-widget-image" data-id="33d77b0" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																														</div>
+					<img src="/images/blog/fers/special-provision.png" alt="Special provision employee retirement eligibility" style="max-width:100%;height:auto;" loading="lazy" />				</div>
 				</div>
 					</div>
 		</div>
@@ -39008,7 +39008,7 @@ Accredited Investment Fiduciary (AIF) professionals is here to help you navigate
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-22e5b06 elementor-widget elementor-widget-image" data-id="22e5b06" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																														</div>
+					<img src="/images/blog/fers/mra-detail.png" alt="Minimum Retirement Age table by birth year" style="max-width:100%;height:auto;" loading="lazy" />				</div>
 				</div>
 				<div class="elementor-element elementor-element-081f81c elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="081f81c" data-element_type="widget" data-widget_type="divider.default">
 				<div class="elementor-widget-container">
@@ -39040,7 +39040,7 @@ Accredited Investment Fiduciary (AIF) professionals is here to help you navigate
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-3994f26 elementor-widget elementor-widget-image" data-id="3994f26" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																														</div>
+					<img src="/images/blog/fers/high-3-calc.png" alt="High-3 average salary calculation example" style="max-width:100%;height:auto;" loading="lazy" />				</div>
 				</div>
 					</div>
 		</div>
@@ -39112,7 +39112,7 @@ Accredited Investment Fiduciary (AIF) professionals is here to help you navigate
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-f5026d9 elementor-widget elementor-widget-image" data-id="f5026d9" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																														</div>
+					<img src="/images/blog/fers/sick-leave.png" alt="Sick leave credit impact on FERS pension calculation" style="max-width:100%;height:auto;" loading="lazy" />				</div>
 				</div>
 					</div>
 		</div>
@@ -39136,7 +39136,7 @@ Accredited Investment Fiduciary (AIF) professionals is here to help you navigate
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-a8ad13c elementor-widget elementor-widget-image" data-id="a8ad13c" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																														</div>
+					<img src="/images/blog/fers/creditable-service.png" alt="Creditable service calculation with military service" style="max-width:100%;height:auto;" loading="lazy" />				</div>
 				</div>
 				<div class="elementor-element elementor-element-9acc2f1 elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="9acc2f1" data-element_type="widget" data-widget_type="divider.default">
 				<div class="elementor-widget-container">
@@ -39168,7 +39168,7 @@ Accredited Investment Fiduciary (AIF) professionals is here to help you navigate
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-d489198 elementor-widget elementor-widget-image" data-id="d489198" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																														</div>
+					<img src="/images/blog/fers/2087-chart.jpg" alt="2087 hours sick leave conversion chart" style="max-width:100%;height:auto;" loading="lazy" />				</div>
 				</div>
 					</div>
 		</div>
@@ -39208,7 +39208,7 @@ Accredited Investment Fiduciary (AIF) professionals is here to help you navigate
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-4c58ba2 elementor-widget elementor-widget-image" data-id="4c58ba2" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																														</div>
+					<img src="/images/blog/fers/special-provision-calc.png" alt="Special provision employee pension calculation" style="max-width:100%;height:auto;" loading="lazy" />				</div>
 				</div>
 					</div>
 		</div>
@@ -39220,7 +39220,7 @@ Accredited Investment Fiduciary (AIF) professionals is here to help you navigate
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-dad1000 elementor-widget elementor-widget-image" data-id="dad1000" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																														</div>
+					<img src="/images/blog/fers/special-provision-calc-2.png" alt="Special provision pension calculation continued" style="max-width:100%;height:auto;" loading="lazy" />				</div>
 				</div>
 					</div>
 		</div>
@@ -39252,7 +39252,7 @@ Accredited Investment Fiduciary (AIF) professionals is here to help you navigate
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-9b32eaf elementor-widget elementor-widget-image" data-id="9b32eaf" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																														</div>
+					<img src="/images/blog/fers/special-provision-example.png" alt="Special provision retirement calculation example" style="max-width:100%;height:auto;" loading="lazy" />				</div>
 				</div>
 					</div>
 		</div>
@@ -39288,7 +39288,7 @@ Accredited Investment Fiduciary (AIF) professionals is here to help you navigate
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-c119fbf elementor-widget elementor-widget-image" data-id="c119fbf" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																														</div>
+					<img src="/images/blog/fers/deferred-vs-postpone.png" alt="Deferred vs postponed retirement comparison chart" style="max-width:100%;height:auto;" loading="lazy" />				</div>
 				</div>
 				<div class="elementor-element elementor-element-6142ff5 elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="6142ff5" data-element_type="widget" data-widget_type="divider.default">
 				<div class="elementor-widget-container">
@@ -39360,7 +39360,7 @@ Accredited Investment Fiduciary (AIF) professionals is here to help you navigate
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-673b0be elementor-widget elementor-widget-image" data-id="673b0be" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																														</div>
+					<img src="/images/blog/fers/cola-chart.png" alt="FERS cost of living adjustment COLA chart" style="max-width:100%;height:auto;" loading="lazy" />				</div>
 				</div>
 					</div>
 		</div>
@@ -39392,7 +39392,7 @@ Accredited Investment Fiduciary (AIF) professionals is here to help you navigate
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-61d6bdf elementor-widget elementor-widget-image" data-id="61d6bdf" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																														</div>
+					<img src="/images/blog/fers/retirement-process.png" alt="Federal retirement application process timeline" style="max-width:100%;height:auto;" loading="lazy" />				</div>
 				</div>
 					</div>
 		</div>
@@ -39417,6 +39417,7 @@ Accredited Investment Fiduciary (AIF) professionals is here to help you navigate
 						<div class="elementor-element elementor-element-e50a64d elementor-widget elementor-widget-image" data-id="e50a64d" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
 												<figure class="wp-caption">
+																					<img src="/images/blog/fers/opm-backlog.png" alt="OPM retirement claims backlog as of November 2023" style="max-width:100%;height:auto;" loading="lazy" />
 																					<figcaption class="widget-image-caption wp-caption-text">*OPM Backlog as of Nov 2023</figcaption>
 										</figure>
 									</div>
@@ -39451,7 +39452,7 @@ Accredited Investment Fiduciary (AIF) professionals is here to help you navigate
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-5b92e81 elementor-widget elementor-widget-image" data-id="5b92e81" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																														</div>
+					<img src="/images/blog/fers/best-day-to-retire.png" alt="Best dates to retire from federal service" style="max-width:100%;height:auto;" loading="lazy" />				</div>
 				</div>
 					</div>
 		</div>
@@ -48983,7 +48984,7 @@ For more details on handling a TSP or 401k loan after you leave, check out What 
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-d562257 elementor-widget__width-initial elementor-widget elementor-widget-image" data-id="d562257" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																														</div>
+					<img src="/images/blog/fers/rscd-form.png" alt="FERS Retirement Service Computation Date form SF3107" style="max-width:100%;height:auto;" loading="lazy" />				</div>
 				</div>
 					</div>
 		</div>
@@ -49031,7 +49032,7 @@ For more details on handling a TSP or 401k loan after you leave, check out What 
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-95ab50c elementor-widget elementor-widget-image" data-id="95ab50c" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																														</div>
+					<img src="/images/blog/fers/mra-eligibility.png" alt="FERS retirement eligibility chart by age and years of service" style="max-width:100%;height:auto;" loading="lazy" />				</div>
 				</div>
 					</div>
 		</div>
@@ -49063,7 +49064,7 @@ For more details on handling a TSP or 401k loan after you leave, check out What 
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-22e5b06 elementor-widget elementor-widget-image" data-id="22e5b06" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																														</div>
+					<img src="/images/blog/fers/mra-detail.png" alt="Minimum Retirement Age table by birth year" style="max-width:100%;height:auto;" loading="lazy" />				</div>
 				</div>
 				<div class="elementor-element elementor-element-081f81c elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="081f81c" data-element_type="widget" data-widget_type="divider.default">
 				<div class="elementor-widget-container">
@@ -49095,7 +49096,7 @@ For more details on handling a TSP or 401k loan after you leave, check out What 
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-3994f26 elementor-widget elementor-widget-image" data-id="3994f26" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																														</div>
+					<img src="/images/blog/fers/high-3-calc.png" alt="High-3 average salary calculation example" style="max-width:100%;height:auto;" loading="lazy" />				</div>
 				</div>
 					</div>
 		</div>
@@ -49167,7 +49168,7 @@ For more details on handling a TSP or 401k loan after you leave, check out What 
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-f5026d9 elementor-widget elementor-widget-image" data-id="f5026d9" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																														</div>
+					<img src="/images/blog/fers/sick-leave.png" alt="Sick leave credit impact on FERS pension calculation" style="max-width:100%;height:auto;" loading="lazy" />				</div>
 				</div>
 					</div>
 		</div>
@@ -49191,7 +49192,7 @@ For more details on handling a TSP or 401k loan after you leave, check out What 
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-a8ad13c elementor-widget elementor-widget-image" data-id="a8ad13c" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																														</div>
+					<img src="/images/blog/fers/creditable-service.png" alt="Creditable service calculation with military service" style="max-width:100%;height:auto;" loading="lazy" />				</div>
 				</div>
 				<div class="elementor-element elementor-element-9acc2f1 elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="9acc2f1" data-element_type="widget" data-widget_type="divider.default">
 				<div class="elementor-widget-container">
@@ -49223,7 +49224,7 @@ For more details on handling a TSP or 401k loan after you leave, check out What 
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-d489198 elementor-widget elementor-widget-image" data-id="d489198" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																														</div>
+					<img src="/images/blog/fers/2087-chart.jpg" alt="2087 hours sick leave conversion chart" style="max-width:100%;height:auto;" loading="lazy" />				</div>
 				</div>
 					</div>
 		</div>
@@ -49255,7 +49256,7 @@ For more details on handling a TSP or 401k loan after you leave, check out What 
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-e13e67c elementor-widget elementor-widget-image" data-id="e13e67c" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																														</div>
+					<img src="/images/blog/fers/pension-formula.png" alt="FERS pension calculation formula" style="max-width:100%;height:auto;" loading="lazy" />				</div>
 				</div>
 					</div>
 		</div>
@@ -49287,7 +49288,7 @@ For more details on handling a TSP or 401k loan after you leave, check out What 
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-f4198ea elementor-widget elementor-widget-image" data-id="f4198ea" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																														</div>
+					<img src="/images/blog/fers/basic-calc.png" alt="FERS basic 1 percent pension calculation example" style="max-width:100%;height:auto;" loading="lazy" />				</div>
 				</div>
 					</div>
 		</div>
@@ -49319,7 +49320,7 @@ For more details on handling a TSP or 401k loan after you leave, check out What 
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-9056286 elementor-widget elementor-widget-image" data-id="9056286" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																														</div>
+					<img src="/images/blog/fers/bonus-calc.png" alt="FERS 1.1 percent bonus pension calculation example" style="max-width:100%;height:auto;" loading="lazy" />				</div>
 				</div>
 					</div>
 		</div>
@@ -49351,7 +49352,7 @@ For more details on handling a TSP or 401k loan after you leave, check out What 
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-f26405a elementor-widget elementor-widget-image" data-id="f26405a" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																														</div>
+					<img src="/images/blog/fers/1-vs-1.1.png" alt="Comparison of basic vs bonus FERS pension calculation" style="max-width:100%;height:auto;" loading="lazy" />				</div>
 				</div>
 				<div class="elementor-element elementor-element-1164b64 elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="1164b64" data-element_type="widget" data-widget_type="divider.default">
 				<div class="elementor-widget-container">
@@ -49395,7 +49396,7 @@ For more details on handling a TSP or 401k loan after you leave, check out What 
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-33d77b0 elementor-widget elementor-widget-image" data-id="33d77b0" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																														</div>
+					<img src="/images/blog/fers/special-provision.png" alt="Special provision employee retirement eligibility" style="max-width:100%;height:auto;" loading="lazy" />				</div>
 				</div>
 					</div>
 		</div>
@@ -49419,7 +49420,7 @@ For more details on handling a TSP or 401k loan after you leave, check out What 
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-4c58ba2 elementor-widget elementor-widget-image" data-id="4c58ba2" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																														</div>
+					<img src="/images/blog/fers/special-provision-calc.png" alt="Special provision employee pension calculation" style="max-width:100%;height:auto;" loading="lazy" />				</div>
 				</div>
 					</div>
 		</div>
@@ -49431,7 +49432,7 @@ For more details on handling a TSP or 401k loan after you leave, check out What 
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-dad1000 elementor-widget elementor-widget-image" data-id="dad1000" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																														</div>
+					<img src="/images/blog/fers/special-provision-calc-2.png" alt="Special provision pension calculation continued" style="max-width:100%;height:auto;" loading="lazy" />				</div>
 				</div>
 					</div>
 		</div>
@@ -49463,7 +49464,7 @@ For more details on handling a TSP or 401k loan after you leave, check out What 
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-9b32eaf elementor-widget elementor-widget-image" data-id="9b32eaf" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																														</div>
+					<img src="/images/blog/fers/special-provision-example.png" alt="Special provision retirement calculation example" style="max-width:100%;height:auto;" loading="lazy" />				</div>
 				</div>
 					</div>
 		</div>
@@ -49519,7 +49520,7 @@ For more details on handling a TSP or 401k loan after you leave, check out What 
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-14e09ec elementor-widget elementor-widget-image" data-id="14e09ec" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																														</div>
+					<img src="/images/blog/fers/mra-10.png" alt="MRA plus 10 early retirement penalty calculation" style="max-width:100%;height:auto;" loading="lazy" />				</div>
 				</div>
 					</div>
 		</div>
@@ -49555,7 +49556,7 @@ For more details on handling a TSP or 401k loan after you leave, check out What 
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-c119fbf elementor-widget elementor-widget-image" data-id="c119fbf" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																														</div>
+					<img src="/images/blog/fers/deferred-vs-postpone.png" alt="Deferred vs postponed retirement comparison chart" style="max-width:100%;height:auto;" loading="lazy" />				</div>
 				</div>
 				<div class="elementor-element elementor-element-6142ff5 elementor-widget-divider--view-line elementor-widget elementor-widget-divider" data-id="6142ff5" data-element_type="widget" data-widget_type="divider.default">
 				<div class="elementor-widget-container">
@@ -49627,7 +49628,7 @@ For more details on handling a TSP or 401k loan after you leave, check out What 
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-673b0be elementor-widget elementor-widget-image" data-id="673b0be" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																														</div>
+					<img src="/images/blog/fers/cola-chart.png" alt="FERS cost of living adjustment COLA chart" style="max-width:100%;height:auto;" loading="lazy" />				</div>
 				</div>
 					</div>
 		</div>
@@ -49659,7 +49660,7 @@ For more details on handling a TSP or 401k loan after you leave, check out What 
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-61d6bdf elementor-widget elementor-widget-image" data-id="61d6bdf" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																														</div>
+					<img src="/images/blog/fers/retirement-process.png" alt="Federal retirement application process timeline" style="max-width:100%;height:auto;" loading="lazy" />				</div>
 				</div>
 					</div>
 		</div>
@@ -49684,6 +49685,7 @@ For more details on handling a TSP or 401k loan after you leave, check out What 
 						<div class="elementor-element elementor-element-e50a64d elementor-widget elementor-widget-image" data-id="e50a64d" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
 												<figure class="wp-caption">
+																					<img src="/images/blog/fers/opm-backlog.png" alt="OPM retirement claims backlog as of November 2023" style="max-width:100%;height:auto;" loading="lazy" />
 																					<figcaption class="widget-image-caption wp-caption-text">*OPM Backlog as of Nov 2023</figcaption>
 										</figure>
 									</div>
@@ -49718,7 +49720,7 @@ For more details on handling a TSP or 401k loan after you leave, check out What 
 			<div class="elementor-widget-wrap elementor-element-populated">
 						<div class="elementor-element elementor-element-5b92e81 elementor-widget elementor-widget-image" data-id="5b92e81" data-element_type="widget" data-widget_type="image.default">
 				<div class="elementor-widget-container">
-																														</div>
+					<img src="/images/blog/fers/best-day-to-retire.png" alt="Best dates to retire from federal service" style="max-width:100%;height:auto;" loading="lazy" />				</div>
 				</div>
 					</div>
 		</div>

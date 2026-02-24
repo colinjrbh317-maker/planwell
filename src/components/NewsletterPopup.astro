@@ -350,7 +350,8 @@
   const STORAGE_KEY = 'newsletter_popup_views';
   const MAX_VIEWS = 3;
   const DELAY_MS = 7000; // 7 seconds
-  const API_ENDPOINT = 'http://localhost:5001/api/newsletter'; // Update for production
+  // Newsletter signup - Mailchimp integration via Railway webhook server
+  const API_ENDPOINT = 'https://pleasant-vision-production.up.railway.app/api/newsletter';
 
   // Check if we should show the popup
   function shouldShowPopup() {
@@ -424,25 +425,13 @@
       });
 
       if (response.ok) {
-        console.log('Newsletter subscription successful');
-        showSuccess();
-
-        // Store in localStorage as backup
-        const subscriptions = JSON.parse(localStorage.getItem('newsletter_subscriptions') || '[]');
-        subscriptions.push({ ...data, synced: true });
-        localStorage.setItem('newsletter_subscriptions', JSON.stringify(subscriptions));
-      } else {
-        throw new Error('Submission failed');
+        const result = await response.json();
+        console.log('Newsletter subscription:', result);
       }
+      showSuccess();
     } catch (error) {
       console.error('Newsletter submission error:', error);
-
-      // Store locally for later sync
-      const subscriptions = JSON.parse(localStorage.getItem('newsletter_subscriptions') || '[]');
-      subscriptions.push({ ...data, synced: false });
-      localStorage.setItem('newsletter_subscriptions', JSON.stringify(subscriptions));
-
-      // Still show success to user
+      // Still show success to user (don't penalize for network issues)
       showSuccess();
     }
   }

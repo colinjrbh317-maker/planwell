@@ -35,3 +35,4 @@ STATE.md.bak
 # Keep versioned GSD files (explicit inclusion not needed, just document here)
 # PROJECT.md, REQUIREMENTS.md, ROADMAP.md, STATE.md
 # .planning/phase-*/PLAN.md, .planning/phase-*/SUMMARY.md
+.vercel

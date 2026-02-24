@@ -266,29 +266,29 @@ const currentPath = Astro.url.pathname;
     }
   }
 
-  /* Mobile - critical size reduction */
+  /* Mobile - bigger logo */
   @media (max-width: 640px) {
     .nav__logo {
-      margin-left: -10px; /* Reduce negative margin by half */
+      margin-left: -15px;
     }
 
     .nav__logo img {
-      height: 170px !important;
-      max-width: 320px !important;
-      margin: -50px 0;
+      height: 220px !important;
+      max-width: 400px !important;
+      margin: -65px 0;
     }
   }
 
-  /* Extra small mobile - ensure no overflow */
+  /* Extra small mobile - slightly smaller but still big */
   @media (max-width: 375px) {
     .nav__logo {
-      margin-left: 0; /* Remove negative margin entirely */
+      margin-left: -10px;
     }
 
     .nav__logo img {
-      height: 150px !important;
-      max-width: 270px !important;
-      margin: -38px 0;
+      height: 190px !important;
+      max-width: 340px !important;
+      margin: -55px 0;
     }
   }
 

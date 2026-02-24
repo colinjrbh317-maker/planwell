@@ -360,10 +360,18 @@ import CalculatorDisclosure from '../components/calculators/CalculatorDisclosure
       return;
     }
 
+    // Gate: minimum 20 years of special provision service required
+    if (years < 20) {
+      document.getElementById('sp-annual').textContent = '- -';
+      document.getElementById('sp-monthly').textContent = '- -';
+      document.getElementById('sp-replacement').textContent = '- -';
+      return;
+    }
+
     let replacementFactor = 0;
 
     if (years <= 20) {
-      // 1.7% for all years if <= 20 (though typically need 20 for full retirement)
+      // Exactly 20 years: 1.7% for all years
       replacementFactor = years * 0.017;
     } else {
       // 20 years @ 1.7% + remaining @ 1.0%

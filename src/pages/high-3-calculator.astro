@@ -50,11 +50,24 @@ import CalculatorDisclosure from '../components/calculators/CalculatorDisclosure
               />
             </div>
 
+            <!-- Current Annual Income (simple path) -->
+            <div class="form-group">
+              <label class="form-label" for="high3-current-salary">Current Annual Income ($)</label>
+              <div class="input-wrapper">
+                <span class="input-prefix">$</span>
+                <input type="number" id="high3-current-salary" class="form-input" placeholder="e.g., 100000" value="100000" inputmode="decimal" />
+              </div>
+              <span class="form-hint">
+                If you only enter your current income, the High-3 is estimated at 97% of this amount.
+                Add salary periods below for a more precise calculation.
+              </span>
+            </div>
+
             <!-- Salary Periods -->
             <div class="form-group">
-              <label class="form-label">Salary Periods (up to 4)</label>
+              <label class="form-label">Salary Periods (up to 4, optional)</label>
               <span class="form-hint" style="margin-bottom: var(--space-4); display: block;">
-                Enter your salary history. Only periods within the 36-month window will be used.
+                For a precise calculation, enter your salary history. Only periods within the 36-month window will be used.
               </span>
 
               <div id="salary-periods-container">
@@ -244,6 +257,19 @@ import CalculatorDisclosure from '../components/calculators/CalculatorDisclosure
     font-size: var(--text-base);
   }
 
+  .input-wrapper {
+    position: relative;
+  }
+
+  .input-prefix {
+    position: absolute;
+    left: var(--space-4);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-gray-500);
+    font-weight: var(--font-medium);
+  }
+
   .form-input {
     width: 100%;
     padding: var(--space-4);
@@ -251,6 +277,10 @@ import CalculatorDisclosure from '../components/calculators/CalculatorDisclosure
     border-radius: var(--radius-md);
     font-size: 16px;
     transition: border-color var(--transition-fast);
+  }
+
+  .input-wrapper .form-input {
+    padding-left: var(--space-8);
   }
 
   .form-input:focus {
@@ -658,17 +688,7 @@ import CalculatorDisclosure from '../components/calculators/CalculatorDisclosure
     }
   }
 
-  function calculateHigh3() {
-    const retirementDateInput = document.getElementById('high3-retirement-date').value;
-
-    if (!retirementDateInput) {
-      alert('Please enter a retirement date.');
-      return;
-    }
-
-    const retirementDate = new Date(retirementDateInput);
-
-    // Get all salary periods
+  function getCompletePeriods() {
     const periods = [];
     const periodElements = document.querySelectorAll('.salary-period');
 
@@ -682,31 +702,63 @@ import CalculatorDisclosure from '../components/calculators/CalculatorDisclosure
         const startDate = new Date(startInput);
         const endDate = new Date(endInput);
 
-        if (startDate >= endDate) {
-          alert(`Period ${periodNum}: Start date must be before end date.`);
-          return;
+        if (startDate < endDate) {
+          periods.push({
+            periodNum,
+            startDate,
+            endDate,
+            salary: salaryInput
+          });
         }
-
-        periods.push({
-          periodNum,
-          startDate,
-          endDate,
-          salary: salaryInput
-        });
       }
     });
 
+    return periods;
+  }
+
+  function calculateHigh3() {
+    const currentSalary = parseFloat(document.getElementById('high3-current-salary').value) || 0;
+    const periods = getCompletePeriods();
+
+    // Simple path: no complete periods, just use 97% of current income
     if (periods.length === 0) {
-      alert('Please enter at least one complete salary period.');
+      if (currentSalary > 0) {
+        const high3Estimate = currentSalary * 0.97;
+        document.getElementById('high3-average').textContent = formatCurrency(high3Estimate);
+        document.getElementById('window-range').textContent = 'Estimated (97% of current income)';
+        document.getElementById('periods-analyzed').textContent = 'Simple estimate';
+        document.getElementById('breakdown-list').innerHTML = `
+          <div class="breakdown-item">
+            <strong>Current Income:</strong> ${formatCurrency(currentSalary)}<br>
+            <strong>High-3 Estimate:</strong> ${formatCurrency(currentSalary)} × 97% = ${formatCurrency(high3Estimate)}
+          </div>
+        `;
+      } else {
+        document.getElementById('high3-average').textContent = '--';
+        document.getElementById('window-range').textContent = '--';
+        document.getElementById('periods-analyzed').textContent = '--';
+        document.getElementById('breakdown-list').innerHTML = '';
+      }
       return;
     }
+
+    // Multi-period path: weighted by months
+    const retirementDateInput = document.getElementById('high3-retirement-date').value;
+    if (!retirementDateInput) {
+      document.getElementById('high3-average').textContent = '--';
+      document.getElementById('window-range').textContent = 'Enter a retirement date';
+      document.getElementById('periods-analyzed').textContent = '--';
+      return;
+    }
+
+    const retirementDate = new Date(retirementDateInput);
 
     // Calculate 36-month window
     const windowEnd = retirementDate;
     const windowStart = new Date(retirementDate);
     windowStart.setMonth(windowStart.getMonth() - 36);
 
-    // Calculate weighted average
+    // Calculate weighted salary: (AnnualIncome / 12 * months) summed, then / 3
     let totalWeightedSalary = 0;
     let totalMonths = 0;
     const breakdown = [];
@@ -717,7 +769,8 @@ import CalculatorDisclosure from '../components/calculators/CalculatorDisclosure
 
       if (overlapStart < overlapEnd) {
         const monthsInWindow = calculateMonthsOfService(overlapStart, overlapEnd);
-        const contribution = period.salary * monthsInWindow;
+        const monthlySalary = period.salary / 12;
+        const contribution = monthlySalary * monthsInWindow;
         totalWeightedSalary += contribution;
         totalMonths += monthsInWindow;
 
@@ -732,25 +785,30 @@ import CalculatorDisclosure from '../components/calculators/CalculatorDisclosure
       }
     });
 
-    const high3Average = totalMonths > 0 ? totalWeightedSalary / totalMonths : 0;
+    // Divide total weighted salary by 3 (representing 3 years)
+    const high3Average = totalWeightedSalary > 0 ? totalWeightedSalary / 3 : 0;
 
     // Update display
     document.getElementById('high3-average').textContent = formatCurrency(high3Average);
     document.getElementById('window-range').textContent =
       `${formatDate(windowStart)} - ${formatDate(windowEnd)}`;
     document.getElementById('periods-analyzed').textContent =
-      `${breakdown.length} period${breakdown.length !== 1 ? 's' : ''}`;
+      `${breakdown.length} period${breakdown.length !== 1 ? 's' : ''} (${totalMonths.toFixed(1)} months)`;
 
     // Update breakdown
     const breakdownList = document.getElementById('breakdown-list');
     breakdownList.innerHTML = breakdown.map(item => `
       <div class="breakdown-item">
-        <strong>Period ${item.period}:</strong> ${formatCurrency(item.salary)}<br>
+        <strong>Period ${item.period}:</strong> ${formatCurrency(item.salary)}/yr<br>
         ${formatDate(item.startDate)} - ${formatDate(item.endDate)}<br>
         <span style="color: var(--color-gold);">${item.monthsInWindow.toFixed(1)} months in window</span><br>
-        Contribution: ${formatCurrency(item.contribution / item.monthsInWindow)} × ${item.monthsInWindow.toFixed(1)} months
+        Contribution: ${formatCurrency(item.salary / 12)}/mo × ${item.monthsInWindow.toFixed(1)} months = ${formatCurrency(item.contribution)}
       </div>
-    `).join('');
+    `).join('') + `
+      <div class="breakdown-item" style="border-top: 2px solid var(--color-navy); margin-top: var(--space-3); padding-top: var(--space-3);">
+        <strong>Total:</strong> ${formatCurrency(totalWeightedSalary)} ÷ 3 years = <strong>${formatCurrency(high3Average)}</strong>
+      </div>
+    `;
   }
 
   // Initialize on page load
@@ -760,17 +818,20 @@ import CalculatorDisclosure from '../components/calculators/CalculatorDisclosure
     defaultRetirement.setFullYear(defaultRetirement.getFullYear() + 1);
     document.getElementById('high3-retirement-date').value = defaultRetirement.toISOString().split('T')[0];
 
-    // Set default Period 1 dates and salary
-    const period1End = new Date();
-    period1End.setFullYear(period1End.getFullYear() + 1);
-    const period1Start = new Date(period1End);
-    period1Start.setFullYear(period1Start.getFullYear() - 3);
+    // Clear period 1 dates so simple path works by default
+    document.getElementById('period1-start').value = '';
+    document.getElementById('period1-end').value = '';
+    document.getElementById('period1-salary').value = '';
 
-    document.getElementById('period1-start').value = period1Start.toISOString().split('T')[0];
-    document.getElementById('period1-end').value = period1End.toISOString().split('T')[0];
-    document.getElementById('period1-salary').value = '100000';
+    // Add event listeners for real-time calculation
+    document.getElementById('high3-retirement-date').addEventListener('change', calculateHigh3);
+    document.getElementById('high3-current-salary').addEventListener('input', calculateHigh3);
 
-    // Run initial calculation
+    // Delegate events for period inputs (handles dynamically added periods)
+    document.getElementById('salary-periods-container').addEventListener('input', calculateHigh3);
+    document.getElementById('salary-periods-container').addEventListener('change', calculateHigh3);
+
+    // Run initial calculation (will use simple path with default salary)
     calculateHigh3();
   });
 </script>
