@@ -31,7 +31,7 @@ const currentPath = Astro.url.pathname;
   <div class="container">
     <nav class="nav">
       <a href="/" class="nav__logo">
-        <Image src={logo} alt="PlanWell Financial Planning" width={560} height={320} format="webp" quality={90} loading="eager" />
+        <Image src={logo} alt="PlanWell Financial Planning" width={1024} height={585} format="webp" quality={95} loading="eager" />
       </a>
 
       <button class="nav__toggle" aria-label="Toggle navigation" aria-expanded="false">
@@ -270,26 +270,26 @@ const currentPath = Astro.url.pathname;
   /* Mobile - bigger logo */
   @media (max-width: 640px) {
     .nav__logo {
-      margin-left: -18px;
+      margin-left: -20px;
     }
 
     .nav__logo img {
-      height: 260px !important;
-      max-width: min(420px, calc(100vw - 80px)) !important;
-      margin: -82px 0;
+      height: 300px !important;
+      max-width: min(450px, calc(100vw - 70px)) !important;
+      margin: -95px 0;
     }
   }
 
   /* Extra small mobile - slightly smaller but still big */
   @media (max-width: 375px) {
     .nav__logo {
-      margin-left: -14px;
+      margin-left: -16px;
     }
 
     .nav__logo img {
-      height: 230px !important;
-      max-width: min(360px, calc(100vw - 70px)) !important;
-      margin: -70px 0;
+      height: 260px !important;
+      max-width: min(380px, calc(100vw - 60px)) !important;
+      margin: -82px 0;
     }
   }
 
