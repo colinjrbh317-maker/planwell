@@ -276,7 +276,7 @@ const currentPath = Astro.url.pathname;
   /* Mobile - width-based sizing to prevent aspect ratio distortion */
   @media (max-width: 640px) {
     .nav__logo {
-      margin-left: -20px;
+      margin-left: calc(-1 * var(--container-padding, 1rem) - 4px);
     }
 
     .nav__logo img {
@@ -290,7 +290,7 @@ const currentPath = Astro.url.pathname;
   /* Extra small mobile */
   @media (max-width: 375px) {
     .nav__logo {
-      margin-left: -16px;
+      margin-left: calc(-1 * var(--container-padding, 1rem) - 2px);
     }
 
     .nav__logo img {
