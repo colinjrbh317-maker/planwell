@@ -644,15 +644,16 @@ const faqSchema = {
   @media (max-width: 768px) {
     .hero {
       min-height: auto;
-      padding: 0 0 var(--space-12);
+      padding: 0 0 var(--space-8);
       flex-direction: column;
     }
 
     .hero__background {
       position: relative;
       width: 100%;
-      height: 75vh;
-      min-height: 400px;
+      height: 45vh;
+      min-height: 220px;
+      max-height: 340px;
       margin-bottom: 0;
     }
 
@@ -1294,7 +1295,7 @@ const faqSchema = {
   @media (max-width: 640px) {
     /* Hero Section */
     .hero {
-      padding: var(--space-16) 0 var(--space-12);
+      padding: 0 0 var(--space-8);
     }
 
     .hero__grid {
@@ -1310,8 +1311,13 @@ const faqSchema = {
       font-size: clamp(1.875rem, 6vw, 2.5rem);
     }
 
+    .hero__title {
+      margin-bottom: var(--space-3);
+    }
+
     .hero__subtitle {
-      font-size: var(--text-lg);
+      font-size: var(--text-base);
+      margin-bottom: var(--space-4);
     }
 
     .hero__cta {
