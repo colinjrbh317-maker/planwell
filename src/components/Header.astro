@@ -93,7 +93,6 @@ const currentPath = Astro.url.pathname;
     background-color: var(--color-white);
     box-shadow: var(--shadow-sm);
     border-bottom: 1px solid var(--color-gray-200);
-    overflow-x: hidden;
   }
 
   .nav {
@@ -121,6 +120,12 @@ const currentPath = Astro.url.pathname;
     flex-direction: column;
     gap: 5px;
     padding: var(--space-2);
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 100;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
 
   .nav__toggle-bar {
@@ -217,10 +222,11 @@ const currentPath = Astro.url.pathname;
     transition: all var(--transition-fast);
     z-index: var(--z-dropdown);
     list-style: none;
-    margin-top: var(--space-2);
+    padding-top: var(--space-4);
   }
 
-  .nav__item--has-dropdown:hover .nav__dropdown {
+  .nav__item--has-dropdown:hover .nav__dropdown,
+  .nav__item--has-dropdown.is-open .nav__dropdown {
     opacity: 1;
     visibility: visible;
   }
@@ -408,23 +414,20 @@ const currentPath = Astro.url.pathname;
     const dropdownBtn = item.querySelector('.nav__link--dropdown');
 
     dropdownBtn?.addEventListener('click', (e) => {
-      // Only handle click toggle on mobile
-      if (window.innerWidth <= 1024) {
-        e.preventDefault();
+      e.preventDefault();
 
-        // Close other dropdowns
-        dropdownItems.forEach(otherItem => {
-          if (otherItem !== item) {
-            otherItem.classList.remove('is-open');
-            const otherBtn = otherItem.querySelector('.nav__link--dropdown');
-            otherBtn?.setAttribute('aria-expanded', 'false');
-          }
-        });
+      // Close other dropdowns
+      dropdownItems.forEach(otherItem => {
+        if (otherItem !== item) {
+          otherItem.classList.remove('is-open');
+          const otherBtn = otherItem.querySelector('.nav__link--dropdown');
+          otherBtn?.setAttribute('aria-expanded', 'false');
+        }
+      });
 
-        // Toggle current dropdown
-        const isOpen = item.classList.toggle('is-open');
-        dropdownBtn.setAttribute('aria-expanded', String(isOpen));
-      }
+      // Toggle current dropdown
+      const isOpen = item.classList.toggle('is-open');
+      dropdownBtn.setAttribute('aria-expanded', String(isOpen));
     });
   });
 

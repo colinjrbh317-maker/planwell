@@ -379,8 +379,9 @@ const steps = [
     }
     
     .funnel-logo img {
-      height: 60px;
+      height: 120px;
       width: auto;
+      object-fit: contain;
     }
     
     .funnel-nav__link {
@@ -946,6 +947,14 @@ const steps = [
     @media (max-width: 640px) {
       .funnel-header {
         padding: 1rem;
+        justify-content: flex-start;
+        gap: 1rem;
+      }
+
+      .funnel-logo img {
+        height: 80px;
+        width: auto;
+        object-fit: contain;
       }
 
       .funnel-content {
