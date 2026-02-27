@@ -276,26 +276,26 @@ const currentPath = Astro.url.pathname;
   /* Mobile - width-based sizing to prevent aspect ratio distortion */
   @media (max-width: 640px) {
     .nav__logo {
-      margin-left: -10px;
+      margin-left: -20px;
     }
 
     .nav__logo img {
-      width: min(260px, calc(100vw - 80px)) !important;
+      width: min(320px, calc(100vw - 70px)) !important;
       height: auto !important;
       max-width: none !important;
-      margin: -30px 0;
+      margin: -40px 0;
     }
   }
 
   /* Extra small mobile */
   @media (max-width: 375px) {
     .nav__logo {
-      margin-left: -8px;
+      margin-left: -16px;
     }
 
     .nav__logo img {
-      width: min(220px, calc(100vw - 70px)) !important;
-      margin: -25px 0;
+      width: min(280px, calc(100vw - 60px)) !important;
+      margin: -35px 0;
     }
   }
 
