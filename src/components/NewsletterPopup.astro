@@ -428,6 +428,12 @@
         const result = await response.json();
         console.log('Newsletter subscription:', result);
       }
+      if (typeof gtag === 'function') {
+        gtag('event', 'newsletter_signup', {
+          event_category: 'conversion',
+          event_label: 'homepage_popup'
+        });
+      }
       showSuccess();
     } catch (error) {
       console.error('Newsletter submission error:', error);

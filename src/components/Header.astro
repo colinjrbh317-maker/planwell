@@ -93,6 +93,7 @@ const currentPath = Astro.url.pathname;
     background-color: var(--color-white);
     box-shadow: var(--shadow-sm);
     border-bottom: 1px solid var(--color-gray-200);
+    overflow-x: hidden;
   }
 
   .nav {
@@ -274,7 +275,7 @@ const currentPath = Astro.url.pathname;
 
     .nav__logo img {
       height: 220px !important;
-      max-width: 400px !important;
+      max-width: min(400px, calc(100vw - 80px)) !important;
       margin: -65px 0;
     }
   }
@@ -287,7 +288,7 @@ const currentPath = Astro.url.pathname;
 
     .nav__logo img {
       height: 190px !important;
-      max-width: 340px !important;
+      max-width: min(340px, calc(100vw - 70px)) !important;
       margin: -55px 0;
     }
   }

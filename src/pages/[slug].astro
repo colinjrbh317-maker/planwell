@@ -4,6 +4,9 @@ import { sanityClient } from '../lib/sanity';
 import { readdirSync } from 'fs';
 import { join } from 'path';
 
+// Server-rendered (SSR) with ISR caching — new articles available immediately
+export const prerender = false;
+
 // Build cover image lookup from static files (slug → path)
 const coverFiles = readdirSync(join(process.cwd(), 'public/images/blog/covers'));
 const coverImageMap = new Map<string, string>();
@@ -12,49 +15,53 @@ for (const file of coverFiles) {
   coverImageMap.set(slug, `/images/blog/covers/${file}`);
 }
 
-// Fetch all posts with full content for static path generation
-export async function getStaticPaths() {
-  const posts = await sanityClient.fetch(`
-    *[_type == "post" && (!defined(publishedAt) || publishedAt <= now())] | order(publishedAt desc) {
-      _id,
-      title,
+// Fetch the specific article by slug (on-demand)
+const { slug } = Astro.params;
+const article = await sanityClient.fetch(`
+  *[_type == "post" && slug.current == $slug && (!defined(publishedAt) || publishedAt <= now())][0] {
+    _id,
+    title,
+    "slug": slug.current,
+    publishedAt,
+    body,
+    htmlBody,
+    excerpt,
+    readTime,
+    author->{
+      name,
       "slug": slug.current,
-      publishedAt,
-      body,
-      htmlBody,
-      excerpt,
-      readTime,
-      author->{
-        name,
-        "slug": slug.current,
-        credentials,
-        title,
-        bioShort,
-        bioFull,
-        email,
-        phone,
-        image { asset->{url} }
-      },
-      category->{
-        title,
-        "slug": slug.current
-      },
-      mainImage { asset->{url} }
-    }
-  `);
+      credentials,
+      title,
+      bioShort,
+      bioFull,
+      email,
+      phone,
+      image { asset->{url} }
+    },
+    category->{
+      title,
+      "slug": slug.current
+    },
+    mainImage { asset->{url} }
+  }
+`, { slug });
 
-  return posts.map(post => {
-    const related = posts
-      .filter(p => p.category?.title === post.category?.title && p.slug !== post.slug)
-      .slice(0, 3);
-    return {
-      params: { slug: post.slug },
-      props: { article: post, relatedArticles: related },
-    };
-  });
+// Return 404 if article not found
+if (!article) {
+  return Astro.redirect('/blog');
 }
 
-const { article, relatedArticles } = Astro.props;
+// Fetch related articles in the same category
+const relatedArticles = article.category ? await sanityClient.fetch(`
+  *[_type == "post" && category->title == $category && slug.current != $slug && (!defined(publishedAt) || publishedAt <= now())] | order(publishedAt desc) [0...3] {
+    _id,
+    title,
+    "slug": slug.current,
+    author->{ name },
+    category->{ title, "slug": slug.current },
+    mainImage { asset->{url} }
+  }
+`, { category: article.category.title, slug }) : [];
 const author = article.author;
 const authorImageUrl = author?.image?.asset?.url || `/images/authors/${author?.slug || 'planwell-team'}.jpg`;
 

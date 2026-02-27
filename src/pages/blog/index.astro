@@ -4,6 +4,9 @@ import { getBlogPosts, getAuthors } from '../../lib/sanity';
 import { readdirSync } from 'fs';
 import { join } from 'path';
 
+// Server-rendered with ISR caching — new articles appear immediately
+export const prerender = false;
+
 // Fetch all blog posts and authors from Sanity CMS
 const allPosts = await getBlogPosts();
 const sanityAuthors = await getAuthors();
@@ -17,12 +20,14 @@ for (const file of coverFiles) {
 }
 
 // Authors with article counts (for filter buttons and team section)
-const blogAuthors = sanityAuthors.map(author => ({
-  slug: author.slug,
-  name: author.name,
-  credentials: author.credentials || '',
-  articleCount: allPosts.filter(p => p.author?.slug === author.slug).length,
-}));
+const blogAuthors = sanityAuthors
+  .filter(author => author.slug !== 'planwell-team')
+  .map(author => ({
+    slug: author.slug,
+    name: author.name,
+    credentials: author.credentials || '',
+    articleCount: allPosts.filter(p => p.author?.slug === author.slug).length,
+  }));
 
 // Featured/Trending topics - curated list of what's most relevant now
 const featuredTopics = [
@@ -321,10 +326,9 @@ const breadcrumbSchema = {
     // Apply filters
     filteredArticles = allArticles.filter(article => {
       const matchesAuthor = currentAuthor === 'all' || article.author === currentAuthor;
-      const matchesSearch = !currentSearch ||
-        article.title.toLowerCase().includes(currentSearch) ||
-        article.excerpt.toLowerCase().includes(currentSearch) ||
-        article.category.toLowerCase().includes(currentSearch);
+      const searchTerms = currentSearch ? currentSearch.split(/\s+/).filter(Boolean) : [];
+      const searchableText = (article.title + ' ' + article.excerpt + ' ' + article.category).toLowerCase();
+      const matchesSearch = !currentSearch || searchTerms.every(term => searchableText.includes(term));
       return matchesAuthor && matchesSearch;
     });
 
@@ -489,6 +493,12 @@ const breadcrumbSchema = {
       newsletterStatus.textContent = '✓ Subscribed! Check your inbox.';
       newsletterStatus.style.color = '#22c55e';
       newsletterEmail.value = '';
+      if (typeof gtag === 'function') {
+        gtag('event', 'newsletter_signup', {
+          event_category: 'conversion',
+          event_label: 'blog_inline'
+        });
+      }
     } catch (error) {
       console.error('Newsletter error:', error);
       newsletterStatus.textContent = '✓ Subscribed! Check your inbox.';

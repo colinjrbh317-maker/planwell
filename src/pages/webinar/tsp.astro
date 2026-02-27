@@ -9,17 +9,11 @@ const daysUntil = nextWebinar ? getDaysUntilTSP(nextWebinar) : 0;
 const webinarTime = nextWebinar ? `${nextWebinar.startTime} – ${nextWebinar.endTime} ${nextWebinar.timezone}` : '';
 const webinarId = nextWebinar?.id || '';
 
-// Optimized form - only 3 essential fields for maximum conversion
+// Form fields: full name, email, phone (optional) — matches FERS webinar
 const steps = [
-  { id: 1, question: "What's your name?", field: "name", type: "text", placeholder: "Full name" },
+  { id: 1, question: "What's your full name?", field: "fullName", type: "text", placeholder: "Full name" },
   { id: 2, question: "Where should we send the details?", field: "email", type: "email", placeholder: "your.email@example.com" },
-  { id: 3, question: "How many years until you retire?", field: "years_until_retirement", type: "select", options: [
-    { value: "0-2", label: "0-2 years" },
-    { value: "3-5", label: "3-5 years" },
-    { value: "6-10", label: "6-10 years" },
-    { value: "10+", label: "10+ years" },
-    { value: "retired", label: "Already retired" }
-  ]},
+  { id: 3, question: "Phone number?", field: "phone", type: "tel", placeholder: "(optional)", required: false },
 ];
 ---
 
@@ -46,6 +40,36 @@ const steps = [
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Google Tag Manager -->
+  <script is:inline>
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-MRSSJQ5B');
+  </script>
+  <!-- Google Analytics 4 -->
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-9GCLL7ZVM8');
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9GCLL7ZVM8"></script>
+  <!-- Facebook Pixel -->
+  <script is:inline>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1064203284941145');
+    fbq('track', 'PageView');
+  </script>
 </head>
 <body>
   <div class="funnel">
@@ -236,42 +260,30 @@ const steps = [
           <div class="step-content">
             <span class="step-counter">Step {index + 1} of {steps.length}</span>
             <h2 class="step-question">{step.question}</h2>
-            
-            {step.type === 'select' ? (
-              <div class="input-wrapper">
-                <div class="option-grid">
-                  {step.options?.map(option => (
-                    <button 
-                      type="button" 
-                      class="option-btn" 
-                      data-value={option.value}
-                      data-field={step.field}
-                      onclick={`selectOption(this, '${step.field}')`}
-                    >
-                      {option.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            ) : (
-              <div class="input-wrapper">
-                <input 
-                  type={step.type}
-                  id={step.field}
-                  name={step.field}
-                  class="funnel-input"
-                  placeholder={step.placeholder}
-                  required
-                  onkeydown="handleEnter(event)"
-                  autocomplete={step.field === 'email' ? 'email' : step.field === 'name' ? 'given-name' : 'organization'}
-                />
-                <button type="button" class="btn-next" onclick="nextStep()">
-                  {index === steps.length - 1 ? 'Complete Registration' : 'Continue'}
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </button>
-              </div>
-            )}
-            
+
+            <div class="input-wrapper">
+              <input
+                type={step.type}
+                id={step.field}
+                name={step.field}
+                class="funnel-input"
+                placeholder={step.placeholder}
+                required={step.required !== false}
+                onkeydown="handleEnter(event)"
+                autocomplete={step.field === 'email' ? 'email' : step.field === 'fullName' ? 'name' : step.field === 'phone' ? 'tel' : 'off'}
+              />
+              {index === steps.length - 1 && (
+                <label class="newsletter-optin">
+                  <input type="checkbox" id="newsletter-optin" checked />
+                  <span>Sign me up for the PlanWell newsletter</span>
+                </label>
+              )}
+              <button type="button" class="btn-next" onclick="nextStep()">
+                {index === steps.length - 1 ? 'Complete Registration' : 'Continue'}
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </button>
+            </div>
+
             <button type="button" class="btn-back" onclick="prevStep()">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
               Back
@@ -958,6 +970,30 @@ const steps = [
       flex-shrink: 0;
     }
 
+    /* Newsletter Opt-in Checkbox */
+    .newsletter-optin {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.7);
+      padding: 0.5rem 0;
+      justify-content: center;
+    }
+
+    .newsletter-optin input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #d1a437;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .newsletter-optin span {
+      user-select: none;
+    }
+
     @media (max-width: 640px) {
       .funnel-header {
         padding: 1rem;
@@ -1035,23 +1071,6 @@ const steps = [
       updateProgress();
     }
     
-    function selectOption(button, fieldName) {
-      // Remove selected class from all siblings
-      const allButtons = button.parentElement.querySelectorAll('.option-btn');
-      allButtons.forEach(btn => btn.classList.remove('option-btn--selected'));
-      
-      // Add selected class to clicked button
-      button.classList.add('option-btn--selected');
-      
-      // Store the value
-      formData[fieldName] = button.dataset.value;
-      
-      // Auto-advance after a short delay
-      setTimeout(() => {
-        nextStep();
-      }, 300);
-    }
-    
     async function submitToWebhook(data) {
       try {
         const response = await fetch(WEBINAR_WEBHOOK_URL, {
@@ -1081,7 +1100,9 @@ const steps = [
       // Validate current step if it has input
       const currentStepEl = document.querySelector('[data-step="' + currentStep + '"]');
       const input = currentStepEl?.querySelector('input');
-      if (input && !input.value.trim()) {
+      // Phone field (step 3) is optional — allow empty
+      const isOptional = input && input.name === 'phone';
+      if (input && !input.value.trim() && !isOptional) {
         input.focus();
         input.style.borderColor = '#dc3545';
         return;
@@ -1090,14 +1111,55 @@ const steps = [
         formData[input.name] = input.value;
         input.style.borderColor = '';
       }
-      
+
       currentStep++;
       showStep(currentStep);
-      
+
       // If we're on the success step, submit the form
       if (currentStep === totalSteps) {
-        console.log('Webinar registration submitted:', formData);
-        submitToWebhook(formData);
+        // Split fullName into firstName/lastName for backend compatibility
+        const nameParts = (formData.fullName || '').trim().split(/\s+/);
+        const submitData = {
+          firstName: nameParts[0] || '',
+          lastName: nameParts.slice(1).join(' ') || '',
+          email: formData.email || '',
+          phone: formData.phone || ''
+        };
+        console.log('TSP Webinar registration submitted:', submitData);
+        submitToWebhook(submitData);
+
+        // GA4 + FB conversion events
+        if (typeof gtag === 'function') {
+          gtag('event', 'webinar_registration', {
+            event_category: 'conversion',
+            event_label: 'tsp_webinar',
+            webinar_type: 'tsp'
+          });
+        }
+        if (typeof fbq === 'function') {
+          fbq('track', 'CompleteRegistration', { content_name: 'TSP Webinar' });
+        }
+
+        // Newsletter opt-in (fire-and-forget)
+        const newsletterCheckbox = document.getElementById('newsletter-optin');
+        if (newsletterCheckbox && newsletterCheckbox.checked && formData.email) {
+          if (typeof gtag === 'function') {
+            gtag('event', 'newsletter_signup', {
+              event_category: 'conversion',
+              event_label: 'tsp_webinar_newsletter'
+            });
+          }
+          fetch('https://pleasant-vision-production.up.railway.app/api/newsletter', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              name: formData.fullName || '',
+              email: formData.email,
+              source: 'tsp_webinar_registration',
+              timestamp: new Date().toISOString()
+            })
+          }).catch(err => console.error('Newsletter signup error:', err));
+        }
       }
     }
     

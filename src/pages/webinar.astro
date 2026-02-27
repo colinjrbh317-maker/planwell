@@ -40,6 +40,36 @@ const steps = [
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Google Tag Manager -->
+  <script is:inline>
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-MRSSJQ5B');
+  </script>
+  <!-- Google Analytics 4 -->
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-9GCLL7ZVM8');
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9GCLL7ZVM8"></script>
+  <!-- Facebook Pixel -->
+  <script is:inline>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1064203284941145');
+    fbq('track', 'PageView');
+  </script>
 </head>
 <body>
   <div class="funnel">
@@ -241,12 +271,18 @@ const steps = [
                 onkeydown="handleEnter(event)"
                 autocomplete={step.field === 'email' ? 'email' : step.field === 'fullName' ? 'name' : step.field === 'phone' ? 'tel' : 'off'}
               />
+              {index === steps.length - 1 && (
+                <label class="newsletter-optin">
+                  <input type="checkbox" id="newsletter-optin" checked />
+                  <span>Sign me up for the PlanWell newsletter</span>
+                </label>
+              )}
               <button type="button" class="btn-next" onclick="nextStep()">
                 {index === steps.length - 1 ? 'Complete Registration' : 'Continue'}
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
               </button>
             </div>
-            
+
             <button type="button" class="btn-back" onclick="prevStep()">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
               Back
@@ -883,6 +919,30 @@ const steps = [
       flex-shrink: 0;
     }
 
+    /* Newsletter Opt-in Checkbox */
+    .newsletter-optin {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.7);
+      padding: 0.5rem 0;
+      justify-content: center;
+    }
+
+    .newsletter-optin input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #d1a437;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .newsletter-optin span {
+      user-select: none;
+    }
+
     @media (max-width: 640px) {
       .funnel-header {
         padding: 1rem;
@@ -1017,6 +1077,39 @@ const steps = [
         };
         console.log('Webinar registration submitted:', submitData);
         submitToWebhook(submitData);
+
+        // GA4 + FB conversion events
+        if (typeof gtag === 'function') {
+          gtag('event', 'webinar_registration', {
+            event_category: 'conversion',
+            event_label: 'fers_webinar',
+            webinar_type: 'fers'
+          });
+        }
+        if (typeof fbq === 'function') {
+          fbq('track', 'CompleteRegistration', { content_name: 'FERS Webinar' });
+        }
+
+        // Newsletter opt-in (fire-and-forget)
+        const newsletterCheckbox = document.getElementById('newsletter-optin');
+        if (newsletterCheckbox && newsletterCheckbox.checked && formData.email) {
+          if (typeof gtag === 'function') {
+            gtag('event', 'newsletter_signup', {
+              event_category: 'conversion',
+              event_label: 'fers_webinar_newsletter'
+            });
+          }
+          fetch('https://pleasant-vision-production.up.railway.app/api/newsletter', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              name: formData.fullName || '',
+              email: formData.email,
+              source: 'fers_webinar_registration',
+              timestamp: new Date().toISOString()
+            })
+          }).catch(err => console.error('Newsletter signup error:', err));
+        }
       }
     }
     
