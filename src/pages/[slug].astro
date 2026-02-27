@@ -1,19 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { sanityClient } from '../lib/sanity';
-import { readdirSync } from 'fs';
-import { join } from 'path';
+import { coverImageMap } from '../data/cover-map';
 
 // Server-rendered (SSR) with ISR caching — new articles available immediately
 export const prerender = false;
-
-// Build cover image lookup from static files (slug → path)
-const coverFiles = readdirSync(join(process.cwd(), 'public/images/blog/covers'));
-const coverImageMap = new Map<string, string>();
-for (const file of coverFiles) {
-  const slug = file.replace(/\.(jpg|jpeg|png|webp)$/i, '');
-  coverImageMap.set(slug, `/images/blog/covers/${file}`);
-}
 
 // Fetch the specific article by slug (on-demand)
 const { slug } = Astro.params;
@@ -142,7 +133,7 @@ const isTSPArticle = article.title?.toLowerCase().includes('tsp') ||
 const displayDate = formatDate(article.publishedAt);
 const cleanExcerpt = article.excerpt || articleContent.replace(/<[^>]*>/g, '').slice(0, 155) + '...';
 const articleUrl = `https://planwellfp.com/${article.slug}`;
-const articleImage = article.mainImage?.asset?.url || coverImageMap.get(article.slug) || '/images/blog/default-cover.jpg';
+const articleImage = article.mainImage?.asset?.url || coverImageMap[article.slug] || '/images/blog/default-cover.jpg';
 const fullArticleImage = articleImage.startsWith('http') ? articleImage : `https://planwellfp.com${articleImage}`;
 
 // Article Schema for rich snippets
@@ -368,7 +359,7 @@ const breadcrumbSchema = {
               {relatedArticles.map(related => (
                   <a href={`/${related.slug}`} class="related-card">
                     <img
-                      src={related.mainImage?.asset?.url || coverImageMap.get(related.slug) || '/images/blog/default-cover.jpg'}
+                      src={related.mainImage?.asset?.url || coverImageMap[related.slug] || '/images/blog/default-cover.jpg'}
                       alt={related.title}
                       class="related-card__image"
                     />

@@ -18,11 +18,6 @@ export default defineConfig({
             lastmod: new Date(),
         }),
     ],
-    image: {
-        service: {
-            entrypoint: 'astro/assets/services/sharp',
-        },
-    },
     trailingSlash: 'never',
     redirects: {
         // Legacy WordPress URLs

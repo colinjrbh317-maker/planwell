@@ -1,8 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getBlogPosts, getAuthors } from '../../lib/sanity';
-import { readdirSync } from 'fs';
-import { join } from 'path';
+import { coverImageMap } from '../../data/cover-map';
 
 // Server-rendered with ISR caching — new articles appear immediately
 export const prerender = false;
@@ -10,14 +9,6 @@ export const prerender = false;
 // Fetch all blog posts and authors from Sanity CMS
 const allPosts = await getBlogPosts();
 const sanityAuthors = await getAuthors();
-
-// Build cover image lookup from static files (slug → path)
-const coverFiles = readdirSync(join(process.cwd(), 'public/images/blog/covers'));
-const coverImageMap = new Map<string, string>();
-for (const file of coverFiles) {
-  const slug = file.replace(/\.(jpg|jpeg|png|webp)$/i, '');
-  coverImageMap.set(slug, `/images/blog/covers/${file}`);
-}
 
 // Authors with article counts (for filter buttons and team section)
 const blogAuthors = sanityAuthors
@@ -48,7 +39,7 @@ const articlesForClient = allPosts.map(post => ({
   authorName: post.author?.name || 'PlanWell Team',
   authorImage: post.author?.image?.asset?.url || '/images/authors/planwell-team.jpg',
   authorCreds: post.author?.credentials || '',
-  image: post.mainImage?.asset?.url ? `${post.mainImage.asset.url}?w=600&h=340&fit=crop&auto=format` : coverImageMap.get(post.slug) || '/images/blog/default-cover.jpg',
+  image: post.mainImage?.asset?.url ? `${post.mainImage.asset.url}?w=600&h=340&fit=crop&auto=format` : coverImageMap[post.slug] || '/images/blog/default-cover.jpg',
 }));
 
 // CollectionPage schema for blog index
