@@ -9,6 +9,69 @@ import davidPhoto from '../assets/images/david-fei.jpg';
   title="About PlanWell - CFP® & ChFEBC℠ Federal Benefits Specialists"
   description="Meet David Fei and Brennan Rhule, CFP® and ChFEBC℠ advisors specializing exclusively in federal employee retirement planning. 35+ years combined experience."
 >
+  <!-- Person Schema for Founders -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": ["Person", "FinancialPlanner"],
+        "@id": "https://planwellfp.com/about#david-fei",
+        "name": "David Fei",
+        "jobTitle": "Co-Founder & Financial Planner",
+        "worksFor": { "@id": "https://planwellfp.com/#organization" },
+        "url": "https://planwellfp.com/about",
+        "telephone": "301-388-5489",
+        "email": "david.fei@planwellfp.com",
+        "hasCredential": [
+          { "@type": "EducationalOccupationalCredential", "credentialCategory": "Professional Certification", "name": "Certified Financial Planner (CFP\u00AE)" },
+          { "@type": "EducationalOccupationalCredential", "credentialCategory": "Professional Certification", "name": "Chartered Federal Employee Benefits Consultant (ChFEBC\u2120)" },
+          { "@type": "EducationalOccupationalCredential", "credentialCategory": "Professional Certification", "name": "Accredited Investment Fiduciary (AIF\u00AE)" }
+        ],
+        "knowsAbout": ["FERS Retirement", "TSP Investing", "Federal Employee Benefits", "Financial Planning"],
+        "sameAs": [
+          "https://www.linkedin.com/in/david-fei-cfp"
+        ]
+      },
+      {
+        "@type": ["Person", "FinancialPlanner"],
+        "@id": "https://planwellfp.com/about#brennan-rhule",
+        "name": "Brennan Rhule",
+        "jobTitle": "Co-Founder & Financial Planner",
+        "worksFor": { "@id": "https://planwellfp.com/#organization" },
+        "url": "https://planwellfp.com/about",
+        "telephone": "571-543-2783",
+        "email": "brennan.rhule@planwellfp.com",
+        "hasCredential": [
+          { "@type": "EducationalOccupationalCredential", "credentialCategory": "Professional Certification", "name": "Certified Financial Planner (CFP\u00AE)" },
+          { "@type": "EducationalOccupationalCredential", "credentialCategory": "Professional Certification", "name": "Chartered Federal Employee Benefits Consultant (ChFEBC\u2120)" },
+          { "@type": "EducationalOccupationalCredential", "credentialCategory": "Professional Certification", "name": "Accredited Investment Fiduciary (AIF\u00AE)" }
+        ],
+        "knowsAbout": ["FERS Retirement", "TSP Investing", "Federal Employee Benefits", "Financial Planning"],
+        "sameAs": [
+          "https://www.linkedin.com/in/brennan-rhule"
+        ]
+      }
+    ]
+  })} />
+
+  <!-- AI-Optimized Entity Section -->
+  <section class="entity-section" aria-label="About PlanWell Financial Planning">
+    <div class="container">
+      <div class="entity-content">
+        <p>
+          <strong>PlanWell Financial Planning</strong> is a fee-based financial advisory firm that specializes exclusively
+          in retirement planning for federal employees. Founded by David Fei, CFP&#174;, ChFEBC&#8480;, AIF&#174; and
+          Brennan Rhule, CFP&#174;, ChFEBC&#8480;, AIF&#174;, PlanWell serves federal employees nationwide with expert
+          guidance on FERS pension optimization, TSP investment strategies, FEHB and Medicare coordination, survivor
+          benefits analysis, and comprehensive tax planning. Both founders hold three of the industry's most rigorous
+          certifications&mdash;a combination held by fewer than 1% of financial advisors in the United States. PlanWell
+          has educated over 10,000 federal employees through free retirement workshops and provides personalized
+          22-page Federal Benefits Reports with precise pension calculations and optimization recommendations.
+        </p>
+      </div>
+    </div>
+  </section>
+
   <!-- Hero -->
   <section class="page-hero">
     <div class="container">
@@ -606,6 +669,22 @@ import davidPhoto from '../assets/images/david-fei.jpg';
       grid-template-columns: 1fr;
       gap: var(--space-6);
     }
+  }
+
+  /* Entity Section - AI-optimized, visually subtle */
+  .entity-section {
+    background: var(--color-gray-50, #f9fafb);
+    padding: var(--space-6) 0;
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .entity-content {
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: var(--text-sm);
+    color: var(--color-gray-600);
+    line-height: 1.7;
+    text-align: center;
   }
 
   @media (max-width: 640px) {

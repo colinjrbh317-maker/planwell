@@ -11,6 +11,7 @@ const { slug } = Astro.params;
 const article = await sanityClient.fetch(`
   *[_type == "post" && slug.current == $slug && (!defined(publishedAt) || publishedAt <= now())][0] {
     _id,
+    _updatedAt,
     title,
     "slug": slug.current,
     publishedAt,
@@ -33,13 +34,13 @@ const article = await sanityClient.fetch(`
       title,
       "slug": slug.current
     },
-    mainImage { asset->{url} }
+    mainImage { asset->{url}, alt }
   }
 `, { slug });
 
 // Return 404 if article not found
 if (!article) {
-  return Astro.redirect('/blog');
+  return new Response(null, { status: 404, statusText: 'Not Found' });
 }
 
 // Fetch related articles in the same category
@@ -50,7 +51,7 @@ const relatedArticles = article.category ? await sanityClient.fetch(`
     "slug": slug.current,
     author->{ name },
     category->{ title, "slug": slug.current },
-    mainImage { asset->{url} }
+    mainImage { asset->{url}, alt }
   }
 `, { category: article.category.title, slug }) : [];
 const author = article.author;
@@ -142,9 +143,13 @@ const articleSchema = {
   "@type": "Article",
   "headline": article.title,
   "description": cleanExcerpt,
-  "image": fullArticleImage,
+  "image": {
+    "@type": "ImageObject",
+    "url": fullArticleImage,
+    ...(article.mainImage?.alt && { "caption": article.mainImage.alt })
+  },
   "datePublished": article.publishedAt || new Date().toISOString(),
-  "dateModified": article.publishedAt || new Date().toISOString(),
+  "dateModified": article._updatedAt || article.publishedAt || new Date().toISOString(),
   "author": {
     "@type": "Person",
     "name": author?.name || "PlanWell Team",
@@ -184,7 +189,7 @@ const breadcrumbSchema = {
 ---
 
 <BaseLayout
-  title={`${article.title} | PlanWell Blog`}
+  title={article.title}
   description={cleanExcerpt}
   ogImage={fullArticleImage}
   ogType="article"
@@ -203,7 +208,7 @@ const breadcrumbSchema = {
         <div class="container">
           <img
             src={articleImage}
-            alt={article.title}
+            alt={article.mainImage?.alt || article.title}
             class="article__cover"
             loading="eager"
           />
@@ -360,7 +365,7 @@ const breadcrumbSchema = {
                   <a href={`/${related.slug}`} class="related-card">
                     <img
                       src={related.mainImage?.asset?.url || coverImageMap[related.slug] || '/images/blog/default-cover.jpg'}
-                      alt={related.title}
+                      alt={related.mainImage?.alt || related.title}
                       class="related-card__image"
                     />
                     <div class="related-card__content">

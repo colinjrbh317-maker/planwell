@@ -40,6 +40,7 @@ const articlesForClient = allPosts.map(post => ({
   authorImage: post.author?.image?.asset?.url || '/images/authors/planwell-team.jpg',
   authorCreds: post.author?.credentials || '',
   image: post.mainImage?.asset?.url ? `${post.mainImage.asset.url}?w=600&h=340&fit=crop&auto=format` : coverImageMap[post.slug] || '/images/blog/default-cover.jpg',
+  imageAlt: post.mainImage?.alt || '',
 }));
 
 // CollectionPage schema for blog index
@@ -283,7 +284,7 @@ const breadcrumbSchema = {
         <a href="/${article.slug}" class="post-card__image-link">
           <img
             src="${article.image}"
-            alt="${article.title}"
+            alt="${article.imageAlt || article.title}"
             class="post-card__image"
             loading="lazy"
             onerror="this.onerror=null; this.src='/images/blog/default-cover.jpg';"

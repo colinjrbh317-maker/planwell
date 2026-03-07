@@ -32,7 +32,8 @@ export async function getBlogPosts() {
         "slug": slug.current
       },
       mainImage {
-        asset->{url}
+        asset->{url},
+        alt
       }
     }
   `);
@@ -68,7 +69,8 @@ export async function getBlogPost(slug: string) {
         "slug": slug.current
       },
       mainImage {
-        asset->{url}
+        asset->{url},
+        alt
       }
     }
   `, { slug });
@@ -96,7 +98,8 @@ export async function getBlogPostsByCategory(categorySlug: string) {
         "slug": slug.current
       },
       mainImage {
-        asset->{url}
+        asset->{url},
+        alt
       }
     }
   `, { categorySlug });
@@ -124,7 +127,8 @@ export async function getBlogPostsByAuthor(authorSlug: string) {
         "slug": slug.current
       },
       mainImage {
-        asset->{url}
+        asset->{url},
+        alt
       }
     }
   `, { authorSlug });
