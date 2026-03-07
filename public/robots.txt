@@ -4,5 +4,6 @@
 User-agent: *
 Allow: /
 
-# Sitemap location
+# Sitemaps
 Sitemap: https://planwellfp.com/sitemap-index.xml
+Sitemap: https://planwellfp.com/sitemap-posts.xml
