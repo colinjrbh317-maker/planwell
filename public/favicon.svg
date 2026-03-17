@@ -1,13 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
-  <!-- Navy blue background -->
-  <rect width="128" height="128" fill="#1B3878"/>
+  <!-- Navy blue background with rounded corners -->
+  <rect width="128" height="128" rx="16" fill="#1B3878"/>
 
-  <!-- Gold ">" chevron (two thick rounded strokes, point facing right) -->
-  <path d="M18,24 L60,62 L18,100"
-    stroke="#C9A030" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <!-- Gold "P" mark (left side) - stylized angular P shape -->
+  <path d="M28,96 L28,32 L56,32 L68,44 L68,60 L56,72 L44,72 L44,96"
+    fill="#C9A030"/>
+  <!-- P counter (cutout) -->
+  <path d="M44,44 L56,44 L56,60 L44,60 Z"
+    fill="#1B3878"/>
 
-  <!-- White "W" shape (stylized, right portion) -->
-  <!-- Left valley arm, middle peak, right valley, right bracket -->
-  <path d="M56,24 L68,84 L81,50 L96,84 L110,46 L110,26"
-    stroke="white" stroke-width="15" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <!-- White "W" mark (right side) - stylized W shape -->
+  <path d="M62,32 L74,96 L84,56 L94,96 L106,32 L94,32 L88,64 L84,44 L80,64 L74,32 Z"
+    fill="white"/>
 </svg>

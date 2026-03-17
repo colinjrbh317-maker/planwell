@@ -682,20 +682,19 @@ const breadcrumbSchema = {
   }
 
   .article__content :global(table) {
-    display: block;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
     width: 100%;
     border-collapse: collapse;
     margin-bottom: var(--space-5);
     font-size: var(--text-base);
+    table-layout: fixed;
   }
 
   .article__content :global(th),
   .article__content :global(td) {
     padding: var(--space-3) var(--space-4);
     border: 1px solid var(--color-gray-200);
-    white-space: nowrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
 
   .article__content :global(th) {
