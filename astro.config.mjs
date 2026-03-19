@@ -28,8 +28,8 @@ export default defineConfig({
         '/federal-benefits-blog': '/blog',
 
         // Webinars
-        '/federal-employee-retirement-benefits-education-workshops': '/webinars',
-        '/tsp-webinar-calendar': '/webinars',
+        '/federal-employee-retirement-benefits-education-workshops': '/federal-retirement-webinars',
+        '/tsp-webinar-calendar': '/federal-retirement-webinars',
         '/thrift-savings-plan-tsp-webinar-1': '/webinar/tsp',
         '/thrift-savings-plan-tsp-webinar-2': '/webinar/tsp',
         '/thrift-savings-plan-tsp-webinar-3': '/webinar/tsp',
@@ -49,8 +49,8 @@ export default defineConfig({
         '/federal-employee-retirement-planning-calculators': '/calculators',
 
         // Services
-        '/financial-advisor-for-federal-employees': '/services/comprehensive-planning',
-        '/federal-employee-financial-advisor': '/services/comprehensive-planning',
+        '/financial-advisor-for-federal-employees': '/financial-planner-for-federal-employees',
+        '/federal-employee-financial-advisor': '/financial-planner-for-federal-employees',
         '/fegli-and-life-insurance': '/services/survivor-benefits',
         '/tax-strategy-for-federal-employees': '/services/tax-planning',
         '/fehb-federal-employee-health-benefits-and-medicare': '/services/fehb-medicare',

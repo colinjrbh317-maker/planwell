@@ -1,0 +1,418 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What makes PlanWell different from other financial advisors?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We work exclusively with federal employees. Both of our advisors hold three specialized designations — CFP\u00ae, ChFEBC\u2120, and AIF\u00ae — a combination held by less than 1% of financial advisors nationwide. We understand FERS, TSP, FEHB, and FEGLI at a level that general-practice advisors simply cannot match."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you only serve federal employees near Washington, DC?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. While many of our clients are in the DC metro area, we serve federal employees nationwide through virtual consultations. Whether you're in Denver, Atlanta, San Antonio, or any other city, we can build a comprehensive retirement plan for you."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does it cost to work with PlanWell?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Our fees depend on the complexity of your situation and the services you need. We offer both one-time planning engagements and ongoing advisory relationships. We're fully transparent about costs during our initial consultation — no surprises."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "I'm 10+ years from retirement. Is it too early to start planning?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The earlier you start, the more we can optimize. Mid-career is actually the ideal time to begin — there are TSP contribution strategies, Roth conversion windows, and career decisions that compound over time. Many of our highest-impact plans start a decade before retirement."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can you help with TSP management?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. We provide specific fund allocation recommendations based on your timeline, risk tolerance, and overall financial picture. While TSP doesn't allow direct third-party management, we guide every decision and monitor your allocation alongside your other investments."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What's the first step?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Attend our free 3-hour FERS retirement workshop. It covers everything from pension calculations to TSP strategies to FEHB in retirement. If you want personalized guidance afterward, we'll schedule a one-on-one consultation to discuss your specific situation."
+      }
+    }
+  ]
+};
+
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "PlanWell Financial Planning",
+  "description": "Fee-based financial planning exclusively for federal employees. CFP\u00ae, ChFEBC\u2120, and AIF\u00ae certified advisors specializing in FERS retirement, TSP optimization, and federal benefits coordination.",
+  "url": "https://planwellfp.com/financial-planner-for-federal-employees",
+  "areaServed": { "@type": "Country", "name": "United States" },
+  "hasCredential": [
+    { "@type": "EducationalOccupationalCredential", "credentialCategory": "Professional Certification", "name": "Certified Financial Planner (CFP\u00ae)" },
+    { "@type": "EducationalOccupationalCredential", "credentialCategory": "Professional Certification", "name": "Chartered Federal Employee Benefits Consultant (ChFEBC\u2120)" },
+    { "@type": "EducationalOccupationalCredential", "credentialCategory": "Professional Certification", "name": "Accredited Investment Fiduciary (AIF\u00ae)" }
+  ],
+  "knowsAbout": ["FERS Retirement", "Federal Employee Benefits", "TSP Investing", "FEHB Health Insurance", "Federal Pension Planning"],
+  "priceRange": "$$"
+};
+---
+
+<BaseLayout
+  title="Financial Planner for Federal Employees - CFP\u00ae & ChFEBC\u2120 Advisors"
+  description="Looking for a financial planner who understands federal benefits? PlanWell's CFP\u00ae and ChFEBC\u2120 advisors specialize exclusively in FERS retirement planning, TSP optimization, and federal benefits coordination."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
+
+  <!-- Hero -->
+  <section class="service-hero">
+    <div class="container">
+      <span class="eyebrow">Federal Employee Specialists</span>
+      <h1 class="heading-xl">Financial Planner for Federal Employees</h1>
+      <p class="lead max-w-3xl">
+        Your FERS pension, TSP, FEHB, and survivor benefits are unlike any private-sector
+        retirement plan. You need a financial planner who understands the rules that govern
+        your career — not a generalist learning on the job.
+      </p>
+      <div class="hero-ctas">
+        <a href="/book-call" class="btn btn--primary btn--lg">Schedule a Consultation</a>
+        <a href="/webinars" class="btn btn--ghost btn--lg">Free FERS Workshop</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Specialized -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header" data-animate="fade-in-up">
+        <span class="eyebrow">Why Specialized Matters</span>
+        <h2 class="heading-lg">What a Federal-Focused Financial Planner Offers</h2>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card" data-animate="fade-in-up">
+          <div class="feature-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <h3>FERS Pension Optimization</h3>
+          <p>Exact retirement eligibility dates, high-3 salary calculations, sick leave conversion, and pension maximization strategies based on years of service.</p>
+        </div>
+
+        <div class="feature-card" data-animate="fade-in-up">
+          <div class="feature-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <h3>TSP Strategy Beyond Target Dates</h3>
+          <p>Fund allocation analysis, Roth conversion timing, withdrawal sequencing, and rollover decisions most generic advisors get wrong.</p>
+        </div>
+
+        <div class="feature-card" data-animate="fade-in-up">
+          <div class="feature-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          </div>
+          <h3>FEHB & Medicare Coordination</h3>
+          <p>Navigate the complicated intersection of your federal health benefits and Medicare at 65, avoid coverage gaps and overpaying.</p>
+        </div>
+
+        <div class="feature-card" data-animate="fade-in-up">
+          <div class="feature-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <h3>Survivor Benefits Analysis</h3>
+          <p>SBP vs private insurance comparison, FEGLI evaluation, and strategies to protect your spouse without overpaying for coverage.</p>
+        </div>
+
+        <div class="feature-card" data-animate="fade-in-up">
+          <div class="feature-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          </div>
+          <h3>Tax-Smart Retirement Income</h3>
+          <p>Multi-year Roth conversion strategies, bracket management, withdrawal sequencing from pension + TSP + Social Security to minimize lifetime taxes.</p>
+        </div>
+
+        <div class="feature-card" data-animate="fade-in-up">
+          <div class="feature-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <h3>The Complete Retirement Picture</h3>
+          <p>Integration of all your benefits into one cohesive strategy, because each decision affects the others in ways generalists miss.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison -->
+  <section class="section section--gray">
+    <div class="container">
+      <div class="section-header" data-animate="fade-in-up">
+        <h2 class="heading-lg">Specialized Federal Planner vs. Generic Financial Advisor</h2>
+      </div>
+
+      <div class="comparison-grid">
+        <div class="comparison-card comparison-card--bad" data-animate="fade-in-up">
+          <h3>Generic Advisor</h3>
+          <ul>
+            <li>Learns federal benefits from a Google search</li>
+            <li>Treats TSP like any other 401(k)</li>
+            <li>Doesn't know FERS supplement rules</li>
+            <li>Can't calculate sick leave conversion</li>
+            <li>May push commission products</li>
+            <li>One-size-fits-all retirement advice</li>
+          </ul>
+        </div>
+
+        <div class="comparison-card comparison-card--good" data-animate="fade-in-up">
+          <h3>PlanWell — Federal Specialist</h3>
+          <ul>
+            <li>Holds ChFEBC designation — certified in federal benefits</li>
+            <li>Knows TSP fund mechanics, lifecycle, and BRS differences</li>
+            <li>Calculates your FERS supplement to the dollar</li>
+            <li>Converts sick leave credit accurately</li>
+            <li>Fee-based fiduciary — always in your interest</li>
+            <li>Plans built around YOUR benefits, not generic templates</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Credentials -->
+  <section class="section section--navy">
+    <div class="container">
+      <div class="section-header" data-animate="fade-in-up">
+        <h2 class="heading-lg">Why Federal Employees Trust PlanWell</h2>
+      </div>
+
+      <div class="credentials-grid">
+        <div class="credential-card" data-animate="fade-in-up">
+          <span class="credential-card__badge">CFP&reg;</span>
+          <h3>Certified Financial Planner</h3>
+          <p>Rigorous certification requiring education, examination, experience, and ethics. Less than 30% of advisors hold this designation.</p>
+        </div>
+
+        <div class="credential-card" data-animate="fade-in-up">
+          <span class="credential-card__badge">ChFEBC&#8480;</span>
+          <h3>Chartered Federal Employee Benefits Consultant</h3>
+          <p>Specialized certification in FERS, CSRS, TSP, FEHB, and FEGLI. We speak your benefits language fluently.</p>
+        </div>
+
+        <div class="credential-card" data-animate="fade-in-up">
+          <span class="credential-card__badge">AIF&reg;</span>
+          <h3>Accredited Investment Fiduciary</h3>
+          <p>Held to the highest fiduciary standard for investment management. Your interests always come first.</p>
+        </div>
+
+        <div class="credential-card" data-animate="fade-in-up">
+          <span class="credential-card__badge">Fee-Based</span>
+          <h3>Transparent Pricing</h3>
+          <p>No hidden commissions or product sales. You know exactly what you're paying and why.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Links -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header" data-animate="fade-in-up">
+        <span class="eyebrow">Our Services</span>
+        <h2 class="heading-lg">How We Help Federal Employees</h2>
+      </div>
+
+      <div class="features-grid features-grid--3col">
+        <a href="/services/fers-retirement-planning" class="feature-card feature-card--link" data-animate="fade-in-up">
+          <div class="feature-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <h3>FERS Retirement Planning</h3>
+          <span class="feature-card__arrow">&rarr;</span>
+        </a>
+
+        <a href="/services/tsp-management" class="feature-card feature-card--link" data-animate="fade-in-up">
+          <div class="feature-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <h3>TSP Management</h3>
+          <span class="feature-card__arrow">&rarr;</span>
+        </a>
+
+        <a href="/services/comprehensive-planning" class="feature-card feature-card--link" data-animate="fade-in-up">
+          <div class="feature-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <h3>Comprehensive Planning</h3>
+          <span class="feature-card__arrow">&rarr;</span>
+        </a>
+
+        <a href="/services/tax-planning" class="feature-card feature-card--link" data-animate="fade-in-up">
+          <div class="feature-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          </div>
+          <h3>Tax Strategy</h3>
+          <span class="feature-card__arrow">&rarr;</span>
+        </a>
+
+        <a href="/services/fehb-medicare" class="feature-card feature-card--link" data-animate="fade-in-up">
+          <div class="feature-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          </div>
+          <h3>FEHB & Medicare</h3>
+          <span class="feature-card__arrow">&rarr;</span>
+        </a>
+
+        <a href="/services/survivor-benefits" class="feature-card feature-card--link" data-animate="fade-in-up">
+          <div class="feature-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <h3>Survivor Benefits</h3>
+          <span class="feature-card__arrow">&rarr;</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQs -->
+  <section class="section section--gray">
+    <div class="container">
+      <div class="section-header" data-animate="fade-in-up">
+        <span class="eyebrow">Common Questions</span>
+        <h2 class="heading-lg">Choosing a Financial Planner for Federal Employees</h2>
+      </div>
+
+      <div class="faq-list">
+        <details class="faq-item" data-animate="fade-in-up">
+          <summary class="faq-question">What makes PlanWell different from other financial advisors?</summary>
+          <div class="faq-answer">
+            <p>We work exclusively with federal employees. Both of our advisors hold three specialized designations — CFP&reg;, ChFEBC&#8480;, and AIF&reg; — a combination held by less than 1% of financial advisors nationwide. We understand FERS, TSP, FEHB, and FEGLI at a level that general-practice advisors simply cannot match.</p>
+          </div>
+        </details>
+
+        <details class="faq-item" data-animate="fade-in-up">
+          <summary class="faq-question">Do you only serve federal employees near Washington, DC?</summary>
+          <div class="faq-answer">
+            <p>No. While many of our clients are in the DC metro area, we serve federal employees nationwide through virtual consultations. Whether you're in Denver, Atlanta, San Antonio, or any other city, we can build a comprehensive retirement plan for you.</p>
+          </div>
+        </details>
+
+        <details class="faq-item" data-animate="fade-in-up">
+          <summary class="faq-question">How much does it cost to work with PlanWell?</summary>
+          <div class="faq-answer">
+            <p>Our fees depend on the complexity of your situation and the services you need. We offer both one-time planning engagements and ongoing advisory relationships. We're fully transparent about costs during our initial consultation — no surprises.</p>
+          </div>
+        </details>
+
+        <details class="faq-item" data-animate="fade-in-up">
+          <summary class="faq-question">I'm 10+ years from retirement. Is it too early to start planning?</summary>
+          <div class="faq-answer">
+            <p>The earlier you start, the more we can optimize. Mid-career is actually the ideal time to begin — there are TSP contribution strategies, Roth conversion windows, and career decisions that compound over time. Many of our highest-impact plans start a decade before retirement.</p>
+          </div>
+        </details>
+
+        <details class="faq-item" data-animate="fade-in-up">
+          <summary class="faq-question">Can you help with TSP management?</summary>
+          <div class="faq-answer">
+            <p>Yes. We provide specific fund allocation recommendations based on your timeline, risk tolerance, and overall financial picture. While TSP doesn't allow direct third-party management, we guide every decision and monitor your allocation alongside your other investments.</p>
+          </div>
+        </details>
+
+        <details class="faq-item" data-animate="fade-in-up">
+          <summary class="faq-question">What's the first step?</summary>
+          <div class="faq-answer">
+            <p>Attend our free 3-hour FERS retirement workshop. It covers everything from pension calculations to TSP strategies to FEHB in retirement. If you want personalized guidance afterward, we'll schedule a one-on-one consultation to discuss your specific situation.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom CTA -->
+  <section class="section section--gold text-center">
+    <div class="container">
+      <div data-animate="fade-in-up">
+        <h2 class="heading-lg">Ready to Work With a Real Federal Benefits Specialist?</h2>
+        <p class="lead" style="max-width: 36rem; margin: 0 auto var(--space-8);">
+          Stop getting generic advice from advisors who don't understand your benefits.
+          Get a plan built specifically around your FERS pension, TSP, and federal healthcare.
+        </p>
+        <div class="cta-buttons">
+          <a href="/book-call" class="btn btn--navy btn--lg">Schedule Your Consultation</a>
+          <a href="/webinars" class="btn btn--outline-navy btn--lg">Attend Free Workshop</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .service-hero { background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%); color: var(--color-white); padding: var(--space-24) 0 var(--space-16); text-align: center; }
+  .service-hero h1 { color: var(--color-white); margin-bottom: var(--space-4); }
+  .service-hero .lead { color: var(--color-gray-300); margin: 0 auto var(--space-8); }
+  .hero-ctas { display: flex; gap: var(--space-4); justify-content: center; flex-wrap: wrap; }
+  .section-header { text-align: center; margin-bottom: var(--space-12); }
+
+  .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .feature-card { background: var(--color-white); padding: var(--space-6); border-radius: var(--radius-lg); border: 1px solid var(--color-gray-200); transition: all var(--transition-base); }
+  .feature-card:hover { border-color: var(--color-gold); box-shadow: var(--shadow-lg); transform: translateY(-4px); }
+  .feature-card__icon { width: 40px; height: 40px; color: var(--color-gold); margin-bottom: var(--space-3); }
+  .feature-card__icon svg { width: 100%; height: 100%; }
+  .feature-card h3 { font-size: var(--text-base); margin-bottom: var(--space-2); }
+  .feature-card p { color: var(--color-gray-600); font-size: var(--text-sm); line-height: 1.5; }
+
+  .feature-card--link { text-decoration: none; color: inherit; display: block; cursor: pointer; }
+  .feature-card--link h3 { color: var(--color-navy); }
+  .feature-card__arrow { color: var(--color-gold); font-size: var(--text-lg); font-weight: var(--font-bold); }
+
+  .comparison-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-8); max-width: 900px; margin: 0 auto; }
+  .comparison-card { padding: var(--space-8); border-radius: var(--radius-lg); }
+  .comparison-card--bad { background: var(--color-white); border: 2px solid var(--color-gray-300); }
+  .comparison-card--good { background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-light) 100%); color: var(--color-white); }
+  .comparison-card h3 { margin-bottom: var(--space-4); }
+  .comparison-card--good h3 { color: var(--color-gold); }
+  .comparison-card ul { list-style: none; }
+  .comparison-card li { padding: var(--space-2) 0; padding-left: var(--space-6); position: relative; font-size: var(--text-sm); }
+  .comparison-card--bad li::before { content: 'x'; position: absolute; left: 0; color: var(--color-gray-400); }
+  .comparison-card--good li::before { content: '\2713'; position: absolute; left: 0; color: var(--color-gold); }
+  .comparison-card--bad li { color: var(--color-gray-600); }
+  .comparison-card--good li { color: var(--color-gray-300); }
+
+  .credentials-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
+  .credential-card { text-align: center; padding: var(--space-6); }
+  .credential-card__badge { display: inline-block; background: var(--color-gold); color: var(--color-navy-dark); font-family: var(--font-heading); font-weight: var(--font-bold); padding: var(--space-2) var(--space-4); border-radius: var(--radius-md); margin-bottom: var(--space-3); }
+  .credential-card h3 { color: var(--color-white); font-size: var(--text-base); margin-bottom: var(--space-2); }
+  .credential-card p { color: var(--color-gray-400); font-size: var(--text-sm); }
+
+  .faq-list { max-width: 800px; margin: 0 auto; }
+  .faq-item { border-bottom: 1px solid var(--color-gray-200); }
+  .faq-question { padding: var(--space-5) 0; font-weight: var(--font-semibold); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; color: var(--color-navy); }
+  .faq-question::-webkit-details-marker { display: none; }
+  .faq-question::after { content: '+'; font-size: var(--text-xl); color: var(--color-gold); transition: transform var(--transition-fast); }
+  details[open] .faq-question::after { transform: rotate(45deg); }
+  .faq-answer { padding-bottom: var(--space-5); color: var(--color-gray-600); }
+
+  .section--gold { background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-dark) 100%); color: var(--color-navy-dark); }
+  .section--gold h2 { color: var(--color-navy-dark); }
+  .cta-buttons { display: flex; gap: var(--space-4); justify-content: center; flex-wrap: wrap; }
+  .btn--navy { background: var(--color-navy); color: var(--color-white); }
+  .btn--navy:hover { background: var(--color-navy-dark); }
+  .btn--outline-navy { background: transparent; color: var(--color-navy); border: 2px solid var(--color-navy); }
+  .btn--outline-navy:hover { background: var(--color-navy); color: var(--color-white); }
+
+  @media (max-width: 1024px) { .features-grid, .credentials-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 768px) { .features-grid, .credentials-grid, .comparison-grid { grid-template-columns: 1fr; } }
+</style>

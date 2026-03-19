@@ -1,0 +1,318 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+// Article schema markup for the case study
+const caseStudySchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Case Study: Federal Employee Retires 3 Years Early with Full Benefits",
+  "description": "How a GS-14 with 28 years of service used PlanWell's comprehensive planning to retire 3 years ahead of schedule without sacrificing income.",
+  "author": {
+    "@type": "Organization",
+    "name": "PlanWell Financial Planning",
+    "url": "https://planwellfp.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "PlanWell Financial Planning",
+    "url": "https://planwellfp.com"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://planwellfp.com/case-studies/early-retirement-optimization"
+  },
+  "datePublished": "2026-03-19",
+  "dateModified": "2026-03-19"
+};
+---
+
+<BaseLayout
+  title="Case Study: Federal Employee Retires 3 Years Early with Full Benefits"
+  description="How a GS-14 with 28 years of service used PlanWell's comprehensive planning to retire 3 years ahead of schedule without sacrificing income."
+  ogType="article"
+>
+  <!-- Schema Markup -->
+  <script type="application/ld+json" set:html={JSON.stringify(caseStudySchema)} slot="head" />
+
+  <!-- Hero -->
+  <section class="service-hero">
+    <div class="container">
+      <span class="eyebrow">Case Study</span>
+      <h1 class="heading-xl">GS-14 Retires 3 Years Early with Full Benefits</h1>
+      <p class="lead max-w-3xl">
+        [PLACEHOLDER] How a long-tenured federal employee used PlanWell's comprehensive
+        planning to move up their retirement date without giving up a dollar of income.
+      </p>
+      <div class="hero-ctas">
+        <a href="/book-call" class="btn btn--primary btn--lg">Get Your Own Plan</a>
+        <a href="/case-studies" class="btn btn--ghost btn--lg">All Case Studies</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Client Profile -->
+  <section class="section">
+    <div class="container">
+      <div class="client-profile" data-animate="fade-in-up">
+        <h2 class="client-profile__heading">Client Profile</h2>
+        <div class="client-profile__grid">
+          <div class="client-profile__item">
+            <span class="client-profile__label">Role</span>
+            <span class="client-profile__value">[PLACEHOLDER] Program Analyst</span>
+          </div>
+          <div class="client-profile__item">
+            <span class="client-profile__label">Agency</span>
+            <span class="client-profile__value">[PLACEHOLDER] Department of Defense</span>
+          </div>
+          <div class="client-profile__item">
+            <span class="client-profile__label">GS Grade</span>
+            <span class="client-profile__value">[PLACEHOLDER] GS-14, Step 8</span>
+          </div>
+          <div class="client-profile__item">
+            <span class="client-profile__label">Years of Service</span>
+            <span class="client-profile__value">[PLACEHOLDER] 28 years</span>
+          </div>
+          <div class="client-profile__item">
+            <span class="client-profile__label">Age at Engagement</span>
+            <span class="client-profile__value">[PLACEHOLDER] 55</span>
+          </div>
+          <div class="client-profile__item">
+            <span class="client-profile__label">Primary Goal</span>
+            <span class="client-profile__value">[PLACEHOLDER] Retire as early as possible without reducing income</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Challenge -->
+  <section class="section section--gray">
+    <div class="container">
+      <div class="section-header" data-animate="fade-in-up">
+        <span class="eyebrow">The Challenge</span>
+        <h2 class="heading-lg">[PLACEHOLDER] Overwhelmed by Complexity</h2>
+      </div>
+
+      <div class="challenge-content" data-animate="fade-in-up">
+        <p>
+          [PLACEHOLDER] After nearly three decades of federal service, this client felt
+          ready to retire but was unsure whether the numbers actually worked. Like many
+          federal employees approaching retirement, they faced several overlapping concerns:
+        </p>
+        <ul class="challenge-list">
+          <li>[PLACEHOLDER] Did not fully understand how their FERS pension, TSP, and Social Security fit together</li>
+          <li>[PLACEHOLDER] Worried about a potential income gap between retirement and Social Security eligibility</li>
+          <li>[PLACEHOLDER] Unsure how to sequence TSP withdrawals to minimize taxes</li>
+          <li>[PLACEHOLDER] Had accumulated over 2,000 hours of sick leave but did not know how it applied to their pension calculation</li>
+          <li>[PLACEHOLDER] Spouse had concerns about survivor benefit costs versus actual protection</li>
+          <li>[PLACEHOLDER] Previous advisor had recommended waiting until age 60 with no analysis to support the recommendation</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- The PlanWell Approach -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header" data-animate="fade-in-up">
+        <span class="eyebrow">The PlanWell Approach</span>
+        <h2 class="heading-lg">[PLACEHOLDER] A Three-Phase Engagement</h2>
+      </div>
+
+      <div class="process-timeline">
+        <div class="process-step" data-animate="fade-in-up">
+          <div class="process-step__number">1</div>
+          <div class="process-step__content">
+            <h3>FERS Workshop</h3>
+            <p>[PLACEHOLDER] The client first attended our free retirement workshop, where they learned how FERS pension calculations work, how sick leave credits are applied, and how TSP withdrawal strategies can dramatically affect after-tax retirement income.</p>
+            <span class="process-step__time">Free Workshop</span>
+          </div>
+        </div>
+
+        <div class="process-step" data-animate="fade-in-up">
+          <div class="process-step__number">2</div>
+          <div class="process-step__content">
+            <h3>Personalized Benefits Report</h3>
+            <p>[PLACEHOLDER] We produced a 22-page report analyzing the client's specific situation. The report revealed that their sick leave balance alone added nearly 12 months of creditable service to their pension calculation, which they had not accounted for.</p>
+            <span class="process-step__time">Benefits Report</span>
+          </div>
+        </div>
+
+        <div class="process-step" data-animate="fade-in-up">
+          <div class="process-step__number">3</div>
+          <div class="process-step__content">
+            <h3>Comprehensive Financial Plan</h3>
+            <p>[PLACEHOLDER] The full plan integrated pension optimization, TSP withdrawal sequencing, Roth conversion strategy, FEHB plan selection, and survivor benefit analysis into a cohesive retirement roadmap that moved their target date from age 60 to age 57.</p>
+            <span class="process-step__time">Comprehensive Planning</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Results -->
+  <section class="section section--gray">
+    <div class="container">
+      <div class="section-header" data-animate="fade-in-up">
+        <span class="eyebrow">The Results</span>
+        <h2 class="heading-lg">[PLACEHOLDER] Before and After PlanWell</h2>
+      </div>
+
+      <div class="comparison-grid">
+        <div class="comparison-card comparison-card--bad" data-animate="fade-in-up">
+          <h3>Before PlanWell</h3>
+          <ul>
+            <li>[PLACEHOLDER] Planning to retire at age 60</li>
+            <li>[PLACEHOLDER] No TSP withdrawal strategy</li>
+            <li>[PLACEHOLDER] Unaware of sick leave pension credit</li>
+            <li>[PLACEHOLDER] Paying for maximum survivor benefits without analysis</li>
+            <li>[PLACEHOLDER] No Roth conversion plan</li>
+            <li>[PLACEHOLDER] Estimated $72,000 in unnecessary taxes over first 5 years</li>
+          </ul>
+        </div>
+
+        <div class="comparison-card comparison-card--good" data-animate="fade-in-up">
+          <h3>After PlanWell</h3>
+          <ul>
+            <li>[PLACEHOLDER] Retired at age 57 - three years early</li>
+            <li>[PLACEHOLDER] Optimized TSP withdrawal sequencing by account type</li>
+            <li>[PLACEHOLDER] Sick leave added 12 months of creditable service</li>
+            <li>[PLACEHOLDER] Right-sized survivor benefits saving $3,200/year</li>
+            <li>[PLACEHOLDER] Strategic Roth conversions in low-income bridge years</li>
+            <li>[PLACEHOLDER] Projected $47,000 in tax savings over first 5 years</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Key Metrics -->
+      <div class="results-metrics" data-animate="fade-in-up">
+        <div class="results-metric">
+          <span class="results-metric__value">[PLACEHOLDER] 3 Years</span>
+          <span class="results-metric__label">Earlier Retirement</span>
+        </div>
+        <div class="results-metric">
+          <span class="results-metric__value">[PLACEHOLDER] $47,000</span>
+          <span class="results-metric__label">Projected Tax Savings (5 Years)</span>
+        </div>
+        <div class="results-metric">
+          <span class="results-metric__value">[PLACEHOLDER] $3,200/yr</span>
+          <span class="results-metric__label">Survivor Benefit Optimization</span>
+        </div>
+        <div class="results-metric">
+          <span class="results-metric__value">[PLACEHOLDER] 12 Months</span>
+          <span class="results-metric__label">Additional Creditable Service from Sick Leave</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Client Quote -->
+  <section class="section">
+    <div class="container">
+      <div class="testimonial" data-animate="fade-in-up">
+        <blockquote class="testimonial__quote">
+          <p>
+            "[PLACEHOLDER] I spent 28 years serving my country and assumed I would need to
+            work until 60 to make the numbers work. PlanWell showed me that with the right
+            strategy, I could retire three years early and actually come out ahead financially.
+            The peace of mind alone was worth it."
+          </p>
+        </blockquote>
+        <div class="testimonial__attribution">
+          <span class="testimonial__name">[PLACEHOLDER] - Client Name</span>
+          <span class="testimonial__title">[PLACEHOLDER] GS-14, Department of Defense (Retired)</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section section--gold text-center">
+    <div class="container">
+      <div data-animate="fade-in-up">
+        <h2 class="heading-lg">Want Results Like These?</h2>
+        <p class="lead" style="max-width: 36rem; margin: 0 auto var(--space-8);">
+          Every federal employee's situation is different, but the approach is the same:
+          understand your benefits, build a strategy, and retire with confidence.
+        </p>
+        <div class="cta-buttons">
+          <a href="/book-call" class="btn btn--navy btn--lg">Schedule Your Discovery Call</a>
+          <a href="/webinars" class="btn btn--outline-navy btn--lg">Start with Free Workshop</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .service-hero { background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%); color: var(--color-white); padding: var(--space-24) 0 var(--space-16); text-align: center; }
+  .service-hero h1 { color: var(--color-white); margin-bottom: var(--space-4); }
+  .service-hero .lead { color: var(--color-gray-300); margin: 0 auto var(--space-8); }
+  .hero-ctas { display: flex; gap: var(--space-4); justify-content: center; flex-wrap: wrap; }
+  .section-header { text-align: center; margin-bottom: var(--space-12); }
+
+  /* Client Profile Card */
+  .client-profile { background: var(--color-white); border: 2px solid var(--color-navy); border-radius: var(--radius-lg); padding: var(--space-8); max-width: 900px; margin: 0 auto; }
+  .client-profile__heading { font-size: var(--text-lg); color: var(--color-navy); margin-bottom: var(--space-6); padding-bottom: var(--space-3); border-bottom: 2px solid var(--color-gold); }
+  .client-profile__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4) var(--space-8); }
+  .client-profile__item { display: flex; flex-direction: column; }
+  .client-profile__label { font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-gray-500); font-weight: var(--font-semibold); margin-bottom: var(--space-1); }
+  .client-profile__value { font-size: var(--text-sm); color: var(--color-navy); font-weight: var(--font-medium); }
+
+  /* Challenge Section */
+  .challenge-content { max-width: 800px; margin: 0 auto; }
+  .challenge-content p { color: var(--color-gray-600); font-size: var(--text-base); line-height: 1.7; margin-bottom: var(--space-6); }
+  .challenge-list { list-style: none; max-width: 800px; margin: 0 auto; }
+  .challenge-list li { padding: var(--space-3) 0; padding-left: var(--space-8); position: relative; font-size: var(--text-sm); color: var(--color-gray-600); border-bottom: 1px solid var(--color-gray-200); }
+  .challenge-list li::before { content: '!'; position: absolute; left: 0; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; background: var(--color-navy); color: var(--color-gold); font-size: var(--text-xs); font-weight: var(--font-bold); border-radius: var(--radius-full); top: var(--space-3); }
+
+  /* Process Timeline */
+  .process-timeline { max-width: 700px; margin: 0 auto; }
+  .process-step { display: flex; gap: var(--space-6); margin-bottom: var(--space-6); position: relative; }
+  .process-step:not(:last-child)::after { content: ''; position: absolute; left: 24px; top: 55px; bottom: -24px; width: 2px; background: var(--color-gray-200); }
+  .process-step__number { width: 48px; height: 48px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: var(--color-gold); color: var(--color-navy-dark); font-family: var(--font-heading); font-size: var(--text-xl); font-weight: var(--font-bold); border-radius: var(--radius-full); position: relative; z-index: 1; }
+  .process-step__content h3 { margin-bottom: var(--space-1); font-size: var(--text-lg); }
+  .process-step__content p { color: var(--color-gray-600); font-size: var(--text-sm); margin-bottom: var(--space-1); }
+  .process-step__time { font-size: var(--text-xs); color: var(--color-gold); font-weight: var(--font-medium); }
+
+  /* Comparison Grid */
+  .comparison-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-8); max-width: 900px; margin: 0 auto var(--space-12); }
+  .comparison-card { padding: var(--space-8); border-radius: var(--radius-lg); }
+  .comparison-card--bad { background: var(--color-white); border: 2px solid var(--color-gray-300); }
+  .comparison-card--good { background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-light) 100%); color: var(--color-white); }
+  .comparison-card h3 { margin-bottom: var(--space-4); }
+  .comparison-card--good h3 { color: var(--color-gold); }
+  .comparison-card ul { list-style: none; }
+  .comparison-card li { padding: var(--space-2) 0; padding-left: var(--space-6); position: relative; font-size: var(--text-sm); }
+  .comparison-card--bad li::before { content: 'x'; position: absolute; left: 0; color: var(--color-gray-400); }
+  .comparison-card--good li::before { content: '\2713'; position: absolute; left: 0; color: var(--color-gold); }
+  .comparison-card--bad li { color: var(--color-gray-600); }
+  .comparison-card--good li { color: var(--color-gray-300); }
+
+  /* Results Metrics */
+  .results-metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); max-width: 900px; margin: 0 auto; }
+  .results-metric { text-align: center; padding: var(--space-6); background: var(--color-white); border-radius: var(--radius-lg); border: 1px solid var(--color-gray-200); }
+  .results-metric__value { display: block; font-family: var(--font-heading); font-size: var(--text-2xl); font-weight: var(--font-bold); color: var(--color-navy); margin-bottom: var(--space-1); }
+  .results-metric__label { display: block; font-size: var(--text-xs); color: var(--color-gray-500); }
+
+  /* Testimonial */
+  .testimonial { max-width: 800px; margin: 0 auto; text-align: center; padding: var(--space-8) 0; }
+  .testimonial__quote { position: relative; padding: var(--space-8); }
+  .testimonial__quote::before { content: '\201C'; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); font-size: 6rem; font-family: var(--font-heading); color: var(--color-gold); line-height: 1; opacity: 0.3; }
+  .testimonial__quote p { font-size: var(--text-lg); color: var(--color-navy); line-height: 1.8; font-style: italic; }
+  .testimonial__attribution { margin-top: var(--space-4); }
+  .testimonial__name { display: block; font-weight: var(--font-bold); color: var(--color-navy); font-size: var(--text-base); }
+  .testimonial__title { display: block; color: var(--color-gray-500); font-size: var(--text-sm); margin-top: var(--space-1); }
+
+  /* Gold CTA */
+  .section--gold { background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-dark) 100%); color: var(--color-navy-dark); }
+  .section--gold h2 { color: var(--color-navy-dark); }
+  .cta-buttons { display: flex; gap: var(--space-4); justify-content: center; flex-wrap: wrap; }
+  .btn--navy { background: var(--color-navy); color: var(--color-white); }
+  .btn--navy:hover { background: var(--color-navy-dark); }
+  .btn--outline-navy { background: transparent; color: var(--color-navy); border: 2px solid var(--color-navy); }
+  .btn--outline-navy:hover { background: var(--color-navy); color: var(--color-white); }
+
+  @media (max-width: 1024px) { .results-metrics { grid-template-columns: repeat(2, 1fr); } .client-profile__grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 768px) { .comparison-grid, .results-metrics { grid-template-columns: 1fr; } .client-profile__grid { grid-template-columns: 1fr; } }
+</style>

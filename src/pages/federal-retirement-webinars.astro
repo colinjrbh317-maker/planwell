@@ -1,0 +1,433 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getNextWebinar, formatWebinarDate, getDaysUntil } from '../data/webinars';
+
+const nextWebinar = getNextWebinar();
+const webinarDate = nextWebinar ? formatWebinarDate(nextWebinar) : 'Coming Soon';
+const daysUntil = nextWebinar ? getDaysUntil(nextWebinar) : null;
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Are the webinars really free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Our FERS retirement workshops and TSP sessions are completely free with no obligation. We believe every federal employee deserves to understand their benefits before making retirement decisions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long are the workshops?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The comprehensive FERS workshop is 3 hours. The focused TSP session is 1 hour. Both include time for Q&A."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need to be near retirement to attend?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Not at all. Federal employees at every career stage benefit from understanding their benefits. In fact, the earlier you attend, the more time you have to optimize your TSP contributions, insurance decisions, and career timing."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What do I need to prepare?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nothing. Just show up with your questions. If you have a recent SF-50 or TSP statement available, those can help you follow along with the calculations, but they're not required."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will I be pressured to buy something?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The workshop is educational. If you want personalized guidance afterward, we offer one-on-one consultations, but there's zero pressure during or after the workshop."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I attend?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Register online and you'll receive a Zoom link by email. The workshops are fully virtual — attend from anywhere. A calendar invitation is included with your registration confirmation."
+      }
+    }
+  ]
+};
+
+const eventSchema = nextWebinar ? {
+  "@context": "https://schema.org",
+  "@type": "EducationEvent",
+  "name": "Free FERS Retirement Workshop",
+  "description": "3-hour comprehensive federal retirement education covering FERS pension, TSP, FEHB, Medicare coordination, survivor benefits, and tax planning.",
+  "startDate": nextWebinar.date.toISOString().split('T')[0] + "T" + "11:00:00-05:00",
+  "endDate": nextWebinar.date.toISOString().split('T')[0] + "T" + "14:00:00-05:00",
+  "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "location": { "@type": "VirtualLocation", "url": "https://planwellfp.com/webinar" },
+  "organizer": { "@type": "Organization", "name": "PlanWell Financial Planning", "url": "https://planwellfp.com" },
+  "performer": [
+    { "@type": "Person", "name": "Brennan Rhule", "jobTitle": "CFP\u00ae, ChFEBC\u2120, AIF\u00ae" },
+    { "@type": "Person", "name": "David Fei", "jobTitle": "CFP\u00ae, ChFEBC\u2120, AIF\u00ae" }
+  ],
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD", "availability": "https://schema.org/InStock", "url": "https://planwellfp.com/webinar" }
+} : null;
+---
+
+<BaseLayout
+  title="Federal Employee Retirement Webinars - Free FERS & TSP Workshops"
+  description="Register for free federal retirement webinars from CFP® and ChFEBC℠ advisors. Our 3-hour FERS workshops and TSP sessions have educated over 10,000 federal employees on pension, benefits, and tax strategies."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  {eventSchema && <script type="application/ld+json" set:html={JSON.stringify(eventSchema)} />}
+
+  <!-- Hero -->
+  <section class="service-hero">
+    <div class="container">
+      <span class="eyebrow">Free Federal Retirement Education</span>
+      <h1 class="heading-xl">Federal Employee Retirement Webinars</h1>
+      <p class="lead max-w-3xl">
+        Join over 10,000 federal employees who have attended our free retirement workshops.
+        Learn everything you need to know about your FERS pension, TSP, healthcare options,
+        and survivor benefits — from advisors who work exclusively with feds.
+      </p>
+      <div class="hero-ctas">
+        <a href="/webinar" class="btn btn--primary btn--lg">Register for Next Webinar</a>
+        <a href="/webinars" class="btn btn--ghost btn--lg">View Webinar Options</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Upcoming Webinar -->
+  <section class="section">
+    <div class="container">
+      <div class="upcoming-card" data-animate="fade-in-up">
+        <span class="eyebrow">Next Workshop</span>
+        <div class="upcoming-card__details">
+          <h2 class="heading-lg">{webinarDate}</h2>
+          {nextWebinar && (
+            <span class="upcoming-card__time">{nextWebinar.startTime} - {nextWebinar.endTime} {nextWebinar.timezone}</span>
+          )}
+          {daysUntil !== null && daysUntil > 0 && (
+            <span class="upcoming-card__countdown">{daysUntil} {daysUntil === 1 ? 'day' : 'days'} away</span>
+          )}
+        </div>
+        <h3 class="upcoming-card__title">3-Hour Comprehensive FERS Retirement Workshop</h3>
+        <p class="upcoming-card__meta">Free &bull; Online &bull; No Obligation</p>
+        <a href="/webinar" class="btn btn--primary btn--lg">Register Now</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- What You'll Learn -->
+  <section class="section section--gray">
+    <div class="container">
+      <div class="section-header" data-animate="fade-in-up">
+        <span class="eyebrow">FERS Workshop Topics</span>
+        <h2 class="heading-lg">What You'll Learn in 3 Hours</h2>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card" data-animate="fade-in-up">
+          <div class="feature-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <h3>FERS Pension Calculations</h3>
+          <p>Your exact retirement eligibility dates, high-3 salary optimization, and how sick leave converts to additional pension credit.</p>
+        </div>
+
+        <div class="feature-card" data-animate="fade-in-up">
+          <div class="feature-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+          </div>
+          <h3>TSP Strategies</h3>
+          <p>Fund allocation approaches, Roth vs traditional TSP decisions, and withdrawal options that minimize your tax burden.</p>
+        </div>
+
+        <div class="feature-card" data-animate="fade-in-up">
+          <div class="feature-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          </div>
+          <h3>FEHB in Retirement</h3>
+          <p>How to keep your federal health insurance, what changes after retirement, and how Medicare coordination works at 65.</p>
+        </div>
+
+        <div class="feature-card" data-animate="fade-in-up">
+          <div class="feature-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <h3>Survivor Benefits</h3>
+          <p>SBP costs and coverage, FEGLI analysis, and strategies to protect your spouse without overpaying for insurance.</p>
+        </div>
+
+        <div class="feature-card" data-animate="fade-in-up">
+          <div class="feature-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          </div>
+          <h3>Social Security Timing</h3>
+          <p>When to claim based on your FERS pension, how the windfall elimination provision may affect you, and spousal strategies.</p>
+        </div>
+
+        <div class="feature-card" data-animate="fade-in-up">
+          <div class="feature-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          </div>
+          <h3>Tax Planning</h3>
+          <p>Roth conversion opportunities, bracket management in retirement, and how to sequence withdrawals from pension, TSP, and Social Security.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TSP Workshop -->
+  <section class="section">
+    <div class="container">
+      <div class="tsp-card" data-animate="fade-in-up">
+        <div class="tsp-card__content">
+          <span class="eyebrow">1-Hour Focused Training</span>
+          <h2 class="heading-lg">TSP Investment Workshop</h2>
+          <p class="lead">
+            Confused about your TSP fund options? This focused 1-hour session covers L Fund allocation
+            strategies, the individual fund characteristics (C, S, I, F, G), and how to align your TSP
+            with your retirement timeline.
+          </p>
+          <a href="/webinar/tsp" class="btn btn--primary btn--lg">Register for TSP Workshop</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Who Teaches -->
+  <section class="section section--navy">
+    <div class="container">
+      <div class="section-header" data-animate="fade-in-up">
+        <h2 class="heading-lg">Your Workshop Instructors</h2>
+      </div>
+
+      <div class="instructors-grid">
+        <div class="instructor-card" data-animate="fade-in-up">
+          <span class="instructor-card__credentials">CFP&#174; &bull; ChFEBC&#8480; &bull; AIF&#174;</span>
+          <h3>Brennan Rhule</h3>
+          <p>Brennan specializes in helping federal employees within 5-15 years of retirement create comprehensive financial strategies that maximize their FERS benefits.</p>
+        </div>
+
+        <div class="instructor-card" data-animate="fade-in-up">
+          <span class="instructor-card__credentials">CFP&#174; &bull; ChFEBC&#8480; &bull; AIF&#174;</span>
+          <h3>David Fei</h3>
+          <p>David brings deep expertise in TSP optimization, tax planning, and retirement income strategies specifically designed for federal employees.</p>
+        </div>
+      </div>
+
+      <p class="instructors-note" data-animate="fade-in-up">Both hold triple credentials held by less than 1% of financial advisors.</p>
+    </div>
+  </section>
+
+  <!-- Past Webinar Topics -->
+  <section class="section section--gray">
+    <div class="container">
+      <div class="section-header" data-animate="fade-in-up">
+        <span class="eyebrow">Past Workshop Topics</span>
+        <h2 class="heading-lg">Recent Workshop Archives</h2>
+      </div>
+
+      <ul class="past-topics" data-animate="fade-in-up">
+        <li>FERS Retirement Readiness: A Complete Checklist</li>
+        <li>TSP Allocation Strategies for Different Career Stages</li>
+        <li>Navigating FEHB Open Season: Making the Right Choice</li>
+        <li>Understanding Your FERS Supplement Before Age 62</li>
+        <li>Roth TSP vs Traditional TSP: Making the Switch</li>
+        <li>Federal Employee Survivor Benefits Deep Dive</li>
+        <li>Medicare and FEHB: Coordinating Coverage at 65</li>
+        <li>Special Provisions: LEO, Firefighter, and ATC Retirement</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- FAQs -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header" data-animate="fade-in-up">
+        <span class="eyebrow">Workshop Questions</span>
+        <h2 class="heading-lg">Federal Retirement Webinar FAQs</h2>
+      </div>
+
+      <div class="faq-list">
+        <details class="faq-item" data-animate="fade-in-up">
+          <summary class="faq-question">Are the webinars really free?</summary>
+          <div class="faq-answer">
+            <p>Yes. Our FERS retirement workshops and TSP sessions are completely free with no obligation. We believe every federal employee deserves to understand their benefits before making retirement decisions.</p>
+          </div>
+        </details>
+
+        <details class="faq-item" data-animate="fade-in-up">
+          <summary class="faq-question">How long are the workshops?</summary>
+          <div class="faq-answer">
+            <p>The comprehensive FERS workshop is 3 hours. The focused TSP session is 1 hour. Both include time for Q&A.</p>
+          </div>
+        </details>
+
+        <details class="faq-item" data-animate="fade-in-up">
+          <summary class="faq-question">Do I need to be near retirement to attend?</summary>
+          <div class="faq-answer">
+            <p>Not at all. Federal employees at every career stage benefit from understanding their benefits. In fact, the earlier you attend, the more time you have to optimize your TSP contributions, insurance decisions, and career timing.</p>
+          </div>
+        </details>
+
+        <details class="faq-item" data-animate="fade-in-up">
+          <summary class="faq-question">What do I need to prepare?</summary>
+          <div class="faq-answer">
+            <p>Nothing. Just show up with your questions. If you have a recent SF-50 or TSP statement available, those can help you follow along with the calculations, but they're not required.</p>
+          </div>
+        </details>
+
+        <details class="faq-item" data-animate="fade-in-up">
+          <summary class="faq-question">Will I be pressured to buy something?</summary>
+          <div class="faq-answer">
+            <p>No. The workshop is educational. If you want personalized guidance afterward, we offer one-on-one consultations, but there's zero pressure during or after the workshop.</p>
+          </div>
+        </details>
+
+        <details class="faq-item" data-animate="fade-in-up">
+          <summary class="faq-question">How do I attend?</summary>
+          <div class="faq-answer">
+            <p>Register online and you'll receive a Zoom link by email. The workshops are fully virtual — attend from anywhere. A calendar invitation is included with your registration confirmation.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom CTA -->
+  <section class="section section--gold text-center">
+    <div class="container">
+      <div data-animate="fade-in-up">
+        <h2 class="heading-lg">Your Retirement Benefits Are Too Important to Guess About</h2>
+        <p class="lead" style="max-width: 36rem; margin: 0 auto var(--space-8);">
+          Federal employees leave thousands on the table every year because they don't fully
+          understand their benefits. Three hours of your time could change your entire retirement outlook.
+        </p>
+        <div class="cta-buttons">
+          <a href="/webinar" class="btn btn--navy btn--lg">Register for FERS Workshop</a>
+          <a href="/webinar/tsp" class="btn btn--outline-navy btn--lg">Register for TSP Workshop</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Hero */
+  .service-hero { background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%); color: var(--color-white); padding: var(--space-24) 0 var(--space-16); text-align: center; }
+  .service-hero h1 { color: var(--color-white); margin-bottom: var(--space-4); }
+  .service-hero .lead { color: var(--color-gray-300); margin: 0 auto var(--space-8); }
+  .hero-ctas { display: flex; gap: var(--space-4); justify-content: center; flex-wrap: wrap; }
+  .section-header { text-align: center; margin-bottom: var(--space-12); }
+
+  /* Features Grid */
+  .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .feature-card { background: var(--color-white); padding: var(--space-6); border-radius: var(--radius-lg); border: 1px solid var(--color-gray-200); transition: all var(--transition-base); }
+  .feature-card:hover { border-color: var(--color-gold); box-shadow: var(--shadow-lg); transform: translateY(-4px); }
+  .feature-card__icon { width: 40px; height: 40px; color: var(--color-gold); margin-bottom: var(--space-3); }
+  .feature-card__icon svg { width: 100%; height: 100%; }
+  .feature-card h3 { font-size: var(--text-base); margin-bottom: var(--space-2); }
+  .feature-card p { color: var(--color-gray-600); font-size: var(--text-sm); line-height: 1.5; }
+
+  /* Upcoming Webinar Card */
+  .upcoming-card {
+    background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%);
+    border-radius: var(--radius-xl);
+    padding: var(--space-10) var(--space-12);
+    text-align: center;
+    border: 2px solid var(--color-gold);
+  }
+  .upcoming-card .eyebrow { color: var(--color-gold); }
+  .upcoming-card__details { margin-bottom: var(--space-4); }
+  .upcoming-card__details h2 { color: var(--color-white); margin-bottom: var(--space-2); }
+  .upcoming-card__time { display: inline-block; color: var(--color-gray-300); font-size: var(--text-lg); margin-right: var(--space-4); }
+  .upcoming-card__countdown { display: inline-block; background: var(--color-gold); color: var(--color-navy-dark); font-size: var(--text-sm); font-weight: var(--font-bold); padding: var(--space-1) var(--space-3); border-radius: var(--radius-full); }
+  .upcoming-card__title { color: var(--color-white); font-size: var(--text-xl); margin-bottom: var(--space-2); }
+  .upcoming-card__meta { color: var(--color-gray-400); font-size: var(--text-lg); margin-bottom: var(--space-6); }
+
+  /* TSP Card */
+  .tsp-card {
+    background: var(--color-white);
+    border-radius: var(--radius-xl);
+    padding: var(--space-12);
+    box-shadow: var(--shadow-md);
+    border: 2px solid var(--color-gray-200);
+    text-align: center;
+  }
+  .tsp-card__content { max-width: 700px; margin: 0 auto; }
+  .tsp-card .eyebrow { color: var(--color-gold); }
+  .tsp-card .lead { color: var(--color-gray-600); margin-bottom: var(--space-8); }
+
+  /* Instructors */
+  .instructors-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-8); max-width: 900px; margin: 0 auto; }
+  .instructor-card { text-align: center; padding: var(--space-8); background: rgba(255,255,255,0.05); border-radius: var(--radius-lg); border: 1px solid rgba(255,255,255,0.1); }
+  .instructor-card__credentials { display: inline-block; color: var(--color-gold); font-size: var(--text-sm); font-weight: var(--font-semibold); margin-bottom: var(--space-3); letter-spacing: 0.02em; }
+  .instructor-card h3 { color: var(--color-white); font-size: var(--text-xl); margin-bottom: var(--space-3); }
+  .instructor-card p { color: var(--color-gray-400); font-size: var(--text-sm); line-height: 1.6; }
+  .instructors-note { text-align: center; color: var(--color-gold); font-size: var(--text-sm); font-weight: var(--font-medium); margin-top: var(--space-6); }
+
+  /* Past Topics */
+  .past-topics {
+    max-width: 700px;
+    margin: 0 auto;
+    list-style: none;
+  }
+  .past-topics li {
+    padding: var(--space-4) var(--space-6);
+    position: relative;
+    padding-left: var(--space-8);
+    border-bottom: 1px solid var(--color-gray-200);
+    color: var(--color-gray-700);
+    font-size: var(--text-base);
+  }
+  .past-topics li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    background: var(--color-gold);
+    border-radius: var(--radius-full);
+  }
+
+  /* FAQ */
+  .faq-list { max-width: 800px; margin: 0 auto; }
+  .faq-item { border-bottom: 1px solid var(--color-gray-200); }
+  .faq-question { padding: var(--space-5) 0; font-weight: var(--font-semibold); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; color: var(--color-navy); }
+  .faq-question::-webkit-details-marker { display: none; }
+  .faq-question::after { content: '+'; font-size: var(--text-xl); color: var(--color-gold); transition: transform var(--transition-fast); }
+  details[open] .faq-question::after { transform: rotate(45deg); }
+  .faq-answer { padding-bottom: var(--space-5); color: var(--color-gray-600); }
+
+  /* Gold CTA Section */
+  .section--gold { background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-dark) 100%); color: var(--color-navy-dark); }
+  .section--gold h2 { color: var(--color-navy-dark); }
+  .cta-buttons { display: flex; gap: var(--space-4); justify-content: center; flex-wrap: wrap; }
+  .btn--navy { background: var(--color-navy); color: var(--color-white); }
+  .btn--navy:hover { background: var(--color-navy-dark); }
+  .btn--outline-navy { background: transparent; color: var(--color-navy); border: 2px solid var(--color-navy); }
+  .btn--outline-navy:hover { background: var(--color-navy); color: var(--color-white); }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .features-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 768px) {
+    .features-grid, .instructors-grid { grid-template-columns: 1fr; }
+    .upcoming-card { padding: var(--space-8) var(--space-6); }
+    .tsp-card { padding: var(--space-8); }
+    .upcoming-card__time { display: block; margin-right: 0; margin-bottom: var(--space-2); }
+  }
+</style>

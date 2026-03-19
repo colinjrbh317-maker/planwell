@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import NewsletterPopup from '../components/NewsletterPopup.astro';
+import SmartPopup from '../components/SmartPopup.astro';
 import homepageHero from '../assets/images/homepage-hero.png';
 import brennanPhoto from '../assets/images/brennan-rhule.png';
 import davidPhoto from '../assets/images/david-fei.jpg';
@@ -59,14 +59,54 @@ const faqSchema = {
         "@type": "Answer",
         "text": "No. Our 3-hour comprehensive FERS workshop is completely free with no obligation. We cover FERS pension calculations, TSP strategies, FEHB in retirement, Medicare coordination, survivor benefits, and tax planning. Over 10,000 federal employees have attended our workshops."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I choose a financial planner for federal employees?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Look for three things: federal benefits expertise (the ChFEBC℠ designation), fiduciary duty (legally required to act in your interest), and a fee-based model (no commissions from product sales). PlanWell advisors hold CFP®, ChFEBC℠, and AIF® credentials and operate as fiduciaries. We recommend interviewing at least two advisors and asking about their experience with FERS, TSP rollovers, and FEHB-to-Medicare transitions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is PlanWell a fiduciary?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. PlanWell advisors are legally bound fiduciaries, meaning we must act in your best interest at all times. We are fee-based and do not earn commissions from product sales. This is different from many federal benefits advisors who are compensated by insurance companies. Our only incentive is helping you make the best decisions for your retirement."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a ChFEBC℠ (Chartered Federal Employee Benefits Consultant)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The ChFEBC℠ is a professional designation for financial advisors who specialize in federal employee benefits. It requires completing coursework on FERS, CSRS, TSP, FEHB, FEGLI, Social Security coordination, and survivor benefits. Both PlanWell co-founders hold this designation along with the CFP® and AIF® credentials."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does PlanWell's financial planning service cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Our 3-hour FERS workshop is completely free. For personalized financial planning, we offer fee-based services with transparent pricing — no hidden costs or commissions. During your free consultation, we explain our fee structure and help you determine if comprehensive planning is right for your situation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What's the difference between FERS and CSRS retirement?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "FERS (Federal Employees Retirement System) is a three-part system: a defined benefit pension, Social Security, and the Thrift Savings Plan (TSP). CSRS (Civil Service Retirement System) provides a larger pension but no Social Security coverage or automatic TSP matching. CSRS was replaced by FERS in 1987, though some employees remain under CSRS or CSRS Offset. Our advisors are experienced with both systems."
+      }
     }
   ]
 };
 ---
 
 <BaseLayout
-  title="Federal Retirement Planning for FERS & CSRS Employees"
-  description="Expert FERS retirement planning from CFP® and ChFEBC℠ advisors. Free workshops and fee-based financial planning for federal employees."
+  title="Federal Employee Financial Planner | FERS & CSRS Retirement Planning"
+  description="Fiduciary financial planning for federal employees from CFP and ChFEBC advisors. Free 3-hour FERS workshops attended by 10,000+ feds. Fee-based, no commissions."
 >
   <!-- FAQ Schema for rich snippets -->
   <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
@@ -89,13 +129,13 @@ const faqSchema = {
     <div class="container">
       <div class="hero__content">
         <h1 class="hero__title">
-          <span class="hero__title-main">Retire on Your Terms.</span>
-          <span class="hero__title-accent">Federal Benefits Made Simple.</span>
+          <span class="hero__title-main">Your Federal Retirement, Planned Right.</span>
+          <span class="hero__title-accent">Fiduciary Financial Planning for Federal Employees.</span>
         </h1>
 
         <p class="hero__subtitle">
-          Our team of Fed-Experts have helped thousands of feds turn
-          complex federal benefits into a confident retirement.
+          CFP® and ChFEBC℠ advisors who specialize in FERS retirement planning.
+          Free workshops, personalized reports, and fee-based guidance — no commissions, ever.
         </p>
 
         <div class="hero__cta">
@@ -114,6 +154,12 @@ const faqSchema = {
           <span class="hero__trust-divider">•</span>
           <span class="hero__trust-item">CFP® Certified</span>
         </div>
+
+        <p style="margin-top: var(--space-4); font-size: var(--text-sm);">
+          <a href="/financial-planner-for-federal-employees" style="color: var(--color-gold); text-decoration: underline;">
+            Why choose a specialized financial planner for federal employees?
+          </a>
+        </p>
       </div>
     </div>
   </section>
@@ -299,6 +345,7 @@ const faqSchema = {
       
       <div class="section-cta">
         <a href="/services" class="btn btn--secondary btn--lg">Explore Our Services</a>
+        <a href="/calculators" class="btn btn--ghost btn--lg" style="margin-left: var(--space-4); border: 2px solid var(--color-navy); color: var(--color-navy);">Try Our Free Calculators</a>
       </div>
     </div>
   </section>
@@ -313,7 +360,7 @@ const faqSchema = {
           <div class="process__step" data-animate="fade-in-up">
             <div class="process__step-number">1</div>
             <h3>Attend Our Free Workshop</h3>
-            <p>3 hours covering FERS pension, TSP, FEHB, Medicare, Social Security, and survivor benefits.</p>
+            <p>3 hours covering FERS pension, TSP, FEHB, Medicare, Social Security, and survivor benefits. <a href="/federal-retirement-webinars" style="color: var(--color-gold); text-decoration: underline;">See what's covered</a>.</p>
           </div>
           
           <div class="process__step" data-animate="fade-in-up">
@@ -495,7 +542,7 @@ const faqSchema = {
   </section>
 
   <!-- Newsletter Popup (homepage only) -->
-  <NewsletterPopup />
+  <SmartPopup variant="webinar" />
 </BaseLayout>
 
 <style>
