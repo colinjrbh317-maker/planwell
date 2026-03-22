@@ -48,7 +48,42 @@ FROM_EMAIL, FROM_NAME
 ## Google Sheet Columns
 First Name, Last Name, Email, Agency, Retirement Timeline, Submitted At, Source,
 Webinar_ID, Webinar_Date, Email_Confirmation_Sent, Email_7Day_Sent, 
-Email_3Day_Sent, Email_1Day_Sent, Email_DayOf_Sent
+Email_3Day_Sent, Email_1Day_Sent, Email_DayOf_Sent,
+Attended, Recording_URL, Email_PostDay1_Sent, Email_PostDay3_Sent,
+Email_PostDay7_Sent, Email_PostDay10_Sent, Email_PostDay14_Sent,
+Email_NoShowDay1_Sent, Email_NoShowDay5_Sent
+
+## Post-Webinar Sequence (Attendees)
+| Trigger | Purpose |
+|---------|---------|
+| +1 day | Recording + slides download |
+| +3 days | Top 3 key takeaways (educational value) |
+| +7 days | Personalized Benefits Report offer → book call |
+| +10 days | Case study success story |
+| +14 days | Soft close — book free 30-min call |
+
+## Non-Attendee Re-engagement
+| Trigger | Purpose |
+|---------|---------|
+| +1 day | "We missed you" + recording link |
+| +5 days | Next webinar pre-registration |
+
+## Newsletter → Webinar Funnel
+| Trigger | Purpose |
+|---------|---------|
+| -21 days | Early access announcement to subscribers |
+| -14 days | Social proof email |
+| -3 days | Last chance + scarcity |
+
+## Mailchimp Migration Plan
+All sequences migrating from SMTP to Mailchimp automations.
+Tag-triggered automations replace cron-based scheduler for nurture sequences.
+SMTP retained for transactional-only emails.
+
+## Tag System
+- `webinar-registered-{cycle-id}`, `webinar-attended-{cycle-id}`, `webinar-noshow-{cycle-id}`
+- `retirement-timeline-{range}`: `under-5yr`, `5-10yr`, `10-plus-yr`
+- `source-{channel}`: `organic`, `meta-ad`, `newsletter`, `referral`
 
 ## Edge Cases
 - Registration close to webinar: Skip already-passed emails
@@ -63,3 +98,5 @@ Email_3Day_Sent, Email_1Day_Sent, Email_DayOf_Sent
 
 ## Updates Log
 - 2025-12-22: Initial creation
+- 2026-03-19: Added post-webinar, re-engagement, and newsletter funnel sequences
+- 2026-03-19: Added Mailchimp migration plan and tag system

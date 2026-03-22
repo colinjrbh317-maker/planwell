@@ -27,6 +27,32 @@ from webinar_emails import (
     send_webinar_1day,
     send_webinar_dayof
 )
+from post_webinar_emails import (
+    send_post_day1_recording,
+    send_post_day3_takeaways,
+    send_post_day7_benefits_report,
+    send_post_day10_case_study,
+    send_post_day14_soft_close,
+    send_noshow_day1_recording,
+    send_noshow_day5_next_webinar
+)
+
+# Default takeaways for post-day-3 email (can be overridden per webinar)
+DEFAULT_TAKEAWAYS = {
+    'takeaway_1': 'Your FERS pension is based on your High-3 salary and years of creditable service -- even small salary bumps in your final years can significantly increase your lifetime pension.',
+    'takeaway_2': 'The FERS supplement bridges the income gap between your retirement date and age 62 -- but it ends the month you turn 62, so plan your Social Security timing accordingly.',
+    'takeaway_3': 'You can keep FEHB in retirement if you\'ve been continuously enrolled for 5 years before retirement -- this is one of the most valuable benefits federal employees have.',
+}
+
+# Next webinar dates for no-show re-registration
+NEXT_WEBINAR_DATES = {
+    'dec-30-2025': {'date': 'Thursday, January 16', 'url': 'https://planwellfp.com/webinar'},
+    'jan-16-2026': {'date': 'Friday, February 6', 'url': 'https://planwellfp.com/webinar'},
+    'feb-06-2026': {'date': 'Friday, February 27', 'url': 'https://planwellfp.com/webinar'},
+    'feb-27-2026': {'date': 'Friday, March 20', 'url': 'https://planwellfp.com/webinar'},
+    'mar-20-2026': {'date': 'Friday, April 10', 'url': 'https://planwellfp.com/webinar'},
+    'apr-10-2026': {'date': 'TBD', 'url': 'https://planwellfp.com/webinar'},
+}
 
 # Webinar data with Zoom links (loaded from JSON or hardcoded)
 WEBINAR_ZOOM_LINKS = {
@@ -82,11 +108,20 @@ def parse_webinar_date(iso_date: str) -> datetime:
 
 
 def days_until_webinar(webinar_date: datetime) -> int:
-    """Calculate days until the webinar."""
+    """Calculate days until the webinar (negative means webinar has passed)."""
     if not webinar_date:
         return -999
     now = datetime.now(webinar_date.tzinfo) if webinar_date.tzinfo else datetime.now()
     delta = webinar_date.date() - now.date()
+    return delta.days
+
+
+def days_since_webinar(webinar_date: datetime) -> int:
+    """Calculate days since the webinar occurred."""
+    if not webinar_date:
+        return -999
+    now = datetime.now(webinar_date.tzinfo) if webinar_date.tzinfo else datetime.now()
+    delta = now.date() - webinar_date.date()
     return delta.days
 
 
@@ -132,9 +167,74 @@ def run_scheduler():
             
             print(f"\n  Checking {first_name} ({email}): {days} days until webinar")
             
-            # Skip if webinar already passed
+            # Post-webinar sequence (webinar has passed)
             if days < 0:
-                print(f"    Webinar already passed, skipping")
+                since = days_since_webinar(webinar_date)
+                attended = reg.get('attended', '').strip().lower() == 'yes'
+                recording_url = reg.get('recording_url', '')
+
+                if attended:
+                    # Attendee track
+                    if since >= 1 and not reg.get('email_postday1_sent') and recording_url:
+                        print(f"    Sending post-day-1 recording (attendee)...")
+                        if send_post_day1_recording(email, first_name, recording_url):
+                            sheets.update_email_sent(row_num, 'Email_PostDay1_Sent')
+                            emails_sent += 1
+                            print(f"    Sent post-day-1 recording")
+
+                    elif since >= 3 and not reg.get('email_postday3_sent'):
+                        print(f"    Sending post-day-3 takeaways...")
+                        if send_post_day3_takeaways(
+                            email, first_name,
+                            DEFAULT_TAKEAWAYS['takeaway_1'],
+                            DEFAULT_TAKEAWAYS['takeaway_2'],
+                            DEFAULT_TAKEAWAYS['takeaway_3']
+                        ):
+                            sheets.update_email_sent(row_num, 'Email_PostDay3_Sent')
+                            emails_sent += 1
+                            print(f"    Sent post-day-3 takeaways")
+
+                    elif since >= 7 and not reg.get('email_postday7_sent'):
+                        print(f"    Sending post-day-7 benefits report...")
+                        if send_post_day7_benefits_report(email, first_name):
+                            sheets.update_email_sent(row_num, 'Email_PostDay7_Sent')
+                            emails_sent += 1
+                            print(f"    Sent post-day-7 benefits report")
+
+                    elif since >= 10 and not reg.get('email_postday10_sent'):
+                        print(f"    Sending post-day-10 case study...")
+                        if send_post_day10_case_study(email, first_name):
+                            sheets.update_email_sent(row_num, 'Email_PostDay10_Sent')
+                            emails_sent += 1
+                            print(f"    Sent post-day-10 case study")
+
+                    elif since >= 14 and not reg.get('email_postday14_sent'):
+                        print(f"    Sending post-day-14 soft close...")
+                        if send_post_day14_soft_close(email, first_name):
+                            sheets.update_email_sent(row_num, 'Email_PostDay14_Sent')
+                            emails_sent += 1
+                            print(f"    Sent post-day-14 soft close")
+
+                else:
+                    # No-show track
+                    if since >= 1 and not reg.get('email_noshowday1_sent') and recording_url:
+                        print(f"    Sending no-show day-1 recording...")
+                        if send_noshow_day1_recording(email, first_name, recording_url):
+                            sheets.update_email_sent(row_num, 'Email_NoShowDay1_Sent')
+                            emails_sent += 1
+                            print(f"    Sent no-show day-1 recording")
+
+                    elif since >= 5 and not reg.get('email_noshowday5_sent'):
+                        next_info = NEXT_WEBINAR_DATES.get(webinar_id, {})
+                        next_date = next_info.get('date', '')
+                        next_url = next_info.get('url', 'https://planwellfp.com/webinar')
+                        if next_date and next_date != 'TBD':
+                            print(f"    Sending no-show day-5 next webinar...")
+                            if send_noshow_day5_next_webinar(email, first_name, next_date, next_url):
+                                sheets.update_email_sent(row_num, 'Email_NoShowDay5_Sent')
+                                emails_sent += 1
+                                print(f"    Sent no-show day-5 next webinar")
+
                 continue
             
             # 7-day reminder (between 6-8 days out to have some buffer)
