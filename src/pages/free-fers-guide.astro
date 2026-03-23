@@ -1,0 +1,555 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const guideSchema = {
+  "@context": "https://schema.org",
+  "@type": "DigitalDocument",
+  "name": "The Federal Employee's Guide to FERS Retirement",
+  "description": "A comprehensive guide covering FERS pension formula, TSP strategies, FEHB in retirement, FEGLI life insurance options, and survivor benefits — written in plain English for federal employees.",
+  "author": {
+    "@type": "Organization",
+    "name": "PlanWell Financial Planning",
+    "url": "https://planwellfp.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "PlanWell Financial Planning",
+    "url": "https://planwellfp.com"
+  },
+  "datePublished": "2024-01-01",
+  "inLanguage": "en-US",
+  "isAccessibleForFree": true,
+  "url": "https://planwellfp.com/free-fers-guide"
+};
+---
+
+<BaseLayout
+  title="Free FERS Retirement Guide | Download PDF | PlanWell"
+  description="Download our free FERS retirement guide. Covers pension formula, TSP strategies, FEHB in retirement, FEGLI, and survivor benefits. Written by CFP® professionals."
+  ogImage="/images/blog/content/free-fers-guide.png"
+  ogType="website"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(guideSchema)} />
+
+  <!-- Hero -->
+  <section class="guide-hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-content" data-animate="fade-in-up">
+          <span class="eyebrow">Free Download</span>
+          <h1 class="heading-xl">The Federal Employee's Guide to FERS Retirement</h1>
+          <p class="lead">
+            Everything you need to know about your pension, TSP, FEHB, FEGLI, and survivor benefits — in plain English.
+          </p>
+
+          <div class="capture-form" id="hero-form">
+            <form class="email-form" data-form="fers-guide">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="first-name-hero" class="form-label">First Name</label>
+                  <input
+                    type="text"
+                    id="first-name-hero"
+                    name="first_name"
+                    class="form-input"
+                    placeholder="Your first name"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="email-hero" class="form-label">Email Address</label>
+                  <input
+                    type="email"
+                    id="email-hero"
+                    name="email"
+                    class="form-input"
+                    placeholder="your@email.gov"
+                    required
+                  />
+                </div>
+              </div>
+              <button type="submit" class="btn btn--primary btn--lg btn--full submit-btn">
+                <span class="btn-text">Get the Free Guide</span>
+                <span class="btn-loading" hidden>Sending...</span>
+              </button>
+            </form>
+            <p class="form-disclaimer">No spam. Just your guide and occasional retirement insights.</p>
+          </div>
+        </div>
+
+        <div class="hero-image" data-animate="fade-in-up">
+          <div class="guide-cover-wrapper">
+            <img
+              src="/images/blog/content/free-fers-guide.png"
+              alt="The Federal Employee's Guide to FERS Retirement — free PDF download"
+              class="guide-cover"
+              width="420"
+              height="560"
+            />
+            <div class="guide-badge">Free PDF</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What's Inside -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header" data-animate="fade-in-up">
+        <span class="eyebrow">What's Inside</span>
+        <h2 class="heading-lg">Four Chapters. Everything That Matters.</h2>
+        <p class="lead max-w-3xl mx-auto">
+          Most guides recycle the same surface-level information. This one goes deeper — with worked examples, real numbers, and decisions you'll actually face.
+        </p>
+      </div>
+
+      <div class="features-grid" style="grid-template-columns: repeat(2, 1fr);">
+        <div class="feature-card" data-animate="fade-in-up">
+          <div class="feature-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          </div>
+          <h3>FERS Pension Formula</h3>
+          <p>How your high-3, years of service, and retirement age determine your annuity. Includes worked examples so you can calculate your own number before you ever call HR.</p>
+        </div>
+
+        <div class="feature-card" data-animate="fade-in-up">
+          <div class="feature-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <h3>TSP Strategies</h3>
+          <p>Traditional vs Roth, fund allocation by age, withdrawal sequencing to minimize taxes. The decisions you make here can be worth hundreds of thousands of dollars over retirement.</p>
+        </div>
+
+        <div class="feature-card" data-animate="fade-in-up">
+          <div class="feature-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          </div>
+          <h3>FEHB &amp; Medicare</h3>
+          <p>When to add Part B, what FEHB covers in retirement, the 5-year enrollment rule. Most federal employees get this wrong — this chapter walks through exactly what to do and when.</p>
+        </div>
+
+        <div class="feature-card" data-animate="fade-in-up">
+          <div class="feature-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <h3>FEGLI &amp; Survivor Benefits</h3>
+          <p>Which life insurance options to keep or drop, and what the survivor benefit election really costs. The survivor benefit math surprises most couples — read this before you sign anything.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Who This Is For -->
+  <section class="section section--gray">
+    <div class="container">
+      <div class="who-callout" data-animate="fade-in-up">
+        <div class="who-callout__inner">
+          <span class="eyebrow">Who This Is For</span>
+          <h2 class="heading-lg">No Sales Pitch. Just Answers.</h2>
+          <p class="lead">
+            This guide is for federal employees who want to understand their benefits without sitting through a sales pitch.
+          </p>
+          <ul class="who-list">
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              GS employees 5 to 15 years from retirement who want a head start on the math
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Law enforcement officers, firefighters, and ATC employees navigating special provisions
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Anyone who has stared at their benefits statement and felt genuinely confused
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Employees approaching MRA who want to know exactly what their retirement looks like
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Second CTA -->
+  <section class="section section--navy">
+    <div class="container">
+      <div class="second-cta" data-animate="fade-in-up">
+        <h2 class="heading-lg" style="color: var(--color-white);">Get Your Free Copy Now</h2>
+        <p class="lead" style="color: var(--color-gray-300); max-width: 40rem; margin: 0 auto var(--space-8);">
+          It takes 10 seconds. Enter your name and email and we'll send the PDF straight to your inbox.
+        </p>
+
+        <div class="capture-form capture-form--centered" id="bottom-form">
+          <form class="email-form email-form--centered" data-form="fers-guide">
+            <div class="form-row form-row--centered">
+              <div class="form-group">
+                <label for="first-name-bottom" class="form-label form-label--light">First Name</label>
+                <input
+                  type="text"
+                  id="first-name-bottom"
+                  name="first_name"
+                  class="form-input"
+                  placeholder="Your first name"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="email-bottom" class="form-label form-label--light">Email Address</label>
+                <input
+                  type="email"
+                  id="email-bottom"
+                  name="email"
+                  class="form-input"
+                  placeholder="your@email.gov"
+                  required
+                />
+              </div>
+              <div class="form-group form-group--btn">
+                <button type="submit" class="btn btn--primary btn--lg submit-btn">
+                  <span class="btn-text">Get the Free Guide</span>
+                  <span class="btn-loading" hidden>Sending...</span>
+                </button>
+              </div>
+            </div>
+            <p class="form-disclaimer form-disclaimer--light">No spam. Just your guide and occasional retirement insights.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const API_URL = 'https://pleasant-vision-production.up.railway.app/api/newsletter';
+
+  async function handleFormSubmit(form: HTMLFormElement) {
+    const firstNameInput = form.querySelector<HTMLInputElement>('[name="first_name"]');
+    const emailInput = form.querySelector<HTMLInputElement>('[name="email"]');
+    const submitBtn = form.querySelector<HTMLButtonElement>('.submit-btn');
+    const btnText = submitBtn?.querySelector<HTMLElement>('.btn-text');
+    const btnLoading = submitBtn?.querySelector<HTMLElement>('.btn-loading');
+
+    if (!firstNameInput || !emailInput || !submitBtn) return;
+
+    const firstName = firstNameInput.value.trim();
+    const email = emailInput.value.trim();
+
+    if (!firstName || !email) return;
+
+    // Loading state
+    submitBtn.disabled = true;
+    if (btnText) btnText.hidden = true;
+    if (btnLoading) btnLoading.hidden = false;
+
+    try {
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: firstName,
+          email: email,
+          source: 'fers-guide-landing-page',
+          timestamp: new Date().toISOString(),
+        }),
+      });
+
+      if (response.ok) {
+        // Redirect to PDF download on success
+        window.location.href = '/downloads/fers-retirement-guide.pdf';
+      } else {
+        throw new Error(`Server responded with ${response.status}`);
+      }
+    } catch (err) {
+      console.error('Form submission error:', err);
+      // Reset button on error
+      submitBtn.disabled = false;
+      if (btnText) btnText.hidden = false;
+      if (btnLoading) btnLoading.hidden = true;
+      alert('Something went wrong. Please try again or email us directly.');
+    }
+  }
+
+  document.querySelectorAll<HTMLFormElement>('.email-form').forEach((form) => {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      handleFormSubmit(form);
+    });
+  });
+</script>
+
+<style>
+  /* Hero */
+  .guide-hero {
+    background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%);
+    color: var(--color-white);
+    padding: var(--space-20) 0 var(--space-16);
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: var(--space-16);
+    align-items: center;
+  }
+
+  .hero-content .eyebrow {
+    color: var(--color-gold);
+    margin-bottom: var(--space-4);
+  }
+
+  .hero-content h1 {
+    color: var(--color-white);
+    margin-bottom: var(--space-4);
+  }
+
+  .hero-content .lead {
+    color: var(--color-gray-300);
+    margin-bottom: var(--space-8);
+  }
+
+  /* Guide cover image */
+  .hero-image {
+    display: flex;
+    justify-content: center;
+  }
+
+  .guide-cover-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+
+  .guide-cover {
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+    display: block;
+  }
+
+  .guide-badge {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    background: var(--color-gold);
+    color: var(--color-navy-dark);
+    font-family: var(--font-heading);
+    font-weight: var(--font-bold);
+    font-size: var(--text-sm);
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-full);
+    box-shadow: var(--shadow-md);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  /* Form */
+  .capture-form {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .form-label {
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--color-gray-300);
+  }
+
+  .form-input {
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--color-white);
+    font-size: var(--text-base);
+    font-family: var(--font-body);
+    transition: border-color var(--transition-fast);
+  }
+
+  .form-input::placeholder {
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: var(--color-gold);
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  .btn--full {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .form-disclaimer {
+    margin-top: var(--space-3);
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.45);
+    text-align: center;
+  }
+
+  /* Submit button loading state */
+  .submit-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  /* Features grid override for 2-col */
+  .features-grid {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  /* Who callout */
+  .who-callout {
+    max-width: 780px;
+    margin: 0 auto;
+  }
+
+  .who-callout__inner {
+    border: 2px solid var(--color-gold);
+    border-radius: var(--radius-lg);
+    padding: var(--space-10) var(--space-12);
+    background: var(--color-white);
+  }
+
+  .who-callout__inner .eyebrow {
+    margin-bottom: var(--space-2);
+  }
+
+  .who-callout__inner h2 {
+    margin-bottom: var(--space-4);
+  }
+
+  .who-callout__inner .lead {
+    margin-bottom: var(--space-6);
+    color: var(--color-gray-600);
+  }
+
+  .who-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .who-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    font-size: var(--text-base);
+    color: var(--color-gray-700);
+    line-height: 1.5;
+  }
+
+  .who-list li svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    color: var(--color-gold);
+    margin-top: 2px;
+  }
+
+  /* Second CTA */
+  .second-cta {
+    text-align: center;
+  }
+
+  .capture-form--centered {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .form-row--centered {
+    grid-template-columns: 1fr 1fr auto;
+    align-items: flex-end;
+    margin-bottom: 0;
+  }
+
+  .form-group--btn {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+
+  .form-label--light {
+    color: var(--color-gray-400);
+  }
+
+  .form-disclaimer--light {
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  /* Section gray */
+  .section--gray {
+    background: var(--color-gray-50);
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-image {
+      order: -1;
+    }
+
+    .guide-cover {
+      max-width: 320px;
+    }
+
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+
+    .form-row--centered {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .form-group--btn {
+      grid-column: 1 / -1;
+    }
+
+    .form-group--btn .btn {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .guide-hero {
+      padding: var(--space-12) 0 var(--space-10);
+    }
+
+    .who-callout__inner {
+      padding: var(--space-8) var(--space-6);
+    }
+
+    .features-grid {
+      grid-template-columns: 1fr !important;
+    }
+
+    .form-row--centered {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
