@@ -1,0 +1,8 @@
+[phases.setup]
+nixPkgs = ["python311", "pip"]
+
+[phases.install]
+cmds = ["cd execution && pip install -r requirements.txt"]
+
+[start]
+cmd = "cd execution && python webhook_server.py"
