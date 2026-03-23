@@ -1121,7 +1121,7 @@ const steps = [
           fbq('track', 'CompleteRegistration', { content_name: 'FERS Webinar' });
         }
 
-        // Newsletter opt-in (fire-and-forget)
+        // Newsletter opt-in (only fires if user checks the box — unchecked by default)
         const newsletterCheckbox = document.getElementById('newsletter-optin');
         if (newsletterCheckbox && newsletterCheckbox.checked && formData.email) {
           if (typeof gtag === 'function') {
@@ -1139,7 +1139,7 @@ const steps = [
               source: 'fers_webinar_optin',
               timestamp: new Date().toISOString()
             })
-          }).catch(err => console.error('Newsletter signup error:', err));
+          }).catch(function(err) { console.error('Newsletter signup error:', err); });
         }
       }
     }
