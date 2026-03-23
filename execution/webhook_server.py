@@ -39,6 +39,48 @@ def health():
     return {'status': 'ok', 'service': 'planwell-webhooks'}
 
 
+# --- Cron Endpoints (called by external cron service like cron-job.org) ---
+
+CRON_SECRET = os.environ.get('CRON_SECRET', 'planwell-cron-2026')
+
+
+@app.route('/cron/scheduler', methods=['GET', 'POST'])
+def cron_scheduler():
+    """Run the webinar nurture scheduler. Called hourly by external cron."""
+    from flask import request
+    if request.args.get('secret') != CRON_SECRET and request.headers.get('X-Cron-Secret') != CRON_SECRET:
+        return {'error': 'unauthorized'}, 401
+    try:
+        from webinar_nurture_scheduler import run_scheduler
+        result = run_scheduler()
+        return {'status': 'ok', 'result': str(result)}
+    except Exception as e:
+        print(f"Scheduler cron error: {e}")
+        import traceback
+        traceback.print_exc()
+        return {'status': 'error', 'error': str(e)}, 500
+
+
+@app.route('/cron/attendance-sync', methods=['GET', 'POST'])
+def cron_attendance_sync():
+    """Run attendance sync for the latest past webinar. Called daily by external cron."""
+    from flask import request
+    if request.args.get('secret') != CRON_SECRET and request.headers.get('X-Cron-Secret') != CRON_SECRET:
+        return {'error': 'unauthorized'}, 401
+    try:
+        from zoom_attendance_sync import get_latest_past_webinar, sync_attendance
+        webinar = get_latest_past_webinar()
+        if not webinar:
+            return {'status': 'ok', 'message': 'no past webinar found'}
+        result = sync_attendance(webinar['id'], webinar['date_str'], webinar_topic=webinar.get('topic', ''))
+        return {'status': 'ok', 'result': result}
+    except Exception as e:
+        print(f"Attendance sync cron error: {e}")
+        import traceback
+        traceback.print_exc()
+        return {'status': 'error', 'error': str(e)}, 500
+
+
 @app.route('/', methods=['GET'])
 def index():
     """Root endpoint with API info."""
@@ -49,6 +91,8 @@ def index():
             {'path': '/api/contact', 'method': 'POST', 'description': 'Contact form'},
             {'path': '/api/newsletter', 'method': 'POST', 'description': 'Newsletter subscription'},
             {'path': '/health', 'method': 'GET', 'description': 'Health check'},
+            {'path': '/cron/scheduler', 'method': 'GET', 'description': 'Run email scheduler (requires secret)'},
+            {'path': '/cron/attendance-sync', 'method': 'GET', 'description': 'Run attendance sync (requires secret)'},
         ]
     }
 
