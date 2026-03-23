@@ -9,6 +9,8 @@ Data Center: extracted from API key suffix (e.g., us21)
 """
 
 import os
+import json
+import hashlib
 import requests
 from dotenv import load_dotenv
 from pathlib import Path

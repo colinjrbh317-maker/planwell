@@ -56,17 +56,21 @@ Email_NoShowDay1_Sent, Email_NoShowDay5_Sent
 ## Post-Webinar Sequence (Attendees)
 | Trigger | Purpose |
 |---------|---------|
-| +1 day | Recording + slides download |
-| +3 days | Top 3 key takeaways (educational value) |
+| +1 day | Key takeaways summary + dual CTA (book call / next webinar) |
+| +3 days | Top 3 key takeaways deep dive (educational value) |
 | +7 days | Personalized Benefits Report offer → book call |
 | +10 days | Case study success story |
 | +14 days | Soft close — book free 30-min call |
 
+**Note:** No recordings are shared post-webinar. This is a deliberate business decision to maintain urgency and encourage live attendance.
+
 ## Non-Attendee Re-engagement
 | Trigger | Purpose |
 |---------|---------|
-| +1 day | "We missed you" + recording link |
+| +1 day | "Here's what you missed" summary + dual CTA (book call / next webinar) |
 | +5 days | Next webinar pre-registration |
+
+**Note:** No recordings are shared with no-shows. Instead, content summary drives them to book a call or register for the next live session.
 
 ## Newsletter → Webinar Funnel
 | Trigger | Purpose |
@@ -100,3 +104,4 @@ SMTP retained for transactional-only emails.
 - 2025-12-22: Initial creation
 - 2026-03-19: Added post-webinar, re-engagement, and newsletter funnel sequences
 - 2026-03-19: Added Mailchimp migration plan and tag system
+- 2026-03-22: Removed all recording references from post-webinar emails (business decision: no recordings shared to maintain live attendance urgency)

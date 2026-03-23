@@ -432,13 +432,16 @@ def get_ad_library_ads(search_terms, country='US'):
         return []
 
 
-def build_targeting(age_min=40, age_max=62, interests=None, custom_audiences=None, lookalike_source=None):
+def build_targeting(interests=None, custom_audiences=None, lookalike_source=None):
     """
     Build a targeting dict for ad sets.
 
+    # Meta prohibits age targeting for financial services companies
+    # (Special Ad Category restriction). Age parameters have been removed.
+    # Workaround: Use Advantage+ (AI targeting) which leverages existing
+    # conversion data without explicit demographic targeting.
+
     Args:
-        age_min: Minimum age (default 40 for federal retirement audience)
-        age_max: Maximum age (default 62)
         interests: List of interest dicts [{'id': '...', 'name': '...'}]
         custom_audiences: List of custom audience IDs
         lookalike_source: Source audience ID for lookalike creation
@@ -447,8 +450,6 @@ def build_targeting(age_min=40, age_max=62, interests=None, custom_audiences=Non
         dict formatted for Meta targeting API
     """
     targeting = {
-        'age_min': age_min,
-        'age_max': age_max,
         'geo_locations': {
             'countries': ['US'],
         },
@@ -472,6 +473,27 @@ FEDERAL_EMPLOYEE_INTERESTS = [
     {'id': '6003139266461', 'name': 'Federal government of the United States'},
     {'id': '6003384248805', 'name': 'Retirement planning'},
     {'id': '6003020834693', 'name': 'Government employee'},
+    {'name': 'Office of Personnel Management'},
+    {'name': 'Government Accountability Office'},
+    {'name': 'Military retirement'},
+    {'name': 'Federal Employee Retirement System'},
+    {'name': 'Civil Service Retirement System'},
+    {'name': 'Federal Employees Health Benefits'},
+    {'name': 'United States federal civil service'},
+]
+
+# Employer-name keywords for profile-based targeting
+FEDERAL_EMPLOYER_KEYWORDS = [
+    'Department of Defense',
+    'Department of Veterans Affairs',
+    'Department of Homeland Security',
+    'Internal Revenue Service',
+    'Social Security Administration',
+    'Department of Justice',
+    'Federal Bureau of Investigation',
+    'National Aeronautics and Space Administration',
+    'Department of State',
+    'Department of the Treasury',
 ]
 
 

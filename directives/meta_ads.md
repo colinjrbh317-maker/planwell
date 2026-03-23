@@ -14,10 +14,43 @@ Manage Meta (Facebook/Instagram) ad campaigns for PlanWell webinar registration 
 - `direct-response-copy` skill — Ad copy
 - `marketing-psychology` skill — Hook selection
 
+## Age Targeting Restriction
+
+**Meta prohibits age-based targeting for financial services companies** (Special Ad Category). All ad sets must omit `age_min` and `age_max` parameters. The `build_targeting()` function in `meta_ads_client.py` has been updated accordingly.
+
+**Workaround:** Use Advantage+ (AI targeting) which leverages existing conversion data without explicit demographic targeting. Meta's algorithm will optimize delivery based on conversion patterns from the Pixel and custom audiences.
+
 ## Audience Targeting Presets
 
 ### Cold - Interest
-Ages 40-62. Interests: "federal government", "Thrift Savings Plan", "FERS", "Federal Employees Retirement System", "government employees", "retirement planning", "OPM". Exclude: current clients (custom audience).
+Location: United States. No age targeting (prohibited for financial services).
+
+**Interest Targeting:**
+- Federal government of the United States
+- Thrift Savings Plan
+- Federal Employees Retirement System
+- Office of Personnel Management
+- Government Accountability Office
+- Military retirement
+- Civil Service Retirement System
+- Federal Employees Health Benefits
+- United States federal civil service
+- Government employees
+- Retirement planning
+
+**Employer Keyword Targeting (profile-based):**
+- Department of Defense
+- Department of Veterans Affairs
+- Department of Homeland Security
+- Internal Revenue Service
+- Social Security Administration
+- Department of Justice
+- Federal Bureau of Investigation
+- National Aeronautics and Space Administration
+- Department of State
+- Department of the Treasury
+
+Exclude: current clients (custom audience).
 
 ### Cold - Lookalike
 1% lookalike of Mailchimp subscriber list.
@@ -126,4 +159,5 @@ META_PAGE_ID
 - **Ad rejection**: Review Meta policies, adjust copy/imagery, resubmit
 
 ## Updates Log
+- 2026-03-22: Removed age targeting (Meta financial services restriction), expanded interest + employer keyword lists
 - 2026-03-19: Initial creation

@@ -28,12 +28,12 @@ from webinar_emails import (
     send_webinar_dayof
 )
 from post_webinar_emails import (
-    send_post_day1_recording,
+    send_post_day1_takeaways,
     send_post_day3_takeaways,
     send_post_day7_benefits_report,
     send_post_day10_case_study,
     send_post_day14_soft_close,
-    send_noshow_day1_recording,
+    send_noshow_day1_missed,
     send_noshow_day5_next_webinar
 )
 
@@ -171,16 +171,18 @@ def run_scheduler():
             if days < 0:
                 since = days_since_webinar(webinar_date)
                 attended = reg.get('attended', '').strip().lower() == 'yes'
-                recording_url = reg.get('recording_url', '')
+                next_info = NEXT_WEBINAR_DATES.get(webinar_id, {})
+                next_date = next_info.get('date', '')
+                next_url = next_info.get('url', 'https://planwellfp.com/webinar')
 
                 if attended:
                     # Attendee track
-                    if since >= 1 and not reg.get('email_postday1_sent') and recording_url:
-                        print(f"    Sending post-day-1 recording (attendee)...")
-                        if send_post_day1_recording(email, first_name, recording_url):
+                    if since >= 1 and not reg.get('email_postday1_sent'):
+                        print(f"    Sending post-day-1 takeaways (attendee)...")
+                        if send_post_day1_takeaways(email, first_name, next_date, next_url):
                             sheets.update_email_sent(row_num, 'Email_PostDay1_Sent')
                             emails_sent += 1
-                            print(f"    Sent post-day-1 recording")
+                            print(f"    Sent post-day-1 takeaways")
 
                     elif since >= 3 and not reg.get('email_postday3_sent'):
                         print(f"    Sending post-day-3 takeaways...")
@@ -217,17 +219,14 @@ def run_scheduler():
 
                 else:
                     # No-show track
-                    if since >= 1 and not reg.get('email_noshowday1_sent') and recording_url:
-                        print(f"    Sending no-show day-1 recording...")
-                        if send_noshow_day1_recording(email, first_name, recording_url):
+                    if since >= 1 and not reg.get('email_noshowday1_sent'):
+                        print(f"    Sending no-show day-1 missed...")
+                        if send_noshow_day1_missed(email, first_name, next_date, next_url):
                             sheets.update_email_sent(row_num, 'Email_NoShowDay1_Sent')
                             emails_sent += 1
-                            print(f"    Sent no-show day-1 recording")
+                            print(f"    Sent no-show day-1 missed")
 
                     elif since >= 5 and not reg.get('email_noshowday5_sent'):
-                        next_info = NEXT_WEBINAR_DATES.get(webinar_id, {})
-                        next_date = next_info.get('date', '')
-                        next_url = next_info.get('url', 'https://planwellfp.com/webinar')
                         if next_date and next_date != 'TBD':
                             print(f"    Sending no-show day-5 next webinar...")
                             if send_noshow_day5_next_webinar(email, first_name, next_date, next_url):

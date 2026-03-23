@@ -5,39 +5,39 @@ HTML email templates for the post-webinar nurture sequence.
 Covers both attendees and no-shows with separate tracks.
 
 Usage:
-    from post_webinar_emails import send_post_day1_recording, send_noshow_day1_recording, ...
+    from post_webinar_emails import send_post_day1_takeaways, send_noshow_day1_missed, ...
 """
 
 from email_sender import send_email
 
 
-def send_post_day1_recording(to_email: str, first_name: str, recording_url: str,
-                              slides_url: str = None) -> bool:
+def send_post_day1_takeaways(to_email: str, first_name: str,
+                              next_webinar_date: str = '', registration_url: str = 'https://planwellfp.com/webinar') -> bool:
     """
-    Day 1 post-webinar: Send recording and slides to attendees.
+    Day 1 post-webinar: Key takeaways and dual CTA (book call + next webinar).
+    No recording shared — business decision to maintain urgency.
     """
-    subject = "Your FERS Workshop recording is ready"
+    subject = "Key Insights from Yesterday's FERS Workshop"
 
-    slides_plain = f"\nSlides: {slides_url}" if slides_url else ""
-    slides_html = f"""
-            <p style="text-align: center; margin-top: 10px;">
-                <a href="{slides_url}" style="color: #c9a55c; text-decoration: underline; font-size: 16px;">Download Workshop Slides</a>
-            </p>""" if slides_url else ""
+    next_webinar_plain = f"\nRegister for the next workshop ({next_webinar_date}): {registration_url}" if next_webinar_date else ""
+
+    next_webinar_btn = f"""
+                <a href="{registration_url}" style="display: inline-block; background: transparent; color: #c9a55c; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; margin: 10px 0; border: 2px solid #c9a55c;">Register for Next Workshop ({next_webinar_date})</a>""" if next_webinar_date else ""
 
     plain_body = f"""Hi {first_name},
 
-Thanks for joining the FERS Retirement Workshop! Here's your recording to review anytime.
+Thanks for joining the FERS Retirement Workshop! Here are the three biggest takeaways from yesterday's session:
 
-Recording: {recording_url}{slides_plain}
+1. Your FERS pension is likely worth $1M+ over your retirement. Small moves in your final years — like maximizing your High-3 — can add tens of thousands to your lifetime benefit.
 
-A few things that came up during Q&A that are worth revisiting:
-- The FERS supplement bridge and when it ends
-- TSP withdrawal strategies in retirement
-- FEHB vs. Medicare Part B timing
+2. TSP withdrawal timing can save you thousands in taxes. The order and timing of withdrawals from your TSP, Social Security, and pension can dramatically reduce your tax burden in retirement.
 
-Over the next couple of weeks, we'll send you some key takeaways and resources from the workshop.
+3. FEHB decisions must be made before age 65. If you're planning to coordinate FEHB with Medicare, the enrollment rules have firm deadlines that catch many federal employees off guard.
 
-If anything sparked questions about your specific situation, just reply to this email.
+Over the next couple of weeks, we'll dig deeper into each of these topics.
+
+If any of these hit close to home and you'd like to talk through your specific numbers, book a free 30-minute call:
+https://planwellfp.com/book-call{next_webinar_plain}
 
 Best,
 The PlanWell Team
@@ -57,35 +57,40 @@ planwellfp.com
         .header {{ background: linear-gradient(135deg, #1e3a5f 0%, #152a45 100%); color: white; padding: 30px; text-align: center; }}
         .header h1 {{ margin: 0; font-size: 24px; }}
         .content {{ padding: 30px; background: #ffffff; }}
-        .recording-box {{ background: #f8f9fa; border-left: 4px solid #c9a55c; padding: 20px; margin: 20px 0; text-align: center; }}
-        .watch-btn {{ display: inline-block; background: linear-gradient(135deg, #c9a55c 0%, #a88a44 100%); color: #152a45; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 18px; margin: 10px 0; }}
-        .topics {{ background: #e8f4f8; padding: 20px; border-radius: 8px; margin: 20px 0; }}
-        .topics h3 {{ color: #1e3a5f; margin-top: 0; }}
+        .takeaway-box {{ background: #f8f9fa; border-left: 4px solid #c9a55c; padding: 20px; margin: 20px 0; }}
+        .takeaway-box h3 {{ color: #1e3a5f; margin-top: 0; }}
+        .takeaway-box ol {{ margin: 0; padding-left: 20px; }}
+        .takeaway-box li {{ margin: 12px 0; }}
+        .cta-box {{ text-align: center; margin: 30px 0; }}
+        .book-btn {{ display: inline-block; background: linear-gradient(135deg, #c9a55c 0%, #a88a44 100%); color: #152a45; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 18px; margin: 10px 0; }}
         .footer {{ text-align: center; padding: 20px; color: #666; font-size: 14px; background: #f8f9fa; }}
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>Your Workshop Recording</h1>
+            <h1>Key Insights from Your Workshop</h1>
         </div>
         <div class="content">
             <p>Hi {first_name},</p>
-            <p>Thanks for joining the <strong>FERS Retirement Workshop</strong>! Here's your recording to review anytime.</p>
+            <p>Thanks for joining the <strong>FERS Retirement Workshop</strong>! Here are the three biggest takeaways from yesterday's session:</p>
 
-            <div class="recording-box">
-                <a href="{recording_url}" class="watch-btn">Watch Recording</a>{slides_html}
+            <div class="takeaway-box">
+                <ol>
+                    <li><strong>Your FERS pension is likely worth $1M+</strong> over your retirement. Small moves in your final years — like maximizing your High-3 — can add tens of thousands to your lifetime benefit.</li>
+                    <li><strong>TSP withdrawal timing can save you thousands in taxes.</strong> The order and timing of withdrawals from your TSP, Social Security, and pension can dramatically reduce your tax burden in retirement.</li>
+                    <li><strong>FEHB decisions must be made before age 65.</strong> If you're planning to coordinate FEHB with Medicare, the enrollment rules have firm deadlines that catch many federal employees off guard.</li>
+                </ol>
             </div>
 
-            <div class="topics">
-                <h3>Worth revisiting from the Q&A:</h3>
-                <p>- The FERS supplement bridge and when it ends</p>
-                <p>- TSP withdrawal strategies in retirement</p>
-                <p>- FEHB vs. Medicare Part B timing</p>
+            <p>Over the next couple of weeks, we'll dig deeper into each of these topics.</p>
+            <p>If any of these hit close to home and you'd like to talk through your specific numbers:</p>
+
+            <div class="cta-box">
+                <a href="https://planwellfp.com/book-call" class="book-btn">Book a Free Call</a>
+                <br>{next_webinar_btn}
             </div>
 
-            <p>Over the next couple of weeks, we'll send you some key takeaways and resources from the workshop.</p>
-            <p>If anything sparked questions about your specific situation, just reply to this email.</p>
             <p>Best,<br>The PlanWell Team</p>
         </div>
         <div class="footer">
@@ -484,30 +489,35 @@ planwellfp.com
     return send_email(to_email, subject, plain_body, html_body)
 
 
-def send_noshow_day1_recording(to_email: str, first_name: str, recording_url: str) -> bool:
+def send_noshow_day1_missed(to_email: str, first_name: str,
+                            next_webinar_date: str = '', registration_url: str = 'https://planwellfp.com/webinar') -> bool:
     """
-    Day 1 no-show: Send recording with empathetic tone.
+    Day 1 no-show: Summarize what they missed, dual CTA.
+    No recording shared — business decision to maintain urgency.
     """
-    subject = "We missed you! Here's the FERS Workshop recording"
+    subject = "Here's What You Missed at the FERS Workshop"
+
+    next_webinar_plain = f"\nRegister for the next workshop ({next_webinar_date}): {registration_url}" if next_webinar_date else ""
+
+    next_webinar_btn = f"""
+                <a href="{registration_url}" style="display: inline-block; background: transparent; color: #c9a55c; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; margin: 10px 0; border: 2px solid #c9a55c;">Register for Next Workshop ({next_webinar_date})</a>""" if next_webinar_date else ""
 
     plain_body = f"""Hi {first_name},
 
 We missed you at the FERS Retirement Workshop! Life happens -- no worries at all.
 
-The good news: we recorded the entire 3-hour workshop, and it's yours to watch at your convenience.
+Here's a quick summary of what was covered so you know what you missed:
 
-Watch the recording: {recording_url}
+1. FERS Pension Optimization — We walked through how your High-3 salary, years of service, and retirement age interact to determine your pension. Most attendees were surprised to learn their pension could be worth over $1M in lifetime payments.
 
-What you'll learn:
-- Your FERS pension calculation and optimization strategies
-- TSP withdrawal options and tax implications
-- FEHB and Medicare coordination
-- The FERS supplement (most people don't know about this)
-- Survivor benefit decisions that could cost you thousands
+2. TSP Withdrawal Strategies — We covered the tax implications of different withdrawal orders and how timing your TSP distributions with Social Security can save thousands in taxes.
 
-The recording is available for 30 days. We recommend watching within the next week while the topics are fresh.
+3. FEHB + Medicare Coordination — We explained the critical deadlines around age 65 that determine whether you can keep your federal health benefits alongside Medicare. Missing these deadlines can be costly.
 
-Have questions after watching? Just reply to this email.
+The good news: we run these workshops regularly, and you're welcome to join the next one.
+
+Book a free 30-minute call to discuss your situation:
+https://planwellfp.com/book-call{next_webinar_plain}
 
 Best,
 The PlanWell Team
@@ -527,46 +537,40 @@ planwellfp.com
         .header {{ background: linear-gradient(135deg, #1e3a5f 0%, #152a45 100%); color: white; padding: 30px; text-align: center; }}
         .header h1 {{ margin: 0; font-size: 24px; }}
         .content {{ padding: 30px; background: #ffffff; }}
-        .recording-box {{ background: #f8f9fa; border-left: 4px solid #c9a55c; padding: 20px; margin: 20px 0; text-align: center; }}
-        .watch-btn {{ display: inline-block; background: linear-gradient(135deg, #c9a55c 0%, #a88a44 100%); color: #152a45; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 18px; margin: 10px 0; }}
         .topics {{ background: #e8f4f8; padding: 20px; border-radius: 8px; margin: 20px 0; }}
         .topics h3 {{ color: #1e3a5f; margin-top: 0; }}
-        .topics ul {{ margin: 0; padding-left: 20px; }}
-        .topics li {{ margin: 8px 0; }}
-        .note {{ background: #fff3cd; padding: 15px; border-radius: 8px; margin: 20px 0; }}
+        .topics ol {{ margin: 0; padding-left: 20px; }}
+        .topics li {{ margin: 12px 0; }}
+        .cta-box {{ text-align: center; margin: 30px 0; }}
+        .book-btn {{ display: inline-block; background: linear-gradient(135deg, #c9a55c 0%, #a88a44 100%); color: #152a45; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 18px; margin: 10px 0; }}
         .footer {{ text-align: center; padding: 20px; color: #666; font-size: 14px; background: #f8f9fa; }}
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>We Saved You a Seat</h1>
+            <h1>Here's What You Missed</h1>
         </div>
         <div class="content">
             <p>Hi {first_name},</p>
-            <p>We missed you at the FERS Retirement Workshop! Life happens -- no worries at all.</p>
-            <p>The good news: we recorded the entire 3-hour workshop, and it's yours to watch at your convenience.</p>
-
-            <div class="recording-box">
-                <a href="{recording_url}" class="watch-btn">Watch the Recording</a>
-            </div>
+            <p>We missed you at the <strong>FERS Retirement Workshop</strong>! Life happens -- no worries at all.</p>
+            <p>Here's a quick summary of what was covered:</p>
 
             <div class="topics">
-                <h3>What you'll learn:</h3>
-                <ul>
-                    <li>Your FERS pension calculation and optimization strategies</li>
-                    <li>TSP withdrawal options and tax implications</li>
-                    <li>FEHB and Medicare coordination</li>
-                    <li>The FERS supplement (most people don't know about this)</li>
-                    <li>Survivor benefit decisions that could cost you thousands</li>
-                </ul>
+                <ol>
+                    <li><strong>FERS Pension Optimization</strong> — We walked through how your High-3 salary, years of service, and retirement age interact. Most attendees were surprised to learn their pension could be worth over $1M in lifetime payments.</li>
+                    <li><strong>TSP Withdrawal Strategies</strong> — We covered the tax implications of different withdrawal orders and how timing your TSP distributions with Social Security can save thousands.</li>
+                    <li><strong>FEHB + Medicare Coordination</strong> — We explained the critical deadlines around age 65 for keeping federal health benefits alongside Medicare. Missing these can be costly.</li>
+                </ol>
             </div>
 
-            <div class="note">
-                <strong>The recording is available for 30 days.</strong> We recommend watching within the next week while the topics are fresh.
+            <p>The good news: we run these workshops regularly, and you're welcome to join the next one.</p>
+
+            <div class="cta-box">
+                <a href="https://planwellfp.com/book-call" class="book-btn">Book a Free Call</a>
+                <br>{next_webinar_btn}
             </div>
 
-            <p>Have questions after watching? Just reply to this email.</p>
             <p>Best,<br>The PlanWell Team</p>
         </div>
         <div class="footer">
@@ -675,13 +679,13 @@ if __name__ == '__main__':
     # Test email templates (will print to console if SMTP not configured)
     print("Testing post-webinar email templates...")
 
-    send_post_day1_recording(
+    send_post_day1_takeaways(
         to_email="test@example.com",
         first_name="John",
-        recording_url="https://zoom.us/rec/share/abc123",
-        slides_url="https://planwellfp.com/slides/fers-workshop.pdf"
+        next_webinar_date="Friday, April 10",
+        registration_url="https://planwellfp.com/webinar"
     )
-    print("  Day 1 recording template ready")
+    print("  Day 1 takeaways template ready")
 
     send_post_day3_takeaways(
         to_email="test@example.com",
@@ -710,12 +714,13 @@ if __name__ == '__main__':
     )
     print("  Day 14 soft close template ready")
 
-    send_noshow_day1_recording(
+    send_noshow_day1_missed(
         to_email="test@example.com",
         first_name="John",
-        recording_url="https://zoom.us/rec/share/abc123"
+        next_webinar_date="Friday, April 10",
+        registration_url="https://planwellfp.com/webinar"
     )
-    print("  No-show day 1 recording template ready")
+    print("  No-show day 1 missed template ready")
 
     send_noshow_day5_next_webinar(
         to_email="test@example.com",
