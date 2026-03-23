@@ -78,10 +78,32 @@ def handle_webinar_registration():
         # Format date for human-readable display in emails
         # "2026-04-10T15:00:00.000Z" → "Thursday, April 10"
         formatted_date = webinar_date_str
+        google_cal_url = ''
         try:
-            from datetime import datetime
+            from datetime import datetime, timedelta
+            from urllib.parse import quote
             dt = datetime.fromisoformat(webinar_date_str.replace('Z', '+00:00'))
-            formatted_date = dt.strftime('%A, %B %d').replace(' 0', ' ')  # "Thursday, April 10"
+            formatted_date = dt.strftime('%A, %B %d').replace(' 0', ' ')
+
+            # Build Google Calendar URL
+            if webinar_type == 'tsp':
+                cal_title = 'TSP Investment Strategies Workshop — PlanWell'
+                cal_duration = timedelta(hours=1)
+                cal_desc = 'Free 1-hour TSP workshop with David Fei, CFP. Covers fund allocation, Roth TSP, withdrawal strategies. Join via Zoom.'
+            else:
+                cal_title = 'FERS Retirement Workshop — PlanWell'
+                cal_duration = timedelta(hours=3)
+                cal_desc = 'Free 3-hour FERS workshop with Brennan Rhule and David Fei. Covers pension, TSP, FEHB, FEGLI, survivor benefits. Join via Zoom.'
+
+            start_str = dt.strftime('%Y%m%dT%H%M%SZ')
+            end_str = (dt + cal_duration).strftime('%Y%m%dT%H%M%SZ')
+            google_cal_url = (
+                f'https://calendar.google.com/calendar/render?action=TEMPLATE'
+                f'&text={quote(cal_title)}'
+                f'&dates={start_str}/{end_str}'
+                f'&details={quote(cal_desc)}'
+                f'&location={quote("Online via Zoom")}'
+            )
         except Exception:
             formatted_date = webinar_date_str[:10] if webinar_date_str else 'TBD'
         if webinar_date_str:
@@ -133,10 +155,10 @@ def handle_webinar_registration():
         try:
             if webinar_type == 'tsp':
                 from tsp_webinar_emails import send_tsp_confirmation
-                confirmation_sent = send_tsp_confirmation(email, first_name, formatted_date, 'ET')
+                confirmation_sent = send_tsp_confirmation(email, first_name, formatted_date, 'ET', calendar_link=google_cal_url)
             else:
                 from webinar_emails import send_webinar_confirmation
-                confirmation_sent = send_webinar_confirmation(email, first_name, formatted_date, 'ET')
+                confirmation_sent = send_webinar_confirmation(email, first_name, formatted_date, 'ET', calendar_link=google_cal_url)
 
             if confirmation_sent:
                 print(f"Confirmation email sent: {email} (type={webinar_type})")
