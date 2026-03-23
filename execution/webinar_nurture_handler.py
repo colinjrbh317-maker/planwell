@@ -74,6 +74,16 @@ def handle_webinar_registration():
         # --- Step 1: Register in Zoom ---
         zoom_result = {'success': False, 'join_url': ''}
         webinar_date_str = data.get('webinar_date', '')
+
+        # Format date for human-readable display in emails
+        # "2026-04-10T15:00:00.000Z" → "Thursday, April 10"
+        formatted_date = webinar_date_str
+        try:
+            from datetime import datetime
+            dt = datetime.fromisoformat(webinar_date_str.replace('Z', '+00:00'))
+            formatted_date = dt.strftime('%A, %B %d').replace(' 0', ' ')  # "Thursday, April 10"
+        except Exception:
+            formatted_date = webinar_date_str[:10] if webinar_date_str else 'TBD'
         if webinar_date_str:
             # Extract date portion for matching (e.g., "2026-02-27")
             target_date = webinar_date_str[:10]
@@ -123,10 +133,10 @@ def handle_webinar_registration():
         try:
             if webinar_type == 'tsp':
                 from tsp_webinar_emails import send_tsp_confirmation
-                confirmation_sent = send_tsp_confirmation(email, first_name, webinar_date_str, 'ET')
+                confirmation_sent = send_tsp_confirmation(email, first_name, formatted_date, 'ET')
             else:
                 from webinar_emails import send_webinar_confirmation
-                confirmation_sent = send_webinar_confirmation(email, first_name, webinar_date_str, 'ET')
+                confirmation_sent = send_webinar_confirmation(email, first_name, formatted_date, 'ET')
 
             if confirmation_sent:
                 print(f"Confirmation email sent: {email} (type={webinar_type})")
