@@ -1030,29 +1030,41 @@ const steps = [
       updateProgress();
     }
     
-    async function submitToWebhook(data) {
-      try {
-        const response = await fetch(WEBINAR_WEBHOOK_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            ...data,
-            webinar_id: webinarData.id,
-            webinar_date: webinarData.date,
-            submitted_at: new Date().toISOString(),
-            source: 'webinar_registration'
-          })
-        });
+    async function submitToWebhook(data, retries = 2) {
+      const payload = {
+        ...data,
+        webinar_id: webinarData.id,
+        webinar_date: webinarData.date,
+        submitted_at: new Date().toISOString(),
+        source: 'webinar_registration'
+      };
 
-        if (response.ok) {
-          const result = await response.json();
-          console.log('Webinar registration submitted:', result);
+      for (let attempt = 0; attempt <= retries; attempt++) {
+        try {
+          const response = await fetch(WEBINAR_WEBHOOK_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+
+          if (response.ok) {
+            const result = await response.json();
+            console.log('Webinar registration submitted:', result);
+            if (result.zoom_registered) {
+              return { success: true, zoomRegistered: true };
+            }
+            // Webhook responded but Zoom registration failed
+            console.warn('Webhook OK but Zoom registration failed:', result);
+            return { success: true, zoomRegistered: false };
+          }
+          console.warn(`Webhook attempt ${attempt + 1} failed: ${response.status}`);
+        } catch (error) {
+          console.warn(`Webhook attempt ${attempt + 1} error:`, error.message);
         }
-        return true;
-      } catch (error) {
-        console.error('Webhook submission error:', error);
-        return false;
       }
+      // All retries exhausted
+      console.error('All webhook attempts failed');
+      return { success: false, zoomRegistered: false };
     }
     
     function nextStep() {
@@ -1085,7 +1097,16 @@ const steps = [
           phone: formData.phone || ''
         };
         console.log('Webinar registration submitted:', submitData);
-        submitToWebhook(submitData);
+        submitToWebhook(submitData).then(function(result) {
+          if (!result.success) {
+            // Show a subtle warning on the success screen
+            var warn = document.createElement('p');
+            warn.style.cssText = 'color: #ffa500; font-size: 0.9rem; margin-top: 1rem;';
+            warn.textContent = 'Note: There was a connection issue. You may not have received a confirmation email. Please check your inbox, and if you don\'t see one within a few minutes, try registering again.';
+            var successContent = document.querySelector('.step-content--success');
+            if (successContent) successContent.appendChild(warn);
+          }
+        });
 
         // GA4 + FB conversion events
         if (typeof gtag === 'function') {
