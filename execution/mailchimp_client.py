@@ -589,6 +589,168 @@ def update_member_merge_fields(email, merge_fields):
         return {'success': False, 'error': str(e)}
 
 
+def send_email_via_mailchimp(to_email, subject, html_body, from_name='PlanWell Financial Planning', reply_to='info@planwellfp.com'):
+    """
+    Send a single email to one subscriber via Mailchimp campaign API.
+
+    Creates a campaign targeted to one subscriber, sets the HTML content, and sends immediately.
+    This replaces SMTP sending — all emails go through Mailchimp for better tracking and deliverability.
+
+    Args:
+        to_email: Recipient email (must be a subscriber in the Mailchimp list)
+        subject: Email subject line
+        html_body: Full HTML email content
+        from_name: Sender name (default: PlanWell Financial Planning)
+        reply_to: Reply-to email (default: info@planwellfp.com)
+
+    Returns:
+        bool: True if sent successfully, False otherwise
+    """
+    segment_id = None
+    campaign_id = None
+
+    # Step 1: Create a temporary static segment for the single recipient
+    segment_name = f"temp-send-{hashlib.md5(to_email.lower().encode()).hexdigest()[:8]}"
+    segment_url = f'{BASE_URL}/lists/{MAILCHIMP_LIST_ID}/segments'
+    segment_payload = {
+        'name': segment_name,
+        'static_segment': [to_email],
+    }
+
+    try:
+        resp = requests.post(segment_url, json=segment_payload, headers=_headers(), timeout=10)
+        if resp.status_code != 200:
+            print(f'Mailchimp segment creation failed: {resp.status_code} - {resp.text}')
+            return False
+        segment_id = resp.json().get('id')
+        print(f'Created temp segment {segment_id} for {to_email}')
+    except Exception as e:
+        print(f'Mailchimp segment creation error: {e}')
+        return False
+
+    # Step 2: Create a campaign targeting that segment
+    campaign_url = f'{BASE_URL}/campaigns'
+    campaign_payload = {
+        'type': 'regular',
+        'recipients': {
+            'list_id': MAILCHIMP_LIST_ID,
+            'segment_opts': {
+                'saved_segment_id': segment_id,
+            },
+        },
+        'settings': {
+            'subject_line': subject,
+            'from_name': from_name,
+            'reply_to': reply_to,
+            'to_name': '*|FNAME|*',
+        },
+    }
+
+    try:
+        resp = requests.post(campaign_url, json=campaign_payload, headers=_headers(), timeout=10)
+        if resp.status_code != 200:
+            print(f'Mailchimp campaign creation failed: {resp.status_code} - {resp.text}')
+            _cleanup_segment(segment_id)
+            return False
+        campaign_id = resp.json().get('id')
+        print(f'Created campaign {campaign_id}')
+    except Exception as e:
+        print(f'Mailchimp campaign creation error: {e}')
+        _cleanup_segment(segment_id)
+        return False
+
+    # Step 3: Set the campaign content
+    content_url = f'{BASE_URL}/campaigns/{campaign_id}/content'
+    content_payload = {
+        'html': html_body,
+    }
+
+    try:
+        resp = requests.put(content_url, json=content_payload, headers=_headers(), timeout=10)
+        if resp.status_code != 200:
+            print(f'Mailchimp content set failed: {resp.status_code} - {resp.text}')
+            _cleanup_campaign_and_segment(campaign_id, segment_id)
+            return False
+        print(f'Campaign content set')
+    except Exception as e:
+        print(f'Mailchimp content set error: {e}')
+        _cleanup_campaign_and_segment(campaign_id, segment_id)
+        return False
+
+    # Step 4: Send the campaign
+    send_url = f'{BASE_URL}/campaigns/{campaign_id}/actions/send'
+
+    try:
+        resp = requests.post(send_url, headers=_headers(), timeout=30)
+        if resp.status_code != 204:
+            print(f'Mailchimp send failed: {resp.status_code} - {resp.text}')
+            _cleanup_campaign_and_segment(campaign_id, segment_id)
+            return False
+        print(f'Campaign sent to {to_email}')
+    except Exception as e:
+        print(f'Mailchimp send error: {e}')
+        _cleanup_campaign_and_segment(campaign_id, segment_id)
+        return False
+
+    # Step 5: Clean up the temporary segment
+    _cleanup_segment(segment_id)
+
+    return True
+
+
+def _cleanup_segment(segment_id):
+    """Delete a temporary segment. Best-effort, errors are logged but not raised."""
+    if not segment_id:
+        return
+    try:
+        url = f'{BASE_URL}/lists/{MAILCHIMP_LIST_ID}/segments/{segment_id}'
+        resp = requests.delete(url, headers=_headers(), timeout=10)
+        if resp.status_code == 204:
+            print(f'Cleaned up temp segment {segment_id}')
+        else:
+            print(f'Segment cleanup returned {resp.status_code} (non-fatal)')
+    except Exception as e:
+        print(f'Segment cleanup error (non-fatal): {e}')
+
+
+def _cleanup_campaign_and_segment(campaign_id, segment_id):
+    """Delete a campaign and its temporary segment. Best-effort cleanup."""
+    if campaign_id:
+        try:
+            url = f'{BASE_URL}/campaigns/{campaign_id}'
+            resp = requests.delete(url, headers=_headers(), timeout=10)
+            if resp.status_code == 204:
+                print(f'Cleaned up campaign {campaign_id}')
+            else:
+                print(f'Campaign cleanup returned {resp.status_code} (non-fatal)')
+        except Exception as e:
+            print(f'Campaign cleanup error (non-fatal): {e}')
+    _cleanup_segment(segment_id)
+
+
+def send_email(to_email, subject, body, html_body=None):
+    """
+    Drop-in replacement for email_sender.send_email().
+    Routes through Mailchimp API instead of SMTP.
+    Falls back to plain text wrapped in HTML if no html_body provided.
+
+    Args:
+        to_email: Recipient email address
+        subject: Email subject line
+        body: Plain text body (used if html_body is None)
+        html_body: Optional HTML body (preferred)
+
+    Returns:
+        bool: True if sent successfully, False otherwise
+    """
+    if html_body:
+        return send_email_via_mailchimp(to_email, subject, html_body)
+    else:
+        safe_body = body.replace('\n', '<br>')
+        simple_html = f'<html><body style="font-family:Arial,sans-serif;font-size:15px;color:#333;">{safe_body}</body></html>'
+        return send_email_via_mailchimp(to_email, subject, simple_html)
+
+
 if __name__ == '__main__':
     """Test: show audience stats and recent campaigns."""
     import sys

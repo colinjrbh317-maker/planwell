@@ -20,14 +20,46 @@ load_dotenv(Path(__file__).parent.parent / '.env')
 
 def send_email(to_email: str, subject: str, body: str, html_body: str = None) -> bool:
     """
-    Send an email via SMTP.
-    
+    Send email via Mailchimp API. Falls back to SMTP if Mailchimp fails.
+
     Args:
         to_email: Recipient email address
         subject: Email subject line
         body: Plain text email body
         html_body: Optional HTML version of the body
-        
+
+    Returns:
+        True if email was sent successfully, False otherwise
+    """
+    # Try Mailchimp first (better tracking and deliverability)
+    try:
+        from mailchimp_client import send_email_via_mailchimp
+        if html_body:
+            result = send_email_via_mailchimp(to_email, subject, html_body)
+        else:
+            safe_body = body.replace('\n', '<br>')
+            simple_html = f'<html><body style="font-family:Arial,sans-serif;font-size:15px;color:#333;">{safe_body}</body></html>'
+            result = send_email_via_mailchimp(to_email, subject, simple_html)
+        if result:
+            return True
+        print("Mailchimp send returned False, falling back to SMTP...")
+    except Exception as e:
+        print(f"Mailchimp send failed, falling back to SMTP: {e}")
+
+    # SMTP fallback (original code)
+    return _send_email_smtp(to_email, subject, body, html_body)
+
+
+def _send_email_smtp(to_email: str, subject: str, body: str, html_body: str = None) -> bool:
+    """
+    Send an email via SMTP (fallback when Mailchimp is unavailable).
+
+    Args:
+        to_email: Recipient email address
+        subject: Email subject line
+        body: Plain text email body
+        html_body: Optional HTML version of the body
+
     Returns:
         True if email was sent successfully, False otherwise
     """
@@ -37,39 +69,39 @@ def send_email(to_email: str, subject: str, body: str, html_body: str = None) ->
     smtp_password = os.environ.get('SMTP_PASSWORD')
     from_email = os.environ.get('FROM_EMAIL', smtp_user)
     from_name = os.environ.get('FROM_NAME', 'PlanWell Financial Planning')
-    
+
     if not smtp_user or not smtp_password:
         print("Warning: SMTP credentials not configured. Email not sent.")
         print(f"Would have sent to: {to_email}")
         print(f"Subject: {subject}")
         print(f"Body: {body[:200]}...")
         return False
-    
+
     try:
         # Create message
         msg = MIMEMultipart('alternative')
         msg['Subject'] = subject
         msg['From'] = f"{from_name} <{from_email}>"
         msg['To'] = to_email
-        
+
         # Attach plain text version
         msg.attach(MIMEText(body, 'plain'))
-        
+
         # Attach HTML version if provided
         if html_body:
             msg.attach(MIMEText(html_body, 'html'))
-        
+
         # Connect and send
         with smtplib.SMTP(smtp_host, smtp_port) as server:
             server.starttls()
             server.login(smtp_user, smtp_password)
             server.send_message(msg)
-        
-        print(f"Email sent successfully to {to_email}")
+
+        print(f"Email sent successfully to {to_email} (via SMTP fallback)")
         return True
-        
+
     except Exception as e:
-        print(f"Failed to send email: {e}")
+        print(f"Failed to send email via SMTP: {e}")
         return False
 
 
