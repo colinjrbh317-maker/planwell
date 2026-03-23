@@ -5,11 +5,11 @@ Pre-formatted HTML email templates for the FERS webinar nurture sequence.
 Mobile-first, table-based layout with 100% inline CSS for Outlook compatibility.
 
 Sequence:
-  1. Confirmation  -- immediate, on registration
-  2. 7-day         -- build anticipation, set expectations
-  3. 3-day         -- prep checklist, surface key questions
-  4. 1-day         -- logistics + Zoom link
-  5. Day-of        -- short, high-urgency, single CTA
+  1. Confirmation  — immediate, on registration
+  2. 7-day         — build anticipation, set expectations
+  3. 3-day         — prep checklist, surface key questions
+  4. 1-day         — logistics + Zoom link
+  5. Day-of        — short, high-urgency, single CTA
 
 Usage:
     from webinar_emails import send_webinar_confirmation, send_webinar_7day, ...
@@ -145,7 +145,7 @@ def send_webinar_confirmation(to_email, first_name, webinar_date,
     Send confirmation email immediately after registration.
     Purpose: Confirm the spot, set expectations, give one action (add to calendar).
     """
-    subject = "You're in -- FERS Workshop, " + webinar_date
+    subject = "You're in — FERS Workshop, " + webinar_date
 
     plain_body = (
         "Hi " + first_name + ",\n\n"
@@ -157,7 +157,7 @@ def send_webinar_confirmation(to_email, first_name, webinar_date,
         "Brennan Rhule, CFP(r) and David Fei, CFP(r) will walk you through the math on your "
         "FERS pension, show you the TSP withdrawal strategies most federal employees miss, and "
         "explain exactly how FEHB, FEGLI, and Social Security fit together in retirement.\n\n"
-        "This is 3 hours of real content -- not a sales pitch. The goal is that you leave "
+        "This is 3 hours of real content — not a sales pitch. The goal is that you leave "
         "knowing your numbers and your options.\n\n"
         "One thing to do before the workshop: pull up your most recent LES (Leave and Earnings "
         "Statement). Having your base pay and years of creditable service in front of you makes "
@@ -248,18 +248,18 @@ def send_webinar_7day(to_email, first_name, webinar_date):
     Purpose: Build anticipation, explain what makes this different,
     introduce Brennan and David by name.
     """
-    subject = "One week out -- what to expect at the FERS Workshop"
+    subject = "One week out — what to expect at the FERS Workshop"
 
     plain_body = (
         "Hi " + first_name + ",\n\n"
         "Your FERS Retirement Workshop is one week from today (" + webinar_date + ").\n\n"
         "Here's the honest version of what to expect.\n\n"
-        "This is a 3-hour workshop run by two CFPs -- Brennan Rhule and David Fei -- who work "
+        "This is a 3-hour workshop run by two CFPs — Brennan Rhule and David Fei — who work "
         "exclusively with federal employees. No insurance products. No annuity sales. The whole "
         "thing is designed around one question: what do you actually need to know to retire "
         "well under FERS?\n\n"
-        "Brennan will walk through the FERS pension formula -- 1% (or 1.1%) x high-3 average "
-        "salary x years of creditable service -- and show you how small differences in your "
+        "Brennan will walk through the FERS pension formula — 1% (or 1.1%) x high-3 average "
+        "salary x years of creditable service — and show you how small differences in your "
         "retirement date change the math more than most people realize.\n\n"
         "David will cover TSP: which accounts to draw from first, how to handle RMDs, and why "
         "the 'safe withdrawal rate' most advisors cite doesn't map cleanly onto a federal "
@@ -337,16 +337,16 @@ def send_webinar_3day(to_email, first_name, webinar_date, timezone='ET'):
     Purpose: Prep checklist, surface the questions they likely have,
     make the workshop feel immediately useful before it starts.
     """
-    subject = "3 days out -- quick prep for the FERS Workshop"
+    subject = "3 days out — quick prep for the FERS Workshop"
 
     plain_body = (
         "Hi " + first_name + ",\n\n"
         "Three days until the FERS Workshop (" + webinar_date + ", 11 AM - 2 PM " + timezone + ").\n\n"
         "Before you show up, it helps to have a few things in front of you:\n\n"
-        "  [] Your most recent LES -- base pay and creditable service years\n"
+        "  [] Your most recent LES — base pay and creditable service years\n"
         "  [] Your TSP balance and current contribution rate\n"
         "  [] The specific questions you want answered\n\n"
-        "Questions we hear most often -- if any of these are yours, you're in the right place:\n\n"
+        "Questions we hear most often — if any of these are yours, you're in the right place:\n\n"
         '  "When can I retire with an unreduced annuity?"\n'
         '  "What\'s my FERS Supplement, and when does it go away?"\n'
         '  "Should I elect the full survivor benefit, partial, or none?"\n'
@@ -406,7 +406,7 @@ def send_webinar_3day(to_email, first_name, webinar_date, timezone='ET'):
     )
 
     html_body = _base_html(
-        preheader="3 days until the FERS Workshop. Quick prep checklist inside -- takes 5 minutes.",
+        preheader="3 days until the FERS Workshop. Quick prep checklist inside — takes 5 minutes.",
         header_bg="#1e3a5f",
         header_text_color="#ffffff",
         header_line1="3 days to go.",
@@ -427,7 +427,7 @@ def send_webinar_1day(to_email, first_name, webinar_date, zoom_link, timezone='E
     Purpose: Remove all friction for joining. Single focus: here's the link,
     here's what you need to know to show up ready.
     """
-    subject = "Tomorrow at 11 AM -- your Zoom link for the FERS Workshop"
+    subject = "Tomorrow at 11 AM — your Zoom link for the FERS Workshop"
 
     plain_body = (
         "Hi " + first_name + ",\n\n"
@@ -436,10 +436,10 @@ def send_webinar_1day(to_email, first_name, webinar_date, zoom_link, timezone='E
         "  Time:  11:00 AM - 2:00 PM " + timezone + "\n"
         "  Link:  " + zoom_link + "\n\n"
         "A few practical notes:\n\n"
-        "Join 5 minutes early if you can -- Brennan and David start right at 11, "
+        "Join 5 minutes early if you can — Brennan and David start right at 11, "
         "and the opening context is worth catching.\n\n"
         "You don't need your camera on. Most attendees don't use it.\n\n"
-        "Type questions in the chat -- they monitor it closely and work through "
+        "Type questions in the chat — they monitor it closely and work through "
         "questions throughout.\n\n"
         "Block the full 3 hours. The workshop runs to 2 PM and Q&A is built into "
         "the end, not cut short.\n\n"
@@ -448,7 +448,7 @@ def send_webinar_1day(to_email, first_name, webinar_date, zoom_link, timezone='E
         "PlanWell Financial Planning\n"
         "planwellfp.com\n\n"
         "---\n"
-        "Can't make it? Reply to this email -- we'd love to get you on a future date.\n"
+        "Can't make it? Reply to this email — we'd love to get you on a future date.\n"
     )
 
     details_rows = (
@@ -515,9 +515,9 @@ def send_webinar_1day(to_email, first_name, webinar_date, zoom_link, timezone='E
 def send_webinar_dayof(to_email, first_name, zoom_link, timezone='ET'):
     """
     Send morning-of reminder.
-    Purpose: One job -- get them to click the link. Short, direct, high urgency.
+    Purpose: One job — get them to click the link. Short, direct, high urgency.
     """
-    subject = "Starting at 11 AM today -- join the FERS Workshop"
+    subject = "Starting at 11 AM today — join the FERS Workshop"
 
     plain_body = (
         "Hi " + first_name + ",\n\n"
