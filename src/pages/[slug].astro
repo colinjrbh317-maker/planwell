@@ -629,6 +629,38 @@ const breadcrumbSchema = {
   .article__content :global(img) {
     max-width: 100%;
     height: auto;
+    display: block;
+  }
+
+  /* Constrain inline blog content images to readable width */
+  .article__content :global(img[src*="/images/blog/content/"]) {
+    max-width: min(100%, 620px);
+    height: auto;
+    display: block;
+    margin: 1.5rem auto;
+    border-radius: 4px;
+  }
+
+  .article__content :global(figure) {
+    max-width: min(100%, 620px);
+    margin: 2rem auto;
+    text-align: center;
+  }
+
+  .article__content :global(.article-image) {
+    max-width: min(100%, 620px);
+    margin: 2rem auto;
+    text-align: center;
+  }
+
+  /* Prevent Elementor wrappers from blowing out image sections */
+  .article__content :global(.elementor-widget-image) {
+    max-width: min(100%, 620px);
+    margin: 1.5rem auto;
+  }
+
+  .article__content :global(.elementor-widget-image .elementor-widget-container) {
+    text-align: center;
   }
 
   .article__content :global(h1) {
