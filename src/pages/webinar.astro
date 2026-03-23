@@ -273,7 +273,7 @@ const steps = [
               />
               {index === steps.length - 1 && (
                 <label class="newsletter-optin">
-                  <input type="checkbox" id="newsletter-optin" checked />
+                  <input type="checkbox" id="newsletter-optin" />
                   <span>Sign me up for the PlanWell newsletter</span>
                 </label>
               )}
@@ -1136,7 +1136,7 @@ const steps = [
             body: JSON.stringify({
               name: formData.fullName || '',
               email: formData.email,
-              source: 'fers_webinar_registration',
+              source: 'fers_webinar_optin',
               timestamp: new Date().toISOString()
             })
           }).catch(err => console.error('Newsletter signup error:', err));

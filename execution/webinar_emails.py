@@ -162,7 +162,7 @@ def send_webinar_confirmation(to_email, first_name, webinar_date,
         "One thing to do before the workshop: pull up your most recent LES (Leave and Earnings "
         "Statement). Having your base pay and years of creditable service in front of you makes "
         "the pension calculation section a lot more useful.\n\n"
-        "Your Zoom link will arrive the morning before the workshop.\n\n"
+        "Your Zoom link will arrive the day before the workshop.\n\n"
         "See you on " + webinar_date + ",\n"
         "Brennan & David\n"
         "PlanWell Financial Planning\n"
@@ -175,26 +175,28 @@ def send_webinar_confirmation(to_email, first_name, webinar_date,
         _detail_row("Date:", webinar_date) +
         _detail_row("Time:", "11:00 AM &ndash; 2:00 PM " + timezone) +
         _detail_row("Format:", "Online via Zoom") +
-        _detail_row("Zoom link:", "Arrives the morning before")
+        _detail_row("Zoom link:", "Arrives the day before")
     )
 
     cal_btn = _gold_button(calendar_link, "Add to Calendar") if calendar_link else ""
 
     topics_content = (
-        '<p style="margin:0 0 10px 0;font-size:15px;color:#1e3a5f;font-weight:bold;">'
+        '<p style="margin:0 0 12px 0;font-size:15px;color:#1e3a5f;font-weight:bold;">'
         'What you\'ll cover in 3 hours:</p>\n'
-        '<p style="margin:4px 0;font-size:15px;color:#333333;">'
-        '&mdash; FERS pension formula and how to run your own numbers</p>\n'
-        '<p style="margin:4px 0;font-size:15px;color:#333333;">'
-        '&mdash; TSP withdrawal strategies (Roth vs. traditional, RMDs, sequencing)</p>\n'
-        '<p style="margin:4px 0;font-size:15px;color:#333333;">'
-        '&mdash; FEHB in retirement and the Medicare Part B decision</p>\n'
-        '<p style="margin:4px 0;font-size:15px;color:#333333;">'
-        '&mdash; FEGLI &mdash; what to keep, what to drop, and when</p>\n'
-        '<p style="margin:4px 0;font-size:15px;color:#333333;">'
-        '&mdash; Survivor benefit election and what it costs your annuity</p>\n'
-        '<p style="margin:4px 0;font-size:15px;color:#333333;">'
-        '&mdash; Social Security coordination with your FERS annuity</p>'
+        '<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0;">\n'
+        '  <tr><td style="padding:4px 8px 4px 0;vertical-align:top;font-size:15px;color:#c9a55c;">&#8226;</td>'
+        '<td style="padding:4px 0;font-size:15px;color:#333333;">FERS pension formula and how to run your own numbers</td></tr>\n'
+        '  <tr><td style="padding:4px 8px 4px 0;vertical-align:top;font-size:15px;color:#c9a55c;">&#8226;</td>'
+        '<td style="padding:4px 0;font-size:15px;color:#333333;">TSP withdrawal strategies (Roth vs. traditional, RMDs, sequencing)</td></tr>\n'
+        '  <tr><td style="padding:4px 8px 4px 0;vertical-align:top;font-size:15px;color:#c9a55c;">&#8226;</td>'
+        '<td style="padding:4px 0;font-size:15px;color:#333333;">FEHB in retirement and the Medicare Part B decision</td></tr>\n'
+        '  <tr><td style="padding:4px 8px 4px 0;vertical-align:top;font-size:15px;color:#c9a55c;">&#8226;</td>'
+        '<td style="padding:4px 0;font-size:15px;color:#333333;">FEGLI — what to keep, what to drop, and when</td></tr>\n'
+        '  <tr><td style="padding:4px 8px 4px 0;vertical-align:top;font-size:15px;color:#c9a55c;">&#8226;</td>'
+        '<td style="padding:4px 0;font-size:15px;color:#333333;">Survivor benefit election and what it costs your annuity</td></tr>\n'
+        '  <tr><td style="padding:4px 8px 4px 0;vertical-align:top;font-size:15px;color:#c9a55c;">&#8226;</td>'
+        '<td style="padding:4px 0;font-size:15px;color:#333333;">Social Security coordination with your FERS annuity</td></tr>\n'
+        '</table>'
     )
 
     details_box = (
