@@ -419,11 +419,195 @@ def batch_tag_members(emails, tag_name):
     return {'success_count': success_count, 'fail_count': fail_count, 'tag': tag_name}
 
 
+def add_subscriber_or_update(email, first_name='', last_name='', merge_fields=None, tags=None):
+    """
+    Add a new subscriber or update an existing one (idempotent PUT).
+
+    Args:
+        email: Subscriber email address
+        first_name: Optional first name
+        last_name: Optional last name
+        merge_fields: Optional dict of merge fields (FNAME, LNAME, ZOOMURL, WBNRDATE, WBNRTYPE, etc.)
+        tags: Optional list of tag names to apply after upsert
+
+    Returns:
+        dict with success status, 'subscribed' or 'updated', and member id
+    """
+    email_hash = hashlib.md5(email.lower().encode()).hexdigest()
+    url = f'{BASE_URL}/lists/{MAILCHIMP_LIST_ID}/members/{email_hash}'
+
+    mf = merge_fields or {}
+    if first_name:
+        mf['FNAME'] = first_name
+    if last_name:
+        mf['LNAME'] = last_name
+
+    payload = {
+        'email_address': email,
+        'status_if_new': 'subscribed',
+        'merge_fields': mf,
+    }
+
+    try:
+        resp = requests.put(url, json=payload, headers=_headers(), timeout=10)
+
+        if resp.status_code == 200:
+            data = resp.json()
+            member_id = data.get('id', '')
+            # Determine if this was a new subscription or an update
+            status = 'subscribed' if data.get('status') == 'subscribed' else 'updated'
+
+            # Apply tags via separate call (tags can't be set in PUT body)
+            if tags:
+                tag_result = update_member_tags(email, tags_to_add=tags)
+                if not tag_result.get('success'):
+                    print(f'Warning: subscriber upserted but tags failed: {tag_result.get("error")}')
+
+            return {'success': True, 'status': status, 'id': member_id}
+        else:
+            print(f'Mailchimp error: {resp.status_code} - {resp.text}')
+            return {'success': False, 'error': resp.text, 'status_code': resp.status_code}
+
+    except Exception as e:
+        print(f'Mailchimp request failed: {e}')
+        return {'success': False, 'error': str(e)}
+
+
+def get_members_by_tag(tag_name):
+    """
+    Get all members with a specific tag.
+
+    Args:
+        tag_name: Tag name to search for
+
+    Returns:
+        list of member dicts with email, first_name, last_name, tags, merge_fields
+    """
+    # First, find the tag's segment ID
+    segments_url = f'{BASE_URL}/lists/{MAILCHIMP_LIST_ID}/segments'
+    params = {'type': 'static', 'count': 100}
+
+    try:
+        resp = requests.get(segments_url, headers=_headers(), params=params, timeout=10)
+
+        if resp.status_code != 200:
+            print(f'Mailchimp error: {resp.status_code} - {resp.text}')
+            return []
+
+        segment_id = None
+        for seg in resp.json().get('segments', []):
+            if seg.get('name', '').lower() == tag_name.lower():
+                segment_id = seg.get('id')
+                break
+
+        if segment_id is None:
+            print(f'Tag not found: {tag_name}')
+            return []
+
+        # Get members in this segment
+        members_url = f'{BASE_URL}/lists/{MAILCHIMP_LIST_ID}/segments/{segment_id}/members'
+        resp = requests.get(members_url, headers=_headers(), params={'count': 1000}, timeout=10)
+
+        if resp.status_code != 200:
+            print(f'Mailchimp error: {resp.status_code} - {resp.text}')
+            return []
+
+        members = []
+        for m in resp.json().get('members', []):
+            members.append({
+                'email': m.get('email_address', ''),
+                'first_name': m.get('merge_fields', {}).get('FNAME', ''),
+                'last_name': m.get('merge_fields', {}).get('LNAME', ''),
+                'tags': [t['name'] for t in m.get('tags', [])],
+                'merge_fields': m.get('merge_fields', {}),
+            })
+        return members
+
+    except Exception as e:
+        print(f'Mailchimp request failed: {e}')
+        return []
+
+
+def get_member_merge_fields(email):
+    """
+    Get merge fields for a specific subscriber.
+
+    Args:
+        email: Subscriber email address
+
+    Returns:
+        dict of merge fields (FNAME, LNAME, ZOOMURL, WBNRDATE, WBNRTYPE, etc.)
+        Empty dict if member not found.
+    """
+    email_hash = hashlib.md5(email.lower().encode()).hexdigest()
+    url = f'{BASE_URL}/lists/{MAILCHIMP_LIST_ID}/members/{email_hash}'
+    params = {'fields': 'merge_fields,email_address,status,tags'}
+
+    try:
+        resp = requests.get(url, headers=_headers(), params=params, timeout=10)
+
+        if resp.status_code == 200:
+            return resp.json().get('merge_fields', {})
+        elif resp.status_code == 404:
+            return {}
+        else:
+            print(f'Mailchimp error: {resp.status_code} - {resp.text}')
+            return {}
+
+    except Exception as e:
+        print(f'Mailchimp request failed: {e}')
+        return {}
+
+
+def update_member_merge_fields(email, merge_fields):
+    """
+    Update merge fields on an existing subscriber.
+
+    Args:
+        email: Subscriber email address
+        merge_fields: Dict of merge fields to update (e.g., {'ZOOMURL': '...', 'WBNRDATE': '...'})
+
+    Returns:
+        dict with success status
+    """
+    email_hash = hashlib.md5(email.lower().encode()).hexdigest()
+    url = f'{BASE_URL}/lists/{MAILCHIMP_LIST_ID}/members/{email_hash}'
+
+    payload = {'merge_fields': merge_fields}
+
+    try:
+        resp = requests.patch(url, json=payload, headers=_headers(), timeout=10)
+
+        if resp.status_code == 200:
+            return {'success': True}
+        else:
+            print(f'Mailchimp error: {resp.status_code} - {resp.text}')
+            return {'success': False, 'error': resp.text, 'status_code': resp.status_code}
+
+    except Exception as e:
+        print(f'Mailchimp request failed: {e}')
+        return {'success': False, 'error': str(e)}
+
+
 if __name__ == '__main__':
     """Test: show audience stats and recent campaigns."""
     import sys
 
-    if '--stats' in sys.argv:
+    if '--test-update' in sys.argv:
+        test_email = sys.argv[sys.argv.index('--test-update') + 1] if len(sys.argv) > sys.argv.index('--test-update') + 1 else 'test@example.com'
+        print(f"Testing add_subscriber_or_update with: {test_email}")
+        print("-" * 40)
+        result = add_subscriber_or_update(
+            email=test_email,
+            first_name='Test',
+            last_name='User',
+            merge_fields={'WBNRTYPE': 'test-webinar'},
+            tags=['test-tag'],
+        )
+        for k, v in result.items():
+            print(f"  {k}: {v}")
+
+    elif '--stats' in sys.argv:
         print("Audience Stats:")
         print("-" * 40)
         stats = get_audience_stats()

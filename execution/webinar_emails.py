@@ -1,7 +1,15 @@
 """
 Webinar Email Templates
 =======================
-Pre-formatted HTML email templates for the webinar nurture sequence.
+Pre-formatted HTML email templates for the FERS webinar nurture sequence.
+Mobile-first, table-based layout with 100% inline CSS for Outlook compatibility.
+
+Sequence:
+  1. Confirmation  -- immediate, on registration
+  2. 7-day         -- build anticipation, set expectations
+  3. 3-day         -- prep checklist, surface key questions
+  4. 1-day         -- logistics + Zoom link
+  5. Day-of        -- short, high-urgency, single CTA
 
 Usage:
     from webinar_emails import send_webinar_confirmation, send_webinar_7day, ...
@@ -10,456 +18,590 @@ Usage:
 from email_sender import send_email
 
 
-def send_webinar_confirmation(to_email: str, first_name: str, webinar_date: str, 
-                               timezone: str = 'EST', calendar_link: str = None) -> bool:
+# ---------------------------------------------------------------------------
+# Shared HTML helpers (all CSS inline, table layout, no gradients)
+# ---------------------------------------------------------------------------
+
+def _base_html(preheader, header_bg, header_text_color,
+               header_line1, header_line2, body_html):
+    """
+    Wraps content in a consistent, mobile-first, inline-CSS email shell.
+    Table layout for Outlook compatibility. No gradients. No <style> blocks.
+    """
+    if header_line2:
+        sub = ('<p style="margin:8px 0 0 0;font-size:15px;color:' +
+               header_text_color + ';opacity:0.85;">' + header_line2 + '</p>')
+    else:
+        sub = ''
+
+    return (
+        '<!DOCTYPE html>\n'
+        '<html lang="en">\n'
+        '<head>\n'
+        '<meta charset="UTF-8">\n'
+        '<meta name="viewport" content="width=device-width, initial-scale=1.0">\n'
+        '<meta http-equiv="X-UA-Compatible" content="IE=edge">\n'
+        '<title>PlanWell FERS Workshop</title>\n'
+        '</head>\n'
+        '<body style="margin:0;padding:0;background-color:#f5f5f5;'
+        'font-family:Arial,Helvetica,sans-serif;">\n\n'
+        '<!-- Preheader -->\n'
+        '<span style="display:none;font-size:1px;color:#f5f5f5;max-height:0;'
+        'max-width:0;opacity:0;overflow:hidden;">' + preheader + '</span>\n\n'
+        '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"'
+        ' style="background-color:#f5f5f5;">\n'
+        '  <tr><td align="center" style="padding:20px 10px;">\n\n'
+        '    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"'
+        ' style="max-width:600px;background-color:#ffffff;">\n\n'
+        '      <!-- HEADER -->\n'
+        '      <tr><td align="center" style="background-color:' + header_bg + ';padding:32px 30px;">\n'
+        '        <p style="margin:0;font-size:12px;font-weight:bold;letter-spacing:2px;'
+        'text-transform:uppercase;color:' + header_text_color + ';opacity:0.75;">'
+        'FERS Retirement Workshop</p>\n'
+        '        <h1 style="margin:8px 0 0 0;font-size:26px;font-weight:bold;color:' +
+        header_text_color + ';line-height:1.3;">' + header_line1 + '</h1>\n' +
+        sub + '\n'
+        '      </td></tr>\n\n'
+        '      <!-- BODY -->\n'
+        '      <tr><td style="padding:32px 30px;color:#333333;font-size:15px;line-height:1.7;">\n' +
+        body_html + '\n'
+        '      </td></tr>\n\n'
+        '      <!-- FOOTER -->\n'
+        '      <tr><td style="background-color:#f5f5f5;padding:24px 30px;text-align:center;'
+        'border-top:1px solid #e0e0e0;">\n'
+        '        <p style="margin:0 0 6px 0;font-size:13px;color:#666666;font-weight:bold;">'
+        'PlanWell Financial Planning</p>\n'
+        '        <p style="margin:0;font-size:13px;color:#666666;">'
+        '<a href="https://planwellfp.com" style="color:#1e3a5f;text-decoration:none;">'
+        'planwellfp.com</a></p>\n'
+        '        <p style="margin:10px 0 0 0;font-size:12px;color:#999999;">'
+        'Questions? Reply to this email &mdash; a real person will respond.</p>\n'
+        '      </td></tr>\n\n'
+        '    </table>\n\n'
+        '  </td></tr>\n'
+        '</table>\n\n'
+        '</body>\n</html>'
+    )
+
+
+def _gold_button(url, label):
+    """Solid gold CTA button, min 44px touch target."""
+    return (
+        '<table role="presentation" cellpadding="0" cellspacing="0" border="0"'
+        ' style="margin:24px auto;">\n'
+        '  <tr><td align="center" style="background-color:#c9a55c;border-radius:6px;">\n'
+        '    <a href="' + url + '" style="display:inline-block;padding:0 32px;'
+        'font-size:16px;font-weight:bold;color:#1e3a5f;text-decoration:none;'
+        'font-family:Arial,Helvetica,sans-serif;line-height:48px;min-height:48px;">'
+        + label + '</a>\n'
+        '  </td></tr>\n'
+        '</table>'
+    )
+
+
+def _section_box(bg, border_color, content):
+    """Bordered left-accent box."""
+    return (
+        '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"'
+        ' style="margin:20px 0;">\n'
+        '  <tr><td style="background-color:' + bg + ';border-left:4px solid ' +
+        border_color + ';padding:18px 20px;font-size:15px;color:#333333;line-height:1.7;">\n' +
+        content + '\n'
+        '  </td></tr>\n'
+        '</table>'
+    )
+
+
+def _detail_row(label, value):
+    return (
+        '<tr>\n'
+        '  <td style="padding:5px 0;font-size:15px;color:#333333;white-space:nowrap;">'
+        '<strong style="color:#1e3a5f;">' + label + '</strong></td>\n'
+        '  <td style="padding:5px 0 5px 14px;font-size:15px;color:#333333;">' + value + '</td>\n'
+        '</tr>'
+    )
+
+
+def _navy_note(text):
+    """Full-width navy callout for important one-liners."""
+    return (
+        '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"'
+        ' style="margin:20px 0;">\n'
+        '  <tr><td style="background-color:#1e3a5f;padding:16px 20px;border-radius:4px;'
+        'text-align:center;">\n'
+        '    <p style="margin:0;font-size:15px;color:#ffffff;"><strong>' + text + '</strong></p>\n'
+        '  </td></tr>\n'
+        '</table>'
+    )
+
+
+# ---------------------------------------------------------------------------
+# 1. Confirmation Email
+# ---------------------------------------------------------------------------
+
+def send_webinar_confirmation(to_email, first_name, webinar_date,
+                               timezone='ET', calendar_link=''):
     """
     Send confirmation email immediately after registration.
+    Purpose: Confirm the spot, set expectations, give one action (add to calendar).
     """
-    subject = f"You're registered for the FERS Workshop on {webinar_date}"
-    
-    plain_body = f"""Hi {first_name},
+    subject = "You're in -- FERS Workshop, " + webinar_date
 
-You're all set for the FERS Retirement Workshop!
+    plain_body = (
+        "Hi " + first_name + ",\n\n"
+        "You're registered. Here are your details:\n\n"
+        "  Date:    " + webinar_date + "\n"
+        "  Time:    11:00 AM - 2:00 PM " + timezone + "\n"
+        "  Format:  Online via Zoom (link arrives the day before)\n"
+        "  Cost:    Free\n\n"
+        "Brennan Rhule, CFP(r) and David Fei, CFP(r) will walk you through the math on your "
+        "FERS pension, show you the TSP withdrawal strategies most federal employees miss, and "
+        "explain exactly how FEHB, FEGLI, and Social Security fit together in retirement.\n\n"
+        "This is 3 hours of real content -- not a sales pitch. The goal is that you leave "
+        "knowing your numbers and your options.\n\n"
+        "One thing to do before the workshop: pull up your most recent LES (Leave and Earnings "
+        "Statement). Having your base pay and years of creditable service in front of you makes "
+        "the pension calculation section a lot more useful.\n\n"
+        "Your Zoom link will arrive the morning before the workshop.\n\n"
+        "See you on " + webinar_date + ",\n"
+        "Brennan & David\n"
+        "PlanWell Financial Planning\n"
+        "planwellfp.com\n\n"
+        "---\n"
+        "Questions? Reply to this email.\n"
+    )
 
-Date: {webinar_date}
-Time: 11:00 AM – 2:00 PM {timezone}
-Location: Online via Zoom
+    details_rows = (
+        _detail_row("Date:", webinar_date) +
+        _detail_row("Time:", "11:00 AM &ndash; 2:00 PM " + timezone) +
+        _detail_row("Format:", "Online via Zoom") +
+        _detail_row("Zoom link:", "Arrives the morning before")
+    )
 
-What we'll cover:
-• Your FERS pension calculation and strategies
-• TSP optimization and withdrawal options
-• FEHB and Medicare coordination
-• Survivor benefits decisions
-• Live Q&A with our Certified Financial Planners
+    cal_btn = _gold_button(calendar_link, "Add to Calendar") if calendar_link else ""
 
-Your Zoom link will be sent the day before the workshop.
+    topics_content = (
+        '<p style="margin:0 0 10px 0;font-size:15px;color:#1e3a5f;font-weight:bold;">'
+        'What you\'ll cover in 3 hours:</p>\n'
+        '<p style="margin:4px 0;font-size:15px;color:#333333;">'
+        '&mdash; FERS pension formula and how to run your own numbers</p>\n'
+        '<p style="margin:4px 0;font-size:15px;color:#333333;">'
+        '&mdash; TSP withdrawal strategies (Roth vs. traditional, RMDs, sequencing)</p>\n'
+        '<p style="margin:4px 0;font-size:15px;color:#333333;">'
+        '&mdash; FEHB in retirement and the Medicare Part B decision</p>\n'
+        '<p style="margin:4px 0;font-size:15px;color:#333333;">'
+        '&mdash; FEGLI &mdash; what to keep, what to drop, and when</p>\n'
+        '<p style="margin:4px 0;font-size:15px;color:#333333;">'
+        '&mdash; Survivor benefit election and what it costs your annuity</p>\n'
+        '<p style="margin:4px 0;font-size:15px;color:#333333;">'
+        '&mdash; Social Security coordination with your FERS annuity</p>'
+    )
 
-Questions? Just reply to this email.
+    details_box = (
+        '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"'
+        ' style="margin:20px 0;background-color:#f5f5f5;border-left:4px solid #c9a55c;">\n'
+        '  <tr><td style="padding:18px 20px;">\n'
+        '    <table role="presentation" cellpadding="0" cellspacing="0" border="0">\n' +
+        details_rows + '\n'
+        '    </table>\n'
+        '  </td></tr>\n'
+        '</table>'
+    )
 
-See you there,
-The PlanWell Team
+    body_html = (
+        '<p style="margin:0 0 16px 0;">Hi ' + first_name + ',</p>\n\n'
+        '<p style="margin:0 0 16px 0;">You\'re registered. Here are your details:</p>\n\n' +
+        details_box + '\n\n' +
+        cal_btn + '\n\n' +
+        _section_box('#f5f5f5', '#1e3a5f', topics_content) + '\n\n'
+        '<p style="margin:20px 0 16px 0;"><strong>One thing to do before the workshop:</strong> '
+        'pull up your most recent LES (Leave and Earnings Statement). Having your base pay and '
+        'years of creditable service in front of you makes the pension calculation section a lot '
+        'more useful.</p>\n\n'
+        '<p style="margin:0 0 16px 0;">Brennan and David don\'t do sales pitches. The 3 hours '
+        'are spent on the math and the decisions &mdash; your pension, your TSP, your benefits. '
+        'You\'ll leave knowing your numbers.</p>\n\n'
+        '<p style="margin:0 0 8px 0;">See you on ' + webinar_date + ',</p>\n'
+        '<p style="margin:0;font-weight:bold;color:#1e3a5f;">Brennan &amp; David<br>'
+        '<span style="font-weight:normal;color:#555555;">PlanWell Financial Planning</span></p>\n'
+    )
 
----
-PlanWell Financial Planning
-planwellfp.com
-"""
+    html_body = _base_html(
+        preheader="You're registered for the FERS Workshop on " + webinar_date + ". Here are your details.",
+        header_bg="#1e3a5f",
+        header_text_color="#ffffff",
+        header_line1="You're registered.",
+        header_line2=webinar_date + " &nbsp;&middot;&nbsp; 11 AM &ndash; 2 PM " + timezone + " &nbsp;&middot;&nbsp; Zoom",
+        body_html=body_html
+    )
 
-    html_body = f"""
-<!DOCTYPE html>
-<html>
-<head>
-    <style>
-        body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }}
-        .container {{ max-width: 600px; margin: 0 auto; }}
-        .header {{ background: linear-gradient(135deg, #1e3a5f 0%, #152a45 100%); color: white; padding: 30px; text-align: center; }}
-        .header h1 {{ margin: 0; font-size: 24px; }}
-        .content {{ padding: 30px; background: #ffffff; }}
-        .details-box {{ background: #f8f9fa; border-left: 4px solid #c9a55c; padding: 20px; margin: 20px 0; }}
-        .details-box p {{ margin: 5px 0; }}
-        .topics {{ background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0; }}
-        .topics h3 {{ color: #1e3a5f; margin-top: 0; }}
-        .topics ul {{ margin: 0; padding-left: 20px; }}
-        .topics li {{ margin: 8px 0; }}
-        .note {{ background: #fff3cd; padding: 15px; border-radius: 8px; margin: 20px 0; }}
-        .footer {{ text-align: center; padding: 20px; color: #666; font-size: 14px; background: #f8f9fa; }}
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>You're Registered!</h1>
-        </div>
-        <div class="content">
-            <p>Hi {first_name},</p>
-            <p>You're all set for the <strong>FERS Retirement Workshop</strong>!</p>
-            
-            <div class="details-box">
-                <p><strong>📅 Date:</strong> {webinar_date}</p>
-                <p><strong>🕐 Time:</strong> 11:00 AM – 2:00 PM {timezone}</p>
-                <p><strong>📍 Location:</strong> Online via Zoom</p>
-            </div>
-            
-            <div class="topics">
-                <h3>What we'll cover:</h3>
-                <ul>
-                    <li>Your FERS pension calculation and strategies</li>
-                    <li>TSP optimization and withdrawal options</li>
-                    <li>FEHB and Medicare coordination</li>
-                    <li>Survivor benefits decisions</li>
-                    <li>Live Q&A with our Certified Financial Planners</li>
-                </ul>
-            </div>
-            
-            <div class="note">
-                <strong>📧 Your Zoom link will be sent the day before the workshop.</strong>
-            </div>
-            
-            <p>Questions? Just reply to this email.</p>
-            <p>See you there,<br>The PlanWell Team</p>
-        </div>
-        <div class="footer">
-            <p>PlanWell Financial Planning | planwellfp.com</p>
-        </div>
-    </div>
-</body>
-</html>
-"""
-    
     return send_email(to_email, subject, plain_body, html_body)
 
 
-def send_webinar_7day(to_email: str, first_name: str, webinar_date: str) -> bool:
+# ---------------------------------------------------------------------------
+# 2. 7-Day Reminder
+# ---------------------------------------------------------------------------
+
+def send_webinar_7day(to_email, first_name, webinar_date):
     """
-    Send 7-day reminder email - preview topics, build excitement.
+    Send 7-day reminder.
+    Purpose: Build anticipation, explain what makes this different,
+    introduce Brennan and David by name.
     """
-    subject = "One week until the FERS Workshop – Here's what to expect"
-    
-    plain_body = f"""Hi {first_name},
+    subject = "One week out -- what to expect at the FERS Workshop"
 
-Your FERS Retirement Workshop is coming up in one week ({webinar_date}).
+    plain_body = (
+        "Hi " + first_name + ",\n\n"
+        "Your FERS Retirement Workshop is one week from today (" + webinar_date + ").\n\n"
+        "Here's the honest version of what to expect.\n\n"
+        "This is a 3-hour workshop run by two CFPs -- Brennan Rhule and David Fei -- who work "
+        "exclusively with federal employees. No insurance products. No annuity sales. The whole "
+        "thing is designed around one question: what do you actually need to know to retire "
+        "well under FERS?\n\n"
+        "Brennan will walk through the FERS pension formula -- 1% (or 1.1%) x high-3 average "
+        "salary x years of creditable service -- and show you how small differences in your "
+        "retirement date change the math more than most people realize.\n\n"
+        "David will cover TSP: which accounts to draw from first, how to handle RMDs, and why "
+        "the 'safe withdrawal rate' most advisors cite doesn't map cleanly onto a federal "
+        "retirement with a pension and FERS Supplement.\n\n"
+        "You'll also get into the decisions most people put off until it's almost too late: "
+        "survivor benefit election, FEGLI, FEHB vs. Medicare Part B, and Social Security timing.\n\n"
+        "One thing to do this week: dig up your most recent LES and note your current base pay "
+        "and total years of creditable service. It makes the pension section a lot more concrete.\n\n"
+        "See you on " + webinar_date + ",\n"
+        "Brennan & David\n"
+        "PlanWell Financial Planning\n"
+        "planwellfp.com\n"
+    )
 
-Here's what makes this different from other benefits briefings:
+    what_box_content = (
+        '<p style="margin:0 0 10px 0;font-size:15px;font-weight:bold;">'
+        'What this workshop actually is:</p>\n'
+        '<p style="margin:0;font-size:15px;color:#333333;">A 3-hour session run by two CFPs '
+        '&mdash; Brennan Rhule and David Fei &mdash; who work exclusively with federal employees. '
+        'No insurance products. No sales pitch. The whole thing is built around one question: '
+        'what do you actually need to know to retire well under FERS?</p>'
+    )
 
-✓ Led by Certified Financial Planners (not insurance salespeople)
-✓ Specific to federal employees – we speak FERS fluently
-✓ 3 hours of real content, not a 30-minute sales pitch
-✓ Live Q&A where you can ask your specific questions
+    prep_box_content = (
+        '<p style="margin:0 0 8px 0;font-size:15px;font-weight:bold;">'
+        'One thing to do this week:</p>\n'
+        '<p style="margin:0;font-size:15px;color:#333333;">Dig up your most recent LES and note '
+        'your current base pay and total years of creditable service. It\'ll make the pension '
+        'calculation section a lot more concrete for your situation.</p>'
+    )
 
-To get the most out of it:
-• Grab your most recent LES (Leave and Earnings Statement)
-• Have your years of service handy
-• Think about questions you want answered
+    body_html = (
+        '<p style="margin:0 0 16px 0;">Hi ' + first_name + ',</p>\n\n'
+        '<p style="margin:0 0 16px 0;">Your FERS Retirement Workshop is one week from today '
+        '&mdash; <strong>' + webinar_date + '</strong>.</p>\n\n'
+        '<p style="margin:0 0 16px 0;">Here\'s the honest version of what to expect.</p>\n\n' +
+        _section_box('#f5f5f5', '#c9a55c', what_box_content) + '\n\n'
+        '<p style="margin:20px 0 16px 0;"><strong>Here\'s what that looks like in practice:</strong></p>\n\n'
+        '<p style="margin:0 0 16px 0;"><strong style="color:#1e3a5f;">Brennan</strong> will walk '
+        'through the FERS pension formula &mdash; 1% (or 1.1%) &times; high-3 average salary '
+        '&times; years of creditable service &mdash; and show you how small differences in your '
+        'retirement date change the math more than most people realize.</p>\n\n'
+        '<p style="margin:0 0 16px 0;"><strong style="color:#1e3a5f;">David</strong> will cover '
+        'TSP: which accounts to draw from first, how to handle RMDs, and why the &ldquo;safe '
+        'withdrawal rate&rdquo; most advisors cite doesn\'t map cleanly onto a federal retirement '
+        'with a pension and FERS Supplement.</p>\n\n'
+        '<p style="margin:0 0 16px 0;">You\'ll also get into the decisions most people put off '
+        'until it\'s almost too late: survivor benefit election, FEGLI, FEHB vs. Medicare Part B, '
+        'and Social Security timing.</p>\n\n' +
+        _section_box('#fff8ec', '#c9a55c', prep_box_content) + '\n\n'
+        '<p style="margin:20px 0 8px 0;">See you on ' + webinar_date + ',</p>\n'
+        '<p style="margin:0;font-weight:bold;color:#1e3a5f;">Brennan &amp; David<br>'
+        '<span style="font-weight:normal;color:#555555;">PlanWell Financial Planning</span></p>\n'
+    )
 
-Over 500 federal employees have attended our workshops. We're looking forward to having you join us.
+    html_body = _base_html(
+        preheader="One week until the FERS Workshop. Here's exactly what Brennan and David will cover.",
+        header_bg="#1e3a5f",
+        header_text_color="#ffffff",
+        header_line1="One week to go.",
+        header_line2="FERS Retirement Workshop &nbsp;&middot;&nbsp; " + webinar_date,
+        body_html=body_html
+    )
 
-See you on {webinar_date},
-The PlanWell Team
-"""
-
-    html_body = f"""
-<!DOCTYPE html>
-<html>
-<head>
-    <style>
-        body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; }}
-        .container {{ max-width: 600px; margin: 0 auto; }}
-        .header {{ background: linear-gradient(135deg, #1e3a5f 0%, #152a45 100%); color: white; padding: 30px; text-align: center; }}
-        .content {{ padding: 30px; background: #ffffff; }}
-        .highlight {{ color: #c9a55c; }}
-        .checklist {{ background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0; }}
-        .checklist h3 {{ color: #1e3a5f; margin-top: 0; }}
-        .different {{ background: #e8f4f8; padding: 20px; border-radius: 8px; margin: 20px 0; }}
-        .different p {{ margin: 8px 0; }}
-        .footer {{ text-align: center; padding: 20px; color: #666; font-size: 14px; background: #f8f9fa; }}
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>One Week to Go!</h1>
-        </div>
-        <div class="content">
-            <p>Hi {first_name},</p>
-            <p>Your FERS Retirement Workshop is coming up in <strong>one week</strong> ({webinar_date}).</p>
-            
-            <div class="different">
-                <h3>Here's what makes this different:</h3>
-                <p>✓ Led by Certified Financial Planners (not insurance salespeople)</p>
-                <p>✓ Specific to federal employees – we speak FERS fluently</p>
-                <p>✓ 3 hours of real content, not a 30-minute sales pitch</p>
-                <p>✓ Live Q&A where you can ask your specific questions</p>
-            </div>
-            
-            <div class="checklist">
-                <h3>To get the most out of it:</h3>
-                <p>• Grab your most recent LES</p>
-                <p>• Have your years of service handy</p>
-                <p>• Think about questions you want answered</p>
-            </div>
-            
-            <p>Over 500 federal employees have attended our workshops. We're looking forward to having you join us.</p>
-            <p>See you on {webinar_date},<br>The PlanWell Team</p>
-        </div>
-        <div class="footer">
-            <p>PlanWell Financial Planning | planwellfp.com</p>
-        </div>
-    </div>
-</body>
-</html>
-"""
-    
     return send_email(to_email, subject, plain_body, html_body)
 
 
-def send_webinar_3day(to_email: str, first_name: str, webinar_date: str, 
-                       timezone: str = 'EST') -> bool:
+# ---------------------------------------------------------------------------
+# 3. 3-Day Reminder
+# ---------------------------------------------------------------------------
+
+def send_webinar_3day(to_email, first_name, webinar_date, timezone='ET'):
     """
-    Send 3-day reminder - what to prepare.
+    Send 3-day reminder.
+    Purpose: Prep checklist, surface the questions they likely have,
+    make the workshop feel immediately useful before it starts.
     """
-    subject = "3 days until your FERS Workshop – Quick prep"
-    
-    plain_body = f"""Hi {first_name},
+    subject = "3 days out -- quick prep for the FERS Workshop"
 
-Just 3 days until the FERS Retirement Workshop on {webinar_date} at 11:00 AM {timezone}.
+    plain_body = (
+        "Hi " + first_name + ",\n\n"
+        "Three days until the FERS Workshop (" + webinar_date + ", 11 AM - 2 PM " + timezone + ").\n\n"
+        "Before you show up, it helps to have a few things in front of you:\n\n"
+        "  [] Your most recent LES -- base pay and creditable service years\n"
+        "  [] Your TSP balance and current contribution rate\n"
+        "  [] The specific questions you want answered\n\n"
+        "Questions we hear most often -- if any of these are yours, you're in the right place:\n\n"
+        '  "When can I retire with an unreduced annuity?"\n'
+        '  "What\'s my FERS Supplement, and when does it go away?"\n'
+        '  "Should I elect the full survivor benefit, partial, or none?"\n'
+        '  "When does it make sense to add Medicare Part B on top of FEHB?"\n'
+        '  "How do I figure out my high-3 if my pay has changed a lot?"\n'
+        '  "What order should I draw from my TSP vs. other accounts?"\n\n'
+        "You don't need to have all the answers before the workshop. That's the point. "
+        "But knowing what you want to walk away with makes the time more useful.\n\n"
+        "Your Zoom link arrives tomorrow morning.\n\n"
+        "See you on " + webinar_date + ",\n"
+        "Brennan & David\n"
+        "PlanWell Financial Planning\n"
+        "planwellfp.com\n"
+    )
 
-Quick things to have ready:
-□ Your most recent LES
-□ Number of years of creditable service
-□ Any specific questions about your situation
+    prep_content = (
+        '<p style="margin:0 0 10px 0;font-size:15px;font-weight:bold;color:#1e3a5f;">'
+        'Quick prep checklist:</p>\n'
+        '<p style="margin:6px 0;font-size:15px;color:#333333;">&#9744; Your most recent LES '
+        '&mdash; base pay and years of creditable service</p>\n'
+        '<p style="margin:6px 0;font-size:15px;color:#333333;">&#9744; Your TSP balance and '
+        'current contribution rate</p>\n'
+        '<p style="margin:6px 0;font-size:15px;color:#333333;">&#9744; The specific questions '
+        'you want answered</p>'
+    )
 
-Common questions we'll answer:
-• "When can I retire with full benefits?"
-• "How does the FERS supplement work?"
-• "Should I keep FEHB or switch to Medicare?"
-• "What happens to my TSP when I retire?"
+    questions_content = (
+        '<p style="margin:0 0 10px 0;font-size:15px;font-weight:bold;color:#1e3a5f;">'
+        'Questions we hear most often:</p>\n'
+        '<p style="margin:6px 0;font-size:15px;color:#333333;">'
+        '&ldquo;When can I retire with an unreduced annuity?&rdquo;</p>\n'
+        '<p style="margin:6px 0;font-size:15px;color:#333333;">'
+        '&ldquo;What\'s my FERS Supplement, and when does it go away?&rdquo;</p>\n'
+        '<p style="margin:6px 0;font-size:15px;color:#333333;">'
+        '&ldquo;Should I elect the full survivor benefit, partial, or none?&rdquo;</p>\n'
+        '<p style="margin:6px 0;font-size:15px;color:#333333;">'
+        '&ldquo;When does it make sense to add Medicare Part B on top of FEHB?&rdquo;</p>\n'
+        '<p style="margin:6px 0;font-size:15px;color:#333333;">'
+        '&ldquo;How do I figure out my high-3 if my pay has changed a lot?&rdquo;</p>\n'
+        '<p style="margin:6px 0;font-size:15px;color:#333333;">'
+        '&ldquo;What order should I draw from my TSP vs. other accounts?&rdquo;</p>'
+    )
 
-Your Zoom link will arrive tomorrow.
+    body_html = (
+        '<p style="margin:0 0 16px 0;">Hi ' + first_name + ',</p>\n\n'
+        '<p style="margin:0 0 16px 0;">Three days until the FERS Workshop &mdash; '
+        '<strong>' + webinar_date + '</strong>, 11 AM &ndash; 2 PM ' + timezone + '.</p>\n\n' +
+        _section_box('#f5f5f5', '#c9a55c', prep_content) + '\n\n' +
+        _section_box('#f9f6f0', '#c9a55c', questions_content) + '\n\n'
+        '<p style="margin:20px 0 16px 0;">You don\'t need to have all the answers before the '
+        'workshop. That\'s the point. But knowing what you want to walk away with makes the '
+        'time more useful.</p>\n\n' +
+        _navy_note("Your Zoom link arrives tomorrow morning.") + '\n\n'
+        '<p style="margin:20px 0 8px 0;">See you on ' + webinar_date + ',</p>\n'
+        '<p style="margin:0;font-weight:bold;color:#1e3a5f;">Brennan &amp; David<br>'
+        '<span style="font-weight:normal;color:#555555;">PlanWell Financial Planning</span></p>\n'
+    )
 
-See you soon,
-The PlanWell Team
-"""
+    html_body = _base_html(
+        preheader="3 days until the FERS Workshop. Quick prep checklist inside -- takes 5 minutes.",
+        header_bg="#1e3a5f",
+        header_text_color="#ffffff",
+        header_line1="3 days to go.",
+        header_line2=webinar_date + " &nbsp;&middot;&nbsp; 11 AM &ndash; 2 PM " + timezone,
+        body_html=body_html
+    )
 
-    html_body = f"""
-<!DOCTYPE html>
-<html>
-<head>
-    <style>
-        body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; }}
-        .container {{ max-width: 600px; margin: 0 auto; }}
-        .header {{ background: linear-gradient(135deg, #1e3a5f 0%, #152a45 100%); color: white; padding: 30px; text-align: center; }}
-        .content {{ padding: 30px; background: #ffffff; }}
-        .prep-box {{ background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0; }}
-        .questions {{ background: #e8f4f8; padding: 20px; border-radius: 8px; margin: 20px 0; }}
-        .note {{ background: #d4edda; padding: 15px; border-radius: 8px; margin: 20px 0; text-align: center; }}
-        .footer {{ text-align: center; padding: 20px; color: #666; font-size: 14px; background: #f8f9fa; }}
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>3 Days to Go!</h1>
-        </div>
-        <div class="content">
-            <p>Hi {first_name},</p>
-            <p>Just <strong>3 days</strong> until the FERS Retirement Workshop on <strong>{webinar_date}</strong> at 11:00 AM {timezone}.</p>
-            
-            <div class="prep-box">
-                <h3>Quick things to have ready:</h3>
-                <p>☐ Your most recent LES</p>
-                <p>☐ Number of years of creditable service</p>
-                <p>☐ Any specific questions about your situation</p>
-            </div>
-            
-            <div class="questions">
-                <h3>Common questions we'll answer:</h3>
-                <p>• "When can I retire with full benefits?"</p>
-                <p>• "How does the FERS supplement work?"</p>
-                <p>• "Should I keep FEHB or switch to Medicare?"</p>
-                <p>• "What happens to my TSP when I retire?"</p>
-            </div>
-            
-            <div class="note">
-                <strong>📧 Your Zoom link will arrive tomorrow.</strong>
-            </div>
-            
-            <p>See you soon,<br>The PlanWell Team</p>
-        </div>
-        <div class="footer">
-            <p>PlanWell Financial Planning | planwellfp.com</p>
-        </div>
-    </div>
-</body>
-</html>
-"""
-    
     return send_email(to_email, subject, plain_body, html_body)
 
 
-def send_webinar_1day(to_email: str, first_name: str, webinar_date: str, 
-                       zoom_link: str, timezone: str = 'EST') -> bool:
+# ---------------------------------------------------------------------------
+# 4. 1-Day Reminder (with Zoom link)
+# ---------------------------------------------------------------------------
+
+def send_webinar_1day(to_email, first_name, webinar_date, zoom_link, timezone='ET'):
     """
     Send 1-day reminder with Zoom link.
+    Purpose: Remove all friction for joining. Single focus: here's the link,
+    here's what you need to know to show up ready.
     """
-    subject = f"Tomorrow: Your FERS Workshop + Zoom Link"
-    
-    plain_body = f"""Hi {first_name},
+    subject = "Tomorrow at 11 AM -- your Zoom link for the FERS Workshop"
 
-Your FERS Retirement Workshop is tomorrow!
+    plain_body = (
+        "Hi " + first_name + ",\n\n"
+        "Tomorrow's the day. Here's everything you need:\n\n"
+        "  Date:  " + webinar_date + "\n"
+        "  Time:  11:00 AM - 2:00 PM " + timezone + "\n"
+        "  Link:  " + zoom_link + "\n\n"
+        "A few practical notes:\n\n"
+        "Join 5 minutes early if you can -- Brennan and David start right at 11, "
+        "and the opening context is worth catching.\n\n"
+        "You don't need your camera on. Most attendees don't use it.\n\n"
+        "Type questions in the chat -- they monitor it closely and work through "
+        "questions throughout.\n\n"
+        "Block the full 3 hours. The workshop runs to 2 PM and Q&A is built into "
+        "the end, not cut short.\n\n"
+        "See you tomorrow,\n"
+        "Brennan & David\n"
+        "PlanWell Financial Planning\n"
+        "planwellfp.com\n\n"
+        "---\n"
+        "Can't make it? Reply to this email -- we'd love to get you on a future date.\n"
+    )
 
-📅 {webinar_date}
-🕐 11:00 AM – 2:00 PM {timezone}
-📍 Join via Zoom: {zoom_link}
+    details_rows = (
+        _detail_row("Date:", webinar_date) +
+        _detail_row("Time:", "11:00 AM &ndash; 2:00 PM " + timezone)
+    )
 
-A few tips:
-• Join a few minutes early to test your audio/video
-• Have questions ready – we save plenty of time for Q&A
-• Feel free to turn your camera off if you prefer
+    details_box = (
+        '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"'
+        ' style="margin:20px 0;background-color:#f5f5f5;border-left:4px solid #c9a55c;">\n'
+        '  <tr><td style="padding:18px 20px;">\n'
+        '    <table role="presentation" cellpadding="0" cellspacing="0" border="0">\n' +
+        details_rows + '\n'
+        '    </table>\n'
+        '  </td></tr>\n'
+        '</table>'
+    )
 
-We recommend blocking off the full 3 hours. Most attendees tell us they wished they'd scheduled even more time.
+    notes_content = (
+        '<p style="margin:0 0 10px 0;font-size:15px;font-weight:bold;color:#1e3a5f;">'
+        'A few practical notes:</p>\n'
+        '<p style="margin:6px 0;font-size:15px;color:#333333;"><strong>Join 5 minutes early</strong> '
+        '&mdash; Brennan and David start right at 11 and the opening context is worth catching.</p>\n'
+        '<p style="margin:6px 0;font-size:15px;color:#333333;"><strong>Camera is optional</strong> '
+        '&mdash; most attendees don\'t use it.</p>\n'
+        '<p style="margin:6px 0;font-size:15px;color:#333333;"><strong>Type questions in the chat</strong> '
+        '&mdash; they monitor it closely and work through questions throughout.</p>\n'
+        '<p style="margin:6px 0;font-size:15px;color:#333333;"><strong>Block the full 3 hours</strong> '
+        '&mdash; Q&amp;A is built into the end, not cut short.</p>'
+    )
 
-See you tomorrow,
-The PlanWell Team
-"""
+    body_html = (
+        '<p style="margin:0 0 16px 0;">Hi ' + first_name + ',</p>\n\n'
+        "<p style=\"margin:0 0 16px 0;\">Tomorrow's the day. Here's everything you need:</p>\n\n" +
+        details_box + '\n\n' +
+        _gold_button(zoom_link, "Join the Workshop") + '\n\n'
+        '<p style="text-align:center;margin:-16px 0 24px 0;font-size:13px;color:#888888;">'
+        'Or copy this link: <a href="' + zoom_link + '" style="color:#1e3a5f;word-break:break-all;">'
+        + zoom_link + '</a></p>\n\n' +
+        _section_box('#f5f5f5', '#1e3a5f', notes_content) + '\n\n'
+        '<p style="margin:20px 0 8px 0;">See you tomorrow,</p>\n'
+        '<p style="margin:0;font-weight:bold;color:#1e3a5f;">Brennan &amp; David<br>'
+        '<span style="font-weight:normal;color:#555555;">PlanWell Financial Planning</span></p>\n\n'
+        '<p style="margin:24px 0 0 0;font-size:13px;color:#888888;">Can\'t make it? Reply to '
+        'this email &mdash; we\'d love to get you on a future date.</p>\n'
+    )
 
-    html_body = f"""
-<!DOCTYPE html>
-<html>
-<head>
-    <style>
-        body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; }}
-        .container {{ max-width: 600px; margin: 0 auto; }}
-        .header {{ background: linear-gradient(135deg, #1e3a5f 0%, #152a45 100%); color: white; padding: 30px; text-align: center; }}
-        .content {{ padding: 30px; background: #ffffff; }}
-        .details-box {{ background: #f8f9fa; border-left: 4px solid #c9a55c; padding: 20px; margin: 20px 0; }}
-        .join-btn {{ display: inline-block; background: linear-gradient(135deg, #c9a55c 0%, #a88a44 100%); color: #152a45; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 18px; margin: 20px 0; }}
-        .tips {{ background: #e8f4f8; padding: 20px; border-radius: 8px; margin: 20px 0; }}
-        .footer {{ text-align: center; padding: 20px; color: #666; font-size: 14px; background: #f8f9fa; }}
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>See You Tomorrow!</h1>
-        </div>
-        <div class="content">
-            <p>Hi {first_name},</p>
-            <p>Your FERS Retirement Workshop is <strong>tomorrow</strong>!</p>
-            
-            <div class="details-box">
-                <p><strong>📅</strong> {webinar_date}</p>
-                <p><strong>🕐</strong> 11:00 AM – 2:00 PM {timezone}</p>
-            </div>
-            
-            <p style="text-align: center;">
-                <a href="{zoom_link}" class="join-btn">Join Workshop</a>
-            </p>
-            <p style="text-align: center; font-size: 14px; color: #666;">
-                Or copy this link: {zoom_link}
-            </p>
-            
-            <div class="tips">
-                <h3>A few tips:</h3>
-                <p>• Join a few minutes early to test your audio/video</p>
-                <p>• Have questions ready – we save plenty of time for Q&A</p>
-                <p>• Feel free to turn your camera off if you prefer</p>
-            </div>
-            
-            <p>We recommend blocking off the full 3 hours. Most attendees tell us they wished they'd scheduled even more time.</p>
-            <p>See you tomorrow,<br>The PlanWell Team</p>
-        </div>
-        <div class="footer">
-            <p>PlanWell Financial Planning | planwellfp.com</p>
-        </div>
-    </div>
-</body>
-</html>
-"""
-    
+    html_body = _base_html(
+        preheader="Your Zoom link for tomorrow's FERS Workshop is inside. Starts 11 AM " + timezone + ".",
+        header_bg="#1e3a5f",
+        header_text_color="#ffffff",
+        header_line1="Tomorrow at 11 AM.",
+        header_line2="Your Zoom link is below.",
+        body_html=body_html
+    )
+
     return send_email(to_email, subject, plain_body, html_body)
 
 
-def send_webinar_dayof(to_email: str, first_name: str, zoom_link: str, 
-                        timezone: str = 'EST') -> bool:
+# ---------------------------------------------------------------------------
+# 5. Day-Of Reminder
+# ---------------------------------------------------------------------------
+
+def send_webinar_dayof(to_email, first_name, zoom_link, timezone='ET'):
     """
-    Send day-of reminder (morning of webinar).
+    Send morning-of reminder.
+    Purpose: One job -- get them to click the link. Short, direct, high urgency.
     """
-    subject = "Starting in a few hours – Join the FERS Workshop"
-    
-    plain_body = f"""Hi {first_name},
+    subject = "Starting at 11 AM today -- join the FERS Workshop"
 
-The FERS Retirement Workshop starts today at 11:00 AM {timezone}.
+    plain_body = (
+        "Hi " + first_name + ",\n\n"
+        "The FERS Retirement Workshop starts at 11:00 AM " + timezone + " today. "
+        "Brennan and David will start right on time.\n\n"
+        "Join here: " + zoom_link + "\n\n"
+        "See you in a few hours,\n"
+        "The PlanWell Team\n"
+        "planwellfp.com\n\n"
+        "---\n"
+        "Having trouble with the link? Reply to this email and we'll sort it out quickly.\n"
+    )
 
-📍 Join now: {zoom_link}
+    body_html = (
+        '<p style="margin:0 0 16px 0;">Hi ' + first_name + ',</p>\n\n'
+        '<p style="margin:0 0 20px 0;font-size:17px;">The FERS Retirement Workshop starts at '
+        '<strong>11:00 AM ' + timezone + '</strong> today. '
+        'Brennan and David will start right on time.</p>\n\n' +
+        _gold_button(zoom_link, "Join the Workshop Now") + '\n\n'
+        '<p style="text-align:center;margin:-16px 0 24px 0;font-size:13px;color:#888888;">'
+        '<a href="' + zoom_link + '" style="color:#1e3a5f;word-break:break-all;">'
+        + zoom_link + '</a></p>\n\n'
+        '<p style="margin:20px 0 0 0;font-size:14px;color:#888888;">Having trouble with the link? '
+        'Reply to this email and we\'ll get you sorted out quickly.</p>\n'
+    )
 
-See you soon,
-The PlanWell Team
-"""
+    html_body = _base_html(
+        preheader="The FERS Workshop starts at 11 AM " + timezone + " today. Your link is inside.",
+        header_bg="#c9a55c",
+        header_text_color="#1e3a5f",
+        header_line1="Starting at 11 AM today.",
+        header_line2="FERS Retirement Workshop",
+        body_html=body_html
+    )
 
-    html_body = f"""
-<!DOCTYPE html>
-<html>
-<head>
-    <style>
-        body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; }}
-        .container {{ max-width: 600px; margin: 0 auto; }}
-        .header {{ background: linear-gradient(135deg, #c9a55c 0%, #a88a44 100%); color: #152a45; padding: 30px; text-align: center; }}
-        .header h1 {{ margin: 0; }}
-        .content {{ padding: 30px; background: #ffffff; text-align: center; }}
-        .join-btn {{ display: inline-block; background: linear-gradient(135deg, #1e3a5f 0%, #152a45 100%); color: white; padding: 20px 40px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 20px; margin: 20px 0; }}
-        .footer {{ text-align: center; padding: 20px; color: #666; font-size: 14px; background: #f8f9fa; }}
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>🎓 Starts in a Few Hours!</h1>
-        </div>
-        <div class="content">
-            <p>Hi {first_name},</p>
-            <p style="font-size: 18px;">The FERS Retirement Workshop starts today at <strong>11:00 AM {timezone}</strong>.</p>
-            
-            <p>
-                <a href="{zoom_link}" class="join-btn">Join Workshop Now</a>
-            </p>
-            <p style="font-size: 14px; color: #666;">
-                {zoom_link}
-            </p>
-            
-            <p>See you soon,<br>The PlanWell Team</p>
-        </div>
-        <div class="footer">
-            <p>PlanWell Financial Planning | planwellfp.com</p>
-        </div>
-    </div>
-</body>
-</html>
-"""
-    
     return send_email(to_email, subject, plain_body, html_body)
 
+
+# ---------------------------------------------------------------------------
+# Test block
+# ---------------------------------------------------------------------------
 
 if __name__ == '__main__':
-    # Test email templates (will print to console if SMTP not configured)
-    print("Testing webinar email templates...")
-    
-    # Test confirmation
+    print("Testing FERS webinar email templates...\n")
+
     send_webinar_confirmation(
         to_email="test@example.com",
-        first_name="John",
-        webinar_date="Monday, December 30",
-        timezone="EST"
+        first_name="Sarah",
+        webinar_date="Tuesday, April 8",
+        timezone="ET",
+        calendar_link="https://planwellfp.com/calendar-add"
     )
-    print("✓ Confirmation template ready")
-    
-    # Test 7-day
+    print("Confirmation template OK")
+
     send_webinar_7day(
         to_email="test@example.com",
-        first_name="John",
-        webinar_date="Monday, December 30"
+        first_name="Sarah",
+        webinar_date="Tuesday, April 8"
     )
-    print("✓ 7-day template ready")
-    
-    # Test 3-day
+    print("7-day template OK")
+
     send_webinar_3day(
         to_email="test@example.com",
-        first_name="John",
-        webinar_date="Monday, December 30"
+        first_name="Sarah",
+        webinar_date="Tuesday, April 8",
+        timezone="ET"
     )
-    print("✓ 3-day template ready")
-    
-    # Test 1-day
+    print("3-day template OK")
+
     send_webinar_1day(
         to_email="test@example.com",
-        first_name="John",
-        webinar_date="Monday, December 30",
-        zoom_link="https://zoom.us/j/123456789"
+        first_name="Sarah",
+        webinar_date="Tuesday, April 8",
+        zoom_link="https://zoom.us/j/123456789",
+        timezone="ET"
     )
-    print("✓ 1-day template ready")
-    
-    # Test day-of
+    print("1-day template OK")
+
     send_webinar_dayof(
         to_email="test@example.com",
-        first_name="John",
-        zoom_link="https://zoom.us/j/123456789"
+        first_name="Sarah",
+        zoom_link="https://zoom.us/j/123456789",
+        timezone="ET"
     )
-    print("✓ Day-of template ready")
+    print("Day-of template OK")
+
+    print("\nAll 5 templates ready.")

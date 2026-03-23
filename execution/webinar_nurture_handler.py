@@ -2,7 +2,8 @@
 Webinar Registration Handler
 ==============================
 Flask webhook endpoint to handle webinar registration submissions.
-Registers in Zoom; Zoom handles its own confirmation email.
+Registers in Zoom, adds/updates subscriber in Mailchimp, and sends
+SMTP confirmation email.
 
 Usage:
     python webinar_nurture_handler.py
@@ -15,7 +16,8 @@ Expects POST to /api/webinar with JSON:
     "phone": "555-0100",       (optional)
     "agency": "DoD",
     "webinar_id": "dec-30-2025",
-    "webinar_date": "2025-12-30T11:00:00-05:00"
+    "webinar_date": "2025-12-30T11:00:00-05:00",
+    "webinar_type": "fers"     (optional, defaults to "fers"; also "tsp")
 }
 """
 
@@ -30,6 +32,7 @@ load_dotenv(Path(__file__).parent.parent / '.env')
 
 # Import our modules
 from zoom_client import add_registrant as zoom_add_registrant, find_webinar_by_date
+from mailchimp_client import add_subscriber_or_update
 
 app = Flask(__name__)
 CORS(app)
@@ -41,18 +44,20 @@ def handle_webinar_registration():
     Handle webinar registration form submission.
 
     1. Register in Zoom (auto-discovers webinar by date)
-    2. Return success response
+    2. Add/update subscriber in Mailchimp with merge fields and tags
+    3. Send SMTP confirmation email (FERS or TSP template)
+    4. Return success response
     """
     data = request.json
-    
+
     if not data:
         return jsonify({'success': False, 'error': 'No data provided'}), 400
-    
+
     # Validate required fields
     email = data.get('email')
     if not email:
         return jsonify({'success': False, 'error': 'Email is required'}), 400
-    
+
     # Support both old (name) and new (firstName/lastName) field formats
     first_name = data.get('firstName', '')
     last_name = data.get('lastName', '')
@@ -63,9 +68,10 @@ def handle_webinar_registration():
 
     phone = data.get('phone', '')
     full_name = f"{first_name} {last_name}".strip()
+    webinar_type = data.get('webinar_type', 'fers')
 
     try:
-        # Register in Zoom
+        # --- Step 1: Register in Zoom ---
         zoom_result = {'success': False, 'join_url': ''}
         webinar_date_str = data.get('webinar_date', '')
         if webinar_date_str:
@@ -88,13 +94,56 @@ def handle_webinar_registration():
             else:
                 print(f"No Zoom webinar found for date {target_date} — skipping Zoom registration")
 
+        # --- Step 2: Add/update subscriber in Mailchimp ---
+        mailchimp_result = {'success': False}
+        try:
+            mailchimp_result = add_subscriber_or_update(
+                email=email,
+                first_name=first_name,
+                last_name=last_name,
+                merge_fields={
+                    'ZOOMURL': zoom_result.get('join_url', ''),
+                    'WBNRDATE': webinar_date_str,
+                    'WBNRTYPE': webinar_type,
+                },
+                tags=[
+                    f'{webinar_type}-registered-{data.get("webinar_id", "")}',
+                    f'webinar-type-{webinar_type}',
+                ]
+            )
+            if mailchimp_result.get('success'):
+                print(f"Mailchimp upsert successful: {email} ({mailchimp_result.get('status')})")
+            else:
+                print(f"Mailchimp upsert warning (non-blocking): {mailchimp_result.get('error', 'unknown')}")
+        except Exception as mc_err:
+            print(f"Mailchimp error (non-blocking): {mc_err}")
+
+        # --- Step 3: Send SMTP confirmation email ---
+        confirmation_sent = False
+        try:
+            if webinar_type == 'tsp':
+                from tsp_webinar_emails import send_tsp_confirmation
+                confirmation_sent = send_tsp_confirmation(email, first_name, webinar_date_str, 'ET')
+            else:
+                from webinar_emails import send_webinar_confirmation
+                confirmation_sent = send_webinar_confirmation(email, first_name, webinar_date_str, 'ET')
+
+            if confirmation_sent:
+                print(f"Confirmation email sent: {email} (type={webinar_type})")
+            else:
+                print(f"Confirmation email failed (non-blocking): {email}")
+        except Exception as email_err:
+            print(f"Confirmation email error (non-blocking): {email_err}")
+
         return jsonify({
             'success': True,
             'message': 'Registration received',
             'zoom_registered': zoom_result.get('success', False),
             'zoom_join_url': zoom_result.get('join_url', ''),
+            'mailchimp_registered': mailchimp_result.get('success', False),
+            'confirmation_sent': confirmation_sent,
         })
-        
+
     except Exception as e:
         print(f"Error handling registration: {e}")
         return jsonify({
