@@ -513,15 +513,66 @@ const isWebinarVariant = variant === 'webinar' || variant === 'calculator' || (!
     }
   }
 
+  // ---- Force show (bypasses suppression for manual triggers) ----
+  function forceShowPopup() {
+    const popup = document.getElementById('smart-popup');
+    if (!popup) return;
+
+    // Swap content to newsletter mode: show email form, hide webinar CTA
+    const ctaLink = document.getElementById('popup-cta');
+    const formEl = document.getElementById('popup-form');
+    const titleEl = popup.querySelector('.smart-popup__title');
+    const descEl = popup.querySelector('.smart-popup__description');
+    const successEl = document.getElementById('popup-success');
+    const contentEl = document.getElementById('popup-content');
+
+    // If there's no form (webinar variant), inject one
+    if (ctaLink && !formEl) {
+      const formHTML = `<form class="smart-popup__form" id="popup-form">
+        <div class="smart-popup__input-row">
+          <input type="email" name="email" placeholder="Your email address"
+            class="smart-popup__input" required autocomplete="email" />
+          <button type="submit" class="smart-popup__submit">
+            Subscribe
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
+      </form>`;
+      ctaLink.insertAdjacentHTML('afterend', formHTML);
+      ctaLink.style.display = 'none';
+      // Bind the new form
+      document.getElementById('popup-form')?.addEventListener('submit', handleSubmit);
+    }
+
+    // Update copy to newsletter context
+    if (titleEl) titleEl.textContent = 'Get Our Newsletter';
+    if (descEl) descEl.textContent = 'Join 10,000+ federal employees who receive weekly insights on FERS, TSP, and retirement planning.';
+
+    // Reset state and show
+    if (contentEl) contentEl.style.display = 'block';
+    if (successEl) successEl.style.display = 'none';
+    popup.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+    popupShown = true;
+  }
+
   // ---- Init ----
   function init() {
-    if (!shouldShow()) return;
-
-    // Close handlers
+    // Close handlers - ALWAYS bind these regardless of suppression state
     document.querySelector('.smart-popup__close')?.addEventListener('click', hidePopup);
     document.querySelector('.smart-popup__overlay')?.addEventListener('click', hidePopup);
     document.getElementById('popup-success-close')?.addEventListener('click', hidePopup);
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') hidePopup(); });
+
+    // External trigger button - ALWAYS works regardless of suppression
+    document.getElementById('newsletter-trigger')?.addEventListener('click', () => {
+      forceShowPopup();
+    });
+
+    // Everything below only runs if auto-show is allowed
+    if (!shouldShow()) return;
 
     // Form handler (blog variant)
     document.getElementById('popup-form')?.addEventListener('submit', handleSubmit);
@@ -529,13 +580,7 @@ const isWebinarVariant = variant === 'webinar' || variant === 'calculator' || (!
     // CTA click handler (webinar variant)
     document.getElementById('popup-cta')?.addEventListener('click', handleCTAClick);
 
-    // External trigger button (for "Get Our Newsletter" button on homepage)
-    document.getElementById('newsletter-trigger')?.addEventListener('click', () => {
-      popupShown = false; // Allow re-show from manual trigger
-      showPopup();
-    });
-
-    // Start triggers
+    // Start auto-triggers
     initExitIntent();
     initScrollTrigger();
   }
