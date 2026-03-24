@@ -16,29 +16,30 @@
 ```
 [HOOK — 0-3 sec]
 (Look directly at camera, slight head shake)
-"Federal employees — the #1 retirement mistake costs you $127,000."
+"Most federal employees leave $127,000 on the table when they retire —
+and they never even know it."
 
 [PROBLEM — 3-8 sec]
-"Most feds retire at the wrong time. They don't know their
-exact pension number, they leave TSP money on the table,
-and they overpay for FEGLI by thousands."
+"Here's what happens: they pick their retirement date based on a gut feeling
+instead of running the actual math. Under FERS, retiring at 56 versus 60
+can be a $127,000 difference in pension income over your first decade out.
+That's not a rounding error. That's real money."
 
 [SOLUTION — 8-22 sec]
-"I'm Brennan Rhule — I'm a Certified Financial Planner and one of
-the few advisors with the ChFEBC designation. In our free 3-hour
-workshop, we break down YOUR pension calculation, YOUR optimal
-retirement date, and YOUR TSP withdrawal strategy.
-Over 10,000 federal employees have attended."
+(lean in slightly)
+"I'm Brennan Rhule, CFP. In our free 3-hour workshop, we calculate your
+actual pension — your high-3 salary, your years of creditable service,
+your optimal retirement date. Not estimates. Your numbers."
 
 [CTA — 22-30 sec]
-"Next workshop is [DATE]. It's free, it's online, and
-there's no sales pitch. Link's in the comments."
-(Point down toward the link)
+(point down)
+"Next workshop is [DATE]. It's free, it's online, and there's no sales pitch.
+Link's in the comments."
 ```
 
 **On-screen text overlay suggestions:**
-- 0s: "THE $127K MISTAKE" (bold, red)
-- 5s: "Wrong retirement date = $127K lost"
+- 0s: "$127,000 LEFT ON THE TABLE" (bold, high contrast)
+- 5s: "Retiring at 56 vs. 60 under FERS"
 - 12s: Brennan's name + credentials (lower third)
 - 22s: "FREE Workshop — [DATE]" + planwellfp.com/webinar
 
@@ -50,34 +51,34 @@ there's no sales pitch. Link's in the comments."
 
 ```
 [HOOK — 0-3 sec]
-(Lean in slightly, like sharing a secret)
-"There are 3 numbers that determine your entire federal pension.
-Do you know what they are?"
+(lean in, like sharing something most people don't know)
+"There are exactly 3 numbers that determine your entire FERS pension.
+Most federal employees can't name them."
 
-[PROBLEM — 3-10 sec]
-"Most federal employees can't answer that question.
-They've worked 20, 25, 30 years for the government
-and they don't actually know how their pension is calculated.
-That's a problem."
+[PROBLEM — 3-8 sec]
+"I've sat with feds who've put in 28, 30 years — and they have no idea
+how the pension formula actually works. That's a problem, because getting
+these numbers wrong means you can't plan a retirement date with any confidence."
 
-[SOLUTION — 10-22 sec]
-"I'm David Fei — I'm a CFP and ChFEBC, and I've helped
-over 10,000 feds understand their benefits.
-In our free workshop, we calculate your pension live —
-your high-3, your years of service, and your retirement age.
-We also cover TSP, FEHB, survivor benefits, and Social Security timing."
+[SOLUTION — 8-22 sec]
+(calm, measured)
+"I'm David Fei, CFP. The three numbers are your high-3 average salary,
+your years of creditable service, and your retirement age. They go into
+one formula: 1% times your high-3 times your years of service.
+In our free workshop, we run that formula with your actual numbers —
+live, on the call."
 
 [CTA — 22-30 sec]
-"The workshop is free, online, and 3 hours.
-Register at the link below before spots fill up."
-(Gesture toward link)
+(gesture toward link)
+"It's free, it's 3 hours, and it covers TSP and FEHB too.
+Register at the link below."
 ```
 
 **On-screen text overlay suggestions:**
-- 0s: "3 NUMBERS = YOUR PENSION" (bold)
+- 0s: "3 NUMBERS = YOUR FERS PENSION" (bold)
 - 5s: "Can you name them?"
-- 12s: David's name + credentials (lower third)
-- 22s: "FREE — Register Now" + date
+- 10s: "High-3 × Years of Service × 1%"
+- 22s: "FREE Workshop — Register Now" + planwellfp.com/webinar
 
 ---
 
@@ -87,36 +88,34 @@ Register at the link below before spots fill up."
 
 ```
 [HOOK — 0-3 sec]
-(Slight pause, then genuine expression)
-"Every single week, a federal employee sits down with me
-and says the same thing."
+(pause, then look straight at camera)
+"Last Tuesday, a GS-13 sat down with me and said —
+'Brennan, I've been with the government 27 years
+and I genuinely don't know if I can afford to retire.'"
 
 [PROBLEM — 3-12 sec]
-"They say: 'Brennan, I've been with the government for 25 years
-and I have no idea if I'm ready to retire.'
-
-They don't know what their pension will be.
-They don't know when they should actually retire.
-And they're terrified of making the wrong TSP decision."
+"She wasn't bad with money. She just didn't know her numbers.
+She didn't know what her FERS pension would actually pay.
+She didn't know when she should claim Social Security.
+She didn't know if her TSP balance was enough.
+And she was two years from her MRA and completely in the dark."
 
 [SOLUTION — 12-22 sec]
-"That's exactly why we created a free 3-hour workshop.
-No sales pitch. Just your numbers.
-
-We walk through your FERS pension, your TSP options,
-your FEHB in retirement, and your survivor benefit decisions.
-You leave knowing exactly where you stand."
+(warm, direct)
+"That's why we built this workshop. Three hours, free, online.
+We go through your pension formula, your TSP withdrawal options,
+your FEHB coverage in retirement, and your survivor benefit decisions.
+You leave knowing exactly what your retirement looks like."
 
 [CTA — 22-30 sec]
-"Over 10,000 feds have attended. The next one is [DATE].
-Grab your seat — link's below."
+"Next one is [DATE]. Grab your seat — link's below."
 ```
 
 **On-screen text overlay suggestions:**
-- 0s: "Every week, I hear the same thing..."
-- 8s: "I have no idea if I'm ready to retire."
+- 0s: "A GS-13 said this to me last Tuesday..."
+- 8s: "27 years in. No idea if she could retire."
 - 14s: "Free 3-Hour FERS Workshop"
-- 22s: "[DATE] — Register Free"
+- 22s: "[DATE] — Register Free" + planwellfp.com/webinar
 
 ---
 
@@ -126,36 +125,33 @@ Grab your seat — link's below."
 
 ```
 [HOOK — 0-3 sec]
-(Hold up a piece of paper toward camera)
-"If you're a federal employee, you've gotten one of these.
-But I bet you've never actually read it."
+(hold up a printed benefits statement toward camera)
+"This is your federal benefits statement. I'm guessing you've gotten one
+of these and never really dug into it."
 
 [PROBLEM — 3-10 sec]
-"This is your Federal Benefits Statement. It has your
-pension estimate, your sick leave balance, your TSP summary.
-
-But here's the thing — it doesn't tell you
-the 5 decisions that actually matter for your retirement."
+"It shows your pension estimate, your sick leave balance, your TSP summary.
+But here's what it doesn't tell you: the decisions that actually determine
+how much you keep. The FEGLI trap. When sick leave converts to creditable service.
+How FEHB coordinates with Medicare. It's all missing."
 
 [SOLUTION — 10-22 sec]
-"We put together a free guide that breaks down
-every decision on this statement — in plain English.
-
-What your pension formula actually means.
-When you should and shouldn't use sick leave.
-How to coordinate FEHB with Medicare.
-And the FEGLI trap that costs feds $200 a month."
+(set paper down, look at camera)
+"We put together a free guide that walks through each section of this statement
+in plain English. What your pension estimate actually assumes.
+How to read your high-3. And the five decisions most feds get wrong
+in the last five years before retirement."
 
 [CTA — 22-30 sec]
-"Download it free — link's in the comments.
-No strings attached."
+(point down)
+"Download it free — link in the comments. No strings."
 ```
 
 **On-screen text overlay suggestions:**
-- 0s: "YOUR BENEFITS STATEMENT" (with arrow to paper)
-- 5s: "5 decisions they don't explain"
-- 12s: "FREE FERS Guide"
-- 22s: "Download Now — Link Below"
+- 0s: "YOUR FEDERAL BENEFITS STATEMENT" (with arrow pointing to paper)
+- 5s: "5 decisions it doesn't explain"
+- 12s: David's name + credentials (lower third)
+- 22s: "Free FERS Guide — Download Now"
 
 ---
 
@@ -165,23 +161,24 @@ No strings attached."
 
 ```
 [HOOK — 0-2 sec]
-"Federal employees — quick tip."
+(fast, direct)
+"Federal employee — FEGLI quick tip."
 
 [VALUE — 2-12 sec]
-"If you're over 50 and still paying for Option B FEGLI,
-you're probably overpaying by $150 to $300 a month.
-
-The cost of FEGLI goes up every 5 years after age 35,
-but most feds never compare it to a private term policy."
+"If you're over 50 and still carrying Option B, you're probably paying
+$150 to $300 a month more than you need to.
+FEGLI costs go up every 5 years after 35 —
+but most feds never compare it to a private term policy.
+Do the math before you assume it's the better deal."
 
 [CTA — 12-18 sec]
-"Run the numbers on our free FEGLI calculator.
-Link in bio."
+(point at camera)
+"Free FEGLI calculator — link in bio. Takes 2 minutes."
 ```
 
 **On-screen text overlay suggestions:**
-- 0s: "FEGLI TIP" (bold)
-- 3s: "$150-300/mo OVERPAYING?"
+- 0s: "FEGLI TIP" (bold, fast cut)
+- 3s: "Overpaying $150–300/mo?"
 - 10s: "Free FEGLI Calculator"
 - 12s: planwellfp.com/calculators
 
@@ -193,30 +190,31 @@ Link in bio."
 
 ```
 [HOOK — 0-3 sec]
-BRENNAN: "Okay David, biggest TSP mistake you see?"
+BRENNAN: "David — what's the biggest TSP mistake you see?"
 
 [DISCUSSION — 3-20 sec]
-DAVID: "Easy — people who move everything to the G Fund
-5 years before retirement. They think they're being safe
-but they're losing purchasing power to inflation."
+DAVID: "Honestly? People who move everything into the G Fund
+5 years out. They think they're protecting themselves.
+But they're losing ground to inflation every single year
+right before they need that money most."
 
-BRENNAN: "I'd say it's not having a withdrawal strategy.
-You can save perfectly for 30 years and then lose
-a huge chunk to taxes because you took it out wrong."
+BRENNAN: "I'd say it's not having a withdrawal strategy at all.
+You can do everything right for 30 years —
+and then take your TSP distributions in the wrong order
+and hand a big chunk to the IRS you didn't have to."
 
-DAVID: "That's fair. We actually cover both of these
-in our workshop."
+DAVID: "Both real problems. We actually cover both in the workshop."
 
 [CTA — 20-30 sec]
-BRENNAN: "Free, 3 hours, online. We go through all of it."
+BRENNAN: "Free, 3 hours, online — the whole TSP picture."
 DAVID: "Next one's [DATE]. Register at the link."
 ```
 
 **On-screen text overlay suggestions:**
-- 0s: "BIGGEST TSP MISTAKE?"
+- 0s: "BIGGEST TSP MISTAKE?" (bold)
 - 5s: "Moving to G Fund too early"
-- 12s: "No withdrawal strategy"
-- 20s: "Free Workshop — [DATE]"
+- 12s: "No withdrawal strategy = avoidable taxes"
+- 20s: "Free Workshop — [DATE]" + planwellfp.com/webinar
 
 ---
 
@@ -225,25 +223,24 @@ DAVID: "Next one's [DATE]. Register at the link."
 ### For Brennan (Scripts 1, 3, 5):
 - **Voice:** Talk like you're warning your neighbor about something important. Not a pitch — a heads-up.
 - **Pace:** Slightly faster than conversational. You have 30 seconds. Don't rush, but don't linger.
-- **The "$127K" number (Script 1):** Say it with weight. Pause briefly after. Let it land.
-- **"Every single week" (Script 3):** Start slow, then build energy. The emotion is real — lean into it.
-- **"Quick tip" (Script 5):** This one should feel like a TikTok. Fast, punchy, done. Almost offhand.
-- **Hands:** Use them. Point at camera for "you." Count on fingers for numbers. Hold up paper for Script 4.
-- **Common mistake:** Reading off a script sounds dead. Read it 5 times, then put it down and say it in your own words. We'll keep the best take.
+- **"$127K" (Script 1):** Say it with weight. Pause a beat right after. Let the number land before you explain it.
+- **"Last Tuesday" (Script 3):** Start slow, grounded. You're recalling a real moment. Build from there — this one has the most emotional range of any script.
+- **"Quick tip" (Script 5):** Treat this like a TikTok. Fast, punchy, off the cuff. It should feel almost like an afterthought you decided to share, not a formal tip.
+- **Hands:** Use them. Point at the camera when you say "you." Count on your fingers when listing things. It keeps the eye engaged.
+- **Common mistake:** Reading off a script sounds dead. Read it 5 times, then put it down and say it in your own words. We'll use the best take.
 
 ### For David (Scripts 2, 4, 6):
-- **Voice:** Professor mode. You're the smart friend who makes complicated things simple.
-- **Pace:** Measured. You can afford to be slower than Brennan — your authority comes from calm confidence.
-- **"3 numbers" (Script 2):** The lean-in at the start is key. You're sharing something most people don't know. Make it feel like a secret.
-- **Benefits Statement (Script 4):** Actually hold up a printed benefits statement. Physical props are scroll-stoppers.
-- **"Do you know them?" (Script 2):** Direct eye contact. Genuine question. Slight pause for the viewer to think.
-- **Common mistake:** Being too formal. This isn't a webinar presentation. It's a hallway conversation.
+- **Voice:** Professor mode — calm, assured, making something complicated feel simple.
+- **Pace:** Measured. Your authority comes from not rushing. You can afford to be slower than Brennan.
+- **"3 numbers" (Script 2):** The lean-in matters. You're giving them something most people don't know. Make it feel like you're letting them in on something. Hold eye contact after "Can you name them?" — let the question breathe.
+- **Benefits Statement (Script 4):** Hold up a real printed statement. Physical props stop the scroll. Put it down when you transition to the solution — don't let it distract from the close.
+- **Common mistake:** Being too formal. This is a hallway conversation, not a webinar. If you catch yourself presenting, dial it back.
 
 ### For Both (Script 6 — Debate):
-- **Sit next to each other** or do split-screen on a Zoom call
-- **Disagree slightly.** The tension makes it interesting. "I'd say it's X." "That's fair, but I think Y."
-- **Be natural.** If one of you laughs or interrupts, KEEP IT. That's the magic.
-- **Energy match:** Both of you should be at the same energy level. If one is low-key and one is hyped, it feels off.
+- **Sit next to each other** or do back-and-forth cuts from a Zoom call. Either works.
+- **The disagreement is the content.** Don't smooth it over. "I'd say it's X" implies you don't fully agree with what David said — that's intentional. Keep the mild tension.
+- **If someone laughs or interrupts naturally, keep it.** That's the take you use.
+- **Energy match:** If one of you is low-energy and the other is dialed up, it feels off. Check in with each other before you roll.
 
 ### Call Flow (Suggested 30-min Recording Session):
 1. **5 min:** Quick run-through of all scripts. Answer any questions.
@@ -256,25 +253,25 @@ DAVID: "Next one's [DATE]. Register at the link."
 
 ## Recording Tips for Brennan & David
 
-1. **Use your iPhone** — hold vertically for Stories/Reels, horizontally for feed. Record both.
+1. **Use your iPhone** — hold vertically for Stories/Reels, horizontally for feed. Record both if you can.
 2. **Natural light** — face a window. No overhead fluorescents.
-3. **Audio** — a $20 lavalier mic makes a huge difference. Or just record in a quiet room.
+3. **Audio** — a $20 lavalier mic makes a meaningful difference. Or just record in a quiet room.
 4. **Eye contact** — look at the camera lens, not the screen.
-5. **Energy** — pretend you're explaining this to your best friend who just got their benefits statement. Not a boardroom.
-6. **Mistakes are fine** — don't re-record for perfection. Authentic > polished on Meta.
-7. **Multiple takes** — record 3-4 takes of each. We'll pick the best one.
-8. **Length** — aim for 25-35 seconds. Under 30 is ideal for Stories/Reels. Never over 60.
+5. **Energy** — pretend you're explaining this to your best friend who just got their benefits statement in the mail. Not a boardroom.
+6. **Mistakes are fine** — don't re-record for perfection. Authentic beats polished on Meta.
+7. **Multiple takes** — record 3–4 takes of each. We'll pick the best one.
+8. **Length** — aim for 25–35 seconds. Under 30 is ideal for Stories/Reels. Never over 60.
 9. **No suit** — button-down, sleeves optionally rolled up. Professional but human.
-10. **Props** — hold up the benefits statement (Script 4), point to a calculator on screen (Script 5). Physical props stop the scroll.
+10. **Props** — hold up the benefits statement (Script 4), point at the camera for "you" (Script 1, 3). Physical props stop the scroll.
 
 ## Which Scripts to Record First (Priority Order)
 
 1. **Script 1: "The $127K Mistake"** — strongest hook, loss aversion, webinar CTA
-2. **Script 3: "I See This Every Week"** — storytelling, most emotionally resonant
-3. **Script 4: "Your Benefits Statement"** — guide offer, different funnel than webinar
-4. **Script 5: "Quick Tip — FEGLI"** — short, punchy, calculator offer, good for Reels
-5. **Script 2: "3 Numbers"** — curiosity hook, strong educational angle
-6. **Script 6: "The TSP Question"** — both speakers, debate format, unique
+2. **Script 3: "I See This Every Week"** — most emotionally resonant, story format
+3. **Script 4: "Your Benefits Statement"** — guide offer, separate funnel from webinar
+4. **Script 5: "Quick Tip — FEGLI"** — short, punchy, calculator CTA, good for Reels
+5. **Script 2: "3 Numbers"** — curiosity hook, formula-forward, educational
+6. **Script 6: "The TSP Question"** — both speakers, debate format, unique format
 
 ## Post-Production (Colin or Buff handles)
 
