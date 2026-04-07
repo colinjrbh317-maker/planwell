@@ -1,0 +1,331 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getUpcomingWebinars, formatWebinarDate } from '../../data/webinars';
+import { getUpcomingTSPWebinars, formatTSPWebinarDate } from '../../data/tsp-webinars';
+
+const upcomingFERS = getUpcomingWebinars(3);
+const upcomingTSP = getUpcomingTSPWebinars(3);
+const nextWebinar = upcomingFERS[0];
+const workshopUrl = nextWebinar ? `/webinar/${nextWebinar.id}` : '/federal-retirement-webinars';
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Are there retirement workshops for Fort Meade employees?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. PlanWell offers free 3-hour FERS retirement workshops that NSA, DISA, DLA, and USCYBERCOM employees can attend virtually from Fort Meade or anywhere in Anne Arundel County. Sessions cover your FERS pension, TSP, FEHB, and survivor benefits."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you specialize in retirement planning for intelligence community employees?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Absolutely. Our Certified Financial Planners hold the ChFEBC designation and have extensive experience with IC and DoD civilian employees at Fort Meade, including those with special retirement provisions and unique benefits considerations."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is PlanWell different from the financial advisors on base at Fort Meade?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "PlanWell advisors are fee-based fiduciaries, not commission-based salespeople. We provide a free 22-page personalized benefits report and focus exclusively on federal employee retirement planning, unlike general advisors who may lack deep FERS expertise."
+      }
+    }
+  ]
+};
+
+const educationEventSchemas = upcomingFERS.map(w => ({
+  "@context": "https://schema.org",
+  "@type": "EducationEvent",
+  "name": w.title,
+  "startDate": w.date.toISOString(),
+  "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "location": {
+    "@type": "VirtualLocation",
+    "url": `https://www.planwellfinancialplanning.com/webinar/${w.id}`
+  },
+  "organizer": {
+    "@type": "Organization",
+    "name": "PlanWell Financial Planning",
+    "url": "https://www.planwellfinancialplanning.com"
+  },
+  "description": "Free 3-hour FERS retirement workshop for federal employees at Fort Meade and Anne Arundel County.",
+  "isAccessibleForFree": true
+}));
+---
+
+<BaseLayout
+  title="Federal Retirement Planning in Fort Meade & Anne Arundel County"
+  description="Expert FERS retirement planning for NSA, DISA, DLA, and USCYBERCOM employees at Fort Meade. Free virtual workshop available for Anne Arundel County federal workers."
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+    {educationEventSchemas.map(schema => (
+      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    ))}
+  </Fragment>
+
+  <!-- Hero Section -->
+  <section class="location-hero">
+    <div class="container">
+      <div class="location-hero__content" style="text-align: center; max-width: 700px; margin: 0 auto;">
+        <span class="eyebrow">Fort Meade & Anne Arundel County</span>
+        <h1 class="heading-xl">Federal Retirement Planning in Fort Meade & Anne Arundel County</h1>
+        <p class="lead">
+          Serving the intelligence community and defense workforce at Fort Meade.
+          Expert FERS guidance for NSA, DISA, DLA, and USCYBERCOM employees.
+        </p>
+        <div class="location-hero__cta" style="justify-content: center;">
+          <a href={workshopUrl} class="btn btn--primary btn--lg">Free FERS Workshop</a>
+          <a href={workshopUrl} class="btn btn--white btn--lg">Schedule Consultation</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service Area Section -->
+  <section class="section section--gray">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Service Areas Near Fort Meade</h2>
+      <div class="service-areas">
+        <div class="service-area">
+          <h3>Fort Meade</h3>
+          <p>NSA Campus, DISA HQ, Defense Courier Service, Tipton Airfield</p>
+        </div>
+        <div class="service-area">
+          <h3>Odenton</h3>
+          <p>Odenton Town Center, Piney Orchard, Seven Oaks, Two Rivers</p>
+        </div>
+        <div class="service-area">
+          <h3>Annapolis Junction</h3>
+          <p>National Business Park, Savage, Jessup, Maryland City</p>
+        </div>
+        <div class="service-area">
+          <h3>Laurel</h3>
+          <p>Laurel, Bowie, Columbia, Elkridge</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Major Employers Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Major Federal Employers We Serve</h2>
+      <div class="employers-grid">
+        <div class="employer-card">
+          <h3>Intelligence & Cyber</h3>
+          <ul>
+            <li>National Security Agency (NSA)</li>
+            <li>U.S. Cyber Command (USCYBERCOM)</li>
+            <li>Defense Information Systems Agency (DISA)</li>
+            <li>Defense Courier Service</li>
+            <li>National Cryptologic Museum</li>
+          </ul>
+        </div>
+        <div class="employer-card">
+          <h3>Defense & Logistics</h3>
+          <ul>
+            <li>Defense Logistics Agency (DLA)</li>
+            <li>Defense Media Activity</li>
+            <li>U.S. Army Garrison Fort Meade</li>
+            <li>Military Intelligence Readiness Command</li>
+            <li>Defense Counterintelligence and Security Agency</li>
+          </ul>
+        </div>
+        <div class="employer-card">
+          <h3>Nearby Federal Agencies</h3>
+          <ul>
+            <li>Social Security Administration (Woodlawn)</li>
+            <li>Census Bureau (Suitland)</li>
+            <li>NASA Goddard (Greenbelt)</li>
+            <li>USDA Beltsville Research Center</li>
+            <li>NIH (Bethesda)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Upcoming Workshops Section -->
+  <section class="section section--gray">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Upcoming Workshops</h2>
+      <p class="text-center lead mb-8">Virtual workshops available — attend from Fort Meade or anywhere in Maryland.</p>
+      {upcomingFERS.length > 0 && (
+        <div class="workshop-list">
+          <h3>FERS Retirement Workshops</h3>
+          {upcomingFERS.map(w => (
+            <a href={`/webinar/${w.id}`} class="workshop-item">
+              <span class="workshop-date">{formatWebinarDate(w)}</span>
+              <span class="workshop-time">{w.startTime} - {w.endTime} {w.timezone}</span>
+              <span class="btn btn--primary btn--sm">Register Free</span>
+            </a>
+          ))}
+        </div>
+      )}
+      {upcomingTSP.length > 0 && (
+        <div class="workshop-list" style="margin-top: var(--space-8);">
+          <h3>TSP Investment Strategy Sessions</h3>
+          {upcomingTSP.map(w => (
+            <a href={`/webinar/tsp/${w.id}`} class="workshop-item">
+              <span class="workshop-date">{formatTSPWebinarDate(w)}</span>
+              <span class="workshop-time">{w.startTime} - {w.endTime} {w.timezone}</span>
+              <span class="btn btn--primary btn--sm">Register Free</span>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- Directions Section -->
+  <section class="section section--navy">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Getting to Our Workshops</h2>
+      <p class="text-center lead mb-8" style="color: var(--color-gray-300);">
+        All workshops are virtual via Zoom. Perfect for cleared professionals who prefer to attend from home.
+      </p>
+      <div class="directions-grid">
+        <div class="direction-card">
+          <h3>From Fort Meade / NSA Campus</h3>
+          <p>No need to leave the installation. Join our virtual workshops during lunch or after shift from any location on post.</p>
+        </div>
+        <div class="direction-card">
+          <h3>From Odenton / Annapolis Junction</h3>
+          <p>Attend from home in the surrounding communities. All you need is an internet connection and 3 hours.</p>
+        </div>
+        <div class="direction-card">
+          <h3>Virtual Option</h3>
+          <p>All workshops delivered via Zoom. Ideal for shift workers, cleared personnel, and those with demanding schedules.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Why Fort Meade Employees Choose PlanWell</h2>
+      <div class="comparison-grid">
+        <div class="comparison-card comparison-card--highlight">
+          <h3>PlanWell Financial Planning</h3>
+          <ul class="comparison-list">
+            <li class="comparison-list__item comparison-list__item--pro">Certified Financial Planners (CFP®)</li>
+            <li class="comparison-list__item comparison-list__item--pro">ChFEBC℠ Federal Benefits Specialists</li>
+            <li class="comparison-list__item comparison-list__item--pro">Fee-Based Fiduciary</li>
+            <li class="comparison-list__item comparison-list__item--pro">Free 3-Hour FERS Workshop</li>
+            <li class="comparison-list__item comparison-list__item--pro">22-Page Personalized Benefits Report</li>
+            <li class="comparison-list__item comparison-list__item--pro">IC & DoD Civilian Experience</li>
+          </ul>
+        </div>
+        <div class="comparison-card">
+          <h3>Typical Fort Meade Area Advisors</h3>
+          <ul class="comparison-list">
+            <li class="comparison-list__item comparison-list__item--con">General financial credentials only</li>
+            <li class="comparison-list__item comparison-list__item--con">Limited FERS understanding</li>
+            <li class="comparison-list__item comparison-list__item--con">Commission-based products</li>
+            <li class="comparison-list__item comparison-list__item--con">No federal-specific workshops</li>
+            <li class="comparison-list__item comparison-list__item--con">Generic retirement projections</li>
+            <li class="comparison-list__item comparison-list__item--con">Limited IC employee experience</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="section section--gray">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Frequently Asked Questions</h2>
+      <div class="faq-list">
+        <div class="faq-item">
+          <h3>Are there retirement workshops for Fort Meade employees?</h3>
+          <p>Yes. PlanWell offers free 3-hour FERS retirement workshops that NSA, DISA, DLA, and USCYBERCOM employees can attend virtually from Fort Meade or anywhere in Anne Arundel County. Sessions cover your FERS pension, TSP, FEHB, and survivor benefits.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Do you specialize in retirement planning for intelligence community employees?</h3>
+          <p>Absolutely. Our Certified Financial Planners hold the ChFEBC designation and have extensive experience with IC and DoD civilian employees at Fort Meade, including those with special retirement provisions and unique benefits considerations.</p>
+        </div>
+        <div class="faq-item">
+          <h3>How is PlanWell different from the financial advisors on base at Fort Meade?</h3>
+          <p>PlanWell advisors are fee-based fiduciaries, not commission-based salespeople. We provide a free 22-page personalized benefits report and focus exclusively on federal employee retirement planning, unlike general advisors who may lack deep FERS expertise.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section section--navy">
+    <div class="container text-center">
+      <h2 class="heading-lg mb-4">Ready to Plan Your Federal Retirement?</h2>
+      <p class="lead mb-8" style="color: var(--color-gray-300);">
+        Join Fort Meade federal employees who've taken control of their retirement with expert guidance.
+      </p>
+      <div class="flex gap-4 justify-center" style="flex-wrap: wrap;">
+        <a href={workshopUrl} class="btn btn--primary btn--lg">Attend Free Workshop</a>
+        <a href={workshopUrl} class="btn btn--white btn--lg">Book a Consultation</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .location-hero { padding: var(--space-16) 0; background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%); color: var(--color-white); }
+  .location-hero h1 { color: var(--color-white); margin-bottom: var(--space-4); }
+  .location-hero .lead { color: var(--color-gray-300); margin-bottom: var(--space-8); }
+  .location-hero__cta { display: flex; gap: var(--space-4); flex-wrap: wrap; }
+
+  .service-areas { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
+  .service-area { background: var(--color-white); padding: var(--space-6); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+  .service-area h3 { font-size: var(--text-lg); margin-bottom: var(--space-2); }
+  .service-area p { color: var(--color-gray-600); font-size: var(--text-sm); }
+
+  .employers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .employer-card { background: var(--color-gray-100); padding: var(--space-8); border-radius: var(--radius-lg); }
+  .employer-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-4); color: var(--color-navy); }
+  .employer-card ul { list-style: none; padding: 0; }
+  .employer-card li { padding: var(--space-2) 0; border-bottom: 1px solid var(--color-gray-200); color: var(--color-gray-700); }
+  .employer-card li:last-child { border-bottom: none; }
+
+  .workshop-list { background: var(--color-white); border-radius: var(--radius-lg); padding: var(--space-6); box-shadow: var(--shadow-md); }
+  .workshop-list h3 { font-size: var(--text-xl); margin-bottom: var(--space-4); color: var(--color-navy); }
+  .workshop-item { display: flex; align-items: center; justify-content: space-between; padding: var(--space-4); border-bottom: 1px solid var(--color-gray-200); text-decoration: none; color: inherit; transition: background 0.2s; }
+  .workshop-item:last-child { border-bottom: none; }
+  .workshop-item:hover { background: var(--color-gray-50); }
+  .workshop-date { font-weight: 600; color: var(--color-navy); }
+  .workshop-time { color: var(--color-gray-600); font-size: var(--text-sm); }
+
+  .directions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .direction-card { background: rgba(255, 255, 255, 0.1); padding: var(--space-6); border-radius: var(--radius-lg); border: 1px solid rgba(255, 255, 255, 0.2); }
+  .direction-card h3 { color: var(--color-gold); font-size: var(--text-lg); margin-bottom: var(--space-3); }
+  .direction-card p { color: var(--color-gray-300); font-size: var(--text-sm); }
+
+  .comparison-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-8); max-width: 900px; margin: 0 auto; }
+  .comparison-card { background: var(--color-gray-100); padding: var(--space-8); border-radius: var(--radius-lg); }
+  .comparison-card--highlight { background: var(--color-navy); color: var(--color-white); }
+  .comparison-card--highlight h3 { color: var(--color-gold); }
+  .comparison-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-6); text-align: center; }
+  .comparison-list { list-style: none; padding: 0; }
+  .comparison-list__item { padding: var(--space-3) 0; padding-left: var(--space-8); position: relative; font-size: var(--text-sm); }
+  .comparison-list__item::before { position: absolute; left: 0; font-size: var(--text-lg); }
+  .comparison-list__item--pro::before { content: "\2713"; color: var(--color-gold); }
+  .comparison-list__item--con::before { content: "\2717"; color: var(--color-error); }
+
+  .faq-list { max-width: 800px; margin: 0 auto; }
+  .faq-item { background: var(--color-white); padding: var(--space-6); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); margin-bottom: var(--space-4); }
+  .faq-item h3 { font-size: var(--text-lg); margin-bottom: var(--space-2); color: var(--color-navy); }
+  .faq-item p { color: var(--color-gray-600); font-size: var(--text-sm); line-height: 1.6; }
+
+  @media (max-width: 1024px) { .service-areas { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 768px) {
+    .service-areas, .employers-grid, .directions-grid, .comparison-grid { grid-template-columns: 1fr; }
+    .workshop-item { flex-direction: column; align-items: flex-start; gap: var(--space-2); }
+  }
+</style>

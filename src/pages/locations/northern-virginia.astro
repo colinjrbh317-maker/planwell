@@ -2,12 +2,67 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import locationImage from '../../assets/locations/northern-virginia.png';
+import { getUpcomingWebinars, formatWebinarDate } from '../../data/webinars';
+import { getUpcomingTSPWebinars, formatTSPWebinarDate } from '../../data/tsp-webinars';
+
+const upcomingFERS = getUpcomingWebinars(3);
+const upcomingTSP = getUpcomingTSPWebinars(2);
+const nextWebinar = upcomingFERS[0];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Are there federal retirement workshops in Northern Virginia?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. PlanWell offers free virtual FERS retirement workshops that Northern Virginia federal employees can attend from anywhere. Our 3-hour sessions cover the FERS pension, TSP, FEHB, FEGLI, and Social Security coordination. Pentagon, CIA, DHS, and other NoVA agency employees attend regularly."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I register for a federal retirement webinar?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Visit planwellfp.com/federal-retirement-webinars to see all upcoming dates and register for a free session. Workshops are held via Zoom and run approximately 3 hours. No travel required from your Northern Virginia office or home."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is PlanWell's workshop specific to Northern Virginia federal employees?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Our workshops cover FERS benefits that apply to all federal employees nationwide. Whether you work at the Pentagon in Arlington, CIA in Langley, or the Patent Office in Alexandria, the FERS retirement system works the same way. Our CFP® professionals answer questions specific to your situation during the live Q&A."
+      }
+    }
+  ]
+};
+
+const eventSchemas = upcomingFERS.map(w => ({
+  "@context": "https://schema.org",
+  "@type": "EducationEvent",
+  "name": `Free FERS Retirement Workshop — ${formatWebinarDate(w)}`,
+  "startDate": w.date.toISOString(),
+  "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "isAccessibleForFree": true,
+  "url": `https://planwellfp.com/webinar/${w.id}`,
+  "location": { "@type": "VirtualLocation", "url": `https://planwellfp.com/webinar/${w.id}` },
+  "organizer": { "@type": "Organization", "name": "PlanWell Financial Planning", "url": "https://planwellfp.com" }
+}));
 ---
 
-<BaseLayout 
+<BaseLayout
   title="Federal Retirement Planning in Northern Virginia"
   description="Expert FERS retirement planning for federal employees in Northern Virginia. Serving Pentagon, Arlington, Tysons, and Fairfax area agencies. Free workshop available."
 >
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  {eventSchemas.map(s => (
+    <script type="application/ld+json" set:html={JSON.stringify(s)} />
+  ))}
+
   <!-- Hero Section -->
   <section class="location-hero">
     <div class="container">
@@ -16,17 +71,17 @@ import locationImage from '../../assets/locations/northern-virginia.png';
           <span class="eyebrow">Northern Virginia</span>
           <h1 class="heading-xl">Federal Retirement Planning in Northern Virginia</h1>
           <p class="lead">
-            Serving the largest concentration of federal employees outside DC. 
+            Serving the largest concentration of federal employees outside DC.
             From the Pentagon to Langley, we understand your unique benefits.
           </p>
           <div class="location-hero__cta">
-            <a href="/webinars" class="btn btn--primary btn--lg">Free FERS Workshop</a>
-            <a href="/webinars" class="btn btn--white btn--lg">Schedule Consultation</a>
+            <a href={nextWebinar ? `/webinar/${nextWebinar.id}` : '/federal-retirement-webinars'} class="btn btn--primary btn--lg">Free FERS Workshop</a>
+            <a href="/book-call" class="btn btn--white btn--lg">Schedule Consultation</a>
           </div>
         </div>
         <div class="location-hero__image">
-          <Image 
-            src={locationImage} 
+          <Image
+            src={locationImage}
             alt="Northern Virginia skyline with Tysons and Arlington"
             width={600}
             height={400}
@@ -103,6 +158,35 @@ import locationImage from '../../assets/locations/northern-virginia.png';
     </div>
   </section>
 
+  <!-- Upcoming Virtual Workshops -->
+  <section class="section section--gray">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-4">Federal Retirement Workshops for Northern Virginia Employees</h2>
+      <p class="text-center mb-8" style="color: var(--color-gray-600);">
+        Attend from Northern Virginia — no travel required. Our virtual workshops are free, comprehensive, and led by CFP® professionals.
+      </p>
+      <div class="workshop-list">
+        {upcomingFERS.map(w => (
+          <a href={`/webinar/${w.id}`} class="workshop-row">
+            <span class="workshop-row__date">{formatWebinarDate(w)}</span>
+            <span class="workshop-row__title">FERS Retirement Workshop · 3 Hours</span>
+            <span class="btn btn--primary btn--sm">Register Free</span>
+          </a>
+        ))}
+        {upcomingTSP.map(w => (
+          <a href={`/webinar/tsp/${w.id}`} class="workshop-row">
+            <span class="workshop-row__date">{formatTSPWebinarDate(w)}</span>
+            <span class="workshop-row__title">TSP Investment Workshop · 1 Hour</span>
+            <span class="btn btn--primary btn--sm">Register Free</span>
+          </a>
+        ))}
+      </div>
+      <p class="text-center mt-6">
+        <a href="/federal-retirement-webinars" style="color: var(--color-gold); text-decoration: underline;">View all upcoming workshop dates →</a>
+      </p>
+    </div>
+  </section>
+
   <!-- Directions Section -->
   <section class="section section--navy">
     <div class="container">
@@ -158,6 +242,33 @@ import locationImage from '../../assets/locations/northern-virginia.png';
     </div>
   </section>
 
+  <!-- Local FAQs -->
+  <section class="section">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Northern Virginia Federal Retirement FAQs</h2>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary class="faq-question">Are there federal retirement workshops in Northern Virginia?</summary>
+          <div class="faq-answer">
+            <p>Yes. PlanWell offers free virtual FERS retirement workshops that Northern Virginia federal employees can attend from anywhere. Our 3-hour sessions cover the FERS pension, TSP, FEHB, FEGLI, and Social Security coordination. Pentagon, CIA, DHS, and other NoVA agency employees attend regularly.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">How do I register for a federal retirement webinar?</summary>
+          <div class="faq-answer">
+            <p>Visit <a href="/federal-retirement-webinars">planwellfp.com/federal-retirement-webinars</a> to see all upcoming dates and register for a free session. Workshops are held via Zoom and run approximately 3 hours. No travel required from your Northern Virginia office or home.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">Is PlanWell's workshop specific to Northern Virginia federal employees?</summary>
+          <div class="faq-answer">
+            <p>Our workshops cover FERS benefits that apply to all federal employees nationwide. Whether you work at the Pentagon in Arlington, CIA in Langley, or the Patent Office in Alexandria, the FERS retirement system works the same way. Our CFP® professionals answer questions specific to your situation during the live Q&A.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
   <!-- CTA Section -->
   <section class="section section--navy">
     <div class="container text-center">
@@ -166,8 +277,8 @@ import locationImage from '../../assets/locations/northern-virginia.png';
         Join thousands of Northern Virginia federal employees who've taken control of their retirement.
       </p>
       <div class="flex gap-4 justify-center" style="flex-wrap: wrap;">
-        <a href="/webinars" class="btn btn--primary btn--lg">Attend Free Workshop</a>
-        <a href="/webinars" class="btn btn--white btn--lg">Book a Consultation</a>
+        <a href={nextWebinar ? `/webinar/${nextWebinar.id}` : '/federal-retirement-webinars'} class="btn btn--primary btn--lg">Attend Free Workshop</a>
+        <a href="/book-call" class="btn btn--white btn--lg">Book a Consultation</a>
       </div>
     </div>
   </section>
@@ -179,115 +290,115 @@ import locationImage from '../../assets/locations/northern-virginia.png';
     background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%);
     color: var(--color-white);
   }
-  
+
   .location-hero__grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--space-12);
     align-items: center;
   }
-  
+
   .location-hero h1 {
     color: var(--color-white);
     margin-bottom: var(--space-4);
   }
-  
+
   .location-hero .lead {
     color: var(--color-gray-300);
     margin-bottom: var(--space-8);
   }
-  
+
   .location-hero__cta {
     display: flex;
     gap: var(--space-4);
     flex-wrap: wrap;
   }
-  
+
   .location-hero__img {
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-xl);
   }
-  
+
   .service-areas {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: var(--space-6);
   }
-  
+
   .service-area {
     background: var(--color-white);
     padding: var(--space-6);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-md);
   }
-  
+
   .service-area h3 {
     font-size: var(--text-lg);
     margin-bottom: var(--space-2);
   }
-  
+
   .service-area p {
     color: var(--color-gray-600);
     font-size: var(--text-sm);
   }
-  
+
   .employers-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-6);
   }
-  
+
   .employer-card {
     background: var(--color-gray-100);
     padding: var(--space-8);
     border-radius: var(--radius-lg);
   }
-  
+
   .employer-card h3 {
     font-size: var(--text-xl);
     margin-bottom: var(--space-4);
     color: var(--color-navy);
   }
-  
+
   .employer-card ul {
     list-style: none;
     padding: 0;
   }
-  
+
   .employer-card li {
     padding: var(--space-2) 0;
     border-bottom: 1px solid var(--color-gray-200);
     color: var(--color-gray-700);
   }
-  
+
   .employer-card li:last-child {
     border-bottom: none;
   }
-  
+
   .directions-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-6);
   }
-  
+
   .direction-card {
     background: rgba(255, 255, 255, 0.1);
     padding: var(--space-6);
     border-radius: var(--radius-lg);
     border: 1px solid rgba(255, 255, 255, 0.2);
   }
-  
+
   .direction-card h3 {
     color: var(--color-gold);
     font-size: var(--text-lg);
     margin-bottom: var(--space-3);
   }
-  
+
   .direction-card p {
     color: var(--color-gray-300);
     font-size: var(--text-sm);
   }
-  
+
   .comparison-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -295,72 +406,88 @@ import locationImage from '../../assets/locations/northern-virginia.png';
     max-width: 900px;
     margin: 0 auto;
   }
-  
+
   .comparison-card {
     background: var(--color-gray-100);
     padding: var(--space-8);
     border-radius: var(--radius-lg);
   }
-  
+
   .comparison-card--highlight {
     background: var(--color-navy);
     color: var(--color-white);
   }
-  
+
   .comparison-card--highlight h3 {
     color: var(--color-gold);
   }
-  
+
   .comparison-card h3 {
     font-size: var(--text-xl);
     margin-bottom: var(--space-6);
     text-align: center;
   }
-  
+
   .comparison-list {
     list-style: none;
     padding: 0;
   }
-  
+
   .comparison-list__item {
     padding: var(--space-3) 0;
     padding-left: var(--space-8);
     position: relative;
     font-size: var(--text-sm);
   }
-  
+
   .comparison-list__item::before {
     position: absolute;
     left: 0;
     font-size: var(--text-lg);
   }
-  
+
   .comparison-list__item--pro::before {
     content: "✓";
     color: var(--color-gold);
   }
-  
+
   .comparison-list__item--con::before {
     content: "✗";
     color: var(--color-error);
   }
-  
+
+  .workshop-list { display: flex; flex-direction: column; gap: var(--space-3); max-width: 700px; margin: 0 auto; }
+  .workshop-row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); padding: var(--space-4) var(--space-6); background: var(--color-white); border-radius: var(--radius-lg); border: 1px solid var(--color-gray-200); text-decoration: none; transition: all var(--transition-base); }
+  .workshop-row:hover { border-color: var(--color-gold); box-shadow: var(--shadow-md); }
+  .workshop-row__date { font-weight: var(--font-semibold); color: var(--color-navy); min-width: 180px; }
+  .workshop-row__title { color: var(--color-gray-600); font-size: var(--text-sm); flex: 1; }
+  .faq-list { max-width: 800px; margin: 0 auto; }
+  .faq-item { border-bottom: 1px solid var(--color-gray-200); }
+  .faq-question { padding: var(--space-5) 0; font-weight: var(--font-semibold); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; color: var(--color-navy); }
+  .faq-question::-webkit-details-marker { display: none; }
+  .faq-question::after { content: '+'; font-size: var(--text-xl); color: var(--color-gold); transition: transform var(--transition-fast); }
+  details[open] .faq-question::after { transform: rotate(45deg); }
+  .faq-answer { padding-bottom: var(--space-5); color: var(--color-gray-600); }
+
   @media (max-width: 1024px) {
     .service-areas {
       grid-template-columns: repeat(2, 1fr);
     }
   }
-  
+
   @media (max-width: 768px) {
     .location-hero__grid {
       grid-template-columns: 1fr;
     }
-    
+
     .service-areas,
     .employers-grid,
     .directions-grid,
     .comparison-grid {
       grid-template-columns: 1fr;
     }
+
+    .workshop-row { flex-direction: column; align-items: flex-start; }
+    .workshop-row__date { min-width: auto; }
   }
 </style>
