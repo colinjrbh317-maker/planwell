@@ -387,45 +387,78 @@ const breadcrumbSchema = {
 
 <script is:inline>
   // Replace broken Elementor Table of Contents with native version
+  // Also generates a TOC for articles without an Elementor widget
   document.addEventListener('DOMContentLoaded', () => {
     const tocWidget = document.querySelector('.elementor-widget-table-of-contents');
-    if (!tocWidget) return;
-
-    // Find all h2 headings in the article content
     const articleContent = document.querySelector('.article__content');
     if (!articleContent) return;
 
-    const headings = articleContent.querySelectorAll('h2');
+    // Find all h2 and h3 headings in the article content
+    const headings = articleContent.querySelectorAll('h2, h3');
     if (headings.length === 0) return;
 
+    // Filter out junk headings and check we have at least one h2
+    const validHeadings = Array.from(headings).filter(h => {
+      const text = h.textContent.trim();
+      return text && text !== ' ' && text !== 'Reach Out to Us!';
+    });
+    const hasH2 = validHeadings.some(h => h.tagName === 'H2');
+    if (!hasH2) return;
+
     // Add IDs to headings for anchor links
-    headings.forEach((h, i) => {
+    validHeadings.forEach((h) => {
       const text = h.textContent.trim();
       const id = 'section-' + text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
       h.id = id;
     });
 
-    // Build native TOC
+    // Build nested TOC list: h3s become sub-items under their preceding h2
+    let tocListHtml = '';
+    let inSubList = false;
+    validHeadings.forEach((h, i) => {
+      const text = h.textContent.trim();
+      if (h.tagName === 'H2') {
+        if (inSubList) { tocListHtml += '</ol></li>'; inSubList = false; }
+        // Check if next valid heading is an h3
+        const next = validHeadings[i + 1];
+        if (next && next.tagName === 'H3') {
+          tocListHtml += `<li><a href="#${h.id}">${text}</a><ol>`;
+          inSubList = true;
+        } else {
+          tocListHtml += `<li><a href="#${h.id}">${text}</a></li>`;
+        }
+      } else if (h.tagName === 'H3') {
+        if (!inSubList) {
+          // h3 without a preceding h2 parent — wrap in a sub-list anyway
+          tocListHtml += `<li><ol>`;
+          inSubList = true;
+        }
+        tocListHtml += `<li><a href="#${h.id}">${text}</a></li>`;
+      }
+    });
+    if (inSubList) { tocListHtml += '</ol></li>'; }
+
+    // Build native TOC element — starts expanded
     const toc = document.createElement('div');
     toc.className = 'native-toc';
     toc.innerHTML = `
-      <button class="native-toc__toggle" aria-expanded="false">
+      <button class="native-toc__toggle" aria-expanded="true">
         <span>Table of Contents</span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="transform: rotate(180deg);"><path d="m6 9 6 6 6-6"/></svg>
       </button>
-      <nav class="native-toc__list" style="display: none;">
+      <nav class="native-toc__list" style="display: block;">
         <ol>
-          ${Array.from(headings).map(h => {
-            const text = h.textContent.trim();
-            if (text === 'Reach Out to Us!' || text === ' ') return '';
-            return `<li><a href="#${h.id}">${text}</a></li>`;
-          }).filter(Boolean).join('')}
+          ${tocListHtml}
         </ol>
       </nav>
     `;
 
-    // Replace Elementor widget
-    tocWidget.replaceWith(toc);
+    // Insert TOC: replace Elementor widget if present, otherwise prepend to article content
+    if (tocWidget) {
+      tocWidget.replaceWith(toc);
+    } else {
+      articleContent.insertBefore(toc, articleContent.firstChild);
+    }
 
     // Toggle behavior
     const toggle = toc.querySelector('.native-toc__toggle');
@@ -505,6 +538,14 @@ const breadcrumbSchema = {
   .native-toc__list a:hover {
     color: var(--color-gold);
     text-decoration: underline;
+  }
+
+  /* Nested h3 sub-items */
+  .native-toc__list ol ol {
+    list-style: lower-alpha;
+    padding-left: var(--space-5);
+    margin-top: var(--space-1);
+    margin-bottom: var(--space-1);
   }
 </style>
 
@@ -626,10 +667,23 @@ const breadcrumbSchema = {
     max-width: 100%;
   }
 
+  /* Strip Elementor wrapper inline styles that break desktop layout */
+  .article__content :global(.elementor-section),
+  .article__content :global(.elementor-container),
+  .article__content :global(.elementor-column),
+  .article__content :global(.elementor-widget-wrap),
+  .article__content :global(.elementor-element) {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+  }
+
   .article__content :global(img) {
-    max-width: 100%;
+    max-width: min(100%, 680px);
     height: auto;
     display: block;
+    margin: 1.5rem auto;
   }
 
   /* Constrain inline blog content images to readable width */
@@ -655,7 +709,14 @@ const breadcrumbSchema = {
 
   /* Prevent Elementor wrappers from blowing out image sections */
   .article__content :global(.elementor-widget-image) {
-    max-width: min(100%, 620px);
+    max-width: min(100%, 680px);
+    margin: 1.5rem auto;
+  }
+
+  .article__content :global(.elementor-widget-image img) {
+    max-width: min(100%, 680px);
+    height: auto;
+    display: block;
     margin: 1.5rem auto;
   }
 

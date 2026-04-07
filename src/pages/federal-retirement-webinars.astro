@@ -1,6 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getNextWebinar, formatWebinarDate, getDaysUntil } from '../data/webinars';
+import { getUpcomingWebinars, getAllWebinars, formatWebinarDate, getDaysUntil, getNextWebinar } from '../data/webinars';
+import { getUpcomingTSPWebinars, formatTSPWebinarDate } from '../data/tsp-webinars';
+
+const upcomingFERS = getUpcomingWebinars(10);
+const upcomingTSP = getUpcomingTSPWebinars(10);
 
 const nextWebinar = getNextWebinar();
 const webinarDate = nextWebinar ? formatWebinarDate(nextWebinar) : 'Coming Soon';
@@ -61,24 +65,26 @@ const faqSchema = {
   ]
 };
 
-const eventSchema = nextWebinar ? {
+const allEventsSchema = {
   "@context": "https://schema.org",
-  "@type": "EducationEvent",
-  "name": "Free FERS Retirement Workshop",
-  "description": "3-hour comprehensive federal retirement education covering FERS pension, TSP, FEHB, Medicare coordination, survivor benefits, and tax planning.",
-  "startDate": nextWebinar.date.toISOString().split('T')[0] + "T" + "11:00:00-05:00",
-  "endDate": nextWebinar.date.toISOString().split('T')[0] + "T" + "14:00:00-05:00",
-  "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
-  "eventStatus": "https://schema.org/EventScheduled",
-  "location": { "@type": "VirtualLocation", "url": "https://planwellfp.com/webinar" },
-  "organizer": { "@type": "Organization", "name": "PlanWell Financial Planning", "url": "https://planwellfp.com" },
-  "performer": [
-    { "@type": "Person", "name": "Brennan Rhule", "jobTitle": "CFP\u00ae, ChFEBC\u2120, AIF\u00ae" },
-    { "@type": "Person", "name": "David Fei", "jobTitle": "CFP\u00ae, ChFEBC\u2120, AIF\u00ae" }
-  ],
-  "isAccessibleForFree": true,
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD", "availability": "https://schema.org/InStock", "url": "https://planwellfp.com/webinar" }
-} : null;
+  "@type": "ItemList",
+  "name": "PlanWell Federal Retirement Webinars",
+  "itemListElement": upcomingFERS.map((w, i) => ({
+    "@type": "ListItem",
+    "position": i + 1,
+    "item": {
+      "@type": "EducationEvent",
+      "name": `Free FERS Retirement Workshop — ${formatWebinarDate(w)}`,
+      "startDate": w.date.toISOString(),
+      "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "isAccessibleForFree": true,
+      "url": `https://planwellfp.com/webinar/${w.id}`,
+      "location": { "@type": "VirtualLocation", "url": `https://planwellfp.com/webinar/${w.id}` },
+      "organizer": { "@type": "Organization", "name": "PlanWell Financial Planning" }
+    }
+  }))
+};
 ---
 
 <BaseLayout
@@ -86,7 +92,7 @@ const eventSchema = nextWebinar ? {
   description="Register for free federal retirement webinars from CFP® and ChFEBC℠ advisors. Our 3-hour FERS workshops and TSP sessions have educated over 10,000 federal employees on pension, benefits, and tax strategies."
 >
   <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
-  {eventSchema && <script type="application/ld+json" set:html={JSON.stringify(eventSchema)} />}
+  {upcomingFERS.length > 0 && <script type="application/ld+json" set:html={JSON.stringify(allEventsSchema)} />}
 
   <!-- Hero -->
   <section class="service-hero">
@@ -105,23 +111,57 @@ const eventSchema = nextWebinar ? {
     </div>
   </section>
 
-  <!-- Upcoming Webinar -->
+  <!-- All Upcoming Workshops -->
   <section class="section">
     <div class="container">
-      <div class="upcoming-card" data-animate="fade-in-up">
-        <span class="eyebrow">Next Workshop</span>
-        <div class="upcoming-card__details">
-          <h2 class="heading-lg">{webinarDate}</h2>
-          {nextWebinar && (
-            <span class="upcoming-card__time">{nextWebinar.startTime} - {nextWebinar.endTime} {nextWebinar.timezone}</span>
-          )}
-          {daysUntil !== null && daysUntil > 0 && (
-            <span class="upcoming-card__countdown">{daysUntil} {daysUntil === 1 ? 'day' : 'days'} away</span>
-          )}
-        </div>
-        <h3 class="upcoming-card__title">3-Hour Comprehensive FERS Retirement Workshop</h3>
-        <p class="upcoming-card__meta">Free &bull; Online &bull; No Obligation</p>
-        <a href="/webinar" class="btn btn--primary btn--lg">Register Now</a>
+      <div class="section-header">
+        <span class="eyebrow">Upcoming Dates</span>
+        <h2 class="heading-lg">FERS Retirement Workshops</h2>
+      </div>
+
+      <div class="events-list">
+        {upcomingFERS.map(w => (
+          <a href={`/webinar/${w.id}`} class="event-row">
+            <div class="event-row__date">
+              <span class="event-row__day">{formatWebinarDate(w)}</span>
+              <span class="event-row__time">{w.startTime} - {w.endTime} {w.timezone}</span>
+            </div>
+            <div class="event-row__info">
+              <h3>3-Hour Comprehensive FERS Workshop</h3>
+              <span class="event-row__meta">Free · Online · No Obligation</span>
+            </div>
+            <div class="event-row__action">
+              <span class="event-row__badge">{getDaysUntil(w)} days away</span>
+              <span class="btn btn--primary btn--sm">Register</span>
+            </div>
+          </a>
+        ))}
+        {upcomingFERS.length === 0 && (
+          <p class="text-center" style="color: var(--color-gray-500);">New dates coming soon. Check back shortly.</p>
+        )}
+      </div>
+
+      <div class="section-header" style="margin-top: var(--space-16);">
+        <span class="eyebrow">1-Hour Focused Training</span>
+        <h2 class="heading-lg">TSP Investment Workshops</h2>
+      </div>
+
+      <div class="events-list">
+        {upcomingTSP.map(w => (
+          <a href={`/webinar/tsp/${w.id}`} class="event-row event-row--tsp">
+            <div class="event-row__date">
+              <span class="event-row__day">{formatTSPWebinarDate(w)}</span>
+              <span class="event-row__time">{w.startTime} - {w.endTime} {w.timezone}</span>
+            </div>
+            <div class="event-row__info">
+              <h3>TSP Investment Strategies Workshop</h3>
+              <span class="event-row__meta">Free · Online · 1 Hour</span>
+            </div>
+            <div class="event-row__action">
+              <span class="btn btn--primary btn--sm">Register</span>
+            </div>
+          </a>
+        ))}
       </div>
     </div>
   </section>
@@ -422,6 +462,17 @@ const eventSchema = nextWebinar ? {
   details[open] .faq-question::after { transform: rotate(45deg); }
   .faq-answer { padding-bottom: var(--space-5); color: var(--color-gray-600); }
 
+  /* Event List */
+  .events-list { display: flex; flex-direction: column; gap: var(--space-3); max-width: 900px; margin: 0 auto; }
+  .event-row { display: grid; grid-template-columns: 1fr 1.5fr auto; gap: var(--space-6); align-items: center; padding: var(--space-5) var(--space-6); background: var(--color-white); border-radius: var(--radius-lg); border: 1px solid var(--color-gray-200); text-decoration: none; transition: all var(--transition-base); }
+  .event-row:hover { border-color: var(--color-gold); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+  .event-row__day { display: block; font-weight: var(--font-semibold); color: var(--color-navy); }
+  .event-row__time { display: block; font-size: var(--text-sm); color: var(--color-gray-500); }
+  .event-row__info h3 { font-size: var(--text-base); color: var(--color-navy); margin-bottom: var(--space-1); }
+  .event-row__meta { font-size: var(--text-sm); color: var(--color-gray-500); }
+  .event-row__action { display: flex; flex-direction: column; align-items: flex-end; gap: var(--space-2); }
+  .event-row__badge { font-size: var(--text-xs); color: var(--color-gold); font-weight: var(--font-semibold); }
+
   /* Gold CTA Section */
   .section--gold { background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-dark) 100%); color: var(--color-navy-dark); }
   .section--gold h2 { color: var(--color-navy-dark); }
@@ -437,8 +488,8 @@ const eventSchema = nextWebinar ? {
   }
   @media (max-width: 768px) {
     .features-grid, .instructors-grid { grid-template-columns: 1fr; }
-    .upcoming-card { padding: var(--space-8) var(--space-6); }
     .tsp-card { padding: var(--space-8); }
-    .upcoming-card__time { display: block; margin-right: 0; margin-bottom: var(--space-2); }
+    .event-row { grid-template-columns: 1fr; gap: var(--space-3); }
+    .event-row__action { flex-direction: row; align-items: center; }
   }
 </style>

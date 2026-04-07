@@ -110,6 +110,27 @@ export function getDaysUntil(webinar: Webinar): number {
 }
 
 /**
+ * Get all webinars (newest first) — for event listing pages and sitemaps
+ */
+export function getAllWebinars(): Webinar[] {
+    return [...webinars].sort((a, b) => b.date.getTime() - a.date.getTime());
+}
+
+/**
+ * Find a specific webinar by ID — for individual event pages
+ */
+export function getWebinarById(id: string): Webinar | null {
+    return webinars.find(w => w.id === id) || null;
+}
+
+/**
+ * Check if a webinar date has passed
+ */
+export function isPastWebinar(webinar: Webinar): boolean {
+    return webinar.date < new Date();
+}
+
+/**
  * Generate ICS calendar content for a webinar
  */
 export function generateICS(webinar: Webinar): string {

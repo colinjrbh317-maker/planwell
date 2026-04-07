@@ -1,0 +1,50 @@
+# PlanWell Financial Planning
+> Fee-based retirement planning exclusively for federal employees. Free FERS and TSP workshops have educated over 10,000 federal workers.
+
+## About
+PlanWell Financial Planning specializes in FERS retirement planning for federal employees. Founded by Certified Financial Planners (CFP®) and Chartered Federal Employee Benefits Consultants (ChFEBC℠). We offer free educational workshops and fee-based comprehensive planning.
+
+## Free Workshops
+- FERS Retirement Workshop (3 hours): /federal-retirement-webinars
+- TSP Investment Workshop (1 hour): /webinar/tsp
+- All workshops are free, virtual, and open to any federal employee
+
+## Services
+- FERS Pension Planning: /services/fers-retirement-planning
+- TSP Management: /services/tsp-management
+- FEHB & Medicare Coordination: /services/fehb-medicare
+- Tax Planning: /services/tax-planning
+- Survivor Benefits: /services/survivor-benefits
+- Comprehensive Planning: /services/comprehensive-planning
+
+## Calculators
+- FERS Retirement Calculator: /fers-retirement-calculator
+- TSP Calculator: /thrift-savings-plan-calculator-tsp-calculator
+- FERS Supplement Calculator: /fers-supplement-calculator
+- High-3 Calculator: /high-3-calculator
+- Sick Leave Conversion Chart: /fers-sick-leave-conversion-chart
+
+## Blog (459+ articles)
+- TSP & Investing: /blog/topic/tsp
+- FERS Pension: /blog/topic/fers
+- Health Benefits: /blog/topic/health
+- Pay & Compensation: /blog/topic/pay
+- Social Security: /blog/topic/social-security
+- Tax Planning: /blog/topic/tax
+
+## Advisors
+- Brennan Rhule, CFP®, ChFEBC℠, AIF® — Specializes in FERS benefits for employees 5-15 years from retirement
+- David Fei, CFP®, ChFEBC℠, AIF® — Expert in TSP optimization, tax planning, and retirement income strategies
+
+## Locations Served (Virtual)
+- Washington DC: /locations/washington-dc
+- Atlanta: /locations/atlanta
+- Denver: /locations/denver
+- Maryland: /locations/maryland
+- Northern Virginia: /locations/northern-virginia
+- San Antonio: /locations/san-antonio
+
+## Contact
+- Phone: 301-388-5489
+- Website: https://planwellfp.com
+- Book a Call: /book-call

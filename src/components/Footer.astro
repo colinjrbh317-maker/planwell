@@ -1,5 +1,13 @@
 ---
+import { getUpcomingWebinars, formatWebinarDate } from '../data/webinars';
+
 const currentYear = new Date().getFullYear();
+const upcomingEvents = getUpcomingWebinars(2);
+
+const eventLinks = upcomingEvents.map(w => ({
+  label: `Workshop: ${formatWebinarDate(w)}`,
+  href: `/webinar/${w.id}`,
+}));
 
 const footerLinks = {
   company: [
@@ -23,7 +31,8 @@ const footerLinks = {
   ],
   connect: [
     { label: 'Book a Call', href: '/book-call' },
-    { label: 'FERS Workshop', href: '/webinar' },
+    { label: 'All Workshops', href: '/federal-retirement-webinars' },
+    ...eventLinks,
   ]
 };
 ---

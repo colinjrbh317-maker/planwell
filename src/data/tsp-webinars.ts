@@ -89,6 +89,27 @@ export function getDaysUntilTSP(webinar: Webinar): number {
 }
 
 /**
+ * Get all TSP webinars (newest first)
+ */
+export function getAllTSPWebinars(): Webinar[] {
+    return [...tspWebinars].sort((a, b) => b.date.getTime() - a.date.getTime());
+}
+
+/**
+ * Find a specific TSP webinar by ID
+ */
+export function getTSPWebinarById(id: string): Webinar | null {
+    return tspWebinars.find(w => w.id === id) || null;
+}
+
+/**
+ * Check if a TSP webinar date has passed
+ */
+export function isPastTSPWebinar(webinar: Webinar): boolean {
+    return webinar.date < new Date();
+}
+
+/**
  * Generate ICS calendar content for TSP webinar
  */
 export function generateTSPICS(webinar: Webinar): string {
