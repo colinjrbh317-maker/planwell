@@ -64,6 +64,14 @@ export const webinars: Webinar[] = [
         endTime: '2:00 PM',
         timezone: 'EDT',
     },
+    {
+        id: 'may-01-2026',
+        date: new Date('2026-05-01T11:00:00-04:00'),
+        title: 'FERS Retirement Workshop',
+        startTime: '11:00 AM',
+        endTime: '2:00 PM',
+        timezone: 'EDT',
+    },
 ];
 
 /**
