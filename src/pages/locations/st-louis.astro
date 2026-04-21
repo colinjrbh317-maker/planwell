@@ -1,0 +1,219 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import WebinarCTA from '../../components/WebinarCTA.astro';
+import FAQSchema from '../../components/FAQSchema.astro';
+
+const faqs = [
+  {
+    q: 'Are NGA employees in St. Louis covered by FERS?',
+    a: 'Yes. Civilian employees at the National Geospatial-Intelligence Agency campus in Springfield, Missouri are covered by FERS the same as other federal civilian employees. Your pension, TSP matching, and FEHB eligibility all follow standard FERS rules. Because NGA handles classified work, some employees have service that spans multiple agencies or clearance periods. Our team helps you reconcile your creditable service history.',
+  },
+  {
+    q: 'What FERS benefits do USDA employees in St. Louis receive?',
+    a: 'USDA employees at the Animal and Plant Health Inspection Service and Agricultural Research Service facilities in St. Louis receive the full FERS package: a pension based on high-3 and years of service, TSP with 5% agency match, FEHB, and FEGLI. If you transferred from a different agency, your prior creditable service carries over as long as you had no break of more than 3 days.',
+  },
+  {
+    q: 'How does proximity to Scott AFB affect retirement planning for St. Louis federal civilians?',
+    a: 'Scott AFB in Belleville, Illinois employs a large civilian workforce about 20 miles from downtown St. Louis. Civilian employees at Scott follow standard FERS rules. Military service counts toward FERS creditable service only if you make a deposit to OPM for that time. Many Scott civilians served in the military before transitioning to civilian roles. Our workshops walk through how to calculate whether the military deposit is worth making before you retire.',
+  },
+  {
+    q: 'Can I combine military service and civilian service for my FERS pension at USCIS in St. Louis?',
+    a: 'Yes, but it requires a military service deposit paid to OPM. The deposit equals 3% of military base pay for each year of active duty service (plus interest if paid after your first year of federal civilian service). If you have 5 years of military service and 20 years of civilian federal service, the deposit lets your pension calculation use 25 years instead of 20. At a GS-12 salary, that difference is roughly $4,000 per year in additional annuity.',
+  },
+  {
+    q: 'Are there virtual FERS retirement workshops for St. Louis area federal employees?',
+    a: 'Yes. PlanWell runs free virtual workshops that St. Louis and Metro East federal employees attend via Zoom. Whether you work at NGA in Springfield, USDA in Creve Coeur, or the VA Medical Center in St. Louis, you can join from your desk or home. Sessions are 3 hours and include a live Q&A.',
+  },
+];
+---
+
+<BaseLayout
+  title="Federal Retirement Planning in St. Louis, Missouri"
+  description="Expert FERS retirement planning for federal employees in St. Louis. Serving NGA, USDA, VA, Scott AFB civilians, and USCIS National Records Center. Free workshop available."
+  canonical="/locations/st-louis"
+>
+  <!-- Hero Section -->
+  <section class="location-hero">
+    <div class="container">
+      <div class="location-hero__content-centered">
+        <span class="eyebrow">St. Louis, Missouri</span>
+        <h1 class="heading-xl">Federal Retirement Planning in St. Louis</h1>
+        <p class="lead">
+          St. Louis anchors one of the Midwest's largest federal footprints, with the National Geospatial-Intelligence Agency, USDA research facilities, VA medical operations, and Scott AFB civilian workforce across the Metro East. We help St. Louis area federal employees build a retirement plan that accounts for every year of their federal career.
+        </p>
+        <div class="location-hero__cta">
+          <a href="/federal-retirement-webinars" class="btn btn--primary btn--lg">Free FERS Workshop</a>
+          <a href="/book-call" class="btn btn--white btn--lg">Schedule Consultation</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service Area Section -->
+  <section class="section section--gray">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Service Areas in the St. Louis Region</h2>
+      <div class="service-areas">
+        <div class="service-area">
+          <h3>St. Louis City &amp; County</h3>
+          <p>Downtown, Clayton, Creve Coeur, Chesterfield, Florissant</p>
+        </div>
+        <div class="service-area">
+          <h3>Metro East (Illinois)</h3>
+          <p>Belleville, O'Fallon IL, Shiloh, Swansea, Fairview Heights</p>
+        </div>
+        <div class="service-area">
+          <h3>South County &amp; Jefferson County</h3>
+          <p>Fenton, Arnold, Festus, Imperial, Hillsboro</p>
+        </div>
+        <div class="service-area">
+          <h3>St. Charles County</h3>
+          <p>St. Charles, O'Fallon MO, Wentzville, Lake St. Louis</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Major Employers Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Major Federal Employers We Serve</h2>
+      <div class="employers-grid">
+        <div class="employer-card">
+          <h3>Intelligence &amp; Defense</h3>
+          <ul>
+            <li>National Geospatial-Intelligence Agency (NGA)</li>
+            <li>Scott AFB civilian workforce (Belleville)</li>
+            <li>Defense Finance and Accounting Service</li>
+            <li>Army Reserve units civilian support</li>
+            <li>TRANSCOM civilian personnel</li>
+          </ul>
+        </div>
+        <div class="employer-card">
+          <h3>Agriculture &amp; Science</h3>
+          <ul>
+            <li>USDA Animal and Plant Health Inspection Service</li>
+            <li>USDA Agricultural Research Service</li>
+            <li>USDA Natural Resources Conservation Service</li>
+            <li>USDA Farm Service Agency Missouri</li>
+            <li>U.S. Geological Survey Missouri Water Science</li>
+          </ul>
+        </div>
+        <div class="employer-card">
+          <h3>Veterans &amp; Records</h3>
+          <ul>
+            <li>VA Medical Center St. Louis (two campuses)</li>
+            <li>USCIS National Records Center (Lee's Summit)</li>
+            <li>Social Security Administration Missouri</li>
+            <li>HHS Region 7 St. Louis offices</li>
+            <li>U.S. District Court Eastern District Missouri</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <WebinarCTA variant="section" audienceLabel="St. Louis Federal Employees" />
+
+  <!-- Directions Section -->
+  <section class="section section--navy">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Serving St. Louis Federal Workers Virtually</h2>
+      <p class="text-center lead mb-8" style="color: var(--color-gray-300);">
+        Whether you cross the Poplar Street Bridge on I-64 to downtown agencies, drive I-70 west to the NGA campus, or commute US-40 to Scott AFB via I-64, our virtual workshops reach you without the traffic.
+      </p>
+      <div class="directions-grid">
+        <div class="direction-card">
+          <h3>From NGA in Springfield</h3>
+          <p>The NGA campus sits near the I-55 and I-270 interchange in south St. Louis County. Analysts and program staff join our virtual sessions from campus or from home without compromising their schedule.</p>
+        </div>
+        <div class="direction-card">
+          <h3>From Scott AFB (Metro East)</h3>
+          <p>Scott AFB is in Belleville, Illinois, about 25 minutes east via I-64. Civilian employees on base attend our evening and weekend workshops via Zoom. No trip back across the river needed.</p>
+        </div>
+        <div class="direction-card">
+          <h3>From USDA Facilities in Creve Coeur</h3>
+          <p>USDA research campuses cluster in Creve Coeur off I-270. Employees here can join our workshops from their office during lunch breaks or attend from home in the evening.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Why St. Louis Federal Employees Choose PlanWell</h2>
+      <div class="comparison-grid">
+        <div class="comparison-card comparison-card--highlight">
+          <h3>PlanWell Financial Planning</h3>
+          <ul class="comparison-list">
+            <li class="comparison-list__item comparison-list__item--pro">Certified Financial Planners (CFP®)</li>
+            <li class="comparison-list__item comparison-list__item--pro">ChFEBC℠ Federal Benefits Specialists</li>
+            <li class="comparison-list__item comparison-list__item--pro">Fee-Based Fiduciary</li>
+            <li class="comparison-list__item comparison-list__item--pro">Free 3-Hour FERS Workshop</li>
+            <li class="comparison-list__item comparison-list__item--pro">NGA and Military Crossover Experience</li>
+            <li class="comparison-list__item comparison-list__item--pro">Central Time Zone Availability</li>
+          </ul>
+        </div>
+        <div class="comparison-card">
+          <h3>Many St. Louis Advisors</h3>
+          <ul class="comparison-list">
+            <li class="comparison-list__item comparison-list__item--con">General financial credentials typical</li>
+            <li class="comparison-list__item comparison-list__item--con">Limited FERS pension knowledge</li>
+            <li class="comparison-list__item comparison-list__item--con">Commission-based product sales</li>
+            <li class="comparison-list__item comparison-list__item--con">No federal-specific workshops</li>
+            <li class="comparison-list__item comparison-list__item--con">Unfamiliar with military service deposit rules</li>
+            <li class="comparison-list__item comparison-list__item--con">No experience with intelligence community civilians</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <FAQSchema questions={faqs} heading="St. Louis Federal Retirement FAQs" />
+
+  <WebinarCTA
+    variant="banner"
+    heading="Ready to Plan Your Federal Retirement in St. Louis?"
+    subheading="Join NGA civilians, USDA researchers, Scott AFB employees, and VA workers across the St. Louis metro who have built their retirement plan with a CFP who understands FERS from the inside out."
+  />
+</BaseLayout>
+
+<style>
+  .location-hero { padding: var(--space-16) 0; background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%); color: var(--color-white); }
+  .location-hero__content-centered { max-width: 780px; margin: 0 auto; text-align: center; }
+  .location-hero h1 { color: var(--color-white); margin-bottom: var(--space-4); }
+  .location-hero .lead { color: var(--color-gray-300); margin-bottom: var(--space-8); }
+  .location-hero__cta { display: flex; gap: var(--space-4); flex-wrap: wrap; justify-content: center; }
+
+  .service-areas { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
+  .service-area { background: var(--color-white); padding: var(--space-6); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+  .service-area h3 { font-size: var(--text-lg); margin-bottom: var(--space-2); }
+  .service-area p { color: var(--color-gray-600); font-size: var(--text-sm); }
+
+  .employers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .employer-card { background: var(--color-gray-100); padding: var(--space-8); border-radius: var(--radius-lg); }
+  .employer-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-4); color: var(--color-navy); }
+  .employer-card ul { list-style: none; padding: 0; }
+  .employer-card li { padding: var(--space-2) 0; border-bottom: 1px solid var(--color-gray-200); color: var(--color-gray-700); }
+  .employer-card li:last-child { border-bottom: none; }
+
+  .directions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .direction-card { background: rgba(255, 255, 255, 0.1); padding: var(--space-6); border-radius: var(--radius-lg); border: 1px solid rgba(255, 255, 255, 0.2); }
+  .direction-card h3 { color: var(--color-gold); font-size: var(--text-lg); margin-bottom: var(--space-3); }
+  .direction-card p { color: var(--color-gray-300); font-size: var(--text-sm); }
+
+  .comparison-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-8); max-width: 900px; margin: 0 auto; }
+  .comparison-card { background: var(--color-gray-100); padding: var(--space-8); border-radius: var(--radius-lg); }
+  .comparison-card--highlight { background: var(--color-navy); color: var(--color-white); }
+  .comparison-card--highlight h3 { color: var(--color-gold); }
+  .comparison-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-6); text-align: center; }
+  .comparison-list { list-style: none; padding: 0; }
+  .comparison-list__item { padding: var(--space-3) 0; padding-left: var(--space-8); position: relative; font-size: var(--text-sm); }
+  .comparison-list__item::before { position: absolute; left: 0; font-size: var(--text-lg); }
+  .comparison-list__item--pro::before { content: "✓"; color: var(--color-gold); }
+  .comparison-list__item--con::before { content: "✗"; color: var(--color-error); }
+
+  @media (max-width: 1024px) { .service-areas { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 768px) { .service-areas, .employers-grid, .directions-grid, .comparison-grid { grid-template-columns: 1fr; } }
+</style>

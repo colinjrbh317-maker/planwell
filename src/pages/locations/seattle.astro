@@ -1,0 +1,219 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import WebinarCTA from '../../components/WebinarCTA.astro';
+import FAQSchema from '../../components/FAQSchema.astro';
+
+const faqs = [
+  {
+    q: 'Do JBLM civilian employees qualify for FERS retirement?',
+    a: 'Yes. Civilian employees at Joint Base Lewis-McChord are covered by FERS. If you transitioned from active duty military service to a civilian role at JBLM, your military time can count toward FERS creditable service after you make a military service deposit to OPM. The deposit is 3% of military base pay per year of active duty. Many JBLM civilians find this deposit significantly increases their eventual annuity.',
+  },
+  {
+    q: 'How does Washington State income tax affect my FERS retirement?',
+    a: 'Washington State has no state income tax. Your FERS annuity, TSP distributions, and Social Security benefits will not be subject to state income tax if you remain in Washington in retirement. This is a meaningful financial advantage compared to retiring federal employees in states like Oregon, California, or Virginia. The federal tax treatment of your annuity still applies, but no Washington state tax layer on top.',
+  },
+  {
+    q: 'Can VA Puget Sound employees keep FEHB after retiring?',
+    a: 'Yes. VA Puget Sound Healthcare System employees who were enrolled in FEHB for the 5 consecutive years before retirement carry their FEHB coverage into retirement with the same government premium share. Given Washington State health insurance costs in the Seattle metro, maintaining FEHB in retirement often saves $10,000 or more per year compared to marketplace plans.',
+  },
+  {
+    q: 'I work for NOAA in Seattle. Are there special retirement provisions for NOAA Corps officers?',
+    a: 'Uniformed NOAA Corps officers have a separate retirement system distinct from FERS. If you are a NOAA civilian employee (GS or WAGE grade), you are under FERS. If you transitioned from NOAA Corps to a civilian role, your uniformed service time may be creditable via a military-style deposit. Our workshops cover how to identify and value prior service time before your civilian retirement date.',
+  },
+  {
+    q: 'Are there virtual FERS retirement workshops for Seattle area federal employees?',
+    a: 'Yes. PlanWell runs free 3-hour FERS workshops that JBLM civilians, VA Puget Sound staff, NOAA employees, EPA Region 10 workers, and Bonneville Power Administration employees attend via Zoom. Whether you are in Tacoma, Lakewood, downtown Seattle, or working remotely in Olympia, there is no commute for our virtual sessions.',
+  },
+];
+---
+
+<BaseLayout
+  title="Federal Retirement Planning in Seattle, Washington"
+  description="Expert FERS retirement planning for federal employees in Seattle. Serving JBLM civilians, VA Puget Sound, NOAA, USCG District 13, EPA Region 10, and Bonneville Power. Free workshop available."
+  canonical="/locations/seattle"
+>
+  <!-- Hero Section -->
+  <section class="location-hero">
+    <div class="container">
+      <div class="location-hero__content-centered">
+        <span class="eyebrow">Seattle, Washington</span>
+        <h1 class="heading-xl">Federal Retirement Planning in Seattle</h1>
+        <p class="lead">
+          The Puget Sound region anchors one of the Pacific Northwest's largest federal employment clusters. JBLM civilian workforce, VA Puget Sound, NOAA's Western Regional Center, EPA Region 10, and Bonneville Power Administration all employ thousands of career federal workers. Washington's no-income-tax advantage makes federal retirement here especially powerful, and we help you capture it.
+        </p>
+        <div class="location-hero__cta">
+          <a href="/federal-retirement-webinars" class="btn btn--primary btn--lg">Free FERS Workshop</a>
+          <a href="/book-call" class="btn btn--white btn--lg">Schedule Consultation</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service Area Section -->
+  <section class="section section--gray">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Service Areas in the Seattle-Tacoma Region</h2>
+      <div class="service-areas">
+        <div class="service-area">
+          <h3>Seattle &amp; King County</h3>
+          <p>Downtown Seattle, Bellevue, Renton, Kent, Auburn</p>
+        </div>
+        <div class="service-area">
+          <h3>Tacoma &amp; Pierce County</h3>
+          <p>Tacoma, Lakewood, University Place, Puyallup, Spanaway</p>
+        </div>
+        <div class="service-area">
+          <h3>South Sound</h3>
+          <p>Olympia, Lacey, Tumwater, Yelm, DuPont</p>
+        </div>
+        <div class="service-area">
+          <h3>Kitsap Peninsula</h3>
+          <p>Bremerton, Silverdale, Port Orchard, Poulsbo, Bainbridge Island</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Major Employers Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Major Federal Employers We Serve</h2>
+      <div class="employers-grid">
+        <div class="employer-card">
+          <h3>Defense &amp; Coast Guard</h3>
+          <ul>
+            <li>Joint Base Lewis-McChord civilian workforce</li>
+            <li>Naval Base Kitsap civilian employees</li>
+            <li>USCG District 13 (Seattle)</li>
+            <li>Defense Contract Management Agency</li>
+            <li>Army Corps of Engineers Seattle District</li>
+          </ul>
+        </div>
+        <div class="employer-card">
+          <h3>Science &amp; Environment</h3>
+          <ul>
+            <li>NOAA Western Regional Center (Sand Point)</li>
+            <li>EPA Region 10 (Seattle)</li>
+            <li>Bonneville Power Administration</li>
+            <li>U.S. Geological Survey Pacific Northwest</li>
+            <li>Fish and Wildlife Service Pacific Region</li>
+          </ul>
+        </div>
+        <div class="employer-card">
+          <h3>Veterans &amp; Benefits</h3>
+          <ul>
+            <li>VA Puget Sound Healthcare System (Seattle)</li>
+            <li>VA Puget Sound Healthcare System (American Lake)</li>
+            <li>Social Security Administration Region 10</li>
+            <li>SSA Seattle Teleservice Center</li>
+            <li>HHS Region 10</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <WebinarCTA variant="section" audienceLabel="Seattle Federal Employees" />
+
+  <!-- Directions Section -->
+  <section class="section section--navy">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Serving Seattle Federal Workers Virtually</h2>
+      <p class="text-center lead mb-8" style="color: var(--color-gray-300);">
+        Whether you drive I-5 south from Seattle to JBLM in Lakewood, take Light Rail to downtown Seattle agencies, or work at the NOAA campus in Sand Point, our virtual workshops require no commute.
+      </p>
+      <div class="directions-grid">
+        <div class="direction-card">
+          <h3>From JBLM in Lakewood</h3>
+          <p>JBLM sits off I-5 between Tacoma and Olympia. Civilian employees in workforce development, contracting, and base operations join our free workshops via Zoom from the base or from their Pierce County homes.</p>
+        </div>
+        <div class="direction-card">
+          <h3>From NOAA in Sand Point</h3>
+          <p>NOAA's Western Regional Center is in Seattle's Sand Point neighborhood off Lake Washington. Scientists and program staff attend evening workshops from this campus or via the University of Washington area transit connections.</p>
+        </div>
+        <div class="direction-card">
+          <h3>From EPA Region 10 in Seattle</h3>
+          <p>EPA Region 10 is downtown on 5th Avenue, walking distance from King Street Station and multiple Link Light Rail stops. Employees across the building join virtual sessions without leaving downtown or from their suburban homes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Why Seattle Federal Employees Choose PlanWell</h2>
+      <div class="comparison-grid">
+        <div class="comparison-card comparison-card--highlight">
+          <h3>PlanWell Financial Planning</h3>
+          <ul class="comparison-list">
+            <li class="comparison-list__item comparison-list__item--pro">Certified Financial Planners (CFP®)</li>
+            <li class="comparison-list__item comparison-list__item--pro">ChFEBC℠ Federal Benefits Specialists</li>
+            <li class="comparison-list__item comparison-list__item--pro">Fee-Based Fiduciary</li>
+            <li class="comparison-list__item comparison-list__item--pro">Free 3-Hour FERS Workshop</li>
+            <li class="comparison-list__item comparison-list__item--pro">Washington No-Income-Tax Retirement Expertise</li>
+            <li class="comparison-list__item comparison-list__item--pro">Pacific Time Zone Availability</li>
+          </ul>
+        </div>
+        <div class="comparison-card">
+          <h3>Many Seattle Advisors</h3>
+          <ul class="comparison-list">
+            <li class="comparison-list__item comparison-list__item--con">General financial credentials typical</li>
+            <li class="comparison-list__item comparison-list__item--con">Limited FERS pension knowledge</li>
+            <li class="comparison-list__item comparison-list__item--con">Commission-based product sales</li>
+            <li class="comparison-list__item comparison-list__item--con">No federal-specific workshops</li>
+            <li class="comparison-list__item comparison-list__item--con">Unfamiliar with military service deposit rules</li>
+            <li class="comparison-list__item comparison-list__item--con">No experience with FERS supplement rules</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <FAQSchema questions={faqs} heading="Seattle Federal Retirement FAQs" />
+
+  <WebinarCTA
+    variant="banner"
+    heading="Ready to Plan Your Federal Retirement in Seattle?"
+    subheading="Join JBLM civilians, VA Puget Sound staff, NOAA scientists, and EPA Region 10 employees who have mapped out their FERS annuity and retirement date with a CFP who knows federal benefits."
+  />
+</BaseLayout>
+
+<style>
+  .location-hero { padding: var(--space-16) 0; background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%); color: var(--color-white); }
+  .location-hero__content-centered { max-width: 780px; margin: 0 auto; text-align: center; }
+  .location-hero h1 { color: var(--color-white); margin-bottom: var(--space-4); }
+  .location-hero .lead { color: var(--color-gray-300); margin-bottom: var(--space-8); }
+  .location-hero__cta { display: flex; gap: var(--space-4); flex-wrap: wrap; justify-content: center; }
+
+  .service-areas { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
+  .service-area { background: var(--color-white); padding: var(--space-6); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+  .service-area h3 { font-size: var(--text-lg); margin-bottom: var(--space-2); }
+  .service-area p { color: var(--color-gray-600); font-size: var(--text-sm); }
+
+  .employers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .employer-card { background: var(--color-gray-100); padding: var(--space-8); border-radius: var(--radius-lg); }
+  .employer-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-4); color: var(--color-navy); }
+  .employer-card ul { list-style: none; padding: 0; }
+  .employer-card li { padding: var(--space-2) 0; border-bottom: 1px solid var(--color-gray-200); color: var(--color-gray-700); }
+  .employer-card li:last-child { border-bottom: none; }
+
+  .directions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .direction-card { background: rgba(255, 255, 255, 0.1); padding: var(--space-6); border-radius: var(--radius-lg); border: 1px solid rgba(255, 255, 255, 0.2); }
+  .direction-card h3 { color: var(--color-gold); font-size: var(--text-lg); margin-bottom: var(--space-3); }
+  .direction-card p { color: var(--color-gray-300); font-size: var(--text-sm); }
+
+  .comparison-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-8); max-width: 900px; margin: 0 auto; }
+  .comparison-card { background: var(--color-gray-100); padding: var(--space-8); border-radius: var(--radius-lg); }
+  .comparison-card--highlight { background: var(--color-navy); color: var(--color-white); }
+  .comparison-card--highlight h3 { color: var(--color-gold); }
+  .comparison-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-6); text-align: center; }
+  .comparison-list { list-style: none; padding: 0; }
+  .comparison-list__item { padding: var(--space-3) 0; padding-left: var(--space-8); position: relative; font-size: var(--text-sm); }
+  .comparison-list__item::before { position: absolute; left: 0; font-size: var(--text-lg); }
+  .comparison-list__item--pro::before { content: "✓"; color: var(--color-gold); }
+  .comparison-list__item--con::before { content: "✗"; color: var(--color-error); }
+
+  @media (max-width: 1024px) { .service-areas { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 768px) { .service-areas, .employers-grid, .directions-grid, .comparison-grid { grid-template-columns: 1fr; } }
+</style>

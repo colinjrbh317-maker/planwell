@@ -1,0 +1,219 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import WebinarCTA from '../../components/WebinarCTA.astro';
+import FAQSchema from '../../components/FAQSchema.astro';
+
+const faqs = [
+  {
+    q: 'Does Boston locality pay affect my FERS pension calculation?',
+    a: 'Yes, significantly. Boston is in the Boston-Worcester-Providence locality pay area, one of the highest in the country. Locality adjustments over 30% mean your high-3 average salary is meaningfully higher than it would be in a non-locality area. A GS-13 in Boston earns tens of thousands more annually than the same grade in a low-pay area, and that difference flows directly into your annuity calculation.',
+  },
+  {
+    q: 'Can VA Boston Healthcare System employees carry FEHB into retirement?',
+    a: 'Yes. VA Boston employees enrolled in FEHB for the 5 consecutive years before retirement keep their FEHB coverage in retirement, with the same federal government premium share. Given Massachusetts health insurance costs, keeping FEHB in retirement typically saves Boston-area retirees $8,000 to $15,000 per year compared to the individual market.',
+  },
+  {
+    q: 'I work at the Hanscom AFB civilian workforce. How does my FERS creditable service count?',
+    a: 'All years in a FERS-covered civilian position count toward your creditable service and pension calculation. If you also served in the military before joining the Hanscom civilian workforce, you can count that time by making a military service deposit to OPM. The deposit is 3% of military base pay per year served, plus interest after the first year. Many Hanscom civilians find the deposit pays for itself many times over in additional annuity.',
+  },
+  {
+    q: 'What happens to my TSP when I retire from EPA Region 1 in Boston?',
+    a: 'Your TSP balance stays in TSP until you choose to withdraw or roll it over. You can begin penalty-free withdrawals at 55 if you separate from service in or after the year you turn 55 (the "Rule of 55"). This is earlier than the 59.5 IRA rule and gives Boston federal retirees more flexibility. Our workshops walk through TSP withdrawal strategies and how to sequence TSP, your FERS annuity, and Social Security.',
+  },
+  {
+    q: 'Are there virtual FERS retirement workshops for Boston area federal employees?',
+    a: 'Yes. PlanWell offers free 3-hour virtual workshops that HHS Region 1, EPA Region 1, Coast Guard District 1, and VA Boston employees attend via Zoom. No Red Line or commuter rail trip required. Sessions include a live Q&A with CFP professionals who specialize in federal benefits.',
+  },
+];
+---
+
+<BaseLayout
+  title="Federal Retirement Planning in Boston, Massachusetts"
+  description="Expert FERS retirement planning for federal employees in Boston. Serving VA Boston, HHS Region 1, EPA Region 1, Hanscom AFB civilians, and Coast Guard District 1. Free workshop available."
+  canonical="/locations/boston"
+>
+  <!-- Hero Section -->
+  <section class="location-hero">
+    <div class="container">
+      <div class="location-hero__content-centered">
+        <span class="eyebrow">Boston, Massachusetts</span>
+        <h1 class="heading-xl">Federal Retirement Planning in Boston</h1>
+        <p class="lead">
+          Boston's federal workforce spans downtown agency offices, the VA's Jamaica Plain and West Roxbury campuses, EPA and HHS regional headquarters on High Street, and the Hanscom AFB civilian community in Bedford. High locality pay makes Boston one of the best cities to retire from as a federal employee, and we help you capture every dollar.
+        </p>
+        <div class="location-hero__cta">
+          <a href="/federal-retirement-webinars" class="btn btn--primary btn--lg">Free FERS Workshop</a>
+          <a href="/book-call" class="btn btn--white btn--lg">Schedule Consultation</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service Area Section -->
+  <section class="section section--gray">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Service Areas in the Boston Region</h2>
+      <div class="service-areas">
+        <div class="service-area">
+          <h3>Boston &amp; Inner Suburbs</h3>
+          <p>Downtown, Jamaica Plain, West Roxbury, Brookline, Cambridge</p>
+        </div>
+        <div class="service-area">
+          <h3>Route 128 Corridor</h3>
+          <p>Bedford, Lexington, Waltham, Woburn, Burlington</p>
+        </div>
+        <div class="service-area">
+          <h3>South Shore</h3>
+          <p>Quincy, Braintree, Weymouth, Norwell, Plymouth</p>
+        </div>
+        <div class="service-area">
+          <h3>MetroWest &amp; Worcester</h3>
+          <p>Framingham, Natick, Marlborough, Westborough, Worcester</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Major Employers Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Major Federal Employers We Serve</h2>
+      <div class="employers-grid">
+        <div class="employer-card">
+          <h3>Health &amp; Environment</h3>
+          <ul>
+            <li>HHS Region 1 (5 Post Office Square)</li>
+            <li>EPA Region 1 (5 Post Office Square)</li>
+            <li>FDA New England District Office</li>
+            <li>OSHA Region 1</li>
+            <li>NIH Fogarty International Center NE</li>
+          </ul>
+        </div>
+        <div class="employer-card">
+          <h3>Veterans &amp; Defense</h3>
+          <ul>
+            <li>VA Boston Healthcare System (Jamaica Plain)</li>
+            <li>VA Boston Healthcare System (West Roxbury)</li>
+            <li>Hanscom AFB civilian workforce (Bedford)</li>
+            <li>Coast Guard District 1 (North Atlantic)</li>
+            <li>Army Corps of Engineers New England District</li>
+          </ul>
+        </div>
+        <div class="employer-card">
+          <h3>Courts &amp; Enforcement</h3>
+          <ul>
+            <li>U.S. District Court District of Massachusetts</li>
+            <li>FBI Boston Field Division</li>
+            <li>DEA New England Field Division</li>
+            <li>U.S. Attorney's Office Massachusetts</li>
+            <li>SSA Boston Regional Office</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <WebinarCTA variant="section" audienceLabel="Boston Federal Employees" />
+
+  <!-- Directions Section -->
+  <section class="section section--navy">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Serving Boston Federal Workers Virtually</h2>
+      <p class="text-center lead mb-8" style="color: var(--color-gray-300);">
+        Whether you take the Red Line to Downtown Crossing, drive Route 2 to Hanscom, or take the Orange Line to the VA in Jamaica Plain, our virtual workshops skip the commute entirely.
+      </p>
+      <div class="directions-grid">
+        <div class="direction-card">
+          <h3>From EPA and HHS at 5 Post Office Square</h3>
+          <p>Both EPA Region 1 and HHS Region 1 share the Post Office Square building near South Station. Employees join our workshops from downtown via MBTA Silver Line or commuter rail, or from home after their commute.</p>
+        </div>
+        <div class="direction-card">
+          <h3>From VA Boston (Jamaica Plain)</h3>
+          <p>The Jamaica Plain campus is at 150 South Huntington Ave, served by the Orange Line (Green Street stop) and multiple bus routes. Clinical and administrative staff attend virtual sessions without leaving the campus or neighborhood.</p>
+        </div>
+        <div class="direction-card">
+          <h3>From Hanscom AFB in Bedford</h3>
+          <p>Hanscom sits off Route 2A in Bedford, about 17 miles northwest of Boston. Civilian employees drive or carpool via 128 and Route 2. Virtual workshops eliminate the coordination entirely.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Why Boston Federal Employees Choose PlanWell</h2>
+      <div class="comparison-grid">
+        <div class="comparison-card comparison-card--highlight">
+          <h3>PlanWell Financial Planning</h3>
+          <ul class="comparison-list">
+            <li class="comparison-list__item comparison-list__item--pro">Certified Financial Planners (CFP®)</li>
+            <li class="comparison-list__item comparison-list__item--pro">ChFEBC℠ Federal Benefits Specialists</li>
+            <li class="comparison-list__item comparison-list__item--pro">Fee-Based Fiduciary</li>
+            <li class="comparison-list__item comparison-list__item--pro">Free 3-Hour FERS Workshop</li>
+            <li class="comparison-list__item comparison-list__item--pro">Boston Locality Pay Expertise</li>
+            <li class="comparison-list__item comparison-list__item--pro">Eastern Time Zone Availability</li>
+          </ul>
+        </div>
+        <div class="comparison-card">
+          <h3>Many Boston Advisors</h3>
+          <ul class="comparison-list">
+            <li class="comparison-list__item comparison-list__item--con">General financial credentials typical</li>
+            <li class="comparison-list__item comparison-list__item--con">Limited FERS pension knowledge</li>
+            <li class="comparison-list__item comparison-list__item--con">Commission-based product sales</li>
+            <li class="comparison-list__item comparison-list__item--con">No federal-specific workshops</li>
+            <li class="comparison-list__item comparison-list__item--con">Unfamiliar with military deposit rules</li>
+            <li class="comparison-list__item comparison-list__item--con">No experience with FERS supplement timing</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <FAQSchema questions={faqs} heading="Boston Federal Retirement FAQs" />
+
+  <WebinarCTA
+    variant="banner"
+    heading="Ready to Plan Your Federal Retirement in Boston?"
+    subheading="Join VA Boston employees, EPA Region 1 staff, Hanscom civilians, and Coast Guard workers across Greater Boston who have built their retirement plan with a CFP who knows FERS inside out."
+  />
+</BaseLayout>
+
+<style>
+  .location-hero { padding: var(--space-16) 0; background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%); color: var(--color-white); }
+  .location-hero__content-centered { max-width: 780px; margin: 0 auto; text-align: center; }
+  .location-hero h1 { color: var(--color-white); margin-bottom: var(--space-4); }
+  .location-hero .lead { color: var(--color-gray-300); margin-bottom: var(--space-8); }
+  .location-hero__cta { display: flex; gap: var(--space-4); flex-wrap: wrap; justify-content: center; }
+
+  .service-areas { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
+  .service-area { background: var(--color-white); padding: var(--space-6); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+  .service-area h3 { font-size: var(--text-lg); margin-bottom: var(--space-2); }
+  .service-area p { color: var(--color-gray-600); font-size: var(--text-sm); }
+
+  .employers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .employer-card { background: var(--color-gray-100); padding: var(--space-8); border-radius: var(--radius-lg); }
+  .employer-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-4); color: var(--color-navy); }
+  .employer-card ul { list-style: none; padding: 0; }
+  .employer-card li { padding: var(--space-2) 0; border-bottom: 1px solid var(--color-gray-200); color: var(--color-gray-700); }
+  .employer-card li:last-child { border-bottom: none; }
+
+  .directions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .direction-card { background: rgba(255, 255, 255, 0.1); padding: var(--space-6); border-radius: var(--radius-lg); border: 1px solid rgba(255, 255, 255, 0.2); }
+  .direction-card h3 { color: var(--color-gold); font-size: var(--text-lg); margin-bottom: var(--space-3); }
+  .direction-card p { color: var(--color-gray-300); font-size: var(--text-sm); }
+
+  .comparison-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-8); max-width: 900px; margin: 0 auto; }
+  .comparison-card { background: var(--color-gray-100); padding: var(--space-8); border-radius: var(--radius-lg); }
+  .comparison-card--highlight { background: var(--color-navy); color: var(--color-white); }
+  .comparison-card--highlight h3 { color: var(--color-gold); }
+  .comparison-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-6); text-align: center; }
+  .comparison-list { list-style: none; padding: 0; }
+  .comparison-list__item { padding: var(--space-3) 0; padding-left: var(--space-8); position: relative; font-size: var(--text-sm); }
+  .comparison-list__item::before { position: absolute; left: 0; font-size: var(--text-lg); }
+  .comparison-list__item--pro::before { content: "✓"; color: var(--color-gold); }
+  .comparison-list__item--con::before { content: "✗"; color: var(--color-error); }
+
+  @media (max-width: 1024px) { .service-areas { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 768px) { .service-areas, .employers-grid, .directions-grid, .comparison-grid { grid-template-columns: 1fr; } }
+</style>

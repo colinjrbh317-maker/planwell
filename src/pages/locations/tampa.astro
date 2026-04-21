@@ -1,76 +1,28 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getUpcomingWebinars, formatWebinarDate } from '../../data/webinars';
-import { getUpcomingTSPWebinars, formatTSPWebinarDate } from '../../data/tsp-webinars';
+import WebinarCTA from '../../components/WebinarCTA.astro';
+import FAQSchema from '../../components/FAQSchema.astro';
 
-const upcomingFERS = getUpcomingWebinars(3);
-const upcomingTSP = getUpcomingTSPWebinars(3);
-const nextWebinar = upcomingFERS[0];
-const workshopUrl = nextWebinar ? `/webinar/${nextWebinar.id}` : '/federal-retirement-webinars';
-
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "Are there FERS retirement workshops for Tampa federal employees?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. PlanWell offers free 3-hour virtual FERS retirement workshops that CENTCOM, SOCOM, MacDill AFB, and VA Bay Pines employees can attend from anywhere in the Tampa Bay area. Sessions cover your FERS pension, TSP, FEHB, and survivor benefits."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Do you work with CENTCOM and SOCOM civilian employees?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Absolutely. Our Certified Financial Planners hold the ChFEBC designation and have extensive experience with DoD civilian employees at MacDill AFB, including those supporting CENTCOM and SOCOM missions. We understand the unique benefits and retirement provisions for defense civilians."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What makes PlanWell different from Tampa-area financial advisors?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "PlanWell advisors are fee-based fiduciaries who specialize exclusively in federal employee retirement. We provide a free 22-page personalized benefits report, unlike commission-based advisors who may push products rather than provide objective FERS guidance."
-      }
-    }
-  ]
-};
-
-const educationEventSchemas = upcomingFERS.map(w => ({
-  "@context": "https://schema.org",
-  "@type": "EducationEvent",
-  "name": w.title,
-  "startDate": w.date.toISOString(),
-  "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
-  "eventStatus": "https://schema.org/EventScheduled",
-  "location": {
-    "@type": "VirtualLocation",
-    "url": `https://www.planwellfinancialplanning.com/webinar/${w.id}`
+const faqs = [
+  {
+    q: 'Are there FERS retirement workshops for Tampa federal employees?',
+    a: 'Yes. PlanWell offers free 3-hour virtual FERS retirement workshops that CENTCOM, SOCOM, MacDill AFB, and VA Bay Pines employees can attend from anywhere in the Tampa Bay area. Sessions cover your FERS pension, TSP, FEHB, and survivor benefits.',
   },
-  "organizer": {
-    "@type": "Organization",
-    "name": "PlanWell Financial Planning",
-    "url": "https://www.planwellfinancialplanning.com"
+  {
+    q: 'Do you work with CENTCOM and SOCOM civilian employees?',
+    a: 'Absolutely. Our Certified Financial Planners hold the ChFEBC designation and have extensive experience with DoD civilian employees at MacDill AFB, including those supporting CENTCOM and SOCOM missions. We understand the unique benefits and retirement provisions for defense civilians.',
   },
-  "description": "Free 3-hour FERS retirement workshop for federal employees in Tampa and the Tampa Bay area.",
-  "isAccessibleForFree": true
-}));
+  {
+    q: 'What makes PlanWell different from Tampa-area financial advisors?',
+    a: 'PlanWell advisors are fee-based fiduciaries who specialize exclusively in federal employee retirement. We provide a free 22-page personalized benefits report, unlike commission-based advisors who may push products rather than provide objective FERS guidance.',
+  },
+];
 ---
 
 <BaseLayout
   title="Federal Retirement Planning in Tampa, Florida"
   description="Expert FERS retirement planning for federal employees in Tampa. Serving CENTCOM, SOCOM, MacDill AFB, and VA Bay Pines. Free virtual workshop available."
 >
-  <Fragment slot="head">
-    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
-    {educationEventSchemas.map(schema => (
-      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
-    ))}
-  </Fragment>
-
   <!-- Hero Section -->
   <section class="location-hero">
     <div class="container">
@@ -82,8 +34,7 @@ const educationEventSchemas = upcomingFERS.map(w => ({
           for Tampa Bay's defense and federal workforce.
         </p>
         <div class="location-hero__cta" style="justify-content: center;">
-          <a href={workshopUrl} class="btn btn--primary btn--lg">Free FERS Workshop</a>
-          <a href={workshopUrl} class="btn btn--white btn--lg">Schedule Consultation</a>
+          <WebinarCTA variant="hero" />
         </div>
       </div>
     </div>
@@ -153,37 +104,7 @@ const educationEventSchemas = upcomingFERS.map(w => ({
     </div>
   </section>
 
-  <!-- Upcoming Workshops Section -->
-  <section class="section section--gray">
-    <div class="container">
-      <h2 class="heading-lg text-center mb-8">Upcoming Workshops</h2>
-      <p class="text-center lead mb-8">Virtual workshops available — attend from Tampa or anywhere in Florida.</p>
-      {upcomingFERS.length > 0 && (
-        <div class="workshop-list">
-          <h3>FERS Retirement Workshops</h3>
-          {upcomingFERS.map(w => (
-            <a href={`/webinar/${w.id}`} class="workshop-item">
-              <span class="workshop-date">{formatWebinarDate(w)}</span>
-              <span class="workshop-time">{w.startTime} - {w.endTime} {w.timezone}</span>
-              <span class="btn btn--primary btn--sm">Register Free</span>
-            </a>
-          ))}
-        </div>
-      )}
-      {upcomingTSP.length > 0 && (
-        <div class="workshop-list" style="margin-top: var(--space-8);">
-          <h3>TSP Investment Strategy Sessions</h3>
-          {upcomingTSP.map(w => (
-            <a href={`/webinar/tsp/${w.id}`} class="workshop-item">
-              <span class="workshop-date">{formatTSPWebinarDate(w)}</span>
-              <span class="workshop-time">{w.startTime} - {w.endTime} {w.timezone}</span>
-              <span class="btn btn--primary btn--sm">Register Free</span>
-            </a>
-          ))}
-        </div>
-      )}
-    </div>
-  </section>
+  <WebinarCTA variant="section" audienceLabel="Tampa Federal Employees" />
 
   <!-- Directions Section -->
   <section class="section section--navy">
@@ -226,11 +147,11 @@ const educationEventSchemas = upcomingFERS.map(w => ({
           </ul>
         </div>
         <div class="comparison-card">
-          <h3>Typical Tampa Financial Advisors</h3>
+          <h3>Many Tampa Financial Advisors</h3>
           <ul class="comparison-list">
-            <li class="comparison-list__item comparison-list__item--con">General financial credentials only</li>
+            <li class="comparison-list__item comparison-list__item--con">General financial credentials typical</li>
             <li class="comparison-list__item comparison-list__item--con">Limited FERS understanding</li>
-            <li class="comparison-list__item comparison-list__item--con">Commission-based products</li>
+            <li class="comparison-list__item comparison-list__item--con">Often commission-compensated</li>
             <li class="comparison-list__item comparison-list__item--con">No federal-specific workshops</li>
             <li class="comparison-list__item comparison-list__item--con">Generic military retirement advice</li>
             <li class="comparison-list__item comparison-list__item--con">Limited DoD civilian experience</li>
@@ -240,40 +161,13 @@ const educationEventSchemas = upcomingFERS.map(w => ({
     </div>
   </section>
 
-  <!-- FAQ Section -->
-  <section class="section section--gray">
-    <div class="container">
-      <h2 class="heading-lg text-center mb-8">Frequently Asked Questions</h2>
-      <div class="faq-list">
-        <div class="faq-item">
-          <h3>Are there FERS retirement workshops for Tampa federal employees?</h3>
-          <p>Yes. PlanWell offers free 3-hour virtual FERS retirement workshops that CENTCOM, SOCOM, MacDill AFB, and VA Bay Pines employees can attend from anywhere in the Tampa Bay area. Sessions cover your FERS pension, TSP, FEHB, and survivor benefits.</p>
-        </div>
-        <div class="faq-item">
-          <h3>Do you work with CENTCOM and SOCOM civilian employees?</h3>
-          <p>Absolutely. Our Certified Financial Planners hold the ChFEBC designation and have extensive experience with DoD civilian employees at MacDill AFB, including those supporting CENTCOM and SOCOM missions. We understand the unique benefits and retirement provisions for defense civilians.</p>
-        </div>
-        <div class="faq-item">
-          <h3>What makes PlanWell different from Tampa-area financial advisors?</h3>
-          <p>PlanWell advisors are fee-based fiduciaries who specialize exclusively in federal employee retirement. We provide a free 22-page personalized benefits report, unlike commission-based advisors who may push products rather than provide objective FERS guidance.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+  <FAQSchema questions={faqs} heading="Tampa Federal Retirement FAQs" />
 
-  <!-- CTA Section -->
-  <section class="section section--navy">
-    <div class="container text-center">
-      <h2 class="heading-lg mb-4">Ready to Plan Your Federal Retirement?</h2>
-      <p class="lead mb-8" style="color: var(--color-gray-300);">
-        Join Tampa Bay federal employees who've taken control of their retirement with expert guidance.
-      </p>
-      <div class="flex gap-4 justify-center" style="flex-wrap: wrap;">
-        <a href={workshopUrl} class="btn btn--primary btn--lg">Attend Free Workshop</a>
-        <a href={workshopUrl} class="btn btn--white btn--lg">Book a Consultation</a>
-      </div>
-    </div>
-  </section>
+  <WebinarCTA
+    variant="banner"
+    heading="Ready to plan your federal retirement?"
+    subheading="Join Tampa federal employees who have taken control of their retirement with expert guidance."
+  />
 </BaseLayout>
 
 <style>
@@ -294,14 +188,6 @@ const educationEventSchemas = upcomingFERS.map(w => ({
   .employer-card li { padding: var(--space-2) 0; border-bottom: 1px solid var(--color-gray-200); color: var(--color-gray-700); }
   .employer-card li:last-child { border-bottom: none; }
 
-  .workshop-list { background: var(--color-white); border-radius: var(--radius-lg); padding: var(--space-6); box-shadow: var(--shadow-md); }
-  .workshop-list h3 { font-size: var(--text-xl); margin-bottom: var(--space-4); color: var(--color-navy); }
-  .workshop-item { display: flex; align-items: center; justify-content: space-between; padding: var(--space-4); border-bottom: 1px solid var(--color-gray-200); text-decoration: none; color: inherit; transition: background 0.2s; }
-  .workshop-item:last-child { border-bottom: none; }
-  .workshop-item:hover { background: var(--color-gray-50); }
-  .workshop-date { font-weight: 600; color: var(--color-navy); }
-  .workshop-time { color: var(--color-gray-600); font-size: var(--text-sm); }
-
   .directions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
   .direction-card { background: rgba(255, 255, 255, 0.1); padding: var(--space-6); border-radius: var(--radius-lg); border: 1px solid rgba(255, 255, 255, 0.2); }
   .direction-card h3 { color: var(--color-gold); font-size: var(--text-lg); margin-bottom: var(--space-3); }
@@ -318,14 +204,8 @@ const educationEventSchemas = upcomingFERS.map(w => ({
   .comparison-list__item--pro::before { content: "\2713"; color: var(--color-gold); }
   .comparison-list__item--con::before { content: "\2717"; color: var(--color-error); }
 
-  .faq-list { max-width: 800px; margin: 0 auto; }
-  .faq-item { background: var(--color-white); padding: var(--space-6); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); margin-bottom: var(--space-4); }
-  .faq-item h3 { font-size: var(--text-lg); margin-bottom: var(--space-2); color: var(--color-navy); }
-  .faq-item p { color: var(--color-gray-600); font-size: var(--text-sm); line-height: 1.6; }
-
   @media (max-width: 1024px) { .service-areas { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 768px) {
     .service-areas, .employers-grid, .directions-grid, .comparison-grid { grid-template-columns: 1fr; }
-    .workshop-item { flex-direction: column; align-items: flex-start; gap: var(--space-2); }
   }
 </style>

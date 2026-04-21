@@ -1,0 +1,219 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import WebinarCTA from '../../components/WebinarCTA.astro';
+import FAQSchema from '../../components/FAQSchema.astro';
+
+const faqs = [
+  {
+    q: 'Do federal employees at Hill AFB or the IRS Ogden campus qualify for FERS retirement?',
+    a: 'Yes. Whether you are a civilian employee at Hill Air Force Base, a tax examiner at the IRS Ogden Submission Processing Campus, or a DFAS analyst, FERS covers you the same way. Your pension is based on years of creditable service and your high-3 average salary. Our workshops walk through the math for both GS and wage grade employees.',
+  },
+  {
+    q: 'What is the FERS supplement and can Hill AFB civilian employees receive it?',
+    a: 'The FERS supplement bridges the gap between your retirement date and age 62, when Social Security kicks in. If you retire before 62 with immediate eligibility (MRA plus 30 years, or age 60 with 20 years), you qualify. The supplement is roughly equal to the Social Security benefit you earned while a FERS employee. It ends at 62 regardless of whether you claim Social Security.',
+  },
+  {
+    q: 'I work for the Forest Service Intermountain Region in Ogden. How does seasonal service count toward FERS?',
+    a: 'Seasonal service counts toward creditable service only for the periods you were actually in pay status. If you worked 6 months per year for 10 years, that may count as approximately 5 years of creditable service, not 10. This distinction can significantly affect your annuity calculation. Bring your SF-50 history to any of our workshops and our team can help you estimate your actual creditable years.',
+  },
+  {
+    q: 'How does TSP work for DFAS employees in Ogden?',
+    a: 'DFAS employees in Ogden contribute to TSP the same way as all FERS employees. You receive a 1% automatic agency contribution and agency matching up to 4% of your salary, for a total potential agency contribution of 5%. Vesting on the 1% automatic contribution requires 3 years of federal service. Our TSP workshop covers fund selection, contribution limits, and how to coordinate TSP withdrawals with your FERS annuity.',
+  },
+  {
+    q: 'Are there in-person FERS workshops near Ogden?',
+    a: 'PlanWell offers free virtual workshops, meaning Ogden and Weber County federal employees attend via Zoom without driving to Salt Lake City. Sessions run 3 hours and include a live Q&A where CFP professionals answer questions specific to your agency and situation.',
+  },
+];
+---
+
+<BaseLayout
+  title="Federal Retirement Planning in Ogden, Utah"
+  description="Expert FERS retirement planning for federal employees in Ogden, Utah. Serving Hill AFB civilians, IRS Ogden campus, DFAS, and Forest Service Intermountain Region. Free workshop available."
+  canonical="/locations/ogden"
+>
+  <!-- Hero Section -->
+  <section class="location-hero">
+    <div class="container">
+      <div class="location-hero__content-centered">
+        <span class="eyebrow">Ogden, Utah</span>
+        <h1 class="heading-xl">Federal Retirement Planning in Ogden</h1>
+        <p class="lead">
+          Weber County's federal workforce is one of Utah's largest, anchored by Hill AFB, the IRS Ogden campus, DFAS, and the Forest Service Intermountain Region. We help Ogden area federal employees turn years of creditable service into a clear retirement plan.
+        </p>
+        <div class="location-hero__cta">
+          <a href="/federal-retirement-webinars" class="btn btn--primary btn--lg">Free FERS Workshop</a>
+          <a href="/book-call" class="btn btn--white btn--lg">Schedule Consultation</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service Area Section -->
+  <section class="section section--gray">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Service Areas in the Ogden Region</h2>
+      <div class="service-areas">
+        <div class="service-area">
+          <h3>Ogden &amp; Weber County</h3>
+          <p>Downtown Ogden, North Ogden, South Ogden, Riverdale</p>
+        </div>
+        <div class="service-area">
+          <h3>Hill AFB Corridor</h3>
+          <p>Roy, Clearfield, Clinton, Sunset</p>
+        </div>
+        <div class="service-area">
+          <h3>Davis County</h3>
+          <p>Layton, Kaysville, Farmington, Bountiful</p>
+        </div>
+        <div class="service-area">
+          <h3>Cache Valley</h3>
+          <p>Logan, Smithfield, Hyrum, Providence</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Major Employers Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Major Federal Employers We Serve</h2>
+      <div class="employers-grid">
+        <div class="employer-card">
+          <h3>Defense &amp; Finance</h3>
+          <ul>
+            <li>Hill Air Force Base (civilian workforce)</li>
+            <li>75th Air Base Wing civilian staff</li>
+            <li>DFAS Ogden site</li>
+            <li>Defense Contract Audit Agency</li>
+            <li>Air Force Materiel Command offices</li>
+          </ul>
+        </div>
+        <div class="employer-card">
+          <h3>Revenue &amp; Records</h3>
+          <ul>
+            <li>IRS Ogden Submission Processing Campus</li>
+            <li>IRS Accounts Management Ogden</li>
+            <li>Social Security Administration offices</li>
+            <li>U.S. Bankruptcy Court (Utah)</li>
+            <li>Federal Records Center</li>
+          </ul>
+        </div>
+        <div class="employer-card">
+          <h3>Land &amp; Natural Resources</h3>
+          <ul>
+            <li>Forest Service Intermountain Region (R4)</li>
+            <li>Bureau of Land Management Utah</li>
+            <li>Natural Resources Conservation Service</li>
+            <li>U.S. Geological Survey Utah</li>
+            <li>Fish and Wildlife Service</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <WebinarCTA variant="section" audienceLabel="Ogden Federal Employees" />
+
+  <!-- Directions Section -->
+  <section class="section section--navy">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Serving Ogden Federal Workers Virtually</h2>
+      <p class="text-center lead mb-8" style="color: var(--color-gray-300);">
+        Whether you commute I-15 to Hill AFB, drive Harrison Blvd to the IRS campus, or work remotely for the Forest Service, our virtual workshops reach you where you are.
+      </p>
+      <div class="directions-grid">
+        <div class="direction-card">
+          <h3>From Hill AFB</h3>
+          <p>Hill AFB sits off I-15 in Clearfield. Civilian employees across the base attend our free virtual sessions without base-access complications. Log in from your work desk or home.</p>
+        </div>
+        <div class="direction-card">
+          <h3>From the IRS Ogden Campus</h3>
+          <p>The IRS campus is on 1973 N. Rulon White Blvd in Ogden. Employees on all three shifts can attend our weekend sessions or watch a recorded recap before the next live Q&A.</p>
+        </div>
+        <div class="direction-card">
+          <h3>From Cache Valley and Beyond</h3>
+          <p>Forest Service and BLM employees in Logan, Brigham City, or Morgan County attend via Zoom. The Wasatch Front's geography is no barrier when workshops are fully virtual.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Why Ogden Federal Employees Choose PlanWell</h2>
+      <div class="comparison-grid">
+        <div class="comparison-card comparison-card--highlight">
+          <h3>PlanWell Financial Planning</h3>
+          <ul class="comparison-list">
+            <li class="comparison-list__item comparison-list__item--pro">Certified Financial Planners (CFP®)</li>
+            <li class="comparison-list__item comparison-list__item--pro">ChFEBC℠ Federal Benefits Specialists</li>
+            <li class="comparison-list__item comparison-list__item--pro">Fee-Based Fiduciary</li>
+            <li class="comparison-list__item comparison-list__item--pro">Free 3-Hour FERS Workshop</li>
+            <li class="comparison-list__item comparison-list__item--pro">Hill AFB and IRS Employee Experience</li>
+            <li class="comparison-list__item comparison-list__item--pro">Mountain Time Zone Availability</li>
+          </ul>
+        </div>
+        <div class="comparison-card">
+          <h3>Many Utah Advisors</h3>
+          <ul class="comparison-list">
+            <li class="comparison-list__item comparison-list__item--con">General financial credentials typical</li>
+            <li class="comparison-list__item comparison-list__item--con">Limited FERS pension knowledge</li>
+            <li class="comparison-list__item comparison-list__item--con">Commission-based product sales</li>
+            <li class="comparison-list__item comparison-list__item--con">No federal-specific workshops</li>
+            <li class="comparison-list__item comparison-list__item--con">Often non-federal-specific advice</li>
+            <li class="comparison-list__item comparison-list__item--con">Unfamiliar with seasonal service rules</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <FAQSchema questions={faqs} heading="Ogden Federal Retirement FAQs" />
+
+  <WebinarCTA
+    variant="banner"
+    heading="Ready to Plan Your Federal Retirement in Ogden?"
+    subheading="Join Hill AFB civilians, IRS campus employees, and Forest Service workers who have mapped out their FERS annuity, TSP strategy, and retirement date with a CFP who knows federal benefits."
+  />
+</BaseLayout>
+
+<style>
+  .location-hero { padding: var(--space-16) 0; background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%); color: var(--color-white); }
+  .location-hero__content-centered { max-width: 780px; margin: 0 auto; text-align: center; }
+  .location-hero h1 { color: var(--color-white); margin-bottom: var(--space-4); }
+  .location-hero .lead { color: var(--color-gray-300); margin-bottom: var(--space-8); }
+  .location-hero__cta { display: flex; gap: var(--space-4); flex-wrap: wrap; justify-content: center; }
+
+  .service-areas { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
+  .service-area { background: var(--color-white); padding: var(--space-6); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+  .service-area h3 { font-size: var(--text-lg); margin-bottom: var(--space-2); }
+  .service-area p { color: var(--color-gray-600); font-size: var(--text-sm); }
+
+  .employers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .employer-card { background: var(--color-gray-100); padding: var(--space-8); border-radius: var(--radius-lg); }
+  .employer-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-4); color: var(--color-navy); }
+  .employer-card ul { list-style: none; padding: 0; }
+  .employer-card li { padding: var(--space-2) 0; border-bottom: 1px solid var(--color-gray-200); color: var(--color-gray-700); }
+  .employer-card li:last-child { border-bottom: none; }
+
+  .directions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .direction-card { background: rgba(255, 255, 255, 0.1); padding: var(--space-6); border-radius: var(--radius-lg); border: 1px solid rgba(255, 255, 255, 0.2); }
+  .direction-card h3 { color: var(--color-gold); font-size: var(--text-lg); margin-bottom: var(--space-3); }
+  .direction-card p { color: var(--color-gray-300); font-size: var(--text-sm); }
+
+  .comparison-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-8); max-width: 900px; margin: 0 auto; }
+  .comparison-card { background: var(--color-gray-100); padding: var(--space-8); border-radius: var(--radius-lg); }
+  .comparison-card--highlight { background: var(--color-navy); color: var(--color-white); }
+  .comparison-card--highlight h3 { color: var(--color-gold); }
+  .comparison-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-6); text-align: center; }
+  .comparison-list { list-style: none; padding: 0; }
+  .comparison-list__item { padding: var(--space-3) 0; padding-left: var(--space-8); position: relative; font-size: var(--text-sm); }
+  .comparison-list__item::before { position: absolute; left: 0; font-size: var(--text-lg); }
+  .comparison-list__item--pro::before { content: "✓"; color: var(--color-gold); }
+  .comparison-list__item--con::before { content: "✗"; color: var(--color-error); }
+
+  @media (max-width: 1024px) { .service-areas { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 768px) { .service-areas, .employers-grid, .directions-grid, .comparison-grid { grid-template-columns: 1fr; } }
+</style>

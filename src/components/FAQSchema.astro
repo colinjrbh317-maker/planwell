@@ -1,0 +1,54 @@
+---
+export interface FAQItem {
+  q: string;
+  a: string;
+}
+
+interface Props {
+  questions: FAQItem[];
+  heading?: string;
+  className?: string;
+}
+
+const { questions, heading = 'Frequently Asked Questions', className = '' } = Astro.props;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: questions.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.a.replace(/<[^>]*>/g, ''),
+    },
+  })),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
+
+<section class={`section faq-section ${className}`}>
+  <div class="container">
+    <h2 class="heading-lg text-center mb-8">{heading}</h2>
+    <div class="faq-list">
+      {questions.map((item) => (
+        <details class="faq-item">
+          <summary class="faq-question">{item.q}</summary>
+          <div class="faq-answer" set:html={`<p>${item.a}</p>`} />
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq-list { max-width: 800px; margin: 0 auto; }
+  .faq-item { border-bottom: 1px solid var(--color-gray-200); }
+  .faq-question { padding: var(--space-5) 0; font-weight: var(--font-semibold); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; color: var(--color-navy); gap: var(--space-4); }
+  .faq-question::-webkit-details-marker { display: none; }
+  .faq-question::after { content: '+'; font-size: var(--text-xl); color: var(--color-gold); transition: transform var(--transition-fast); flex-shrink: 0; }
+  details[open] .faq-question::after { transform: rotate(45deg); }
+  .faq-answer { padding-bottom: var(--space-5); color: var(--color-gray-600); line-height: 1.7; }
+  .faq-answer :global(a) { color: var(--color-gold); text-decoration: underline; }
+</style>

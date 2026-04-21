@@ -1,0 +1,219 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import WebinarCTA from '../../components/WebinarCTA.astro';
+import FAQSchema from '../../components/FAQSchema.astro';
+
+const faqs = [
+  {
+    q: 'Do Anchorage federal employees receive a Cost of Living Allowance on top of their salary?',
+    a: 'The answer has changed significantly since 2010. Under the Non-Foreign Area Retirement Equity Assurance Act (NAREAA), Alaska federal employees transitioned from COLA to locality pay between 2010 and 2012. The bulk of what was previously COLA is now paid as locality pay, which DOES count toward your high-3 average salary for FERS pension purposes. This was a major improvement from the pre-2010 system. A residual non-foreign COLA still applies in some limited situations and does not count toward your high-3, but most Alaska federal employees today are receiving locality pay for the majority of their geographic supplement. Understanding which component of your pay is locality versus residual COLA is important for accurate high-3 planning.',
+  },
+  {
+    q: 'How does the locality pay vs. residual COLA distinction affect JBER civilian retirement planning?',
+    a: 'Since the NAREAA transition (2010-2012), Joint Base Elmendorf-Richardson civilian employees primarily receive locality pay rather than non-foreign COLA. Locality pay counts toward your FERS high-3, which is a significant improvement over the prior COLA-only system. If any residual non-foreign COLA remains in your pay, that portion does not count toward your high-3. Review your leave and earnings statement to identify which components are locality pay (retirement-creditable) versus any residual COLA (not retirement-creditable). Planning your retirement budget using only your locality-adjusted basic pay for the high-3 calculation gives you the most accurate pension estimate.',
+  },
+  {
+    q: 'Can JBER or NOAA Anchorage employees count military service toward FERS?',
+    a: 'Yes. Any prior active-duty military service can be added to FERS creditable service by paying a military service deposit to OPM. For Alaska federal employees who came through the military before taking a civilian position at JBER, NOAA, or BLM, this deposit often adds 3-6 years of creditable service. At the GS pay scales common in Anchorage, that translates to several hundred dollars more per month in annuity for life.',
+  },
+  {
+    q: 'What happens to my FEHB if I retire from a federal agency in Anchorage and move to the Lower 48?',
+    a: 'FEHB coverage is not tied to your location in Alaska. You keep your FEHB plan in retirement regardless of where you retire, as long as you met the 5-year enrollment requirement. Many Alaska federal employees plan to move south at retirement. Your FEHB plan continues to cover you in your new state. Our workshops cover how to compare plan options at retirement and whether to switch plans at that point.',
+  },
+  {
+    q: 'Are there FERS retirement workshops available for Anchorage federal employees?',
+    a: 'Yes. PlanWell runs free virtual 3-hour FERS workshops that JBER civilians, VA Alaska employees, NOAA staff, BLM Alaska state office workers, and Forest Service Region 10 employees attend via Zoom. No drive required, and our sessions accommodate Alaska Standard Time schedules. The Alaska COLA question specifically comes up in our live Q&A sessions regularly.',
+  },
+];
+---
+
+<BaseLayout
+  title="Federal Retirement Planning in Anchorage, Alaska"
+  description="Expert FERS retirement planning for federal employees in Anchorage. Serving JBER civilians, VA Alaska, NOAA, BLM, and Forest Service Region 10 with Alaska COLA expertise. Free workshop available."
+  canonical="/locations/anchorage"
+>
+  <!-- Hero Section -->
+  <section class="location-hero">
+    <div class="container">
+      <div class="location-hero__content-centered">
+        <span class="eyebrow">Anchorage, Alaska</span>
+        <h1 class="heading-xl">Federal Retirement Planning in Anchorage</h1>
+        <p class="lead">
+          Anchorage federal employees face a retirement planning situation unique in the country. Since the NAREAA transition (2010-2012), most Alaska federal employees now receive locality pay rather than COLA, and locality pay DOES count toward your FERS high-3. However, a residual non-foreign COLA still exists in some situations and does not count toward your high-3. JBER civilian workers, VA Alaska employees, NOAA scientists, and BLM staff all need to understand which components of their pay are retirement-creditable before they set a retirement date.
+        </p>
+        <div class="location-hero__cta">
+          <a href="/federal-retirement-webinars" class="btn btn--primary btn--lg">Free FERS Workshop</a>
+          <a href="/book-call" class="btn btn--white btn--lg">Schedule Consultation</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service Area Section -->
+  <section class="section section--gray">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Service Areas in the Anchorage Region</h2>
+      <div class="service-areas">
+        <div class="service-area">
+          <h3>Anchorage Proper</h3>
+          <p>Downtown, Midtown, South Anchorage, Eagle River</p>
+        </div>
+        <div class="service-area">
+          <h3>JBER &amp; Northeast Anchorage</h3>
+          <p>JBER, Mountain View, Muldoon, Chugiak</p>
+        </div>
+        <div class="service-area">
+          <h3>Mat-Su Valley</h3>
+          <p>Wasilla, Palmer, Houston, Big Lake</p>
+        </div>
+        <div class="service-area">
+          <h3>Kenai Peninsula &amp; Beyond</h3>
+          <p>Kenai, Soldotna, Homer, Kodiak, Juneau</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Major Employers Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Major Federal Employers We Serve</h2>
+      <div class="employers-grid">
+        <div class="employer-card">
+          <h3>Defense &amp; Coast Guard</h3>
+          <ul>
+            <li>Joint Base Elmendorf-Richardson civilian workforce</li>
+            <li>673d Air Base Wing civilian employees</li>
+            <li>U.S. Army Alaska civilian personnel</li>
+            <li>Coast Guard 17th District (Juneau/Kodiak)</li>
+            <li>Defense Contract Audit Agency Alaska</li>
+          </ul>
+        </div>
+        <div class="employer-card">
+          <h3>Science &amp; Natural Resources</h3>
+          <ul>
+            <li>NOAA Alaska Regional Office</li>
+            <li>BLM Alaska State Office</li>
+            <li>Forest Service Region 10 (Alaska Region)</li>
+            <li>Fish and Wildlife Service Alaska Region</li>
+            <li>U.S. Geological Survey Alaska Science Center</li>
+          </ul>
+        </div>
+        <div class="employer-card">
+          <h3>Veterans &amp; Benefits</h3>
+          <ul>
+            <li>VA Alaska Healthcare System</li>
+            <li>VA Anchorage Outpatient Clinic</li>
+            <li>Social Security Administration Alaska</li>
+            <li>HHS Region 10 Alaska offices</li>
+            <li>Indian Health Service Alaska Area</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <WebinarCTA variant="section" audienceLabel="Anchorage Federal Employees" />
+
+  <!-- Directions Section -->
+  <section class="section section--navy">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Serving Anchorage Federal Workers Virtually</h2>
+      <p class="text-center lead mb-8" style="color: var(--color-gray-300);">
+        Whether you commute Glenn Highway to JBER, drive Tudor Road to VA Alaska, or work remotely for BLM or Forest Service anywhere in the state, our virtual workshops connect you to CFP-level federal benefits expertise.
+      </p>
+      <div class="directions-grid">
+        <div class="direction-card">
+          <h3>From JBER</h3>
+          <p>Joint Base Elmendorf-Richardson spans a massive area north of Anchorage along the Glenn Highway. Civilian employees across the base's dozens of directorates join our free virtual workshops without coordination around base access schedules.</p>
+        </div>
+        <div class="direction-card">
+          <h3>From VA Alaska and Midtown</h3>
+          <p>VA Alaska Healthcare System is at 1201 N. Muldoon Rd in East Anchorage. Other federal offices cluster in Midtown. Employees at both locations join our Zoom sessions from their offices or from their Eagle River and South Anchorage homes.</p>
+        </div>
+        <div class="direction-card">
+          <h3>From Rural Alaska Locations</h3>
+          <p>BLM, Forest Service, and IHS employees stationed in Fairbanks, Juneau, Kodiak, Nome, and rural villages have always joined our workshops virtually. Alaska's geography is no barrier to getting your FERS questions answered by a CFP.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Why Anchorage Federal Employees Choose PlanWell</h2>
+      <div class="comparison-grid">
+        <div class="comparison-card comparison-card--highlight">
+          <h3>PlanWell Financial Planning</h3>
+          <ul class="comparison-list">
+            <li class="comparison-list__item comparison-list__item--pro">Certified Financial Planners (CFP®)</li>
+            <li class="comparison-list__item comparison-list__item--pro">ChFEBC℠ Federal Benefits Specialists</li>
+            <li class="comparison-list__item comparison-list__item--pro">Fee-Based Fiduciary</li>
+            <li class="comparison-list__item comparison-list__item--pro">Free 3-Hour FERS Workshop</li>
+            <li class="comparison-list__item comparison-list__item--pro">Alaska Locality Pay &amp; Residual COLA Expertise</li>
+            <li class="comparison-list__item comparison-list__item--pro">Alaska Standard Time Scheduling</li>
+          </ul>
+        </div>
+        <div class="comparison-card">
+          <h3>Many Alaska Financial Advisors</h3>
+          <ul class="comparison-list">
+            <li class="comparison-list__item comparison-list__item--con">General financial credentials typical</li>
+            <li class="comparison-list__item comparison-list__item--con">Limited FERS pension knowledge</li>
+            <li class="comparison-list__item comparison-list__item--con">Commission-based product sales</li>
+            <li class="comparison-list__item comparison-list__item--con">No federal-specific workshops</li>
+            <li class="comparison-list__item comparison-list__item--con">Unfamiliar with post-NAREAA locality vs. COLA distinctions</li>
+            <li class="comparison-list__item comparison-list__item--con">No experience with FERS supplement rules</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <FAQSchema questions={faqs} heading="Anchorage Federal Retirement FAQs" />
+
+  <WebinarCTA
+    variant="banner"
+    heading="Ready to Plan Your Federal Retirement in Anchorage?"
+    subheading="Join JBER civilians, VA Alaska employees, NOAA scientists, and BLM staff across the Last Frontier who have built their retirement plan with a CFP who understands Alaska locality pay, residual COLA distinctions, and FERS."
+  />
+</BaseLayout>
+
+<style>
+  .location-hero { padding: var(--space-16) 0; background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%); color: var(--color-white); }
+  .location-hero__content-centered { max-width: 780px; margin: 0 auto; text-align: center; }
+  .location-hero h1 { color: var(--color-white); margin-bottom: var(--space-4); }
+  .location-hero .lead { color: var(--color-gray-300); margin-bottom: var(--space-8); }
+  .location-hero__cta { display: flex; gap: var(--space-4); flex-wrap: wrap; justify-content: center; }
+
+  .service-areas { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
+  .service-area { background: var(--color-white); padding: var(--space-6); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+  .service-area h3 { font-size: var(--text-lg); margin-bottom: var(--space-2); }
+  .service-area p { color: var(--color-gray-600); font-size: var(--text-sm); }
+
+  .employers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .employer-card { background: var(--color-gray-100); padding: var(--space-8); border-radius: var(--radius-lg); }
+  .employer-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-4); color: var(--color-navy); }
+  .employer-card ul { list-style: none; padding: 0; }
+  .employer-card li { padding: var(--space-2) 0; border-bottom: 1px solid var(--color-gray-200); color: var(--color-gray-700); }
+  .employer-card li:last-child { border-bottom: none; }
+
+  .directions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .direction-card { background: rgba(255, 255, 255, 0.1); padding: var(--space-6); border-radius: var(--radius-lg); border: 1px solid rgba(255, 255, 255, 0.2); }
+  .direction-card h3 { color: var(--color-gold); font-size: var(--text-lg); margin-bottom: var(--space-3); }
+  .direction-card p { color: var(--color-gray-300); font-size: var(--text-sm); }
+
+  .comparison-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-8); max-width: 900px; margin: 0 auto; }
+  .comparison-card { background: var(--color-gray-100); padding: var(--space-8); border-radius: var(--radius-lg); }
+  .comparison-card--highlight { background: var(--color-navy); color: var(--color-white); }
+  .comparison-card--highlight h3 { color: var(--color-gold); }
+  .comparison-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-6); text-align: center; }
+  .comparison-list { list-style: none; padding: 0; }
+  .comparison-list__item { padding: var(--space-3) 0; padding-left: var(--space-8); position: relative; font-size: var(--text-sm); }
+  .comparison-list__item::before { position: absolute; left: 0; font-size: var(--text-lg); }
+  .comparison-list__item--pro::before { content: "✓"; color: var(--color-gold); }
+  .comparison-list__item--con::before { content: "✗"; color: var(--color-error); }
+
+  @media (max-width: 1024px) { .service-areas { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 768px) { .service-areas, .employers-grid, .directions-grid, .comparison-grid { grid-template-columns: 1fr; } }
+</style>

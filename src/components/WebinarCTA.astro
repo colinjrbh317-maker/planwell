@@ -1,0 +1,105 @@
+---
+import { getUpcomingWebinars, formatWebinarDate } from '../data/webinars';
+import { getUpcomingTSPWebinars, formatTSPWebinarDate } from '../data/tsp-webinars';
+
+interface Props {
+  heading?: string;
+  subheading?: string;
+  variant?: 'hero' | 'section' | 'banner';
+  audienceLabel?: string;
+  showTSP?: boolean;
+  fersCount?: number;
+  tspCount?: number;
+}
+
+const {
+  heading = 'Free FERS Retirement Workshop',
+  subheading = 'Three hours. No cost. CFP\u00ae-led. Join federal employees who walked away with a real plan.',
+  variant = 'section',
+  audienceLabel,
+  showTSP = true,
+  fersCount = 3,
+  tspCount = 2,
+} = Astro.props;
+
+const upcomingFERS = getUpcomingWebinars(fersCount);
+const upcomingTSP = showTSP ? getUpcomingTSPWebinars(tspCount) : [];
+const nextWebinar = upcomingFERS[0];
+
+const eventSchemas = upcomingFERS.map((w) => ({
+  '@context': 'https://schema.org',
+  '@type': 'EducationEvent',
+  name: `Free FERS Retirement Workshop, ${formatWebinarDate(w)}`,
+  startDate: w.date.toISOString(),
+  eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
+  eventStatus: 'https://schema.org/EventScheduled',
+  isAccessibleForFree: true,
+  url: `https://planwellfp.com/webinar/${w.id}`,
+  location: { '@type': 'VirtualLocation', url: `https://planwellfp.com/webinar/${w.id}` },
+  organizer: { '@type': 'Organization', name: 'PlanWell Financial Planning', url: 'https://planwellfp.com' },
+}));
+---
+
+{eventSchemas.map((s) => (
+  <script type="application/ld+json" set:html={JSON.stringify(s)} />
+))}
+
+{variant === 'hero' && (
+  <div class="webinar-cta webinar-cta--hero">
+    <a href={nextWebinar ? `/webinar/${nextWebinar.id}` : '/federal-retirement-webinars'} class="btn btn--primary btn--lg">Register for Free Workshop</a>
+    <a href="/book-call" class="btn btn--white btn--lg">Book a Consultation</a>
+  </div>
+)}
+
+{variant === 'banner' && (
+  <section class="section section--navy">
+    <div class="container text-center">
+      <h2 class="heading-lg mb-4" style="color: var(--color-white);">{heading}</h2>
+      <p class="lead mb-8" style="color: var(--color-gray-300);">{subheading}</p>
+      <div class="flex gap-4 justify-center" style="flex-wrap: wrap;">
+        <a href={nextWebinar ? `/webinar/${nextWebinar.id}` : '/federal-retirement-webinars'} class="btn btn--primary btn--lg">Attend Free Workshop</a>
+        <a href="/book-call" class="btn btn--white btn--lg">Book a Consultation</a>
+      </div>
+    </div>
+  </section>
+)}
+
+{variant === 'section' && (
+  <section class="section section--gray">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-4">
+        {audienceLabel ? `Upcoming Workshops for ${audienceLabel}` : heading}
+      </h2>
+      <p class="text-center mb-8" style="color: var(--color-gray-600);">{subheading}</p>
+      <div class="workshop-list">
+        {upcomingFERS.map((w) => (
+          <a href={`/webinar/${w.id}`} class="workshop-row">
+            <span class="workshop-row__date">{formatWebinarDate(w)}</span>
+            <span class="workshop-row__title">FERS Retirement Workshop, 3 Hours</span>
+            <span class="btn btn--primary btn--sm">Register Free</span>
+          </a>
+        ))}
+        {upcomingTSP.map((w) => (
+          <a href={`/webinar/tsp/${w.id}`} class="workshop-row">
+            <span class="workshop-row__date">{formatTSPWebinarDate(w)}</span>
+            <span class="workshop-row__title">TSP Investment Workshop, 1 Hour</span>
+            <span class="btn btn--primary btn--sm">Register Free</span>
+          </a>
+        ))}
+      </div>
+      <p class="text-center mt-6">
+        <a href="/federal-retirement-webinars" style="color: var(--color-gold); text-decoration: underline;">View all upcoming workshop dates</a>
+      </p>
+    </div>
+  </section>
+)}
+
+<style>
+  .webinar-cta--hero { display: flex; gap: var(--space-4); flex-wrap: wrap; }
+  .workshop-list { display: flex; flex-direction: column; gap: var(--space-3); max-width: 700px; margin: 0 auto; }
+  .workshop-row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); padding: var(--space-4) var(--space-6); background: var(--color-white); border-radius: var(--radius-lg); border: 1px solid var(--color-gray-200); text-decoration: none; transition: all var(--transition-base); }
+  .workshop-row:hover { border-color: var(--color-gold); box-shadow: var(--shadow-md); }
+  .workshop-row__date { font-weight: var(--font-semibold); color: var(--color-navy); min-width: 180px; }
+  .workshop-row__title { color: var(--color-gray-600); font-size: var(--text-sm); flex: 1; }
+  @media (max-width: 768px) { .workshop-row { flex-direction: column; align-items: flex-start; } .workshop-row__date { min-width: auto; } }
+</style>

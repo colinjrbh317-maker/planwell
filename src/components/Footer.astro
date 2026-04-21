@@ -13,21 +13,23 @@ const footerLinks = {
   company: [
     { label: 'About Us', href: '/about' },
     { label: 'Our Services', href: '/services' },
-    { label: 'Learning Center', href: '/resources' },
+    { label: 'Learning Center', href: '/blog' },
     { label: 'Calculators', href: '/calculators' },
     { label: 'Contact', href: '/book-call' },
   ],
-  locations: [
-    { label: 'Serving All 50 States', href: '/about' },
-    { label: 'Reston, VA Office', href: '/locations/northern-virginia' },
-    { label: 'Washington DC Area', href: '/locations/washington-dc' },
+  agencies: [
+    { label: 'All Federal Agencies', href: '/federal-agencies' },
+    { label: 'Department of Defense', href: '/federal-agencies/department-of-defense' },
+    { label: 'Veterans Affairs', href: '/federal-agencies/department-of-veterans-affairs' },
+    { label: 'Homeland Security', href: '/federal-agencies/department-of-homeland-security' },
+    { label: 'Postal Service', href: '/federal-agencies/us-postal-service' },
   ],
   resources: [
     { label: 'FERS Guide', href: '/blog/topic/fers' },
     { label: 'TSP Strategies', href: '/blog/topic/tsp' },
     { label: 'FEHB & Medicare', href: '/blog/topic/health' },
-    { label: 'Social Security', href: '/resources#social-security' },
-    { label: 'Tax Strategy', href: '/resources#tax-strategy' },
+    { label: 'Decision Guides', href: '/guides' },
+    { label: 'Case Studies', href: '/case-studies' },
   ],
   connect: [
     { label: 'Book a Call', href: '/book-call' },
@@ -77,9 +79,9 @@ const footerLinks = {
         </div>
         
         <div class="footer__column">
-          <h4 class="footer__column-title">Locations</h4>
+          <h4 class="footer__column-title">By Agency</h4>
           <ul>
-            {footerLinks.locations.map(link => (
+            {footerLinks.agencies.map(link => (
               <li><a href={link.href}>{link.label}</a></li>
             ))}
           </ul>

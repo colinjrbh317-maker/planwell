@@ -1,0 +1,219 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import WebinarCTA from '../../components/WebinarCTA.astro';
+import FAQSchema from '../../components/FAQSchema.astro';
+
+const faqs = [
+  {
+    q: 'How does California state income tax affect FERS retirement for Sacramento federal employees?',
+    a: 'California is one of the most tax-aggressive states for retirement income. California taxes your FERS annuity and TSP distributions as ordinary income at state rates up to 13.3%. Unlike many states, California does not offer a special exemption for federal pension income. A Sacramento federal employee retiring at a $70,000 annuity could owe $5,000 or more in California state tax annually. Our advisors walk through the full net-after-tax picture and whether relocating at retirement changes the math.',
+  },
+  {
+    q: 'Do Sacramento area federal employees receive high locality pay that boosts their FERS pension?',
+    a: 'Yes. Sacramento is in the Sacramento-Roseville-Folsom locality pay area. General Schedule employees in Sacramento earn more than the nationwide average base rate, and that locality pay is included in your high-3 salary calculation. A higher high-3 means a higher annuity. Sacramento locality pay is lower than the San Francisco Bay Area but significantly higher than non-locality areas, which is meaningful over a 20 or 30-year federal career.',
+  },
+  {
+    q: 'I work at the VA Mather campus. What are my FERS retirement options?',
+    a: 'VA Northern California Healthcare System employees at the Mather campus are covered by standard FERS. Your retirement options are the same as any other federal employee: retire at MRA with 30 years for a full immediate annuity, at age 60 with 20 years, or at 62 with 5 years. The FERS supplement is available if you retire before 62 with immediate eligibility. Our workshops walk through the math for VA employees at your specific grade and years of service.',
+  },
+  {
+    q: 'How does Forest Service Region 5 retirement work for Sacramento employees?',
+    a: 'Forest Service Region 5 (Pacific Southwest) has its headquarters in Vallejo with satellite offices throughout the Sacramento area. Forest Service employees are covered by FERS. If you have seasonal service history, only the periods you were in pay status count as creditable service. Recreating your creditable service total from SF-50 records is a step many Forest Service employees skip, and it can mean underestimating or overestimating your annuity by years.',
+  },
+  {
+    q: 'Are there FERS retirement workshops available for Sacramento federal employees?',
+    a: 'Yes. PlanWell runs free 3-hour FERS workshops that VA Mather employees, Bureau of Reclamation Mid-Pacific staff, EPA Region 9 Sacramento employees, and Forest Service Region 5 workers attend via Zoom. No drive on I-50 or I-80 required. Evening and weekend sessions accommodate state agency schedules.',
+  },
+];
+---
+
+<BaseLayout
+  title="Federal Retirement Planning in Sacramento, California"
+  description="Expert FERS retirement planning for federal employees in Sacramento. Serving VA Mather, EPA Region 9, Bureau of Reclamation, and Forest Service Region 5 workers. Free workshop available."
+  canonical="/locations/sacramento"
+>
+  <!-- Hero Section -->
+  <section class="location-hero">
+    <div class="container">
+      <div class="location-hero__content-centered">
+        <span class="eyebrow">Sacramento, California</span>
+        <h1 class="heading-xl">Federal Retirement Planning in Sacramento</h1>
+        <p class="lead">
+          Sacramento is California's government hub, and its federal presence matches that scale. The VA Northern California system, Bureau of Reclamation Mid-Pacific Region, EPA Region 9 field offices, and former McClellan Air Force Base redevelopment all anchor a large civilian federal workforce. California's tax environment makes getting your retirement numbers exactly right more important here than almost anywhere else.
+        </p>
+        <div class="location-hero__cta">
+          <a href="/federal-retirement-webinars" class="btn btn--primary btn--lg">Free FERS Workshop</a>
+          <a href="/book-call" class="btn btn--white btn--lg">Schedule Consultation</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service Area Section -->
+  <section class="section section--gray">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Service Areas in the Sacramento Region</h2>
+      <div class="service-areas">
+        <div class="service-area">
+          <h3>Sacramento City</h3>
+          <p>Downtown, Midtown, East Sacramento, Curtis Park, Land Park</p>
+        </div>
+        <div class="service-area">
+          <h3>East Sacramento County</h3>
+          <p>Rancho Cordova, Mather, Folsom, El Dorado Hills, Citrus Heights</p>
+        </div>
+        <div class="service-area">
+          <h3>Roseville &amp; Placer County</h3>
+          <p>Roseville, Rocklin, Lincoln, Loomis, Auburn</p>
+        </div>
+        <div class="service-area">
+          <h3>Elk Grove &amp; South County</h3>
+          <p>Elk Grove, Galt, Lodi, West Sacramento, Woodland</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Major Employers Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Major Federal Employers We Serve</h2>
+      <div class="employers-grid">
+        <div class="employer-card">
+          <h3>Veterans &amp; Health</h3>
+          <ul>
+            <li>VA Northern California Healthcare System (Mather)</li>
+            <li>VA Northern California (Sacramento division)</li>
+            <li>HHS Region 9 Sacramento field offices</li>
+            <li>Indian Health Service California Area</li>
+            <li>Social Security Administration Sacramento</li>
+          </ul>
+        </div>
+        <div class="employer-card">
+          <h3>Land &amp; Environment</h3>
+          <ul>
+            <li>Bureau of Reclamation Mid-Pacific Region</li>
+            <li>EPA Region 9 Sacramento field offices</li>
+            <li>Forest Service Region 5 (Pacific Southwest)</li>
+            <li>BLM California State Office</li>
+            <li>U.S. Army Corps of Engineers Sacramento District</li>
+          </ul>
+        </div>
+        <div class="employer-card">
+          <h3>Government &amp; Enforcement</h3>
+          <ul>
+            <li>McClellan Business Park federal tenants</li>
+            <li>FBI Sacramento Field Office</li>
+            <li>U.S. District Court Eastern District California</li>
+            <li>IRS Sacramento field offices</li>
+            <li>USDA Agricultural Research Service Davis</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <WebinarCTA variant="section" audienceLabel="Sacramento Federal Employees" />
+
+  <!-- Directions Section -->
+  <section class="section section--navy">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Serving Sacramento Federal Workers Virtually</h2>
+      <p class="text-center lead mb-8" style="color: var(--color-gray-300);">
+        Whether you take US-50 east to Mather, drive I-80 to Roseville-area agencies, or commute downtown via light rail, our virtual workshops eliminate every mile of that Sacramento traffic.
+      </p>
+      <div class="directions-grid">
+        <div class="direction-card">
+          <h3>From VA Mather in Rancho Cordova</h3>
+          <p>VA Northern California's Mather campus is on Watt Avenue in Rancho Cordova, accessible via US-50 East. Clinical and administrative staff join our virtual workshops from the Mather campus or from their Folsom and El Dorado Hills homes.</p>
+        </div>
+        <div class="direction-card">
+          <h3>From Bureau of Reclamation Mid-Pacific</h3>
+          <p>BOR Mid-Pacific Region headquarters is at 2800 Cottage Way in Sacramento, near the I-80/US-50 interchange. BOR engineers, project managers, and administrative staff join our Zoom sessions from the office or from home.</p>
+        </div>
+        <div class="direction-card">
+          <h3>From McClellan and Rancho Cordova Federal Tenants</h3>
+          <p>The former McClellan AFB in North Highlands now hosts multiple federal tenants. Employees at these facilities join our workshops via Zoom from North Highlands, North Sacramento, or their Placer County homes along I-80.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Why Sacramento Federal Employees Choose PlanWell</h2>
+      <div class="comparison-grid">
+        <div class="comparison-card comparison-card--highlight">
+          <h3>PlanWell Financial Planning</h3>
+          <ul class="comparison-list">
+            <li class="comparison-list__item comparison-list__item--pro">Certified Financial Planners (CFP®)</li>
+            <li class="comparison-list__item comparison-list__item--pro">ChFEBC℠ Federal Benefits Specialists</li>
+            <li class="comparison-list__item comparison-list__item--pro">Fee-Based Fiduciary</li>
+            <li class="comparison-list__item comparison-list__item--pro">Free 3-Hour FERS Workshop</li>
+            <li class="comparison-list__item comparison-list__item--pro">California Tax Retirement Planning Expertise</li>
+            <li class="comparison-list__item comparison-list__item--pro">Pacific Time Zone Availability</li>
+          </ul>
+        </div>
+        <div class="comparison-card">
+          <h3>Many Sacramento Advisors</h3>
+          <ul class="comparison-list">
+            <li class="comparison-list__item comparison-list__item--con">General financial credentials typical</li>
+            <li class="comparison-list__item comparison-list__item--con">Limited FERS pension knowledge</li>
+            <li class="comparison-list__item comparison-list__item--con">Commission-based product sales</li>
+            <li class="comparison-list__item comparison-list__item--con">No federal-specific workshops</li>
+            <li class="comparison-list__item comparison-list__item--con">Underestimate California tax impact on annuity</li>
+            <li class="comparison-list__item comparison-list__item--con">No experience with seasonal service calculations</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <FAQSchema questions={faqs} heading="Sacramento Federal Retirement FAQs" />
+
+  <WebinarCTA
+    variant="banner"
+    heading="Ready to Plan Your Federal Retirement in Sacramento?"
+    subheading="Join VA Mather employees, BOR Mid-Pacific staff, Forest Service Region 5 workers, and EPA employees who have mapped out their FERS pension and California tax picture with a CFP who knows federal benefits."
+  />
+</BaseLayout>
+
+<style>
+  .location-hero { padding: var(--space-16) 0; background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%); color: var(--color-white); }
+  .location-hero__content-centered { max-width: 780px; margin: 0 auto; text-align: center; }
+  .location-hero h1 { color: var(--color-white); margin-bottom: var(--space-4); }
+  .location-hero .lead { color: var(--color-gray-300); margin-bottom: var(--space-8); }
+  .location-hero__cta { display: flex; gap: var(--space-4); flex-wrap: wrap; justify-content: center; }
+
+  .service-areas { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
+  .service-area { background: var(--color-white); padding: var(--space-6); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+  .service-area h3 { font-size: var(--text-lg); margin-bottom: var(--space-2); }
+  .service-area p { color: var(--color-gray-600); font-size: var(--text-sm); }
+
+  .employers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .employer-card { background: var(--color-gray-100); padding: var(--space-8); border-radius: var(--radius-lg); }
+  .employer-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-4); color: var(--color-navy); }
+  .employer-card ul { list-style: none; padding: 0; }
+  .employer-card li { padding: var(--space-2) 0; border-bottom: 1px solid var(--color-gray-200); color: var(--color-gray-700); }
+  .employer-card li:last-child { border-bottom: none; }
+
+  .directions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .direction-card { background: rgba(255, 255, 255, 0.1); padding: var(--space-6); border-radius: var(--radius-lg); border: 1px solid rgba(255, 255, 255, 0.2); }
+  .direction-card h3 { color: var(--color-gold); font-size: var(--text-lg); margin-bottom: var(--space-3); }
+  .direction-card p { color: var(--color-gray-300); font-size: var(--text-sm); }
+
+  .comparison-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-8); max-width: 900px; margin: 0 auto; }
+  .comparison-card { background: var(--color-gray-100); padding: var(--space-8); border-radius: var(--radius-lg); }
+  .comparison-card--highlight { background: var(--color-navy); color: var(--color-white); }
+  .comparison-card--highlight h3 { color: var(--color-gold); }
+  .comparison-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-6); text-align: center; }
+  .comparison-list { list-style: none; padding: 0; }
+  .comparison-list__item { padding: var(--space-3) 0; padding-left: var(--space-8); position: relative; font-size: var(--text-sm); }
+  .comparison-list__item::before { position: absolute; left: 0; font-size: var(--text-lg); }
+  .comparison-list__item--pro::before { content: "✓"; color: var(--color-gold); }
+  .comparison-list__item--con::before { content: "✗"; color: var(--color-error); }
+
+  @media (max-width: 1024px) { .service-areas { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 768px) { .service-areas, .employers-grid, .directions-grid, .comparison-grid { grid-template-columns: 1fr; } }
+</style>

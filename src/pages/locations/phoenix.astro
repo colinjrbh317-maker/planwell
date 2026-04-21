@@ -1,0 +1,219 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import WebinarCTA from '../../components/WebinarCTA.astro';
+import FAQSchema from '../../components/FAQSchema.astro';
+
+const faqs = [
+  {
+    q: 'Do Luke AFB civilian employees qualify for FERS retirement?',
+    a: 'Yes. Civilian employees at Luke Air Force Base in Glendale are covered by FERS. Luke hosts a large F-35 training mission with thousands of civilian employees in aircraft maintenance, logistics, contracting, and base support. Many Luke civilians transitioned from active-duty military service. A military service deposit to OPM can add that military time to your FERS creditable service, often adding hundreds of dollars per month to your annuity.',
+  },
+  {
+    q: 'How does Arizona state income tax affect my FERS pension in retirement?',
+    a: 'Arizona taxes retirement income, but it offers a partial exemption for certain federal pension income. Arizona allows you to exempt the first $2,500 of federal pension income from state taxation, which partially offsets the state tax burden. Unlike Florida or Washington, Arizona retirees do pay state income tax on most of their FERS annuity. Our advisors can walk through the net-after-tax picture for your specific annuity amount.',
+  },
+  {
+    q: 'Can VA Phoenix employees keep FEHB after retiring?',
+    a: 'Yes. VA Phoenix Health Care System employees who maintained FEHB enrollment for the 5 consecutive years before retirement carry that coverage into retirement with the federal government premium share intact. Given Arizona health insurance premiums in the Phoenix metro, maintaining FEHB in retirement typically saves $10,000 or more per year compared to marketplace alternatives.',
+  },
+  {
+    q: 'How does the Bureau of Reclamation retirement work for Phoenix area employees?',
+    a: 'Bureau of Reclamation employees in Phoenix at the Lower Colorado Region offices are covered by FERS the same as other Interior Department employees. BOR employees working on water infrastructure projects across the Valley of the Sun have the same pension formula, TSP matching, and FEHB eligibility as other FERS employees. If you have worked across multiple Interior agencies, all that service counts toward your creditable service.',
+  },
+  {
+    q: 'Are there virtual FERS retirement workshops for Phoenix area federal employees?',
+    a: 'Yes. PlanWell runs free 3-hour FERS workshops that Luke AFB civilians, VA Phoenix staff, BOR employees, IRS Phoenix workers, and SSA employees attend via Zoom. Whether you are in Glendale, Tempe, Chandler, or Scottsdale, there is no I-10 or Loop 101 traffic to deal with for our virtual sessions.',
+  },
+];
+---
+
+<BaseLayout
+  title="Federal Retirement Planning in Phoenix, Arizona"
+  description="Expert FERS retirement planning for federal employees in Phoenix. Serving Luke AFB civilians, VA Phoenix, Bureau of Reclamation, BIA, SSA, and IRS workers. Free workshop available."
+  canonical="/locations/phoenix"
+>
+  <!-- Hero Section -->
+  <section class="location-hero">
+    <div class="container">
+      <div class="location-hero__content-centered">
+        <span class="eyebrow">Phoenix, Arizona</span>
+        <h1 class="heading-xl">Federal Retirement Planning in Phoenix</h1>
+        <p class="lead">
+          The Phoenix metro is home to one of the Southwest's largest federal employment clusters. Luke AFB in Glendale, the VA Phoenix Health Care System, Bureau of Reclamation Lower Colorado Region, BIA Southwest Regional Office, and multiple IRS and SSA facilities all employ career federal workers ready to retire from the desert. We help you capture every dollar of a career well-served.
+        </p>
+        <div class="location-hero__cta">
+          <a href="/federal-retirement-webinars" class="btn btn--primary btn--lg">Free FERS Workshop</a>
+          <a href="/book-call" class="btn btn--white btn--lg">Schedule Consultation</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service Area Section -->
+  <section class="section section--gray">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Service Areas in the Phoenix Metro</h2>
+      <div class="service-areas">
+        <div class="service-area">
+          <h3>Phoenix &amp; Scottsdale</h3>
+          <p>Downtown Phoenix, Midtown, North Phoenix, Old Town Scottsdale</p>
+        </div>
+        <div class="service-area">
+          <h3>West Valley</h3>
+          <p>Glendale, Peoria, Surprise, Goodyear, Litchfield Park</p>
+        </div>
+        <div class="service-area">
+          <h3>East Valley</h3>
+          <p>Tempe, Mesa, Chandler, Gilbert, Ahwatukee</p>
+        </div>
+        <div class="service-area">
+          <h3>Sun Cities &amp; Corridor</h3>
+          <p>Sun City, Sun City West, El Mirage, Avondale</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Major Employers Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Major Federal Employers We Serve</h2>
+      <div class="employers-grid">
+        <div class="employer-card">
+          <h3>Defense &amp; Aviation</h3>
+          <ul>
+            <li>Luke Air Force Base civilian workforce (Glendale)</li>
+            <li>56th Fighter Wing civilian employees</li>
+            <li>Sky Harbor federal facilities (CBP, TSA)</li>
+            <li>Defense Contract Management Agency Arizona</li>
+            <li>Army Corps of Engineers Los Angeles District (AZ projects)</li>
+          </ul>
+        </div>
+        <div class="employer-card">
+          <h3>Veterans &amp; Health</h3>
+          <ul>
+            <li>VA Phoenix Health Care System</li>
+            <li>VA Carl T. Hayden Medical Center</li>
+            <li>Indian Health Service Phoenix Area</li>
+            <li>BIA Southwest Regional Office</li>
+            <li>HHS Region 9 Arizona offices</li>
+          </ul>
+        </div>
+        <div class="employer-card">
+          <h3>Revenue &amp; Resources</h3>
+          <ul>
+            <li>IRS Phoenix Campus and field offices</li>
+            <li>Social Security Administration Arizona</li>
+            <li>Bureau of Reclamation Lower Colorado Region</li>
+            <li>Bureau of Land Management Arizona State Office</li>
+            <li>U.S. District Court District of Arizona</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <WebinarCTA variant="section" audienceLabel="Phoenix Federal Employees" />
+
+  <!-- Directions Section -->
+  <section class="section section--navy">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Serving Phoenix Federal Workers Virtually</h2>
+      <p class="text-center lead mb-8" style="color: var(--color-gray-300);">
+        Whether you drive US-60 to Luke AFB, take the Light Rail to downtown Phoenix agencies, or head north on I-17 to VA Phoenix, our virtual workshops eliminate every mile of that drive.
+      </p>
+      <div class="directions-grid">
+        <div class="direction-card">
+          <h3>From Luke AFB in Glendale</h3>
+          <p>Luke Air Force Base sits off Litchfield Road and Camelback Road in Glendale. Civilian employees commute from Peoria, Surprise, Goodyear, and Avondale. Our virtual workshops are more accessible than any in-person seminar across the West Valley.</p>
+        </div>
+        <div class="direction-card">
+          <h3>From VA Phoenix on Indian School Road</h3>
+          <p>The VA Phoenix Health Care System is at 650 E. Indian School Rd, near Light Rail stops and accessible from the I-10 and SR-51. Clinical and administrative staff join our Zoom sessions from the campus or from their East Valley or West Valley homes.</p>
+        </div>
+        <div class="direction-card">
+          <h3>From BOR and IRS Facilities</h3>
+          <p>Bureau of Reclamation Lower Colorado Region is on N. Central Avenue downtown. IRS Phoenix facilities are scattered across the metro. All employees attend our virtual sessions without fighting the I-10 or the 202 during workshop hours.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Why Phoenix Federal Employees Choose PlanWell</h2>
+      <div class="comparison-grid">
+        <div class="comparison-card comparison-card--highlight">
+          <h3>PlanWell Financial Planning</h3>
+          <ul class="comparison-list">
+            <li class="comparison-list__item comparison-list__item--pro">Certified Financial Planners (CFP®)</li>
+            <li class="comparison-list__item comparison-list__item--pro">ChFEBC℠ Federal Benefits Specialists</li>
+            <li class="comparison-list__item comparison-list__item--pro">Fee-Based Fiduciary</li>
+            <li class="comparison-list__item comparison-list__item--pro">Free 3-Hour FERS Workshop</li>
+            <li class="comparison-list__item comparison-list__item--pro">Arizona State Tax Retirement Guidance</li>
+            <li class="comparison-list__item comparison-list__item--pro">Mountain Time Zone Availability</li>
+          </ul>
+        </div>
+        <div class="comparison-card">
+          <h3>Many Phoenix Advisors</h3>
+          <ul class="comparison-list">
+            <li class="comparison-list__item comparison-list__item--con">General financial credentials typical</li>
+            <li class="comparison-list__item comparison-list__item--con">Limited FERS pension knowledge</li>
+            <li class="comparison-list__item comparison-list__item--con">Commission-based product sales</li>
+            <li class="comparison-list__item comparison-list__item--con">No federal-specific workshops</li>
+            <li class="comparison-list__item comparison-list__item--con">Unfamiliar with military deposit rules</li>
+            <li class="comparison-list__item comparison-list__item--con">No experience with BOR or BIA retirement questions</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <FAQSchema questions={faqs} heading="Phoenix Federal Retirement FAQs" />
+
+  <WebinarCTA
+    variant="banner"
+    heading="Ready to Plan Your Federal Retirement in Phoenix?"
+    subheading="Join Luke AFB civilians, VA Phoenix employees, BOR workers, and IRS staff across the Valley who have mapped out their FERS pension and retirement date with a CFP who knows federal benefits."
+  />
+</BaseLayout>
+
+<style>
+  .location-hero { padding: var(--space-16) 0; background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%); color: var(--color-white); }
+  .location-hero__content-centered { max-width: 780px; margin: 0 auto; text-align: center; }
+  .location-hero h1 { color: var(--color-white); margin-bottom: var(--space-4); }
+  .location-hero .lead { color: var(--color-gray-300); margin-bottom: var(--space-8); }
+  .location-hero__cta { display: flex; gap: var(--space-4); flex-wrap: wrap; justify-content: center; }
+
+  .service-areas { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
+  .service-area { background: var(--color-white); padding: var(--space-6); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+  .service-area h3 { font-size: var(--text-lg); margin-bottom: var(--space-2); }
+  .service-area p { color: var(--color-gray-600); font-size: var(--text-sm); }
+
+  .employers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .employer-card { background: var(--color-gray-100); padding: var(--space-8); border-radius: var(--radius-lg); }
+  .employer-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-4); color: var(--color-navy); }
+  .employer-card ul { list-style: none; padding: 0; }
+  .employer-card li { padding: var(--space-2) 0; border-bottom: 1px solid var(--color-gray-200); color: var(--color-gray-700); }
+  .employer-card li:last-child { border-bottom: none; }
+
+  .directions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .direction-card { background: rgba(255, 255, 255, 0.1); padding: var(--space-6); border-radius: var(--radius-lg); border: 1px solid rgba(255, 255, 255, 0.2); }
+  .direction-card h3 { color: var(--color-gold); font-size: var(--text-lg); margin-bottom: var(--space-3); }
+  .direction-card p { color: var(--color-gray-300); font-size: var(--text-sm); }
+
+  .comparison-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-8); max-width: 900px; margin: 0 auto; }
+  .comparison-card { background: var(--color-gray-100); padding: var(--space-8); border-radius: var(--radius-lg); }
+  .comparison-card--highlight { background: var(--color-navy); color: var(--color-white); }
+  .comparison-card--highlight h3 { color: var(--color-gold); }
+  .comparison-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-6); text-align: center; }
+  .comparison-list { list-style: none; padding: 0; }
+  .comparison-list__item { padding: var(--space-3) 0; padding-left: var(--space-8); position: relative; font-size: var(--text-sm); }
+  .comparison-list__item::before { position: absolute; left: 0; font-size: var(--text-lg); }
+  .comparison-list__item--pro::before { content: "✓"; color: var(--color-gold); }
+  .comparison-list__item--con::before { content: "✗"; color: var(--color-error); }
+
+  @media (max-width: 1024px) { .service-areas { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 768px) { .service-areas, .employers-grid, .directions-grid, .comparison-grid { grid-template-columns: 1fr; } }
+</style>

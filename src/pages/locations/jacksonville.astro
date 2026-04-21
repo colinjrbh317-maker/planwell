@@ -1,0 +1,219 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import WebinarCTA from '../../components/WebinarCTA.astro';
+import FAQSchema from '../../components/FAQSchema.astro';
+
+const faqs = [
+  {
+    q: 'Do civilian employees at NAS Jacksonville qualify for FERS retirement?',
+    a: 'Yes. Civilian employees at Naval Air Station Jacksonville are covered by FERS. NAS Jax hosts one of the largest naval air operations in the country, with thousands of civilian employees in maintenance, logistics, contracting, and support roles. Many NAS Jax civilians also have prior military service that can count toward creditable service after paying a military service deposit to OPM.',
+  },
+  {
+    q: 'How does Florida income tax treatment affect FERS retirement in Jacksonville?',
+    a: 'Florida has no state income tax. Your FERS annuity, TSP withdrawals, and Social Security benefits will not face a state income tax layer in retirement if you stay in Florida. This is a genuine financial advantage. A Jacksonville federal employee retiring at a $60,000 annuity avoids the 4-6% state tax that the same employee would pay in Virginia, Georgia, or North Carolina.',
+  },
+  {
+    q: 'Can I keep FEHB coverage after retiring from the VA or NAS Jacksonville?',
+    a: 'Yes, provided you were enrolled in an FEHB plan for the 5 consecutive years immediately before your retirement date. VA employees and NAS Jax civilians both qualify under the same FEHB continuity rule. Florida health insurance on the private market runs among the most expensive in the Southeast, so keeping your FEHB in retirement typically saves Jacksonville retirees $8,000 to $14,000 per year.',
+  },
+  {
+    q: 'What happens if I retire from Mayport Naval Station civilian workforce before Social Security age?',
+    a: 'If you retire with immediate eligibility before age 62, you may qualify for the FERS supplement. The supplement approximates the Social Security benefit you earned during your federal career and is paid monthly until you turn 62. It ends at 62 whether or not you start Social Security. For Mayport civilians retiring at 57 or 58, that is 4-5 years of supplement payments worth hundreds of dollars per month.',
+  },
+  {
+    q: 'Are there FERS retirement workshops available for Jacksonville federal employees?',
+    a: 'Yes. PlanWell runs free 3-hour virtual workshops that NAS Jacksonville civilians, Mayport sailors and civilian staff, VA employees, and Coast Guard workers attend via Zoom. Whether you are in Arlington, Southside, or Orange Park, our sessions require no drive to a seminar room. Live Q&A with a CFP is included in every session.',
+  },
+];
+---
+
+<BaseLayout
+  title="Federal Retirement Planning in Jacksonville, Florida"
+  description="Expert FERS retirement planning for federal employees in Jacksonville. Serving NAS Jacksonville, Mayport, VA, Coast Guard, and SSA workers. Free workshop available."
+  canonical="/locations/jacksonville"
+>
+  <!-- Hero Section -->
+  <section class="location-hero">
+    <div class="container">
+      <div class="location-hero__content-centered">
+        <span class="eyebrow">Jacksonville, Florida</span>
+        <h1 class="heading-xl">Federal Retirement Planning in Jacksonville</h1>
+        <p class="lead">
+          Jacksonville is one of Florida's largest military and federal employment centers. NAS Jacksonville, Naval Station Mayport, the VA, and Coast Guard operations all anchor a civilian workforce that spans Duval, Clay, and St. Johns counties. Florida's no-income-tax retirement environment makes getting your FERS numbers right especially rewarding.
+        </p>
+        <div class="location-hero__cta">
+          <a href="/federal-retirement-webinars" class="btn btn--primary btn--lg">Free FERS Workshop</a>
+          <a href="/book-call" class="btn btn--white btn--lg">Schedule Consultation</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service Area Section -->
+  <section class="section section--gray">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Service Areas in the Jacksonville Region</h2>
+      <div class="service-areas">
+        <div class="service-area">
+          <h3>Jacksonville Proper</h3>
+          <p>Downtown, Southside, Arlington, Riverside, Avondale</p>
+        </div>
+        <div class="service-area">
+          <h3>NAS Jax &amp; Westside</h3>
+          <p>Cecil Field area, Orange Park, Fleming Island, Middleburg</p>
+        </div>
+        <div class="service-area">
+          <h3>Mayport Corridor</h3>
+          <p>Neptune Beach, Atlantic Beach, Jacksonville Beach, Ponte Vedra</p>
+        </div>
+        <div class="service-area">
+          <h3>St. Johns &amp; Clay Counties</h3>
+          <p>St. Augustine, Nocatee, Fleming Island, Green Cove Springs</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Major Employers Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Major Federal Employers We Serve</h2>
+      <div class="employers-grid">
+        <div class="employer-card">
+          <h3>Navy &amp; Defense</h3>
+          <ul>
+            <li>Naval Air Station Jacksonville civilian workforce</li>
+            <li>Naval Station Mayport civilian staff</li>
+            <li>Fleet Readiness Center Southeast (NAS Jax)</li>
+            <li>Naval Hospital Jacksonville civilian employees</li>
+            <li>Defense Logistics Agency Aviation Jacksonville</li>
+          </ul>
+        </div>
+        <div class="employer-card">
+          <h3>Veterans &amp; Coast Guard</h3>
+          <ul>
+            <li>VA Medical Center Jacksonville (Regency Square)</li>
+            <li>VA Outpatient Clinics Jacksonville</li>
+            <li>U.S. Coast Guard District 7 units</li>
+            <li>Coast Guard Air Station Clearwater (nearby)</li>
+            <li>VA Regional Office St. Petersburg</li>
+          </ul>
+        </div>
+        <div class="employer-card">
+          <h3>Benefits &amp; Enforcement</h3>
+          <ul>
+            <li>Social Security Administration Jacksonville</li>
+            <li>FBI Jacksonville Field Office</li>
+            <li>DEA Jacksonville Resident Office</li>
+            <li>U.S. District Court Middle District Florida</li>
+            <li>IRS Tampa Service Center (regional)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <WebinarCTA variant="section" audienceLabel="Jacksonville Federal Employees" />
+
+  <!-- Directions Section -->
+  <section class="section section--navy">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Serving Jacksonville Federal Workers Virtually</h2>
+      <p class="text-center lead mb-8" style="color: var(--color-gray-300);">
+        Whether you commute I-295 to NAS Jacksonville, drive A1A to Mayport, or cross the Hart Bridge to the VA, our virtual workshops save you every minute of that drive.
+      </p>
+      <div class="directions-grid">
+        <div class="direction-card">
+          <h3>From NAS Jacksonville</h3>
+          <p>NAS Jacksonville is on the south bank of the St. Johns River, accessible via I-295 and US-17. Civilian employees across the base's maintenance hangars, logistics buildings, and administrative offices join our Zoom sessions from on-base or from their Westside homes.</p>
+        </div>
+        <div class="direction-card">
+          <h3>From Naval Station Mayport</h3>
+          <p>Mayport sits at the mouth of the St. Johns River in Atlantic Beach. Civilian employees commute via A1A and Beach Boulevard. Virtual workshops mean no repeat of that drive after a long shift.</p>
+        </div>
+        <div class="direction-card">
+          <h3>From the VA and Downtown Agencies</h3>
+          <p>The VA Medical Center is on Beach Boulevard in Arlington. Downtown federal offices cluster near I-95 and I-10. Employees across Duval County join our evening sessions from home without fighting downtown traffic.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Why Jacksonville Federal Employees Choose PlanWell</h2>
+      <div class="comparison-grid">
+        <div class="comparison-card comparison-card--highlight">
+          <h3>PlanWell Financial Planning</h3>
+          <ul class="comparison-list">
+            <li class="comparison-list__item comparison-list__item--pro">Certified Financial Planners (CFP®)</li>
+            <li class="comparison-list__item comparison-list__item--pro">ChFEBC℠ Federal Benefits Specialists</li>
+            <li class="comparison-list__item comparison-list__item--pro">Fee-Based Fiduciary</li>
+            <li class="comparison-list__item comparison-list__item--pro">Free 3-Hour FERS Workshop</li>
+            <li class="comparison-list__item comparison-list__item--pro">Military-to-Civilian Transition Experience</li>
+            <li class="comparison-list__item comparison-list__item--pro">Eastern Time Zone Availability</li>
+          </ul>
+        </div>
+        <div class="comparison-card">
+          <h3>Many Jacksonville Advisors</h3>
+          <ul class="comparison-list">
+            <li class="comparison-list__item comparison-list__item--con">General financial credentials typical</li>
+            <li class="comparison-list__item comparison-list__item--con">Limited FERS pension knowledge</li>
+            <li class="comparison-list__item comparison-list__item--con">Commission-based product sales</li>
+            <li class="comparison-list__item comparison-list__item--con">No federal-specific workshops</li>
+            <li class="comparison-list__item comparison-list__item--con">Unfamiliar with military service deposit rules</li>
+            <li class="comparison-list__item comparison-list__item--con">No experience with FERS supplement timing</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <FAQSchema questions={faqs} heading="Jacksonville Federal Retirement FAQs" />
+
+  <WebinarCTA
+    variant="banner"
+    heading="Ready to Plan Your Federal Retirement in Jacksonville?"
+    subheading="Join NAS Jacksonville civilians, Mayport employees, VA workers, and Coast Guard staff who have built their retirement plan with a CFP who knows FERS from the inside out."
+  />
+</BaseLayout>
+
+<style>
+  .location-hero { padding: var(--space-16) 0; background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%); color: var(--color-white); }
+  .location-hero__content-centered { max-width: 780px; margin: 0 auto; text-align: center; }
+  .location-hero h1 { color: var(--color-white); margin-bottom: var(--space-4); }
+  .location-hero .lead { color: var(--color-gray-300); margin-bottom: var(--space-8); }
+  .location-hero__cta { display: flex; gap: var(--space-4); flex-wrap: wrap; justify-content: center; }
+
+  .service-areas { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
+  .service-area { background: var(--color-white); padding: var(--space-6); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+  .service-area h3 { font-size: var(--text-lg); margin-bottom: var(--space-2); }
+  .service-area p { color: var(--color-gray-600); font-size: var(--text-sm); }
+
+  .employers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .employer-card { background: var(--color-gray-100); padding: var(--space-8); border-radius: var(--radius-lg); }
+  .employer-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-4); color: var(--color-navy); }
+  .employer-card ul { list-style: none; padding: 0; }
+  .employer-card li { padding: var(--space-2) 0; border-bottom: 1px solid var(--color-gray-200); color: var(--color-gray-700); }
+  .employer-card li:last-child { border-bottom: none; }
+
+  .directions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .direction-card { background: rgba(255, 255, 255, 0.1); padding: var(--space-6); border-radius: var(--radius-lg); border: 1px solid rgba(255, 255, 255, 0.2); }
+  .direction-card h3 { color: var(--color-gold); font-size: var(--text-lg); margin-bottom: var(--space-3); }
+  .direction-card p { color: var(--color-gray-300); font-size: var(--text-sm); }
+
+  .comparison-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-8); max-width: 900px; margin: 0 auto; }
+  .comparison-card { background: var(--color-gray-100); padding: var(--space-8); border-radius: var(--radius-lg); }
+  .comparison-card--highlight { background: var(--color-navy); color: var(--color-white); }
+  .comparison-card--highlight h3 { color: var(--color-gold); }
+  .comparison-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-6); text-align: center; }
+  .comparison-list { list-style: none; padding: 0; }
+  .comparison-list__item { padding: var(--space-3) 0; padding-left: var(--space-8); position: relative; font-size: var(--text-sm); }
+  .comparison-list__item::before { position: absolute; left: 0; font-size: var(--text-lg); }
+  .comparison-list__item--pro::before { content: "✓"; color: var(--color-gold); }
+  .comparison-list__item--con::before { content: "✗"; color: var(--color-error); }
+
+  @media (max-width: 1024px) { .service-areas { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 768px) { .service-areas, .employers-grid, .directions-grid, .comparison-grid { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,219 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import WebinarCTA from '../../components/WebinarCTA.astro';
+import FAQSchema from '../../components/FAQSchema.astro';
+
+const faqs = [
+  {
+    q: 'Do Tinker AFB civilian employees qualify for FERS retirement?',
+    a: 'Yes. Civilian employees at Tinker Air Force Base are covered by FERS. Tinker is one of the largest single-site federal employers in Oklahoma, and its civilian workforce spans depot maintenance, contracting, logistics, and administrative roles. Many Tinker civilians also served in the military before their civilian career. Your prior military service can count toward FERS creditable service once you pay the military service deposit to OPM.',
+  },
+  {
+    q: 'How does retirement work for FAA employees at the Mike Monroney Aeronautical Center?',
+    a: 'Most FAA civilian employees at the Mike Monroney Aeronautical Center in Oklahoma City are covered by FERS. Air Traffic Controllers have a special category under FERS with different mandatory retirement ages and a higher pension formula for their first 20 years of ATC service. Non-ATC FAA employees follow standard FERS rules. Our workshops cover both tracks and explain the pension difference clearly.',
+  },
+  {
+    q: 'Can I retire early from a federal agency in Oklahoma City?',
+    a: 'Standard early retirement under FERS requires reaching your Minimum Retirement Age with 10 years of service (for reduced annuity) or MRA with 30 years (for full annuity). If your agency offers a Voluntary Early Retirement Authority (VERA), you can retire at 50 with 20 years or at any age with 25 years. A VERA does not guarantee the FERS supplement. Our workshops walk through which retirement types include the supplement and which do not.',
+  },
+  {
+    q: 'What TSP options do Oklahoma City federal employees have near retirement?',
+    a: 'TSP offers the same fund lineup regardless of your location: G, F, C, S, I, and the lifecycle L funds. As you approach retirement, many federal employees shift toward the G Fund for capital preservation. Our TSP workshop explains how to balance growth and preservation based on your specific retirement date and whether you plan to live off TSP, your FERS annuity, or both in the early years of retirement.',
+  },
+  {
+    q: 'Are there virtual FERS retirement workshops for Oklahoma City federal employees?',
+    a: 'Yes. PlanWell runs free virtual workshops that Tinker AFB civilians, FAA Monroney Center staff, VA Oklahoma City employees, and FBI field office personnel attend via Zoom. No drive on I-240 or I-40 required. Sessions are 3 hours with a live Q&A led by CFP professionals.',
+  },
+];
+---
+
+<BaseLayout
+  title="Federal Retirement Planning in Oklahoma City, Oklahoma"
+  description="Expert FERS retirement planning for federal employees in Oklahoma City. Serving Tinker AFB civilians, FAA Mike Monroney Center, VA, and FBI field office workers. Free workshop available."
+  canonical="/locations/oklahoma-city"
+>
+  <!-- Hero Section -->
+  <section class="location-hero">
+    <div class="container">
+      <div class="location-hero__content-centered">
+        <span class="eyebrow">Oklahoma City, Oklahoma</span>
+        <h1 class="heading-xl">Federal Retirement Planning in Oklahoma City</h1>
+        <p class="lead">
+          Oklahoma City hosts a remarkable concentration of federal employment anchored by Tinker Air Force Base, one of the Air Force's largest logistics and maintenance commands, and the FAA Mike Monroney Aeronautical Center. We help OKC area federal employees understand their full FERS picture before they leave the workforce.
+        </p>
+        <div class="location-hero__cta">
+          <a href="/federal-retirement-webinars" class="btn btn--primary btn--lg">Free FERS Workshop</a>
+          <a href="/book-call" class="btn btn--white btn--lg">Schedule Consultation</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service Area Section -->
+  <section class="section section--gray">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Service Areas in the Oklahoma City Region</h2>
+      <div class="service-areas">
+        <div class="service-area">
+          <h3>Oklahoma City Proper</h3>
+          <p>Midtown, Bricktown, Nichols Hills, The Village, Edmond</p>
+        </div>
+        <div class="service-area">
+          <h3>Tinker AFB Corridor</h3>
+          <p>Midwest City, Del City, Choctaw, Harrah, Shawnee</p>
+        </div>
+        <div class="service-area">
+          <h3>South &amp; Southwest OKC</h3>
+          <p>Moore, Norman, Mustang, Yukon, Tuttle</p>
+        </div>
+        <div class="service-area">
+          <h3>North &amp; Northwest OKC</h3>
+          <p>Edmond, Yukon, Bethany, Warr Acres, Guthrie</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Major Employers Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Major Federal Employers We Serve</h2>
+      <div class="employers-grid">
+        <div class="employer-card">
+          <h3>Defense &amp; Aviation</h3>
+          <ul>
+            <li>Tinker Air Force Base civilian workforce</li>
+            <li>Oklahoma City Air Logistics Complex</li>
+            <li>FAA Mike Monroney Aeronautical Center</li>
+            <li>FAA Civil Aerospace Medical Institute</li>
+            <li>Defense Contract Audit Agency OKC</li>
+          </ul>
+        </div>
+        <div class="employer-card">
+          <h3>Veterans &amp; Health</h3>
+          <ul>
+            <li>VA Oklahoma City Medical Center</li>
+            <li>VA Regional Office Oklahoma</li>
+            <li>Indian Health Service Oklahoma area</li>
+            <li>HHS Region 6 Oklahoma offices</li>
+            <li>Centers for Medicare &amp; Medicaid Oklahoma</li>
+          </ul>
+        </div>
+        <div class="employer-card">
+          <h3>Law Enforcement &amp; Courts</h3>
+          <ul>
+            <li>FBI Oklahoma City Field Office</li>
+            <li>Bureau of Alcohol, Tobacco, Firearms Oklahoma</li>
+            <li>U.S. Marshals Service Oklahoma</li>
+            <li>U.S. District Court Western District Oklahoma</li>
+            <li>Social Security Administration Oklahoma</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <WebinarCTA variant="section" audienceLabel="Oklahoma City Federal Employees" />
+
+  <!-- Directions Section -->
+  <section class="section section--navy">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Serving Oklahoma City Federal Workers Virtually</h2>
+      <p class="text-center lead mb-8" style="color: var(--color-gray-300);">
+        Whether you commute I-240 to Tinker AFB, drive I-44 to the FAA Monroney Center, or take surface streets to the VA, our virtual workshops eliminate every mile of that drive.
+      </p>
+      <div class="directions-grid">
+        <div class="direction-card">
+          <h3>From Tinker AFB in Midwest City</h3>
+          <p>Tinker sits off I-240 in Midwest City, east of downtown OKC. Civilian employees across the massive base attend our free virtual workshops without gate-access complications. Join from your work desk or Del City home.</p>
+        </div>
+        <div class="direction-card">
+          <h3>From FAA Monroney Center</h3>
+          <p>The Mike Monroney Aeronautical Center is off SW 44th Street near Will Rogers World Airport. FAA employees attend our virtual sessions from the campus or from their Norman or Moore homes in the evening.</p>
+        </div>
+        <div class="direction-card">
+          <h3>From the VA and Downtown Agencies</h3>
+          <p>The VA Medical Center is on SE 59th Street, accessible via I-35 and I-240. Downtown federal agencies cluster around NW 5th. All employees attend our Zoom sessions without worrying about Oklahoma City highway traffic.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Why Oklahoma City Federal Employees Choose PlanWell</h2>
+      <div class="comparison-grid">
+        <div class="comparison-card comparison-card--highlight">
+          <h3>PlanWell Financial Planning</h3>
+          <ul class="comparison-list">
+            <li class="comparison-list__item comparison-list__item--pro">Certified Financial Planners (CFP®)</li>
+            <li class="comparison-list__item comparison-list__item--pro">ChFEBC℠ Federal Benefits Specialists</li>
+            <li class="comparison-list__item comparison-list__item--pro">Fee-Based Fiduciary</li>
+            <li class="comparison-list__item comparison-list__item--pro">Free 3-Hour FERS Workshop</li>
+            <li class="comparison-list__item comparison-list__item--pro">Tinker Civilian and FAA ATC Experience</li>
+            <li class="comparison-list__item comparison-list__item--pro">Central Time Zone Availability</li>
+          </ul>
+        </div>
+        <div class="comparison-card">
+          <h3>Many Oklahoma City Advisors</h3>
+          <ul class="comparison-list">
+            <li class="comparison-list__item comparison-list__item--con">General financial credentials typical</li>
+            <li class="comparison-list__item comparison-list__item--con">Limited FERS pension knowledge</li>
+            <li class="comparison-list__item comparison-list__item--con">Commission-based product sales</li>
+            <li class="comparison-list__item comparison-list__item--con">No federal-specific workshops</li>
+            <li class="comparison-list__item comparison-list__item--con">Unfamiliar with FAA ATC special provisions</li>
+            <li class="comparison-list__item comparison-list__item--con">No experience with military deposit rules</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <FAQSchema questions={faqs} heading="Oklahoma City Federal Retirement FAQs" />
+
+  <WebinarCTA
+    variant="banner"
+    heading="Ready to Plan Your Federal Retirement in Oklahoma City?"
+    subheading="Join Tinker AFB civilians, FAA Monroney Center employees, and VA workers across the OKC metro who have built their retirement plan with a CFP who understands FERS from the inside out."
+  />
+</BaseLayout>
+
+<style>
+  .location-hero { padding: var(--space-16) 0; background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%); color: var(--color-white); }
+  .location-hero__content-centered { max-width: 780px; margin: 0 auto; text-align: center; }
+  .location-hero h1 { color: var(--color-white); margin-bottom: var(--space-4); }
+  .location-hero .lead { color: var(--color-gray-300); margin-bottom: var(--space-8); }
+  .location-hero__cta { display: flex; gap: var(--space-4); flex-wrap: wrap; justify-content: center; }
+
+  .service-areas { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
+  .service-area { background: var(--color-white); padding: var(--space-6); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+  .service-area h3 { font-size: var(--text-lg); margin-bottom: var(--space-2); }
+  .service-area p { color: var(--color-gray-600); font-size: var(--text-sm); }
+
+  .employers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .employer-card { background: var(--color-gray-100); padding: var(--space-8); border-radius: var(--radius-lg); }
+  .employer-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-4); color: var(--color-navy); }
+  .employer-card ul { list-style: none; padding: 0; }
+  .employer-card li { padding: var(--space-2) 0; border-bottom: 1px solid var(--color-gray-200); color: var(--color-gray-700); }
+  .employer-card li:last-child { border-bottom: none; }
+
+  .directions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .direction-card { background: rgba(255, 255, 255, 0.1); padding: var(--space-6); border-radius: var(--radius-lg); border: 1px solid rgba(255, 255, 255, 0.2); }
+  .direction-card h3 { color: var(--color-gold); font-size: var(--text-lg); margin-bottom: var(--space-3); }
+  .direction-card p { color: var(--color-gray-300); font-size: var(--text-sm); }
+
+  .comparison-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-8); max-width: 900px; margin: 0 auto; }
+  .comparison-card { background: var(--color-gray-100); padding: var(--space-8); border-radius: var(--radius-lg); }
+  .comparison-card--highlight { background: var(--color-navy); color: var(--color-white); }
+  .comparison-card--highlight h3 { color: var(--color-gold); }
+  .comparison-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-6); text-align: center; }
+  .comparison-list { list-style: none; padding: 0; }
+  .comparison-list__item { padding: var(--space-3) 0; padding-left: var(--space-8); position: relative; font-size: var(--text-sm); }
+  .comparison-list__item::before { position: absolute; left: 0; font-size: var(--text-lg); }
+  .comparison-list__item--pro::before { content: "✓"; color: var(--color-gold); }
+  .comparison-list__item--con::before { content: "✗"; color: var(--color-error); }
+
+  @media (max-width: 1024px) { .service-areas { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 768px) { .service-areas, .employers-grid, .directions-grid, .comparison-grid { grid-template-columns: 1fr; } }
+</style>

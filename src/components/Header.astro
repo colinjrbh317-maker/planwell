@@ -19,9 +19,18 @@ const navLinks: NavLink[] = [
     ]
   },
   { label: 'Services', href: '/services' },
+  { label: 'Agencies', href: '/federal-agencies' },
   { label: 'Webinars', href: '/webinars' },
-  { label: 'Learning Center', href: '/blog' },
-  { label: 'Calculators', href: '/calculators' },
+  {
+    label: 'Learning Center',
+    href: '/blog',
+    children: [
+      { label: 'Blog', href: '/blog' },
+      { label: 'Decision Guides', href: '/guides' },
+      { label: 'Calculators', href: '/calculators' },
+      { label: 'Case Studies', href: '/case-studies' },
+    ]
+  },
 ];
 
 const currentPath = Astro.url.pathname;
@@ -47,7 +56,11 @@ const currentPath = Astro.url.pathname;
               {link.children ? (
                 <>
                   <button
-                    class={`nav__link nav__link--dropdown ${currentPath.startsWith('/about') ? 'nav__link--active' : ''}`}
+                    class={`nav__link nav__link--dropdown ${
+                      (link.label === 'About' && currentPath.startsWith('/about')) ||
+                      (link.label === 'Learning Center' && (currentPath.startsWith('/blog') || currentPath.startsWith('/guides') || currentPath.startsWith('/calculators') || currentPath.startsWith('/case-studies')))
+                        ? 'nav__link--active' : ''
+                    }`}
                     aria-expanded="false"
                     aria-haspopup="true"
                   >

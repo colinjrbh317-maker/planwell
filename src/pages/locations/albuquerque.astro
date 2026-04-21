@@ -1,0 +1,219 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import WebinarCTA from '../../components/WebinarCTA.astro';
+import FAQSchema from '../../components/FAQSchema.astro';
+
+const faqs = [
+  {
+    q: 'Are Kirtland AFB civilian employees covered by FERS?',
+    a: 'Yes. Civilian employees at Kirtland Air Force Base in southeast Albuquerque are covered by FERS. Kirtland hosts a large civilian workforce across nuclear weapons support, space research, energy programs, and base operations. Many Kirtland civilians also worked at Sandia National Laboratories before or after their government service, and the two retirement systems are different. Our workshops clarify the FERS rules for Kirtland employees specifically.',
+  },
+  {
+    q: 'Sandia National Laboratories is not a federal agency. What retirement system applies?',
+    a: 'Sandia National Laboratories is a federally funded research and development center operated by Honeywell Federal Manufacturing and Technologies, not a direct federal agency. Sandia employees are not under FERS. If you worked for a federal agency before or after Sandia, you may have FERS service from those years. A consultation helps you understand what federal service you do or do not have and whether it is worth preserving.',
+  },
+  {
+    q: 'How does Indian Health Service retirement work for Albuquerque area employees?',
+    a: 'Indian Health Service employees are covered by FERS the same as other HHS employees. If you work at an IHS facility in Albuquerque or at tribal facilities administered under the IHS umbrella, your years of service count toward your FERS pension. Some IHS clinicians have Public Health Service Commissioned Corps status rather than civilian GS status, which uses a separate retirement system. Our team helps you identify which system applies to you.',
+  },
+  {
+    q: 'What is the Forest Service Region 3 headquartered in Albuquerque and how does retirement work for those employees?',
+    a: 'The Southwestern Region (Region 3) of the U.S. Forest Service is headquartered in Albuquerque. Forest Service employees are covered by FERS. If you have seasonal service in your background, only the periods in pay status count as creditable service. Seasonal employees who worked partial years need to carefully reconstruct their actual creditable service from their SF-50 history before estimating their annuity. Our workshops include a segment on seasonal service calculations.',
+  },
+  {
+    q: 'Are there virtual FERS retirement workshops for Albuquerque federal employees?',
+    a: 'Yes. PlanWell offers free 3-hour FERS workshops that Kirtland AFB civilians, VA employees, Forest Service Region 3 staff, and IHS workers attend via Zoom. Whether you are in the South Valley, Rio Rancho, or up in the East Mountains, there is no commute for our virtual sessions. Evening and weekend slots accommodate shift schedules.',
+  },
+];
+---
+
+<BaseLayout
+  title="Federal Retirement Planning in Albuquerque, New Mexico"
+  description="Expert FERS retirement planning for federal employees in Albuquerque. Serving Kirtland AFB civilians, VA, Indian Health Service, and Forest Service Region 3. Free workshop available."
+  canonical="/locations/albuquerque"
+>
+  <!-- Hero Section -->
+  <section class="location-hero">
+    <div class="container">
+      <div class="location-hero__content-centered">
+        <span class="eyebrow">Albuquerque, New Mexico</span>
+        <h1 class="heading-xl">Federal Retirement Planning in Albuquerque</h1>
+        <p class="lead">
+          Albuquerque's federal workforce spans Kirtland AFB, the VA, Indian Health Service, BLM's New Mexico state office, and the Forest Service Southwestern Region. New Mexico's unique mix of federal agencies, tribal health programs, and defense installations creates retirement planning questions you will not find answered by a generic financial advisor.
+        </p>
+        <div class="location-hero__cta">
+          <a href="/federal-retirement-webinars" class="btn btn--primary btn--lg">Free FERS Workshop</a>
+          <a href="/book-call" class="btn btn--white btn--lg">Schedule Consultation</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service Area Section -->
+  <section class="section section--gray">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Service Areas in the Albuquerque Region</h2>
+      <div class="service-areas">
+        <div class="service-area">
+          <h3>Albuquerque Proper</h3>
+          <p>Downtown, Nob Hill, North Valley, South Valley, Westside</p>
+        </div>
+        <div class="service-area">
+          <h3>Kirtland &amp; Southeast ABQ</h3>
+          <p>Kirtland AFB, Four Hills, Tijeras, East Mountains</p>
+        </div>
+        <div class="service-area">
+          <h3>Rio Rancho &amp; Bernalillo</h3>
+          <p>Rio Rancho, Corrales, Bernalillo, Placitas</p>
+        </div>
+        <div class="service-area">
+          <h3>Santa Fe Corridor</h3>
+          <p>Santa Fe, Los Alamos, Espanola, Pojoaque</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Major Employers Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Major Federal Employers We Serve</h2>
+      <div class="employers-grid">
+        <div class="employer-card">
+          <h3>Defense &amp; Energy</h3>
+          <ul>
+            <li>Kirtland Air Force Base civilian workforce</li>
+            <li>Air Force Nuclear Weapons Center</li>
+            <li>Department of Energy Kirtland</li>
+            <li>Defense Threat Reduction Agency NM</li>
+            <li>Army Corps of Engineers Albuquerque District</li>
+          </ul>
+        </div>
+        <div class="employer-card">
+          <h3>Health &amp; Tribal Services</h3>
+          <ul>
+            <li>VA New Mexico Healthcare System</li>
+            <li>Indian Health Service Albuquerque Area</li>
+            <li>Indian Health Service Albuquerque Service Unit</li>
+            <li>HHS Region 6 New Mexico offices</li>
+            <li>BIA Southwest Regional Office</li>
+          </ul>
+        </div>
+        <div class="employer-card">
+          <h3>Land &amp; Resources</h3>
+          <ul>
+            <li>Forest Service Region 3 Southwestern (headquarters)</li>
+            <li>Bureau of Land Management NM State Office</li>
+            <li>U.S. Geological Survey New Mexico</li>
+            <li>Fish and Wildlife Service SW Regional Office</li>
+            <li>Natural Resources Conservation Service NM</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <WebinarCTA variant="section" audienceLabel="Albuquerque Federal Employees" />
+
+  <!-- Directions Section -->
+  <section class="section section--navy">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Serving Albuquerque Federal Workers Virtually</h2>
+      <p class="text-center lead mb-8" style="color: var(--color-gray-300);">
+        Whether you drive I-25 south to Kirtland, take Central Avenue to the VA, or head north on US-285 toward the Forest Service offices, our virtual workshops need none of that drive time.
+      </p>
+      <div class="directions-grid">
+        <div class="direction-card">
+          <h3>From Kirtland AFB</h3>
+          <p>Kirtland sits on Albuquerque's southeast side off Gibson Blvd and Wyoming Blvd. Civilian employees across the base's many directorates join our virtual workshops without base access being a barrier to attending.</p>
+        </div>
+        <div class="direction-card">
+          <h3>From the VA New Mexico Healthcare System</h3>
+          <p>The VA Medical Center is on Raymond G. Murphy Drive in northeast Albuquerque. Clinical and administrative staff attend our free Zoom workshops from the campus or from their Rio Rancho or East Mountain homes.</p>
+        </div>
+        <div class="direction-card">
+          <h3>From Forest Service and BLM Offices</h3>
+          <p>Forest Service Region 3 headquarters is on Pan American Freeway NE. BLM New Mexico State Office is on Osuna Road. Both agencies' employees join our evening and weekend workshops via Zoom.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Why Albuquerque Federal Employees Choose PlanWell</h2>
+      <div class="comparison-grid">
+        <div class="comparison-card comparison-card--highlight">
+          <h3>PlanWell Financial Planning</h3>
+          <ul class="comparison-list">
+            <li class="comparison-list__item comparison-list__item--pro">Certified Financial Planners (CFP®)</li>
+            <li class="comparison-list__item comparison-list__item--pro">ChFEBC℠ Federal Benefits Specialists</li>
+            <li class="comparison-list__item comparison-list__item--pro">Fee-Based Fiduciary</li>
+            <li class="comparison-list__item comparison-list__item--pro">Free 3-Hour FERS Workshop</li>
+            <li class="comparison-list__item comparison-list__item--pro">Seasonal Service Calculation Experience</li>
+            <li class="comparison-list__item comparison-list__item--pro">Mountain Time Zone Availability</li>
+          </ul>
+        </div>
+        <div class="comparison-card">
+          <h3>Many Albuquerque Advisors</h3>
+          <ul class="comparison-list">
+            <li class="comparison-list__item comparison-list__item--con">General financial credentials typical</li>
+            <li class="comparison-list__item comparison-list__item--con">Limited FERS pension knowledge</li>
+            <li class="comparison-list__item comparison-list__item--con">Commission-based product sales</li>
+            <li class="comparison-list__item comparison-list__item--con">No federal-specific workshops</li>
+            <li class="comparison-list__item comparison-list__item--con">Unfamiliar with seasonal creditable service rules</li>
+            <li class="comparison-list__item comparison-list__item--con">Cannot distinguish FERS from contractor retirement plans</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <FAQSchema questions={faqs} heading="Albuquerque Federal Retirement FAQs" />
+
+  <WebinarCTA
+    variant="banner"
+    heading="Ready to Plan Your Federal Retirement in Albuquerque?"
+    subheading="Join Kirtland AFB civilians, VA New Mexico employees, IHS workers, and Forest Service Region 3 staff who have mapped out their FERS pension and retirement date with a CFP who knows federal benefits."
+  />
+</BaseLayout>
+
+<style>
+  .location-hero { padding: var(--space-16) 0; background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%); color: var(--color-white); }
+  .location-hero__content-centered { max-width: 780px; margin: 0 auto; text-align: center; }
+  .location-hero h1 { color: var(--color-white); margin-bottom: var(--space-4); }
+  .location-hero .lead { color: var(--color-gray-300); margin-bottom: var(--space-8); }
+  .location-hero__cta { display: flex; gap: var(--space-4); flex-wrap: wrap; justify-content: center; }
+
+  .service-areas { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
+  .service-area { background: var(--color-white); padding: var(--space-6); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+  .service-area h3 { font-size: var(--text-lg); margin-bottom: var(--space-2); }
+  .service-area p { color: var(--color-gray-600); font-size: var(--text-sm); }
+
+  .employers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .employer-card { background: var(--color-gray-100); padding: var(--space-8); border-radius: var(--radius-lg); }
+  .employer-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-4); color: var(--color-navy); }
+  .employer-card ul { list-style: none; padding: 0; }
+  .employer-card li { padding: var(--space-2) 0; border-bottom: 1px solid var(--color-gray-200); color: var(--color-gray-700); }
+  .employer-card li:last-child { border-bottom: none; }
+
+  .directions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .direction-card { background: rgba(255, 255, 255, 0.1); padding: var(--space-6); border-radius: var(--radius-lg); border: 1px solid rgba(255, 255, 255, 0.2); }
+  .direction-card h3 { color: var(--color-gold); font-size: var(--text-lg); margin-bottom: var(--space-3); }
+  .direction-card p { color: var(--color-gray-300); font-size: var(--text-sm); }
+
+  .comparison-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-8); max-width: 900px; margin: 0 auto; }
+  .comparison-card { background: var(--color-gray-100); padding: var(--space-8); border-radius: var(--radius-lg); }
+  .comparison-card--highlight { background: var(--color-navy); color: var(--color-white); }
+  .comparison-card--highlight h3 { color: var(--color-gold); }
+  .comparison-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-6); text-align: center; }
+  .comparison-list { list-style: none; padding: 0; }
+  .comparison-list__item { padding: var(--space-3) 0; padding-left: var(--space-8); position: relative; font-size: var(--text-sm); }
+  .comparison-list__item::before { position: absolute; left: 0; font-size: var(--text-lg); }
+  .comparison-list__item--pro::before { content: "✓"; color: var(--color-gold); }
+  .comparison-list__item--con::before { content: "✗"; color: var(--color-error); }
+
+  @media (max-width: 1024px) { .service-areas { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 768px) { .service-areas, .employers-grid, .directions-grid, .comparison-grid { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,219 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import WebinarCTA from '../../components/WebinarCTA.astro';
+import FAQSchema from '../../components/FAQSchema.astro';
+
+const faqs = [
+  {
+    q: 'Do Chicago federal employees at EPA Region 5 qualify for FERS retirement?',
+    a: 'Yes. EPA Region 5 headquarters employees in the Loop are covered by FERS the same as any other federal civilian. Your pension calculation uses your high-3 average salary and years of creditable service. Because EPA Region 5 salaries in Chicago often include locality pay for the Chicago-Naperville locality, your high-3 can be higher than at comparable agencies in smaller cities, which directly increases your annuity.',
+  },
+  {
+    q: 'What is the Chicago-Naperville locality pay adjustment and how does it affect my FERS pension?',
+    a: 'The Chicago-Naperville-Elgin locality pay area has one of the highest General Schedule pay adjustments in the country, currently over 29%. Since your FERS pension is based on your high-3, earning locality pay throughout your federal career meaningfully boosts your annuity compared to federal employees in lower-pay areas. A GS-13 Step 5 in Chicago earns roughly $25,000 more annually than the same grade outside a locality zone, which compounds over your high-3 years.',
+  },
+  {
+    q: 'Can I keep my FEHB coverage after retiring from Jesse Brown VA Medical Center?',
+    a: 'Yes, if you were enrolled in FEHB for the 5 consecutive years immediately before your retirement date. VA employees, like all FERS employees, carry FEHB into retirement with the same federal government premium share. This is worth thousands of dollars annually compared to buying individual health insurance at retirement age.',
+  },
+  {
+    q: 'I work at the Federal Reserve Bank of Chicago. Am I under FERS?',
+    a: 'Federal Reserve Bank of Chicago employees are not federal civilian employees under FERS. The Fed has its own retirement system. If you previously worked for a federal agency and then moved to the Fed, you may have a deferred FERS annuity from that earlier period. Bring your federal employment history to a consultation and we will help you identify what you have.',
+  },
+  {
+    q: 'Are there FERS retirement workshops available for Chicago federal employees?',
+    a: 'Yes. PlanWell runs free virtual 3-hour FERS workshops that Chicago federal employees attend from their Loop offices or from home. Whether you work at EPA Region 5 on Dearborn, the DOL regional office on Jackson, or HHS Region 5 on Dearborn, you can join via Zoom without fighting downtown traffic.',
+  },
+];
+---
+
+<BaseLayout
+  title="Federal Retirement Planning in Chicago, Illinois"
+  description="Expert FERS retirement planning for federal employees in Chicago. Serving EPA Region 5, HHS, DOL, VA Jesse Brown, GSA Great Lakes, and Social Security Administration. Free workshop available."
+  canonical="/locations/chicago"
+>
+  <!-- Hero Section -->
+  <section class="location-hero">
+    <div class="container">
+      <div class="location-hero__content-centered">
+        <span class="eyebrow">Chicago, Illinois</span>
+        <h1 class="heading-xl">Federal Retirement Planning in Chicago</h1>
+        <p class="lead">
+          Chicago hosts one of the densest concentrations of federal regional headquarters in the country. EPA Region 5, HHS Region 5, DOL, and the VA's Jesse Brown campus all employ thousands of career federal workers. Chicago's high locality pay makes your FERS annuity calculation different from most cities, and we know the math.
+        </p>
+        <div class="location-hero__cta">
+          <a href="/federal-retirement-webinars" class="btn btn--primary btn--lg">Free FERS Workshop</a>
+          <a href="/book-call" class="btn btn--white btn--lg">Schedule Consultation</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service Area Section -->
+  <section class="section section--gray">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Service Areas in the Chicago Metro</h2>
+      <div class="service-areas">
+        <div class="service-area">
+          <h3>Chicago &amp; Near North</h3>
+          <p>Loop, River North, West Loop, Streeterville, Lincoln Park</p>
+        </div>
+        <div class="service-area">
+          <h3>North Suburbs</h3>
+          <p>Evanston, Skokie, Glenview, Northbrook, Waukegan</p>
+        </div>
+        <div class="service-area">
+          <h3>West Suburbs</h3>
+          <p>Oak Park, Elmhurst, Wheaton, Lisle, Naperville</p>
+        </div>
+        <div class="service-area">
+          <h3>South Suburbs</h3>
+          <p>Harvey, Homewood, Olympia Fields, Orland Park, Joliet</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Major Employers Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Major Federal Employers We Serve</h2>
+      <div class="employers-grid">
+        <div class="employer-card">
+          <h3>Regional Headquarters</h3>
+          <ul>
+            <li>EPA Region 5 (77 W. Jackson Blvd)</li>
+            <li>HHS Region 5 (233 N. Michigan Ave)</li>
+            <li>DOL Midwest Regional Office</li>
+            <li>GSA Great Lakes Region</li>
+            <li>FEMA Region 5</li>
+          </ul>
+        </div>
+        <div class="employer-card">
+          <h3>Veterans &amp; Benefits</h3>
+          <ul>
+            <li>VA Jesse Brown Medical Center</li>
+            <li>VA Regional Office Chicago</li>
+            <li>Social Security Administration Region 5</li>
+            <li>SSA Great Lakes Program Service Center</li>
+            <li>Railroad Retirement Board headquarters</li>
+          </ul>
+        </div>
+        <div class="employer-card">
+          <h3>Law Enforcement &amp; Courts</h3>
+          <ul>
+            <li>FBI Chicago Field Office</li>
+            <li>DEA Chicago Field Division</li>
+            <li>U.S. Attorney's Office Northern Illinois</li>
+            <li>U.S. District Court Northern Illinois</li>
+            <li>ATF Chicago Field Division</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <WebinarCTA variant="section" audienceLabel="Chicago Federal Employees" />
+
+  <!-- Directions Section -->
+  <section class="section section--navy">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Serving Chicago Federal Workers Virtually</h2>
+      <p class="text-center lead mb-8" style="color: var(--color-gray-300);">
+        Whether you ride the Blue Line to the Loop, take the Metra to Ogilvie, or drive the Eisenhower from the suburbs, our virtual workshops eliminate the commute for your financial education.
+      </p>
+      <div class="directions-grid">
+        <div class="direction-card">
+          <h3>From the Loop Federal Cluster</h3>
+          <p>EPA Region 5 on Jackson, HHS on Michigan Ave, and DOL on Adams are all within blocks of each other. Loop employees join our virtual sessions from their offices or from home via CTA or Metra.</p>
+        </div>
+        <div class="direction-card">
+          <h3>From Jesse Brown VA on Harrison</h3>
+          <p>The Jesse Brown VA Medical Center sits on Harrison Street in the Illinois Medical District. Clinical and administrative staff attend our free workshops via Zoom without leaving the Near West Side.</p>
+        </div>
+        <div class="direction-card">
+          <h3>From Suburban Cook and DuPage Counties</h3>
+          <p>Federal workers in Naperville, Downers Grove, Oak Park, and Evanston join via Zoom from home. Chicago's regional scope means suburban commuters make up a big part of the federal workforce.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Why Chicago Federal Employees Choose PlanWell</h2>
+      <div class="comparison-grid">
+        <div class="comparison-card comparison-card--highlight">
+          <h3>PlanWell Financial Planning</h3>
+          <ul class="comparison-list">
+            <li class="comparison-list__item comparison-list__item--pro">Certified Financial Planners (CFP®)</li>
+            <li class="comparison-list__item comparison-list__item--pro">ChFEBC℠ Federal Benefits Specialists</li>
+            <li class="comparison-list__item comparison-list__item--pro">Fee-Based Fiduciary</li>
+            <li class="comparison-list__item comparison-list__item--pro">Free 3-Hour FERS Workshop</li>
+            <li class="comparison-list__item comparison-list__item--pro">Chicago Locality Pay Expertise</li>
+            <li class="comparison-list__item comparison-list__item--pro">Central Time Zone Availability</li>
+          </ul>
+        </div>
+        <div class="comparison-card">
+          <h3>Many Chicago Advisors</h3>
+          <ul class="comparison-list">
+            <li class="comparison-list__item comparison-list__item--con">General financial credentials typical</li>
+            <li class="comparison-list__item comparison-list__item--con">Limited FERS pension knowledge</li>
+            <li class="comparison-list__item comparison-list__item--con">Commission-based product sales</li>
+            <li class="comparison-list__item comparison-list__item--con">No federal-specific workshops</li>
+            <li class="comparison-list__item comparison-list__item--con">Unfamiliar with locality pay effects on annuity</li>
+            <li class="comparison-list__item comparison-list__item--con">No experience with FERS supplement rules</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <FAQSchema questions={faqs} heading="Chicago Federal Retirement FAQs" />
+
+  <WebinarCTA
+    variant="banner"
+    heading="Ready to Plan Your Federal Retirement in Chicago?"
+    subheading="Join EPA Region 5 employees, VA workers, DOL staff, and federal law enforcement across the Chicago metro who have mapped out their FERS pension with a CFP who knows federal benefits."
+  />
+</BaseLayout>
+
+<style>
+  .location-hero { padding: var(--space-16) 0; background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%); color: var(--color-white); }
+  .location-hero__content-centered { max-width: 780px; margin: 0 auto; text-align: center; }
+  .location-hero h1 { color: var(--color-white); margin-bottom: var(--space-4); }
+  .location-hero .lead { color: var(--color-gray-300); margin-bottom: var(--space-8); }
+  .location-hero__cta { display: flex; gap: var(--space-4); flex-wrap: wrap; justify-content: center; }
+
+  .service-areas { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
+  .service-area { background: var(--color-white); padding: var(--space-6); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+  .service-area h3 { font-size: var(--text-lg); margin-bottom: var(--space-2); }
+  .service-area p { color: var(--color-gray-600); font-size: var(--text-sm); }
+
+  .employers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .employer-card { background: var(--color-gray-100); padding: var(--space-8); border-radius: var(--radius-lg); }
+  .employer-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-4); color: var(--color-navy); }
+  .employer-card ul { list-style: none; padding: 0; }
+  .employer-card li { padding: var(--space-2) 0; border-bottom: 1px solid var(--color-gray-200); color: var(--color-gray-700); }
+  .employer-card li:last-child { border-bottom: none; }
+
+  .directions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .direction-card { background: rgba(255, 255, 255, 0.1); padding: var(--space-6); border-radius: var(--radius-lg); border: 1px solid rgba(255, 255, 255, 0.2); }
+  .direction-card h3 { color: var(--color-gold); font-size: var(--text-lg); margin-bottom: var(--space-3); }
+  .direction-card p { color: var(--color-gray-300); font-size: var(--text-sm); }
+
+  .comparison-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-8); max-width: 900px; margin: 0 auto; }
+  .comparison-card { background: var(--color-gray-100); padding: var(--space-8); border-radius: var(--radius-lg); }
+  .comparison-card--highlight { background: var(--color-navy); color: var(--color-white); }
+  .comparison-card--highlight h3 { color: var(--color-gold); }
+  .comparison-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-6); text-align: center; }
+  .comparison-list { list-style: none; padding: 0; }
+  .comparison-list__item { padding: var(--space-3) 0; padding-left: var(--space-8); position: relative; font-size: var(--text-sm); }
+  .comparison-list__item::before { position: absolute; left: 0; font-size: var(--text-lg); }
+  .comparison-list__item--pro::before { content: "✓"; color: var(--color-gold); }
+  .comparison-list__item--con::before { content: "✗"; color: var(--color-error); }
+
+  @media (max-width: 1024px) { .service-areas { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 768px) { .service-areas, .employers-grid, .directions-grid, .comparison-grid { grid-template-columns: 1fr; } }
+</style>

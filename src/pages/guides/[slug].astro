@@ -1,0 +1,234 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import WebinarCTA from '../../components/WebinarCTA.astro';
+import FAQSchema from '../../components/FAQSchema.astro';
+import RelatedLinks from '../../components/RelatedLinks.astro';
+import { decisionGuides, getGuide } from '../../data/decision-guides';
+
+export function getStaticPaths() {
+  return decisionGuides.map((g) => ({ params: { slug: g.slug } }));
+}
+
+const { slug } = Astro.params;
+const guide = getGuide(slug!);
+if (!guide) {
+  return new Response(null, { status: 404, statusText: 'Not Found' });
+}
+
+const relatedLinks = (guide.relatedGuideSlugs ?? [])
+  .map((s) => getGuide(s))
+  .filter((g): g is NonNullable<typeof g> => Boolean(g))
+  .map((g) => ({
+    href: `/guides/${g.slug}`,
+    title: g.title,
+    description: g.heroLead.slice(0, 140) + (g.heroLead.length > 140 ? '...' : ''),
+  }));
+---
+
+<BaseLayout
+  title={guide.metaTitle}
+  description={guide.metaDescription}
+  canonical={`/guides/${guide.slug}`}
+>
+  <!-- Hero -->
+  <section class="guide-hero">
+    <div class="container">
+      <span class="eyebrow">{guide.heroEyebrow}</span>
+      <h1 class="heading-xl">{guide.heroHeading}</h1>
+      <p class="lead">{guide.heroLead}</p>
+      <div class="guide-hero__cta">
+        <WebinarCTA variant="hero" />
+      </div>
+    </div>
+  </section>
+
+  <!-- TLDR Box -->
+  <section class="section section--tight">
+    <div class="container container--narrow">
+      <div class="tldr-box">
+        <span class="tldr-box__label">Bottom line</span>
+        <p class="tldr-box__text">{guide.tldr}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Body Sections -->
+  {guide.sections.map((section) => (
+    <section class="section section--tight">
+      <div class="container container--narrow">
+        <h2 class="heading-lg mb-4">{section.heading}</h2>
+        <div class="prose" set:html={section.html} />
+      </div>
+    </section>
+  ))}
+
+  <!-- Decision Matrix -->
+  {guide.decisionMatrix && guide.decisionMatrix.length > 0 && (
+    <section class="section section--gray">
+      <div class="container container--narrow">
+        <h2 class="heading-lg mb-6">Decision Framework</h2>
+        <p class="section-intro mb-6">Use this matrix to map your situation to a recommended action. These are starting points, not final answers.</p>
+        <div class="decision-table-wrap">
+          <table class="decision-table">
+            <thead>
+              <tr>
+                <th>Your Scenario</th>
+                <th>Recommended Approach</th>
+              </tr>
+            </thead>
+            <tbody>
+              {guide.decisionMatrix.map((row) => (
+                <tr>
+                  <td class="scenario-cell">{row.scenario}</td>
+                  <td class="rec-cell">{row.recommendation}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Related Calculator -->
+  {guide.relatedCalculator && (
+    <section class="section section--tight">
+      <div class="container container--narrow">
+        <div class="calc-callout">
+          <span class="calc-callout__icon">&#9881;</span>
+          <div>
+            <p class="calc-callout__label">Run the numbers yourself</p>
+            <a href={guide.relatedCalculator.href} class="calc-callout__link">{guide.relatedCalculator.label}</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Mid-page Webinar CTA -->
+  <WebinarCTA variant="section" />
+
+  <!-- FAQ -->
+  <FAQSchema questions={guide.faq} heading="Frequently Asked Questions" />
+
+  <!-- Related Guides -->
+  {relatedLinks.length > 0 && <RelatedLinks heading="Related decision guides" links={relatedLinks} />}
+
+  <!-- Bottom Banner -->
+  <WebinarCTA
+    variant="banner"
+    heading="Get your retirement questions answered"
+    subheading="Join a free 3-hour FERS workshop. Bring your numbers. Leave with a plan."
+  />
+</BaseLayout>
+
+<style>
+  .guide-hero {
+    padding: var(--space-16) 0;
+    background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%);
+    color: var(--color-white);
+  }
+  .guide-hero h1 { color: var(--color-white); margin-bottom: var(--space-4); max-width: 900px; }
+  .guide-hero .lead { color: var(--color-gray-300); margin-bottom: var(--space-8); max-width: 800px; }
+  .guide-hero .eyebrow { color: var(--color-gold); }
+  .guide-hero__cta { margin-bottom: var(--space-4); }
+
+  .container--narrow { max-width: 820px; }
+
+  .section--tight { padding: var(--space-10) 0; }
+
+  .tldr-box {
+    background: var(--color-navy);
+    color: var(--color-white);
+    padding: var(--space-6);
+    border-radius: var(--radius-lg);
+    border-left: 4px solid var(--color-gold);
+  }
+  .tldr-box__label {
+    display: block;
+    color: var(--color-gold);
+    font-size: var(--text-xs);
+    font-weight: var(--font-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: var(--space-2);
+  }
+  .tldr-box__text {
+    color: var(--color-gray-200);
+    font-size: var(--text-base);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .prose p { margin-bottom: var(--space-4); color: var(--color-gray-700); line-height: 1.7; font-size: var(--text-base); }
+  .prose strong { color: var(--color-navy); }
+
+  .section-intro { color: var(--color-gray-600); font-size: var(--text-base); line-height: 1.6; }
+
+  .decision-table-wrap { overflow-x: auto; }
+  .decision-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+  }
+  .decision-table thead tr { background: var(--color-navy); color: var(--color-white); }
+  .decision-table th {
+    padding: var(--space-3) var(--space-4);
+    text-align: left;
+    font-weight: var(--font-semibold);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .decision-table tbody tr { border-bottom: 1px solid var(--color-gray-200); }
+  .decision-table tbody tr:nth-child(even) { background: var(--color-gray-100); }
+  .scenario-cell {
+    padding: var(--space-4);
+    color: var(--color-navy);
+    font-weight: var(--font-medium);
+    vertical-align: top;
+    width: 40%;
+  }
+  .rec-cell {
+    padding: var(--space-4);
+    color: var(--color-gray-700);
+    vertical-align: top;
+    line-height: 1.6;
+  }
+
+  .calc-callout {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    background: var(--color-gray-100);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+  }
+  .calc-callout__icon {
+    font-size: 2rem;
+    color: var(--color-gold);
+    flex-shrink: 0;
+  }
+  .calc-callout__label {
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-gray-500);
+    font-weight: var(--font-semibold);
+    margin-bottom: var(--space-1);
+  }
+  .calc-callout__link {
+    color: var(--color-navy);
+    font-weight: var(--font-semibold);
+    text-decoration: underline;
+    font-size: var(--text-base);
+  }
+  .calc-callout__link:hover { color: var(--color-gold); }
+
+  @media (max-width: 768px) {
+    .decision-table { font-size: var(--text-xs); }
+    .scenario-cell, .rec-cell { padding: var(--space-3); }
+    .scenario-cell { width: 45%; }
+  }
+</style>

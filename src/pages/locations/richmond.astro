@@ -1,0 +1,219 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import WebinarCTA from '../../components/WebinarCTA.astro';
+import FAQSchema from '../../components/FAQSchema.astro';
+
+const faqs = [
+  {
+    q: 'Do Fort Gregg-Adams civilian employees qualify for FERS retirement?',
+    a: 'Yes. Civilian employees at Fort Gregg-Adams in Prince George County are covered by FERS. Fort Gregg-Adams is the Army\'s accessions and training hub, with thousands of civilian employees supporting training, logistics, and administrative functions. Many Fort Gregg-Adams civilians have prior military service that can be added to FERS creditable service after paying a military service deposit to OPM.',
+  },
+  {
+    q: 'How does Virginia income tax affect FERS retirement for Richmond federal employees?',
+    a: 'Virginia taxes federal retirement income at state income tax rates up to 5.75%. Unlike Florida, there is no exemption for federal pension income beyond the standard personal exemptions. A Richmond federal employee retiring at a $65,000 annuity will owe roughly $3,000 or more annually in Virginia state tax. Virginia does allow subtraction of up to $12,000 for retirees aged 65 and older, which partially reduces the burden in later years.',
+  },
+  {
+    q: 'What are the FERS retirement options for Defense Logistics Agency employees in Richmond?',
+    a: 'DLA employees at the DLA Aviation hub in Richmond are covered by standard FERS. Your pension is based on your high-3 average salary and years of creditable service. If your career spanned multiple DLA locations or other Defense agencies, all that creditable service carries forward. Our workshops walk through how to pull together a complete service history and verify your official OPM Service Computation Date.',
+  },
+  {
+    q: 'Can I keep FEHB coverage after retiring from the Federal Reserve Bank of Richmond?',
+    a: 'Federal Reserve Bank employees are not federal civilian employees under FERS and are not eligible for FEHB. If you previously worked for a federal agency under FERS and then moved to the Richmond Fed, you may have a deferred FERS annuity from your prior service and FEHB eligibility from those years. A consultation helps you identify which benefits you preserved and whether they are worth claiming.',
+  },
+  {
+    q: 'Are there FERS retirement workshops available for Richmond area federal employees?',
+    a: 'Yes. PlanWell runs free 3-hour virtual FERS workshops that Fort Gregg-Adams civilians, DLA Aviation employees, VA Central Virginia staff, and Richmond federal workers attend via Zoom. Whether you are in Chesterfield, Henrico, Prince George, or Colonial Heights, our virtual sessions require no drive on I-95 or I-295.',
+  },
+];
+---
+
+<BaseLayout
+  title="Federal Retirement Planning in Richmond, Virginia"
+  description="Expert FERS retirement planning for federal employees in Richmond. Serving Fort Gregg-Adams, DLA Aviation, VA, Federal Reserve, and Central Virginia federal agencies. Free workshop available."
+  canonical="/locations/richmond"
+>
+  <!-- Hero Section -->
+  <section class="location-hero">
+    <div class="container">
+      <div class="location-hero__content-centered">
+        <span class="eyebrow">Richmond, Virginia</span>
+        <h1 class="heading-xl">Federal Retirement Planning in Richmond</h1>
+        <p class="lead">
+          Richmond and the Central Virginia region sit at the crossroads of major federal operations. Fort Gregg-Adams in Prince George County, DLA Aviation, VA Central Virginia, and the Federal Reserve Bank of Richmond all anchor a substantial civilian federal workforce. Virginia's proximity to Washington, D.C. means many Richmond federal employees have complex service histories across multiple agencies.
+        </p>
+        <div class="location-hero__cta">
+          <a href="/federal-retirement-webinars" class="btn btn--primary btn--lg">Free FERS Workshop</a>
+          <a href="/book-call" class="btn btn--white btn--lg">Schedule Consultation</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service Area Section -->
+  <section class="section section--gray">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Service Areas in the Richmond Region</h2>
+      <div class="service-areas">
+        <div class="service-area">
+          <h3>Richmond City &amp; Henrico</h3>
+          <p>Downtown Richmond, Scott's Addition, Carytown, Short Pump, Glen Allen</p>
+        </div>
+        <div class="service-area">
+          <h3>Chesterfield County</h3>
+          <p>Chester, Midlothian, Colonial Heights, Ettrick, Matoaca</p>
+        </div>
+        <div class="service-area">
+          <h3>Prince George &amp; Hopewell</h3>
+          <p>Prince George, Hopewell, Petersburg, Dinwiddie</p>
+        </div>
+        <div class="service-area">
+          <h3>Northern Neck &amp; Tri-Cities</h3>
+          <p>Fredericksburg, Stafford, Mechanicsville, Hanover</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Major Employers Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Major Federal Employers We Serve</h2>
+      <div class="employers-grid">
+        <div class="employer-card">
+          <h3>Defense &amp; Logistics</h3>
+          <ul>
+            <li>Fort Gregg-Adams civilian workforce (Prince George)</li>
+            <li>DLA Aviation (Richmond)</li>
+            <li>Army Logistics University civilian staff</li>
+            <li>Defense Contract Management Agency Richmond</li>
+            <li>U.S. Army Combined Arms Support Command</li>
+          </ul>
+        </div>
+        <div class="employer-card">
+          <h3>Veterans &amp; Health</h3>
+          <ul>
+            <li>VA Central Virginia Healthcare System (Richmond)</li>
+            <li>Hunter Holmes McGuire VA Medical Center</li>
+            <li>VA Regional Office Roanoke (Central Virginia)</li>
+            <li>HHS Region 3 Richmond area offices</li>
+            <li>Social Security Administration Richmond</li>
+          </ul>
+        </div>
+        <div class="employer-card">
+          <h3>Finance &amp; Courts</h3>
+          <ul>
+            <li>Federal Reserve Bank of Richmond</li>
+            <li>U.S. District Court Eastern District Virginia (Richmond)</li>
+            <li>U.S. Court of Appeals Fourth Circuit</li>
+            <li>FBI Richmond Field Office</li>
+            <li>IRS Richmond area offices</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <WebinarCTA variant="section" audienceLabel="Richmond Federal Employees" />
+
+  <!-- Directions Section -->
+  <section class="section section--navy">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Serving Richmond Federal Workers Virtually</h2>
+      <p class="text-center lead mb-8" style="color: var(--color-gray-300);">
+        Whether you take I-95 South to Fort Gregg-Adams, drive I-64 to DLA Aviation, or commute Route 1 through Chesterfield to the VA, our virtual workshops cut out every mile.
+      </p>
+      <div class="directions-grid">
+        <div class="direction-card">
+          <h3>From Fort Gregg-Adams in Prince George</h3>
+          <p>Fort Gregg-Adams is south of Richmond off I-95 and Route 36 in Prince George County. Civilian employees across this large installation join our free virtual workshops without gate-access or commute complications.</p>
+        </div>
+        <div class="direction-card">
+          <h3>From DLA Aviation in Richmond</h3>
+          <p>DLA Aviation is at the Richmond Bellwood complex and the Defense Supply Center Richmond. Logistics and contracting professionals attend our evening workshops via Zoom from the facility or from their Chesterfield and Henrico homes.</p>
+        </div>
+        <div class="direction-card">
+          <h3>From Hunter Holmes McGuire VA</h3>
+          <p>The VA Medical Center is on Broad Rock Boulevard in South Richmond. Clinical and administrative employees join our workshops from the campus or from their Colonial Heights and Chester homes via I-95 corridor.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="heading-lg text-center mb-8">Why Richmond Federal Employees Choose PlanWell</h2>
+      <div class="comparison-grid">
+        <div class="comparison-card comparison-card--highlight">
+          <h3>PlanWell Financial Planning</h3>
+          <ul class="comparison-list">
+            <li class="comparison-list__item comparison-list__item--pro">Certified Financial Planners (CFP®)</li>
+            <li class="comparison-list__item comparison-list__item--pro">ChFEBC℠ Federal Benefits Specialists</li>
+            <li class="comparison-list__item comparison-list__item--pro">Fee-Based Fiduciary</li>
+            <li class="comparison-list__item comparison-list__item--pro">Free 3-Hour FERS Workshop</li>
+            <li class="comparison-list__item comparison-list__item--pro">Multi-Agency Service History Experience</li>
+            <li class="comparison-list__item comparison-list__item--pro">Eastern Time Zone Availability</li>
+          </ul>
+        </div>
+        <div class="comparison-card">
+          <h3>Many Richmond Advisors</h3>
+          <ul class="comparison-list">
+            <li class="comparison-list__item comparison-list__item--con">General financial credentials typical</li>
+            <li class="comparison-list__item comparison-list__item--con">Limited FERS pension knowledge</li>
+            <li class="comparison-list__item comparison-list__item--con">Commission-based product sales</li>
+            <li class="comparison-list__item comparison-list__item--con">No federal-specific workshops</li>
+            <li class="comparison-list__item comparison-list__item--con">Unfamiliar with military deposit rules</li>
+            <li class="comparison-list__item comparison-list__item--con">Cannot reconcile multi-agency service records</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <FAQSchema questions={faqs} heading="Richmond Federal Retirement FAQs" />
+
+  <WebinarCTA
+    variant="banner"
+    heading="Ready to Plan Your Federal Retirement in Richmond?"
+    subheading="Join Fort Gregg-Adams civilians, DLA Aviation employees, VA workers, and federal court staff across Central Virginia who have built their retirement plan with a CFP who understands FERS from the inside out."
+  />
+</BaseLayout>
+
+<style>
+  .location-hero { padding: var(--space-16) 0; background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-navy-dark) 100%); color: var(--color-white); }
+  .location-hero__content-centered { max-width: 780px; margin: 0 auto; text-align: center; }
+  .location-hero h1 { color: var(--color-white); margin-bottom: var(--space-4); }
+  .location-hero .lead { color: var(--color-gray-300); margin-bottom: var(--space-8); }
+  .location-hero__cta { display: flex; gap: var(--space-4); flex-wrap: wrap; justify-content: center; }
+
+  .service-areas { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
+  .service-area { background: var(--color-white); padding: var(--space-6); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+  .service-area h3 { font-size: var(--text-lg); margin-bottom: var(--space-2); }
+  .service-area p { color: var(--color-gray-600); font-size: var(--text-sm); }
+
+  .employers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .employer-card { background: var(--color-gray-100); padding: var(--space-8); border-radius: var(--radius-lg); }
+  .employer-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-4); color: var(--color-navy); }
+  .employer-card ul { list-style: none; padding: 0; }
+  .employer-card li { padding: var(--space-2) 0; border-bottom: 1px solid var(--color-gray-200); color: var(--color-gray-700); }
+  .employer-card li:last-child { border-bottom: none; }
+
+  .directions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+  .direction-card { background: rgba(255, 255, 255, 0.1); padding: var(--space-6); border-radius: var(--radius-lg); border: 1px solid rgba(255, 255, 255, 0.2); }
+  .direction-card h3 { color: var(--color-gold); font-size: var(--text-lg); margin-bottom: var(--space-3); }
+  .direction-card p { color: var(--color-gray-300); font-size: var(--text-sm); }
+
+  .comparison-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-8); max-width: 900px; margin: 0 auto; }
+  .comparison-card { background: var(--color-gray-100); padding: var(--space-8); border-radius: var(--radius-lg); }
+  .comparison-card--highlight { background: var(--color-navy); color: var(--color-white); }
+  .comparison-card--highlight h3 { color: var(--color-gold); }
+  .comparison-card h3 { font-size: var(--text-xl); margin-bottom: var(--space-6); text-align: center; }
+  .comparison-list { list-style: none; padding: 0; }
+  .comparison-list__item { padding: var(--space-3) 0; padding-left: var(--space-8); position: relative; font-size: var(--text-sm); }
+  .comparison-list__item::before { position: absolute; left: 0; font-size: var(--text-lg); }
+  .comparison-list__item--pro::before { content: "✓"; color: var(--color-gold); }
+  .comparison-list__item--con::before { content: "✗"; color: var(--color-error); }
+
+  @media (max-width: 1024px) { .service-areas { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 768px) { .service-areas, .employers-grid, .directions-grid, .comparison-grid { grid-template-columns: 1fr; } }
+</style>
