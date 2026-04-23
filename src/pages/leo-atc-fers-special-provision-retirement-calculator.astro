@@ -2,11 +2,13 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import LEOCalculatorSEOContent from '../components/calculators/LEOCalculatorSEOContent.astro';
 import CalculatorDisclosure from '../components/calculators/CalculatorDisclosure.astro';
+import CalculatorWebinarCTA from '../components/calculators/CalculatorWebinarCTA.astro';
+import SmartPopup from '../components/SmartPopup.astro';
 ---
 
 <BaseLayout
-  title="FERS Special Provision Calculator | LEO, ATC, Firefighter Retirement"
-  description="Calculate retirement benefits for Federal Law Enforcement Officers, Air Traffic Controllers, and Firefighters (Special Provision)."
+  title="FERS Special Provision Retirement Calculator | LEO, ATC, Firefighter"
+  description="Free retirement calculator for federal Law Enforcement Officers, Air Traffic Controllers, and Firefighters under FERS special provision. Calculate your enhanced pension, supplement, and mandatory retirement age."
 >
   <!-- Hero -->
   <section class="page-hero">
@@ -105,9 +107,17 @@ import CalculatorDisclosure from '../components/calculators/CalculatorDisclosure
     </div>
   </section>
 
+  <!-- Post-result webinar CTA -->
+  <section class="section">
+    <div class="container" style="max-width: 900px;">
+      <CalculatorWebinarCTA calculatorName="leo" source="calc_leo" />
+    </div>
+  </section>
+
   <!-- SEO-Optimized Content -->
   <LEOCalculatorSEOContent />
   <CalculatorDisclosure />
+  <SmartPopup variant="calculator" />
 </BaseLayout>
 
 <style>

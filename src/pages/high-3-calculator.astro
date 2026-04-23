@@ -1,11 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CalculatorDisclosure from '../components/calculators/CalculatorDisclosure.astro';
+import CalculatorWebinarCTA from '../components/calculators/CalculatorWebinarCTA.astro';
+import SmartPopup from '../components/SmartPopup.astro';
 ---
 
 <BaseLayout
-  title="High-3 Average Salary Calculator | Calculate Your Highest 36 Months"
-  description="Calculate your High-3 average salary for FERS retirement. Enter your salary history and get the weighted average of your highest 36 consecutive months."
+  title="High-3 Salary Calculator for FERS | Calculate Your Highest 36 Consecutive Months"
+  description="Free High-3 salary calculator for FERS retirement. Compute the exact weighted average of your highest 36 consecutive months of federal pay, including locality and step increases. Built by CFPs focused on federal retirement."
 >
   <!-- Hero -->
   <section class="page-hero">
@@ -184,7 +186,14 @@ import CalculatorDisclosure from '../components/calculators/CalculatorDisclosure
       </div>
     </div>
   </section>
+  <section class="section">
+    <div class="container" style="max-width: 900px;">
+      <CalculatorWebinarCTA calculatorName="high3" source="calc_high3" />
+    </div>
+  </section>
+
   <CalculatorDisclosure />
+  <SmartPopup variant="calculator" />
 </BaseLayout>
 
 <style>

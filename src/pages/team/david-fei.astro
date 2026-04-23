@@ -1,0 +1,216 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import davidPhoto from '../../assets/images/david-fei.jpg';
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': ['Person', 'FinancialPlanner'],
+  '@id': 'https://planwellfp.com/team/david-fei',
+  name: 'David Fei',
+  givenName: 'David',
+  familyName: 'Fei',
+  jobTitle: 'Co-Founder and Financial Planner',
+  description:
+    'David Fei is a CFP and Chartered Federal Employee Benefits Consultant who has spent 20+ years helping federal employees plan for retirement. Co-founder of PlanWell Financial Planning and lead instructor of the free FERS Retirement Workshop.',
+  image: 'https://planwellfp.com/og-default.png',
+  url: 'https://planwellfp.com/team/david-fei',
+  worksFor: { '@id': 'https://planwellfp.com/#organization' },
+  telephone: '301-388-5489',
+  email: 'david.fei@planwellfp.com',
+  hasCredential: [
+    {
+      '@type': 'EducationalOccupationalCredential',
+      credentialCategory: 'Professional Certification',
+      name: 'Certified Financial Planner (CFP)',
+      recognizedBy: {
+        '@type': 'Organization',
+        name: 'CFP Board',
+        url: 'https://www.cfp.net',
+      },
+    },
+    {
+      '@type': 'EducationalOccupationalCredential',
+      credentialCategory: 'Professional Certification',
+      name: 'Chartered Federal Employee Benefits Consultant (ChFEBC)',
+    },
+    {
+      '@type': 'EducationalOccupationalCredential',
+      credentialCategory: 'Professional Certification',
+      name: 'Accredited Investment Fiduciary (AIF)',
+    },
+  ],
+  knowsAbout: [
+    'FERS Retirement',
+    'Thrift Savings Plan',
+    'Federal Employee Health Benefits',
+    'Medicare for Federal Retirees',
+    'Federal Survivor Benefits',
+    'High-3 Salary Calculation',
+    'FERS Supplement',
+    'Federal Pension Optimization',
+  ],
+  sameAs: [
+    'https://www.linkedin.com/in/david-fei-cfp',
+    'https://planwellfp.com/about',
+  ],
+  alumniOf: {
+    '@type': 'CollegeOrUniversity',
+    name: 'Certified Financial Planner Board-Registered Program',
+  },
+};
+---
+
+<BaseLayout
+  title="David Fei, CFP and ChFEBC | Lead FERS Retirement Workshop Instructor"
+  description="David Fei is a CFP and Chartered Federal Employee Benefits Consultant with 20+ years of experience. Co-founder of PlanWell Financial Planning and lead instructor of the free FERS Retirement Workshop attended by 10,000+ federal employees."
+  canonical="https://planwellfp.com/team/david-fei"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">Meet the Team</span>
+      <h1 class="heading-xl">David Fei, CFP, ChFEBC, AIF</h1>
+      <p class="lead max-w-3xl">
+        Co-founder of PlanWell Financial Planning and lead instructor of our free FERS Retirement Workshop.
+        Twenty plus years helping federal employees build real retirement plans, not guesses.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container" style="max-width: 900px;">
+      <div class="author-profile">
+        <div class="author-profile__image">
+          <Image
+            src={davidPhoto}
+            alt="David Fei, CFP and Chartered Federal Employee Benefits Consultant"
+            width={400}
+            height={400}
+            loading="eager"
+            format="webp"
+            quality={90}
+          />
+        </div>
+
+        <div class="author-profile__content">
+          <div class="author-profile__credentials">
+            <span class="badge badge--gold">CFP</span>
+            <span class="badge badge--gold">ChFEBC</span>
+            <span class="badge badge--gold">AIF</span>
+          </div>
+
+          <h2>Background</h2>
+          <p>
+            David has spent more than 20 years in the financial services industry, and for the last several
+            of those he has focused exclusively on federal employee retirement planning. He is a Certified
+            Financial Planner, a Chartered Federal Employee Benefits Consultant, and an Accredited Investment
+            Fiduciary. Fewer than one percent of financial advisors in the United States hold all three
+            certifications.
+          </p>
+
+          <h2>Areas of Expertise</h2>
+          <ul>
+            <li>FERS pension calculation, including sick leave credit and military service buyback</li>
+            <li>TSP allocation and withdrawal strategy across C, S, I, F, G, and L funds</li>
+            <li>FEHB and Medicare coordination at age 65</li>
+            <li>Survivor benefit election analysis</li>
+            <li>High-3 salary optimization and locality pay strategy</li>
+            <li>Tax-efficient retirement income planning for federal retirees</li>
+          </ul>
+
+          <h2>Workshops and Education</h2>
+          <p>
+            David leads PlanWell's free three-hour FERS Retirement Workshop, held live on Zoom every three weeks.
+            More than 10,000 federal employees have attended. The session covers pension, TSP, FEHB, Medicare,
+            and survivor benefits, with a live Q and A where attendees can ask questions specific to their own
+            situation. There is no cost and no sales pitch during the session.
+          </p>
+
+          <h2>Outside the Office</h2>
+          <p>
+            David stays active with his daughters' activities, plays basketball on weekends, and rides mountain
+            bike trails whenever he can.
+          </p>
+
+          <div class="author-profile__contact">
+            <a href="tel:301-388-5489" class="btn btn--secondary">301-388-5489</a>
+            <a href="mailto:david.fei@planwellfp.com" class="btn btn--secondary">david.fei@planwellfp.com</a>
+            <a href="https://www.linkedin.com/in/david-fei-cfp" class="btn btn--secondary" rel="noopener" target="_blank">LinkedIn</a>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: var(--space-12); padding: var(--space-8); background: var(--color-gray-50); border-radius: var(--radius-lg); text-align: center;">
+        <h2 class="heading-md">Join David's next free FERS workshop</h2>
+        <p style="margin: var(--space-4) 0 var(--space-6); color: var(--color-gray-600);">
+          Three hours. Live on Zoom. Zero cost. Zero pressure.
+        </p>
+        <a href="/webinar" class="btn btn--primary btn--lg">Reserve my seat</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .author-profile {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: var(--space-8);
+    align-items: start;
+  }
+
+  .author-profile__image img {
+    border-radius: var(--radius-lg);
+    width: 100%;
+    height: auto;
+  }
+
+  .author-profile__content h2 {
+    margin-top: var(--space-6);
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.5rem;
+  }
+
+  .author-profile__content h2:first-of-type { margin-top: var(--space-4); }
+
+  .author-profile__content p,
+  .author-profile__content ul {
+    margin-top: var(--space-3);
+    color: var(--color-gray-700);
+    line-height: 1.65;
+  }
+
+  .author-profile__content ul {
+    padding-left: 1.25rem;
+  }
+
+  .author-profile__content li {
+    margin-bottom: 0.5rem;
+  }
+
+  .author-profile__credentials {
+    display: flex;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .author-profile__contact {
+    margin-top: var(--space-6);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  @media (max-width: 768px) {
+    .author-profile {
+      grid-template-columns: 1fr;
+    }
+    .author-profile__image {
+      max-width: 280px;
+      margin: 0 auto;
+    }
+  }
+</style>

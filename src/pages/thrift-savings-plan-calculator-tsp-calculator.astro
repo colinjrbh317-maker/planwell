@@ -2,6 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import TSPCalculatorSEOContent from '../components/calculators/TSPCalculatorSEOContent.astro';
 import CalculatorDisclosure from '../components/calculators/CalculatorDisclosure.astro';
+import CalculatorWebinarCTA from '../components/calculators/CalculatorWebinarCTA.astro';
+import SmartPopup from '../components/SmartPopup.astro';
 ---
 
 <BaseLayout
@@ -112,9 +114,19 @@ import CalculatorDisclosure from '../components/calculators/CalculatorDisclosure
     </div>
   </section>
 
+  <!-- Post-result webinar CTA (conversion lever #1 per 90-day GA4 data) -->
+  <section class="section">
+    <div class="container" style="max-width: 900px;">
+      <CalculatorWebinarCTA calculatorName="tsp" source="calc_tsp" />
+    </div>
+  </section>
+
   <!-- SEO-Optimized Content -->
   <TSPCalculatorSEOContent />
   <CalculatorDisclosure />
+
+  <!-- Exit-intent popup with calculator-specific copy -->
+  <SmartPopup variant="calculator" />
 </BaseLayout>
 
 <style>

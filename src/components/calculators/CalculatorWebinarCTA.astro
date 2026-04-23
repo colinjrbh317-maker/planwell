@@ -1,0 +1,255 @@
+---
+/**
+ * CalculatorWebinarCTA
+ *
+ * Conversion-focused webinar CTA designed specifically for calculator pages.
+ * Closes the gap identified in 90-day GA4 data where calculator pages see
+ * 14,721 sessions but only 2 key events (0.01% conversion) versus the
+ * homepage's 2.6% rate.
+ *
+ * Use after the calculator result card. The copy references the fact that
+ * the user just saw a number, which is the peak moment for workshop intent.
+ *
+ * Props let each calculator page customize the lead line without rewriting
+ * the rest of the card, so we test variants cleanly.
+ */
+import { getNextWebinar, formatWebinarDate, getDaysUntil } from '../../data/webinars';
+
+interface Props {
+  calculatorName?: string;
+  leadLine?: string;
+  source?: string;
+}
+
+const {
+  calculatorName = 'retirement',
+  leadLine,
+  source = 'calc_inline_cta',
+} = Astro.props;
+
+const nextWebinar = getNextWebinar();
+const webinarDate = nextWebinar ? formatWebinarDate(nextWebinar) : 'Coming soon';
+const daysUntil = nextWebinar ? getDaysUntil(nextWebinar) : 0;
+const webinarHref = nextWebinar ? `/webinar/${nextWebinar.id}` : '/webinar';
+
+const defaultLeadByCalc: Record<string, string> = {
+  tsp: 'Your projected TSP balance is only one piece. The workshop shows you how to actually pull this money out in retirement without losing a third of it to taxes.',
+  fers: 'Your FERS pension estimate is a starting point. The workshop walks through the four decisions that can change your lifetime payout by six figures.',
+  supplement: 'Your FERS supplement estimate depends on earnings rules most feds miss. The workshop covers the exact timing decisions that protect this benefit.',
+  sickleave: 'That sick leave conversion boosts your pension. The workshop shows you how to layer it with retirement date selection to maximize the credit.',
+  high3: 'Your High-3 number is the foundation of your pension. The workshop covers the specific pay actions and service buybacks that can raise it.',
+  leo: 'Special provision retirement rules work differently. The workshop covers the exact SCE timeline, the supplement, and the mandatory age considerations.',
+  retirement: 'Calculators give you estimates. The workshop gives you the plan to act on them.',
+};
+
+const finalLead = leadLine || defaultLeadByCalc[calculatorName] || defaultLeadByCalc.retirement;
+
+const daysCopy = daysUntil <= 0
+  ? 'Next session running today'
+  : daysUntil === 1
+    ? 'Next session is tomorrow'
+    : `Next session in ${daysUntil} days`;
+---
+
+<aside class="calc-cta" data-source={source}>
+  <div class="calc-cta__inner">
+    <div class="calc-cta__badge">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 6v6l4 2"/>
+      </svg>
+      <span>{daysCopy}</span>
+    </div>
+
+    <h3 class="calc-cta__headline">Want a CFP to walk through your numbers with you?</h3>
+
+    <p class="calc-cta__lead">{finalLead}</p>
+
+    <ul class="calc-cta__bullets">
+      <li>Three hours, live on Zoom, completely free</li>
+      <li>Led by David Fei, CFP and ChFEBC, focused exclusively on federal retirement</li>
+      <li>Live Q&amp;A so your specific situation gets addressed</li>
+    </ul>
+
+    <div class="calc-cta__actions">
+      <a href={webinarHref} class="calc-cta__primary" data-event="calc_cta_click" data-source={source}>
+        Reserve my free seat
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+      <a href="/book-call" class="calc-cta__secondary" data-event="calc_cta_click" data-source={`${source}_book`}>
+        Or book a 1:1 consultation
+      </a>
+    </div>
+
+    <p class="calc-cta__meta">
+      Workshop is free. No sales pitch during the session. Next date: <strong>{webinarDate}</strong>.
+    </p>
+  </div>
+</aside>
+
+<style>
+  .calc-cta {
+    margin: var(--space-8) 0;
+    padding: 0;
+    border-radius: var(--radius-xl, 16px);
+    background: linear-gradient(135deg, #102846 0%, #1c4a7e 100%);
+    color: var(--color-white);
+    box-shadow: 0 12px 40px rgba(16, 40, 70, 0.25);
+    overflow: hidden;
+  }
+
+  .calc-cta__inner {
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+  }
+
+  .calc-cta__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(209, 164, 55, 0.18);
+    color: #f0c96b;
+    padding: 0.375rem 0.875rem;
+    border-radius: 999px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    margin-bottom: 1rem;
+  }
+
+  .calc-cta__headline {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(1.5rem, 3.2vw, 2rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 0.75rem 0;
+    color: var(--color-white);
+  }
+
+  .calc-cta__lead {
+    font-size: clamp(1rem, 2vw, 1.125rem);
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.88);
+    margin: 0 0 1.25rem 0;
+  }
+
+  .calc-cta__bullets {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .calc-cta__bullets li {
+    font-size: 0.9375rem;
+    color: rgba(255, 255, 255, 0.85);
+    padding-left: 1.5rem;
+    position: relative;
+    line-height: 1.45;
+  }
+
+  .calc-cta__bullets li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.4rem;
+    width: 0.875rem;
+    height: 0.875rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d1a437' stroke-width='3'%3E%3Cpath d='M5 13l4 4L19 7'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  .calc-cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .calc-cta__primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #d1a437;
+    color: #102846;
+    padding: 0.875rem 1.5rem;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    box-shadow: 0 6px 20px rgba(209, 164, 55, 0.35);
+  }
+
+  .calc-cta__primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 26px rgba(209, 164, 55, 0.5);
+    background: #e0b649;
+  }
+
+  .calc-cta__secondary {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.875rem 1.25rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: underline;
+    font-weight: 500;
+    font-size: 0.9375rem;
+  }
+
+  .calc-cta__secondary:hover {
+    color: #f0c96b;
+  }
+
+  .calc-cta__meta {
+    font-size: 0.8125rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
+  }
+
+  .calc-cta__meta strong {
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 600;
+  }
+
+  @media (max-width: 640px) {
+    .calc-cta__actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .calc-cta__primary,
+    .calc-cta__secondary {
+      justify-content: center;
+    }
+  }
+</style>
+
+<script>
+  // GA4 + Meta Pixel tracking for calculator CTAs
+  document.querySelectorAll<HTMLAnchorElement>('[data-event="calc_cta_click"]').forEach((el) => {
+    el.addEventListener('click', () => {
+      const source = el.getAttribute('data-source') || 'calc_cta';
+      const href = el.getAttribute('href') || '';
+      // @ts-expect-error - dataLayer is added by GTM
+      if (typeof window.dataLayer !== 'undefined') {
+        // @ts-expect-error
+        window.dataLayer.push({
+          event: 'calc_cta_click',
+          cta_source: source,
+          cta_destination: href,
+        });
+      }
+      // @ts-expect-error - fbq is added by Pixel snippet
+      if (typeof window.fbq === 'function') {
+        // @ts-expect-error
+        window.fbq('trackCustom', 'CalcCtaClick', {
+          source,
+          destination: href,
+        });
+      }
+    });
+  });
+</script>

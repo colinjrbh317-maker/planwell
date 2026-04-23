@@ -1,9 +1,65 @@
 ---
 // SEO-optimized content component for FERS Retirement Calculator
+// Emits FAQPage schema + AI Overview answer box for Featured Snippet capture.
+
+const faqs = [
+  {
+    q: 'How is FERS retirement calculated?',
+    a: 'FERS pension uses the formula: High-3 Average Salary x Years of Service x Multiplier. The multiplier is 1.0 percent for most retirees, or 1.1 percent if you retire at age 62 or later with at least 20 years of creditable service. Example: a federal employee with a $90,000 High-3 salary, 30 years of service, and age 62 at retirement receives $90,000 x 30 x 0.011 = $29,700 per year before survivor benefit reductions.',
+  },
+  {
+    q: 'What is the FERS multiplier?',
+    a: 'The standard FERS multiplier is 1.0 percent per year of creditable service. The enhanced multiplier of 1.1 percent applies only when two conditions are met: you are age 62 or older at retirement AND you have at least 20 years of creditable service. That 10 percent boost can increase lifetime pension income by tens of thousands of dollars, which is why many FERS employees time retirement carefully around the age 62 threshold.',
+  },
+  {
+    q: 'Does unused sick leave count toward my FERS pension?',
+    a: 'Yes. Unused sick leave at the time of retirement converts into additional creditable service using the 2087 hours per year rule (or roughly 174 hours per month, 5.8 hours per day). The sick leave credit only counts toward pension calculation, not toward retirement eligibility. Use our sick leave conversion chart to see how your hours translate into months and days of additional service.',
+  },
+  {
+    q: 'Will my FERS pension increase with inflation?',
+    a: 'Yes, FERS pensions receive annual Cost of Living Adjustments based on the Consumer Price Index. However, if you retire before age 62 the COLA does not begin until you turn 62. The FERS COLA formula: full COLA if CPI-W is 2 percent or less, flat 2 percent COLA if CPI-W is 2 to 3 percent, and CPI-W minus 1 percent if CPI-W is above 3 percent.',
+  },
+  {
+    q: 'What happens to my FERS pension if I die?',
+    a: 'If you elect a survivor annuity, which is recommended for most married employees, your spouse receives 50 percent of your pension for their lifetime in exchange for a 10 percent reduction of your pension while you are alive. You can also choose a 25 percent survivor benefit for a 5 percent reduction, or a zero survivor benefit with spousal consent.',
+  },
+  {
+    q: 'Is my FERS pension taxable?',
+    a: 'Yes. FERS pensions are fully taxable as ordinary income at the federal level and in most states. Unlike Social Security, there is no tax-exempt portion of your FERS annuity. You can elect federal and state tax withholding from monthly payments or make quarterly estimated tax payments.',
+  },
+  {
+    q: 'What if I have both CSRS and FERS service?',
+    a: 'If you transferred from CSRS to FERS, OPM calculates a CSRS component at CSRS rates (higher multiplier) and a FERS component at FERS rates. The two portions are added together, usually resulting in a higher pension than a pure FERS calculation. Your CSRS component follows CSRS COLA rules while your FERS component follows FERS COLA rules.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
 ---
+
+<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
 
 <section class="seo-content-section">
   <div class="container-narrow">
+
+    <!-- AI Overview / Featured Snippet answer block -->
+    <div class="content-block answer-box">
+      <h2>How is my FERS pension calculated?</h2>
+      <p class="answer-box__lede">
+        FERS pension uses the formula <strong>High-3 Average Salary x Years of Service x Multiplier</strong>.
+        The multiplier is 1.0 percent per year, or 1.1 percent if you retire at age 62 or later with at least
+        20 years of service. A federal employee with a $90,000 High-3 salary, 30 years of service, and
+        retirement at age 62 receives $29,700 per year before survivor benefit reductions. Plug your own
+        numbers into the calculator above to see your estimate.
+      </p>
+    </div>
 
     <!-- Introduction Section -->
     <div class="content-block">
@@ -264,6 +320,25 @@
   .seo-content-section {
     background: var(--color-white);
     padding: var(--space-16) 0;
+  }
+
+  .answer-box {
+    background: var(--color-gray-50);
+    border-left: 4px solid var(--color-gold);
+    padding: var(--space-6) var(--space-8);
+    border-radius: var(--radius-md);
+  }
+
+  .answer-box h2 {
+    margin-bottom: var(--space-3);
+    font-size: var(--text-xl);
+  }
+
+  .answer-box__lede {
+    font-size: var(--text-base);
+    line-height: 1.65;
+    color: var(--color-gray-800);
+    margin: 0;
   }
 
   .container-narrow {

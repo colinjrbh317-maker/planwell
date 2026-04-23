@@ -1,0 +1,209 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import brennanPhoto from '../../assets/images/brennan-rhule.png';
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': ['Person', 'FinancialPlanner'],
+  '@id': 'https://planwellfp.com/team/brennan-rhule',
+  name: 'Brennan Rhule',
+  givenName: 'Brennan',
+  familyName: 'Rhule',
+  jobTitle: 'Co-Founder and Financial Planner',
+  description:
+    'Brennan Rhule is a CFP and Chartered Federal Employee Benefits Consultant who graduated from the Virginia Tech CFP Board-Registered program. Co-founder of PlanWell Financial Planning and lead of live Q and A during the FERS Retirement Workshop.',
+  image: 'https://planwellfp.com/og-default.png',
+  url: 'https://planwellfp.com/team/brennan-rhule',
+  worksFor: { '@id': 'https://planwellfp.com/#organization' },
+  telephone: '571-543-2783',
+  email: 'brennan.rhule@planwellfp.com',
+  hasCredential: [
+    {
+      '@type': 'EducationalOccupationalCredential',
+      credentialCategory: 'Professional Certification',
+      name: 'Certified Financial Planner (CFP)',
+      recognizedBy: {
+        '@type': 'Organization',
+        name: 'CFP Board',
+        url: 'https://www.cfp.net',
+      },
+    },
+    {
+      '@type': 'EducationalOccupationalCredential',
+      credentialCategory: 'Professional Certification',
+      name: 'Chartered Federal Employee Benefits Consultant (ChFEBC)',
+    },
+    {
+      '@type': 'EducationalOccupationalCredential',
+      credentialCategory: 'Professional Certification',
+      name: 'Accredited Investment Fiduciary (AIF)',
+    },
+  ],
+  knowsAbout: [
+    'FERS Retirement',
+    'Thrift Savings Plan',
+    'Federal Employee Health Benefits',
+    'Medicare for Federal Retirees',
+    'Federal Survivor Benefits',
+    'Fiduciary Financial Advice',
+    'Retirement Income Planning',
+  ],
+  alumniOf: {
+    '@type': 'CollegeOrUniversity',
+    name: 'Virginia Tech',
+    sameAs: 'https://www.vt.edu',
+  },
+  sameAs: [
+    'https://www.linkedin.com/in/brennan-rhule',
+    'https://planwellfp.com/about',
+  ],
+};
+---
+
+<BaseLayout
+  title="Brennan Rhule, CFP and ChFEBC | FERS Workshop Co-Founder at PlanWell"
+  description="Brennan Rhule is a CFP and Chartered Federal Employee Benefits Consultant, Virginia Tech CFP Board-Registered program graduate, and co-founder of PlanWell Financial Planning. Leads the live Q and A at our free FERS Retirement Workshop."
+  canonical="https://planwellfp.com/team/brennan-rhule"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">Meet the Team</span>
+      <h1 class="heading-xl">Brennan Rhule, CFP, ChFEBC, AIF</h1>
+      <p class="lead max-w-3xl">
+        Co-founder of PlanWell Financial Planning. Virginia Tech CFP Board-Registered program graduate.
+        Leads the live Q and A during every FERS Retirement Workshop so attendees get real answers in real time.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container" style="max-width: 900px;">
+      <div class="author-profile">
+        <div class="author-profile__image">
+          <Image
+            src={brennanPhoto}
+            alt="Brennan Rhule, CFP and Chartered Federal Employee Benefits Consultant"
+            width={400}
+            height={400}
+            loading="eager"
+            format="webp"
+            quality={90}
+          />
+        </div>
+
+        <div class="author-profile__content">
+          <div class="author-profile__credentials">
+            <span class="badge badge--gold">CFP</span>
+            <span class="badge badge--gold">ChFEBC</span>
+            <span class="badge badge--gold">AIF</span>
+          </div>
+
+          <h2>Background</h2>
+          <p>
+            Brennan graduated from Virginia Tech's CFP Board-Registered program, one of the most rigorous
+            undergraduate financial planning programs in the country. He co-founded PlanWell to give federal
+            employees access to the kind of fee-based, fiduciary planning that most private-sector families
+            take for granted.
+          </p>
+
+          <h2>Areas of Expertise</h2>
+          <ul>
+            <li>FERS pension planning and retirement date optimization</li>
+            <li>TSP allocation strategy for career federal employees</li>
+            <li>FEHB plan selection, coordination with Medicare, and open season strategy</li>
+            <li>Fiduciary investment planning for federal retirees</li>
+            <li>Survivor benefit election modeling</li>
+            <li>Tax-aware withdrawal sequencing in retirement</li>
+          </ul>
+
+          <h2>Workshops and Education</h2>
+          <p>
+            Brennan leads the live Q and A portion of PlanWell's free three-hour FERS Retirement Workshop.
+            He answers attendee questions in real time on anything from FERS supplement earnings limits to
+            how to handle a partial TSP rollover. More than 10,000 federal employees have attended the
+            workshop across all sessions.
+          </p>
+
+          <div class="author-profile__contact">
+            <a href="tel:571-543-2783" class="btn btn--secondary">571-543-2783</a>
+            <a href="mailto:brennan.rhule@planwellfp.com" class="btn btn--secondary">brennan.rhule@planwellfp.com</a>
+            <a href="https://www.linkedin.com/in/brennan-rhule" class="btn btn--secondary" rel="noopener" target="_blank">LinkedIn</a>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: var(--space-12); padding: var(--space-8); background: var(--color-gray-50); border-radius: var(--radius-lg); text-align: center;">
+        <h2 class="heading-md">Join the next free FERS workshop</h2>
+        <p style="margin: var(--space-4) 0 var(--space-6); color: var(--color-gray-600);">
+          Three hours live on Zoom. Brennan answers your questions during the Q and A.
+        </p>
+        <a href="/webinar" class="btn btn--primary btn--lg">Reserve my seat</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .author-profile {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: var(--space-8);
+    align-items: start;
+  }
+
+  .author-profile__image img {
+    border-radius: var(--radius-lg);
+    width: 100%;
+    height: auto;
+  }
+
+  .author-profile__content h2 {
+    margin-top: var(--space-6);
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.5rem;
+  }
+
+  .author-profile__content h2:first-of-type { margin-top: var(--space-4); }
+
+  .author-profile__content p,
+  .author-profile__content ul {
+    margin-top: var(--space-3);
+    color: var(--color-gray-700);
+    line-height: 1.65;
+  }
+
+  .author-profile__content ul {
+    padding-left: 1.25rem;
+  }
+
+  .author-profile__content li {
+    margin-bottom: 0.5rem;
+  }
+
+  .author-profile__credentials {
+    display: flex;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .author-profile__contact {
+    margin-top: var(--space-6);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  @media (max-width: 768px) {
+    .author-profile {
+      grid-template-columns: 1fr;
+    }
+    .author-profile__image {
+      max-width: 280px;
+      margin: 0 auto;
+    }
+  }
+</style>
