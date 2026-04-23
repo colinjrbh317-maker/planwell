@@ -2,6 +2,8 @@
   "redirects": [
     { "source": "/:path+/", "missing": [{ "type": "query", "key": "preview" }], "destination": "/:path+", "permanent": true },
 
+    { "source": "/webinars", "destination": "/webinar", "permanent": true },
+
     { "source": "/category/:slug", "destination": "/blog/topic/:slug", "permanent": true },
     { "source": "/tag/:slug", "destination": "/blog", "permanent": true },
     { "source": "/author/:slug", "destination": "/about", "permanent": true },

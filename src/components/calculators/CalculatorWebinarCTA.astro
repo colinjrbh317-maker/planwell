@@ -30,7 +30,9 @@ const {
 const nextWebinar = getNextWebinar();
 const webinarDate = nextWebinar ? formatWebinarDate(nextWebinar) : 'Coming soon';
 const daysUntil = nextWebinar ? getDaysUntil(nextWebinar) : 0;
-const webinarHref = nextWebinar ? `/webinar/${nextWebinar.id}` : '/webinar';
+// Every CTA goes directly to the signup funnel, no intermediate info page.
+// Single source of truth for webinar conversion: /webinar
+const webinarHref = '/webinar';
 
 const defaultLeadByCalc: Record<string, string> = {
   tsp: 'Your projected TSP balance is only one piece. The workshop shows you how to actually pull this money out in retirement without losing a third of it to taxes.',

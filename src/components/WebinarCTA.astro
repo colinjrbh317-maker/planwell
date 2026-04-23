@@ -46,7 +46,7 @@ const eventSchemas = upcomingFERS.map((w) => ({
 
 {variant === 'hero' && (
   <div class="webinar-cta webinar-cta--hero">
-    <a href={nextWebinar ? `/webinar/${nextWebinar.id}` : '/federal-retirement-webinars'} class="btn btn--primary btn--lg">Register for Free Workshop</a>
+    <a href="/webinar" class="btn btn--primary btn--lg">Register for Free Workshop</a>
     <a href="/book-call" class="btn btn--white btn--lg">Book a Consultation</a>
   </div>
 )}
@@ -57,7 +57,7 @@ const eventSchemas = upcomingFERS.map((w) => ({
       <h2 class="heading-lg mb-4" style="color: var(--color-white);">{heading}</h2>
       <p class="lead mb-8" style="color: var(--color-gray-300);">{subheading}</p>
       <div class="flex gap-4 justify-center" style="flex-wrap: wrap;">
-        <a href={nextWebinar ? `/webinar/${nextWebinar.id}` : '/federal-retirement-webinars'} class="btn btn--primary btn--lg">Attend Free Workshop</a>
+        <a href="/webinar" class="btn btn--primary btn--lg">Attend Free Workshop</a>
         <a href="/book-call" class="btn btn--white btn--lg">Book a Consultation</a>
       </div>
     </div>
@@ -73,23 +73,20 @@ const eventSchemas = upcomingFERS.map((w) => ({
       <p class="text-center mb-8" style="color: var(--color-gray-600);">{subheading}</p>
       <div class="workshop-list">
         {upcomingFERS.map((w) => (
-          <a href={`/webinar/${w.id}`} class="workshop-row">
+          <a href="/webinar" class="workshop-row">
             <span class="workshop-row__date">{formatWebinarDate(w)}</span>
             <span class="workshop-row__title">FERS Retirement Workshop, 3 Hours</span>
             <span class="btn btn--primary btn--sm">Register Free</span>
           </a>
         ))}
         {upcomingTSP.map((w) => (
-          <a href={`/webinar/tsp/${w.id}`} class="workshop-row">
+          <a href="/webinar/tsp" class="workshop-row">
             <span class="workshop-row__date">{formatTSPWebinarDate(w)}</span>
             <span class="workshop-row__title">TSP Investment Workshop, 1 Hour</span>
             <span class="btn btn--primary btn--sm">Register Free</span>
           </a>
         ))}
       </div>
-      <p class="text-center mt-6">
-        <a href="/federal-retirement-webinars" style="color: var(--color-gold); text-decoration: underline;">View all upcoming workshop dates</a>
-      </p>
     </div>
   </section>
 )}
