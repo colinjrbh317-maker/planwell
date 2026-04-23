@@ -2,11 +2,13 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import FERSCalculatorSEOContent from '../components/calculators/FERSCalculatorSEOContent.astro';
 import CalculatorDisclosure from '../components/calculators/CalculatorDisclosure.astro';
+import CalculatorWebinarCTA from '../components/calculators/CalculatorWebinarCTA.astro';
+import SmartPopup from '../components/SmartPopup.astro';
 ---
 
 <BaseLayout
-  title="FERS Pension Calculator | Calculate Your Federal Retirement Annuity"
-  description="Calculate your estimated FERS Basic Annuity including sick leave and military service credit. See how your High-3 salary and total years of service impact your federal pension."
+  title="FERS Retirement Calculator | Calculate Your Federal Pension Annuity"
+  description="Free FERS retirement calculator for federal employees. Estimate your FERS basic annuity, High-3 salary impact, sick leave credit, and military service buyback. Built by CFPs who specialize in federal retirement."
 >
   <!-- Hero -->
   <section class="page-hero">
@@ -259,9 +261,19 @@ import CalculatorDisclosure from '../components/calculators/CalculatorDisclosure
     </div>
   </section>
 
+  <!-- Post-result webinar CTA -->
+  <section class="section">
+    <div class="container" style="max-width: 900px;">
+      <CalculatorWebinarCTA calculatorName="fers" source="calc_fers" />
+    </div>
+  </section>
+
   <!-- SEO-Optimized Content -->
   <FERSCalculatorSEOContent />
   <CalculatorDisclosure />
+
+  <!-- Exit-intent popup -->
+  <SmartPopup variant="calculator" />
 </BaseLayout>
 
 <style>

@@ -1,5 +1,9 @@
 {
   "redirects": [
+    { "source": "/:path*", "has": [{ "type": "host", "value": "www.planwellfp.com" }], "destination": "https://planwellfp.com/:path*", "permanent": true },
+
+    { "source": "/:path*/", "missing": [{ "type": "query", "key": "preview" }], "destination": "/:path*", "permanent": true },
+
     { "source": "/category/:slug", "destination": "/blog/topic/:slug", "permanent": true },
     { "source": "/tag/:slug", "destination": "/blog", "permanent": true },
     { "source": "/author/:slug", "destination": "/about", "permanent": true },
@@ -21,6 +25,19 @@
 
     { "source": "/the-complete-guide-to-the-federal-employee-retirement-system-fers", "destination": "/fers", "permanent": true },
 
+    { "source": "/team", "destination": "/about", "permanent": true },
+    { "source": "/our-team", "destination": "/about", "permanent": true },
+    { "source": "/home", "destination": "/", "permanent": true },
+    { "source": "/testing-new-header-and-footer", "destination": "/", "permanent": true },
+
+    { "source": "/fedvip-open-season-up-to-date-information-on-fehb-plans-2025", "destination": "/services/fehb-medicare", "permanent": true },
+    { "source": "/fehb-open-season-2025-fehb-plans", "destination": "/services/fehb-medicare", "permanent": true },
+    { "source": "/fehb-open-season-active-employee-2025", "destination": "/services/fehb-medicare", "permanent": true },
+    { "source": "/fehb-open-season-retired-annuitant-fehb-plans-2025", "destination": "/services/fehb-medicare", "permanent": true },
+    { "source": "/open-enrollment-2024-federal-employee-health-insurance-plans-for-2025", "destination": "/services/fehb-medicare", "permanent": true },
+
+    { "source": "/annuity-supplement-for-survivors-and-fers-supplement-retirement-calculator", "destination": "/fers-supplement-calculator", "permanent": true },
+
     { "source": "/wp-admin", "destination": "/", "permanent": true },
     { "source": "/wp-admin/:path*", "destination": "/", "permanent": true },
     { "source": "/wp-login.php", "destination": "/", "permanent": true },
@@ -28,6 +45,7 @@
     { "source": "/xmlrpc.php", "destination": "/", "permanent": true },
     { "source": "/wp-json/:path*", "destination": "/", "permanent": true },
     { "source": "/wp-includes/:path*", "destination": "/", "permanent": true },
+    { "source": "/wp-content/:path*", "destination": "/", "permanent": true },
 
     { "source": "/blog/fers", "destination": "/blog/topic/fers", "permanent": true },
     { "source": "/blog/tsp", "destination": "/blog/topic/tsp", "permanent": true },

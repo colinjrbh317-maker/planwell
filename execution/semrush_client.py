@@ -207,6 +207,257 @@ def get_backlink_overview(domain):
     }
 
 
+def get_organic_keywords_full(domain, db='us', max_rows=50000, out_csv=None):
+    """
+    Paginated fetch of all organic keywords for a domain, up to max_rows.
+
+    SEMrush domain_organic max page size is 100,000 but we chunk at 10,000
+    for resilience. Writes raw semicolon-separated data to out_csv if given.
+
+    Returns list of dicts.
+    """
+    page_size = min(10000, max_rows)
+    offset = 0
+    all_rows = []
+    header_written = False
+
+    while offset < max_rows:
+        params = {
+            'type': 'domain_organic',
+            'display_limit': min(page_size, max_rows - offset),
+            'display_offset': offset,
+            'export_columns': 'Ph,Po,Pp,Pd,Nq,Cp,Ur,Tr,Tc,Co,Kd,Nr,Td',
+            'domain': domain,
+            'database': db,
+        }
+        raw = _request(params)
+        if not raw or raw.startswith('ERROR'):
+            break
+        rows = _parse_response(raw)
+        if not rows:
+            break
+
+        if out_csv:
+            mode = 'w' if not header_written else 'a'
+            with open(out_csv, mode, encoding='utf-8') as f:
+                if not header_written:
+                    f.write(raw.strip() + '\n')
+                    header_written = True
+                else:
+                    # skip header row
+                    lines = raw.strip().split('\n')
+                    f.write('\n'.join(lines[1:]) + '\n')
+
+        all_rows.extend(rows)
+        if len(rows) < page_size:
+            break
+        offset += page_size
+
+    print(f'  Fetched {len(all_rows)} organic keywords for {domain}')
+    return all_rows
+
+
+def get_keyword_gap(domains, db='us', limit=10000, out_csv=None):
+    """
+    Compare multiple domains using the domain_domains report.
+    Returns keywords where each domain ranks along with each position.
+
+    Args:
+        domains: list of domains, e.g. ['planwellfp.com', 'stwserve.com']
+        db: database code
+        limit: max keywords
+        out_csv: optional path to dump raw CSV
+
+    P0 is first domain, P1 second, etc. The 'or' operator returns keywords
+    where ANY domain ranks (includes missing and weak keywords from gap
+    analysis).
+    """
+    if len(domains) < 2 or len(domains) > 5:
+        raise ValueError('domain_domains requires 2-5 domains')
+
+    # domains=*|or|domain1.com|*|or|domain2.com|...
+    domains_param = '|'.join(f'*|or|{d}' for d in domains)
+
+    cols = 'Ph,' + ','.join(f'P{i}' for i in range(len(domains))) + ',Nq,Cp,Kd,Co,Nr'
+
+    params = {
+        'type': 'domain_domains',
+        'display_limit': limit,
+        'export_columns': cols,
+        'domains': domains_param,
+        'database': db,
+    }
+    raw = _request(params)
+    if out_csv and raw and not raw.startswith('ERROR'):
+        Path(out_csv).parent.mkdir(parents=True, exist_ok=True)
+        Path(out_csv).write_text(raw, encoding='utf-8')
+        print(f'  Keyword gap written to {out_csv}')
+    return _parse_response(raw)
+
+
+def get_url_organic(url, db='us', limit=1000, out_csv=None):
+    """
+    Get keywords a specific URL ranks for.
+    """
+    params = {
+        'type': 'url_organic',
+        'display_limit': limit,
+        'export_columns': 'Ph,Po,Nq,Cp,Co,Tr,Tc,Kd',
+        'url': url,
+        'database': db,
+    }
+    raw = _request(params)
+    if out_csv and raw and not raw.startswith('ERROR'):
+        Path(out_csv).parent.mkdir(parents=True, exist_ok=True)
+        Path(out_csv).write_text(raw, encoding='utf-8')
+    return _parse_response(raw)
+
+
+def _backlinks_request(params):
+    """Backlinks API uses a separate base URL."""
+    params['key'] = SEMRUSH_API_KEY
+    try:
+        resp = requests.get(
+            'https://api.semrush.com/analytics/v1/',
+            params=params,
+            timeout=60,
+        )
+        if resp.status_code != 200:
+            print(f'SEMrush backlinks HTTP error {resp.status_code}: {resp.text[:200]}')
+            return ''
+        return resp.text
+    except Exception as e:
+        print(f'SEMrush backlinks request failed: {e}')
+        return ''
+
+
+def get_backlinks_full(target, target_type='root_domain', max_rows=100000, out_csv=None):
+    """
+    Paginated fetch of all backlinks for a target.
+
+    SEMrush returns up to 10,000 per page. We loop until exhausted or max_rows.
+    Output columns (see Semrush docs):
+      page_ascore, source_title, source_url, target_url, anchor,
+      external_num, internal_num, first_seen, last_seen, nofollow,
+      is_broken, response_code
+    """
+    page_size = 10000
+    offset = 0
+    all_rows = []
+    header_written = False
+
+    if out_csv:
+        Path(out_csv).parent.mkdir(parents=True, exist_ok=True)
+
+    while offset < max_rows:
+        params = {
+            'type': 'backlinks',
+            'target': target,
+            'target_type': target_type,
+            'export_columns': (
+                'page_ascore,source_title,source_url,target_url,anchor,'
+                'external_num,internal_num,first_seen,last_seen,nofollow,'
+                'response_code'
+            ),
+            'display_limit': page_size,
+            'display_offset': offset,
+        }
+        raw = _backlinks_request(params)
+        if not raw or raw.startswith('ERROR'):
+            break
+        rows = _parse_response(raw)
+        if not rows:
+            break
+
+        if out_csv:
+            mode = 'w' if not header_written else 'a'
+            with open(out_csv, mode, encoding='utf-8') as f:
+                if not header_written:
+                    f.write(raw.strip() + '\n')
+                    header_written = True
+                else:
+                    lines = raw.strip().split('\n')
+                    f.write('\n'.join(lines[1:]) + '\n')
+
+        all_rows.extend(rows)
+        if len(rows) < page_size:
+            break
+        offset += page_size
+        print(f'  Paged backlinks: {offset:,}/{max_rows:,}')
+
+    print(f'  Fetched {len(all_rows):,} backlinks for {target}')
+    return all_rows
+
+
+def get_backlinks_refdomains(target, target_type='root_domain', max_rows=10000, out_csv=None):
+    """
+    Paginated fetch of referring domains with authority score.
+    Used for disavow and link-reclamation prioritization.
+    """
+    page_size = 5000
+    offset = 0
+    all_rows = []
+    header_written = False
+
+    if out_csv:
+        Path(out_csv).parent.mkdir(parents=True, exist_ok=True)
+
+    while offset < max_rows:
+        params = {
+            'type': 'backlinks_refdomains',
+            'target': target,
+            'target_type': target_type,
+            'export_columns': (
+                'domain_ascore,domain,backlinks_num,ip,country,'
+                'first_seen,last_seen'
+            ),
+            'display_limit': page_size,
+            'display_offset': offset,
+        }
+        raw = _backlinks_request(params)
+        if not raw or raw.startswith('ERROR'):
+            break
+        rows = _parse_response(raw)
+        if not rows:
+            break
+
+        if out_csv:
+            mode = 'w' if not header_written else 'a'
+            with open(out_csv, mode, encoding='utf-8') as f:
+                if not header_written:
+                    f.write(raw.strip() + '\n')
+                    header_written = True
+                else:
+                    lines = raw.strip().split('\n')
+                    f.write('\n'.join(lines[1:]) + '\n')
+
+        all_rows.extend(rows)
+        if len(rows) < page_size:
+            break
+        offset += page_size
+
+    print(f'  Fetched {len(all_rows):,} referring domains for {target}')
+    return all_rows
+
+
+def get_backlinks_anchors(target, target_type='root_domain', limit=5000, out_csv=None):
+    """
+    Anchor text distribution. Useful for over-optimization detection.
+    """
+    params = {
+        'type': 'backlinks_anchors',
+        'target': target,
+        'target_type': target_type,
+        'export_columns': 'anchor,domains_num,backlinks_num,first_seen,last_seen',
+        'display_limit': limit,
+    }
+    raw = _backlinks_request(params)
+    if out_csv and raw and not raw.startswith('ERROR'):
+        Path(out_csv).parent.mkdir(parents=True, exist_ok=True)
+        Path(out_csv).write_text(raw, encoding='utf-8')
+    return _parse_response(raw)
+
+
 def get_keyword_overview(keyword, db='us'):
     """
     Get search metrics for a specific keyword.

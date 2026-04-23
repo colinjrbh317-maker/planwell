@@ -1,11 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CalculatorDisclosure from '../components/calculators/CalculatorDisclosure.astro';
+import CalculatorWebinarCTA from '../components/calculators/CalculatorWebinarCTA.astro';
+import SmartPopup from '../components/SmartPopup.astro';
 ---
 
 <BaseLayout
-  title="Special Retirement Supplement Calculator | FERS Supplement Estimate"
-  description="Calculate your Special Retirement Supplement (SRS) for early FERS retirement. See your estimated monthly payment until age 62."
+  title="FERS Supplement Calculator | Special Retirement Supplement Estimate"
+  description="Free FERS supplement calculator for federal employees retiring before 62. Estimate your monthly Special Retirement Supplement payment, earnings test impact, and phase-out rules. Built by CFPs focused on federal retirement."
 >
   <!-- Hero -->
   <section class="page-hero">
@@ -184,7 +186,14 @@ import CalculatorDisclosure from '../components/calculators/CalculatorDisclosure
       </div>
     </div>
   </section>
+  <section class="section">
+    <div class="container" style="max-width: 900px;">
+      <CalculatorWebinarCTA calculatorName="supplement" source="calc_supplement" />
+    </div>
+  </section>
+
   <CalculatorDisclosure />
+  <SmartPopup variant="calculator" />
 </BaseLayout>
 
 <style>

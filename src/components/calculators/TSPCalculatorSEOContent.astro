@@ -1,9 +1,61 @@
 ---
 // SEO-optimized content component for TSP Calculator
+// Emits FAQPage schema + mini AI Overview answer box so the TSP Calculator
+// page can capture Featured Snippets and AI Overviews (see plan Part 2).
+
+const faqs = [
+  {
+    q: 'How do I calculate my TSP growth?',
+    a: 'Project your TSP balance using three inputs: your current balance, your monthly contribution (including agency match), and an assumed annual return. Multiply the starting balance by (1 + return) per year and add contributions monthly. For FERS employees, always contribute at least 5 percent of salary to capture the full 5 percent agency match, which is a guaranteed 100 percent return on that portion.',
+  },
+  {
+    q: 'What is a realistic average TSP return?',
+    a: 'Historical TSP fund averages since inception are approximately 10 percent for the C Fund (S&P 500), 11 percent for the S Fund (small cap), variable for the I Fund (international), 6 percent for the F Fund (bond index), and 3 to 4 percent for the G Fund (government securities). Most retirement projections use 6 to 8 percent to blend equity and bond allocations.',
+  },
+  {
+    q: 'Can I borrow from my TSP?',
+    a: 'Yes. TSP offers General Purpose loans up to $50,000 repaid over 1 to 5 years, and Residential loans for primary home purchase repaid over 1 to 15 years. Interest you pay goes back into your account. Loans should be a last resort because you miss investment growth, and if you separate from service the loan must be repaid in full or it becomes a taxable distribution.',
+  },
+  {
+    q: 'What happens to my TSP when I leave federal service?',
+    a: 'You have four options: leave it in TSP to continue growing, roll it over to an IRA for more investment options, roll it to a new employer 401(k), or withdraw it. Withdrawing before retirement age typically triggers taxes and a 10 percent penalty.',
+  },
+  {
+    q: 'Should I roll my TSP to an IRA when I retire?',
+    a: 'It depends on your situation. TSP offers some of the lowest investment fees in the industry. IRAs provide more investment choices, easier access to funds, and better estate planning flexibility. For most federal retirees, a partial rollover that keeps the G Fund in TSP while moving other assets to an IRA is worth modeling with a fiduciary advisor.',
+  },
+  {
+    q: 'When do Required Minimum Distributions (RMDs) start for TSP?',
+    a: 'Traditional TSP participants must begin RMDs in the year they turn 73. Roth TSP also has RMDs, but you can avoid them by rolling your Roth TSP to a Roth IRA before age 73. RMDs are calculated using IRS life expectancy tables and your prior year end balance.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
 ---
+
+<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
 
 <section class="seo-content-section">
   <div class="container-narrow">
+
+    <!-- AI Overview / Featured Snippet answer block -->
+    <div class="content-block answer-box">
+      <h2>How much will my TSP grow?</h2>
+      <p class="answer-box__lede">
+        Your TSP growth depends on three inputs: contributions, agency match, and investment return.
+        A FERS employee contributing 5 percent of a $90,000 salary for 30 years with the full 5 percent
+        agency match and a 7 percent average annual return will accumulate roughly $1.02 million at retirement.
+        The calculator above lets you plug in your own numbers and see a projected balance instantly.
+      </p>
+    </div>
 
     <!-- Introduction Section -->
     <div class="content-block">
@@ -380,6 +432,25 @@
   .seo-content-section {
     background: var(--color-white);
     padding: var(--space-16) 0;
+  }
+
+  .answer-box {
+    background: var(--color-gray-50);
+    border-left: 4px solid var(--color-gold);
+    padding: var(--space-6) var(--space-8);
+    border-radius: var(--radius-md);
+  }
+
+  .answer-box h2 {
+    margin-bottom: var(--space-3);
+    font-size: var(--text-xl);
+  }
+
+  .answer-box__lede {
+    font-size: var(--text-base);
+    line-height: 1.65;
+    color: var(--color-gray-800);
+    margin: 0;
   }
 
   .container-narrow {

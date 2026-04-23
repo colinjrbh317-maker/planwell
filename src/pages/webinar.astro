@@ -15,6 +15,109 @@ const steps = [
   { id: 2, question: "Where should we send the details?", field: "email", type: "email", placeholder: "your.email@example.com" },
   { id: 3, question: "Phone number?", field: "phone", type: "tel", placeholder: "(optional)", required: false },
 ];
+
+// Evergreen, keyword-dense title and description (session date appears in body copy, not title)
+const pageTitle = "Free FERS Retirement Workshop for Federal Employees | PlanWell";
+const pageDescription = "Join our free 3-hour FERS retirement workshop led by a CFP. Learn your pension, TSP strategy, FEHB, Medicare, and survivor benefits. Next session: " + webinarDate + ".";
+const pageUrl = "https://planwellfp.com/webinar";
+
+// Event JSON-LD schema for rich results eligibility
+const eventSchema = nextWebinar ? {
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": "Free FERS Retirement Workshop",
+  "description": "Three-hour live workshop for federal employees covering FERS pension, TSP, FEHB, Medicare, and survivor benefits. Led by Certified Financial Planners who are Chartered Federal Employee Benefits Consultants.",
+  "startDate": nextWebinar.date.toISOString(),
+  "endDate": new Date(nextWebinar.date.getTime() + 3 * 60 * 60 * 1000).toISOString(),
+  "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "location": {
+    "@type": "VirtualLocation",
+    "url": pageUrl,
+    "name": "Online via Zoom"
+  },
+  "image": ["https://planwellfp.com/og-default.png"],
+  "organizer": {
+    "@type": "Organization",
+    "name": "PlanWell Financial Planning",
+    "url": "https://planwellfp.com"
+  },
+  "performer": [
+    { "@type": "Person", "name": "David Fei", "jobTitle": "CFP, ChFEBC, AIF" },
+    { "@type": "Person", "name": "Brennan Rhule", "jobTitle": "CFP, ChFEBC, AIF" }
+  ],
+  "offers": {
+    "@type": "Offer",
+    "name": "Free Workshop Registration",
+    "price": "0",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock",
+    "validFrom": new Date().toISOString(),
+    "url": pageUrl
+  },
+  "inLanguage": "en-US",
+  "isAccessibleForFree": true,
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "Federal Employees"
+  }
+} : null;
+
+// FAQPage JSON-LD schema for PAA and AI Overview capture
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is the FERS retirement workshop really free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The workshop is completely free, with no payment, no credit card, and no sales pitch during the session. Our goal is to educate federal employees on FERS, TSP, and federal benefits so you can make better retirement decisions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Who leads the FERS workshop?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "David Fei, CFP and Chartered Federal Employee Benefits Consultant, leads the instruction. Brennan Rhule, CFP and ChFEBC, handles live Q&A during the session. Both are co-founders of PlanWell Financial Planning and specialize exclusively in federal retirement."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the workshop recorded so I can watch later?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No, we do not record the workshop. The value of the live format is the real-time Q&A where your specific federal retirement questions get answered. If you miss a session, we run a new workshop every three weeks and you can register for the next one."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What will I learn at the workshop?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You will learn how to calculate your exact FERS pension, choose the right survivor benefit election, coordinate FEHB with Medicare without gaps, build a tax-efficient TSP withdrawal strategy, and identify optimization opportunities that federal HR typically does not cover."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Who is the workshop for?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Any federal employee under FERS, regardless of agency or years of service. Whether you are five years away or five months away from retirement, the session covers the foundational decisions every federal employee needs to get right."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will I be pressured to become a client afterward?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. After the workshop you will receive planning worksheets and the option to schedule a one-on-one consultation if you want one. There is no obligation and no pressure. Many attendees use the education alone to plan their retirement without ever becoming clients."
+      }
+    }
+  ]
+};
 ---
 
 <!DOCTYPE html>
@@ -22,21 +125,31 @@ const steps = [
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Register for our free FERS retirement workshop on {webinarDate}. Learn everything about your federal benefits in just 3 hours." />
-  <title>Free FERS Retirement Webinar - {webinarDate} | PlanWell</title>
-  <link rel="canonical" href="https://planwellfp.com/webinar" />
-  
+  <meta name="description" content={pageDescription} />
+  <title>{pageTitle}</title>
+  <link rel="canonical" href={pageUrl} />
+
+  <!-- Event schema for Google rich results -->
+  {eventSchema && (
+    <script type="application/ld+json" set:html={JSON.stringify(eventSchema)} />
+  )}
+
+  <!-- FAQ schema for People Also Ask and AI Overview capture -->
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://planwellfp.com/webinar" />
-  <meta property="og:title" content="Free FERS Retirement Webinar - {webinarDate} | PlanWell" />
-  <meta property="og:description" content="Register for our free 3-hour FERS retirement workshop. Learn about your pension, TSP, survivor benefits, and healthcare options." />
+  <meta property="og:url" content={pageUrl} />
+  <meta property="og:title" content={pageTitle} />
+  <meta property="og:description" content={pageDescription} />
   <meta property="og:site_name" content="PlanWell Financial Planning" />
-  
+  <meta property="og:image" content="https://planwellfp.com/og-default.png" />
+
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Free FERS Retirement Webinar | PlanWell" />
-  <meta name="twitter:description" content="Register for our free 3-hour FERS retirement workshop. Learn about your pension, TSP, survivor benefits, and healthcare options." />
+  <meta name="twitter:title" content={pageTitle} />
+  <meta name="twitter:description" content={pageDescription} />
+  <meta name="twitter:image" content="https://planwellfp.com/og-default.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet" />
@@ -105,11 +218,11 @@ const steps = [
             </span>
           </div>
           
-          <span class="step-eyebrow">Free FERS Workshop</span>
-          <h1 class="step-title">
-            {webinarDate}
+          <h1 class="step-eyebrow-h1">Free FERS Retirement Workshop for Federal Employees</h1>
+          <p class="step-session-date">
+            Next live session: <strong>{webinarDate}</strong>
             <span class="step-time">{webinarTime}</span>
-          </h1>
+          </p>
           <p class="step-description">
             Join our 3-hour virtual workshop led by our team of Chartered Federal Employee Benefits Consultants.
             We'll cover your FERS pension, TSP strategies, FEHB, Medicare,
@@ -483,14 +596,38 @@ const steps = [
       color: #d1a437;
       margin-bottom: 0.5rem;
     }
-    
+
+    .step-eyebrow-h1 {
+      display: block;
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(1.875rem, 4.5vw, 2.75rem);
+      font-weight: 700;
+      line-height: 1.15;
+      color: #ffffff;
+      margin: 0 0 0.75rem 0;
+      letter-spacing: -0.01em;
+    }
+
+    .step-session-date {
+      display: block;
+      font-size: clamp(1rem, 2.25vw, 1.125rem);
+      font-weight: 500;
+      color: rgba(255,255,255,0.85);
+      margin: 0 0 1rem 0;
+    }
+
+    .step-session-date strong {
+      color: #d1a437;
+      font-weight: 600;
+    }
+
     .step-counter {
       display: block;
       font-size: 0.875rem;
       color: rgba(255,255,255,0.5);
       margin-bottom: 0.5rem;
     }
-    
+
     .step-title {
       font-family: 'Outfit', sans-serif;
       font-size: clamp(2rem, 5vw, 3rem);

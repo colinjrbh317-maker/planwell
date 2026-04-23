@@ -1,0 +1,444 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import WebinarCTA from '../components/WebinarCTA.astro';
+import FAQSchema from '../components/FAQSchema.astro';
+import SmartPopup from '../components/SmartPopup.astro';
+import { getNextWebinar, getUpcomingWebinars, formatWebinarDate } from '../data/webinars';
+
+const nextWebinar = getNextWebinar();
+const upcoming = getUpcomingWebinars(5);
+const nextDate = nextWebinar ? formatWebinarDate(nextWebinar) : 'Coming soon';
+
+const faqs = [
+  {
+    q: 'What is a FERS retirement workshop?',
+    a: 'A FERS retirement workshop is a structured educational session that walks federal employees through every component of the Federal Employees Retirement System, including pension calculation, TSP strategy, FEHB and Medicare coordination, survivor benefits, and the FERS supplement. PlanWell runs a free three-hour live workshop on Zoom every three weeks, led by Certified Financial Planners who are Chartered Federal Employee Benefits Consultants.',
+  },
+  {
+    q: 'Are FERS retirement workshops worth attending?',
+    a: 'Yes, if the workshop is led by someone with federal-specific credentials. Federal benefits rules are different enough from private sector retirement planning that a general workshop will miss the nuances that matter. A focused FERS workshop typically covers pension formula, High-3 optimization, FERS supplement earnings test, FEHB five-year rule, Medicare IRMAA brackets, and TSP withdrawal sequencing, all of which are unique to federal retirement.',
+  },
+  {
+    q: 'When should I attend a federal retirement workshop?',
+    a: 'Most federal employees benefit from attending a workshop at three points in their career: five to ten years before retirement (to set a TSP trajectory and track High-3 opportunities), one to three years before retirement (to finalize pension timing and FEHB decisions), and the year of retirement (to execute survivor elections, TSP withdrawals, and Medicare enrollment). Each stage has different decisions that compound over time.',
+  },
+  {
+    q: 'What is the difference between a free workshop and a paid seminar?',
+    a: 'Free workshops hosted by fee-based financial planners are educational, with the option to continue a relationship if you choose. Paid seminars are typically hosted by insurance-product salespeople who build in cost recovery through annuity commissions. PlanWell workshops are free, recorded live without sales pitch during the session, and led by CFPs who charge planning fees only if you later engage for one-on-one work.',
+  },
+  {
+    q: 'Do I need to be close to retirement to attend a FERS workshop?',
+    a: 'No. Federal employees five or ten years out often get more value than those a year away, because there is more time to adjust TSP contributions, service buyback decisions, and survivor insurance coverage. The workshop curriculum assumes no prior knowledge and covers the full FERS system end to end.',
+  },
+  {
+    q: 'Is the FERS workshop recorded?',
+    a: 'No. The live format is intentional because the value is the real-time Q and A where specific federal retirement questions get answered. If you miss a session, a new one runs every three weeks and you can register for the next one.',
+  },
+  {
+    q: 'What should I bring to a FERS retirement workshop?',
+    a: 'Your most recent SF-50 (for service computation date and tenure information), your most recent TSP statement, your FEHB plan enrollment summary, your Social Security earnings statement if available, and a notepad for questions. You do not need any of this to attend, but having it nearby makes the live Q and A more productive.',
+  },
+];
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://planwellfp.com/' },
+    { '@type': 'ListItem', position: 2, name: 'FERS Retirement Workshop', item: 'https://planwellfp.com/fers-retirement-workshop' },
+  ],
+};
+
+const eventSeriesSchema = nextWebinar ? {
+  '@context': 'https://schema.org',
+  '@type': 'EventSeries',
+  name: 'PlanWell FERS Retirement Workshop',
+  description: 'Free three-hour live workshop for federal employees covering FERS pension, TSP, FEHB, Medicare, and survivor benefits. Runs every three weeks.',
+  url: 'https://planwellfp.com/fers-retirement-workshop',
+  organizer: {
+    '@type': 'Organization',
+    name: 'PlanWell Financial Planning',
+    url: 'https://planwellfp.com',
+  },
+  subEvent: upcoming.map((w) => ({
+    '@type': 'Event',
+    name: `Free FERS Retirement Workshop, ${formatWebinarDate(w)}`,
+    startDate: w.date.toISOString(),
+    endDate: new Date(w.date.getTime() + 3 * 60 * 60 * 1000).toISOString(),
+    eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
+    eventStatus: 'https://schema.org/EventScheduled',
+    location: { '@type': 'VirtualLocation', url: `https://planwellfp.com/webinar/${w.id}` },
+    isAccessibleForFree: true,
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
+      availability: 'https://schema.org/InStock',
+      url: `https://planwellfp.com/webinar/${w.id}`,
+    },
+  })),
+} : null;
+---
+
+<BaseLayout
+  title="Free FERS Retirement Workshop for Federal Employees | 3-Hour CFP-Led"
+  description="The free FERS retirement workshop for federal employees. Three hours live on Zoom, led by a CFP who specializes in federal retirement. Complete FERS pension, TSP, FEHB, Medicare, and survivor benefits education. Next session every three weeks."
+  canonical="https://planwellfp.com/fers-retirement-workshop"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  {eventSeriesSchema && (
+    <script type="application/ld+json" set:html={JSON.stringify(eventSeriesSchema)} />
+  )}
+
+  <!-- Hero -->
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">Free Federal Retirement Education</span>
+      <h1 class="heading-xl">The FERS Retirement Workshop for Federal Employees</h1>
+      <p class="lead max-w-3xl">
+        Three hours. Live on Zoom. Led by a Certified Financial Planner who focuses exclusively on federal
+        retirement. Next session: <strong>{nextDate}</strong>. Completely free.
+      </p>
+      <div class="flex gap-4" style="flex-wrap: wrap; margin-top: var(--space-6);">
+        <a href={nextWebinar ? `/webinar/${nextWebinar.id}` : '/webinar'} class="btn btn--primary btn--lg">
+          Reserve my seat
+        </a>
+        <a href="/book-call" class="btn btn--secondary btn--lg">
+          Book a 1:1 consultation
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Answer box for AI Overview / snippet capture -->
+  <section class="section">
+    <div class="container" style="max-width: 900px;">
+      <div class="answer-callout">
+        <h2>What is the FERS retirement workshop?</h2>
+        <p>
+          The FERS Retirement Workshop is a free three-hour live Zoom session for federal employees under
+          the Federal Employees Retirement System. It covers how to calculate your FERS pension, optimize
+          your High-3 salary, build a TSP withdrawal strategy, coordinate FEHB with Medicare at age 65,
+          make survivor benefit elections, and handle the FERS supplement earnings test. The session is
+          led by David Fei, a Certified Financial Planner and Chartered Federal Employee Benefits Consultant,
+          with live Q and A handled by Brennan Rhule, also a CFP and ChFEBC.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Curriculum -->
+  <section class="section section--gray">
+    <div class="container" style="max-width: 900px;">
+      <h2 class="heading-lg text-center mb-8">What you will learn</h2>
+
+      <div class="curriculum-grid">
+        <div class="curriculum-card">
+          <span class="curriculum-num">01</span>
+          <h3>FERS Pension</h3>
+          <ul>
+            <li>The High-3 x Years x Multiplier formula, explained with real examples</li>
+            <li>When the 1.1 percent multiplier kicks in and why age 62 matters</li>
+            <li>How unused sick leave converts into service credit</li>
+            <li>Military service buyback: is it worth it for your situation</li>
+          </ul>
+        </div>
+
+        <div class="curriculum-card">
+          <span class="curriculum-num">02</span>
+          <h3>TSP Strategy</h3>
+          <ul>
+            <li>Traditional versus Roth TSP decision tree</li>
+            <li>Agency match mechanics and the 5 percent rule</li>
+            <li>Withdrawal options in retirement: installments, partial, annuity</li>
+            <li>When a partial rollover to an IRA makes sense</li>
+          </ul>
+        </div>
+
+        <div class="curriculum-card">
+          <span class="curriculum-num">03</span>
+          <h3>FEHB and Medicare</h3>
+          <ul>
+            <li>The five-year FEHB rule and how to qualify</li>
+            <li>Medicare Part B enrollment timing and IRMAA brackets</li>
+            <li>Suspending FEHB for TRICARE as a military retiree</li>
+            <li>FEHB in retirement for survivor annuitants</li>
+          </ul>
+        </div>
+
+        <div class="curriculum-card">
+          <span class="curriculum-num">04</span>
+          <h3>Survivor Benefits</h3>
+          <ul>
+            <li>Full, partial, and zero survivor election tradeoffs</li>
+            <li>Survivor FEHB continuation requirements</li>
+            <li>FEGLI options in retirement</li>
+            <li>Coordinating with life insurance you own outside federal benefits</li>
+          </ul>
+        </div>
+
+        <div class="curriculum-card">
+          <span class="curriculum-num">05</span>
+          <h3>FERS Supplement</h3>
+          <ul>
+            <li>Eligibility rules and the MRA plus 30 path</li>
+            <li>Earnings test mechanics and how to avoid clawback</li>
+            <li>Special provision rules for LEO, ATC, and firefighters</li>
+            <li>When the supplement ends at age 62</li>
+          </ul>
+        </div>
+
+        <div class="curriculum-card curriculum-card--qa">
+          <span class="curriculum-num">06</span>
+          <h3>Live Q and A</h3>
+          <ul>
+            <li>Bring your own scenario and get it addressed on air</li>
+            <li>Brennan monitors chat throughout the session</li>
+            <li>No question is too specific or too basic</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Upcoming sessions -->
+  {upcoming.length > 0 && (
+    <section class="section">
+      <div class="container" style="max-width: 800px;">
+        <h2 class="heading-lg text-center mb-6">Upcoming workshop sessions</h2>
+        <p class="text-center mb-8" style="color: var(--color-gray-600);">
+          A new session runs every three weeks. Each link reserves your seat for that specific session.
+        </p>
+        <div class="upcoming-list">
+          {upcoming.map((w) => (
+            <a href={`/webinar/${w.id}`} class="upcoming-row">
+              <span class="upcoming-date">{formatWebinarDate(w)}</span>
+              <span class="upcoming-time">{w.startTime} to {w.endTime} {w.timezone}</span>
+              <span class="btn btn--primary btn--sm">Reserve seat</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Who is this for -->
+  <section class="section section--gray">
+    <div class="container" style="max-width: 900px;">
+      <h2 class="heading-lg text-center mb-8">Who should attend</h2>
+      <div class="who-grid">
+        <div class="who-card">
+          <h3>Five to ten years from retirement</h3>
+          <p>
+            This is the highest-leverage window. Contribution changes compound, High-3 can still be shaped
+            by pay actions, and survivor insurance decisions are reversible. Attending now protects
+            decisions you will be locked into later.
+          </p>
+        </div>
+        <div class="who-card">
+          <h3>One to three years out</h3>
+          <p>
+            You are past the TSP accumulation phase and into decisions about retirement date, survivor
+            election, FEHB plan selection, and Medicare timing. The workshop covers these as a coordinated
+            package, not as isolated choices.
+          </p>
+        </div>
+        <div class="who-card">
+          <h3>Retiring this year</h3>
+          <p>
+            If your retirement date is within 12 months, attending gives you a final checklist: SF-52
+            paperwork, survivor election, TSP withdrawal election, FEHB enrollment code, and Medicare Part
+            B enrollment window.
+          </p>
+        </div>
+        <div class="who-card">
+          <h3>Early or mid career (CSRS Offset, FERS, deferred)</h3>
+          <p>
+            Even if retirement is 20 years away, the TSP choices you make in your 30s and 40s carry more
+            weight than any optimization you can do at 60. The curriculum is built from the ground up and
+            assumes no prior knowledge of federal benefits.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What it is NOT -->
+  <section class="section">
+    <div class="container" style="max-width: 900px;">
+      <h2 class="heading-lg text-center mb-6">What this workshop is not</h2>
+      <ul class="not-list">
+        <li>Not a sales pitch. No products are offered during the session.</li>
+        <li>Not a recording. The value is live Q and A, so sessions run live every three weeks.</li>
+        <li>Not an annuity seminar. We are fee-based planners, not insurance salespeople.</li>
+        <li>Not government-affiliated. PlanWell is a private financial planning firm.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- FAQs -->
+  <FAQSchema questions={faqs} heading="Frequently asked questions about the FERS workshop" />
+
+  <!-- CTA -->
+  <section class="section section--navy">
+    <div class="container text-center">
+      <h2 class="heading-lg mb-4" style="color: var(--color-white);">Reserve your seat</h2>
+      <p class="lead mb-8" style="color: var(--color-gray-300);">
+        Next live session: <strong style="color: var(--color-gold);">{nextDate}</strong>. Three hours.
+        Completely free.
+      </p>
+      <a href={nextWebinar ? `/webinar/${nextWebinar.id}` : '/webinar'} class="btn btn--primary btn--lg">
+        Reserve my seat
+      </a>
+    </div>
+  </section>
+
+  <SmartPopup variant="webinar" />
+</BaseLayout>
+
+<style>
+  .answer-callout {
+    background: var(--color-gray-50);
+    border-left: 4px solid var(--color-gold);
+    padding: var(--space-6) var(--space-8);
+    border-radius: var(--radius-md);
+  }
+  .answer-callout h2 {
+    margin-bottom: var(--space-3);
+    font-family: 'Outfit', sans-serif;
+    color: var(--color-navy);
+    font-size: var(--text-2xl);
+  }
+  .answer-callout p {
+    font-size: var(--text-base);
+    line-height: 1.7;
+    color: var(--color-gray-800);
+    margin: 0;
+  }
+
+  .curriculum-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-6);
+  }
+  .curriculum-card {
+    background: var(--color-white);
+    padding: var(--space-6);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    border-top: 3px solid var(--color-gold);
+  }
+  .curriculum-card--qa {
+    background: var(--color-navy);
+    color: var(--color-white);
+  }
+  .curriculum-card--qa h3,
+  .curriculum-card--qa .curriculum-num { color: var(--color-white); }
+  .curriculum-card--qa ul li { color: rgba(255,255,255,0.85); }
+  .curriculum-num {
+    display: inline-block;
+    font-family: 'Outfit', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-gold);
+    line-height: 1;
+  }
+  .curriculum-card h3 {
+    margin: var(--space-2) 0 var(--space-3) 0;
+    font-family: 'Outfit', sans-serif;
+    color: var(--color-navy);
+    font-size: 1.25rem;
+  }
+  .curriculum-card ul {
+    padding-left: 1.1rem;
+    margin: 0;
+  }
+  .curriculum-card li {
+    margin-bottom: var(--space-2);
+    color: var(--color-gray-700);
+    line-height: 1.55;
+    font-size: 0.95rem;
+  }
+
+  .upcoming-list {
+    display: grid;
+    gap: var(--space-3);
+  }
+  .upcoming-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: var(--space-5) var(--space-6);
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-gray-200);
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  .upcoming-row:hover {
+    border-color: var(--color-gold);
+    box-shadow: var(--shadow-md);
+  }
+  .upcoming-date {
+    font-weight: 600;
+    color: var(--color-navy);
+    min-width: 180px;
+  }
+  .upcoming-time {
+    color: var(--color-gray-600);
+    font-size: 0.9rem;
+    flex: 1;
+  }
+  @media (max-width: 640px) {
+    .upcoming-row { flex-direction: column; align-items: flex-start; }
+    .upcoming-date { min-width: auto; }
+  }
+
+  .who-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-6);
+  }
+  .who-card {
+    background: var(--color-white);
+    padding: var(--space-6);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+  }
+  .who-card h3 {
+    color: var(--color-navy);
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.15rem;
+    margin-bottom: var(--space-3);
+  }
+  .who-card p {
+    color: var(--color-gray-700);
+    line-height: 1.6;
+    font-size: 0.95rem;
+    margin: 0;
+  }
+
+  .not-list {
+    list-style: none;
+    padding: 0;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .not-list li {
+    padding: var(--space-4) 0;
+    border-bottom: 1px solid var(--color-gray-200);
+    color: var(--color-gray-700);
+    position: relative;
+    padding-left: 2rem;
+  }
+  .not-list li::before {
+    content: "x";
+    position: absolute;
+    left: 0;
+    top: var(--space-4);
+    color: #c13b3b;
+    font-weight: 700;
+    font-family: 'Outfit', sans-serif;
+  }
+</style>

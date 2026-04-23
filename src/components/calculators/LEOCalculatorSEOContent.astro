@@ -1,6 +1,46 @@
 ---
 // SEO-optimized content component for Law Enforcement / Special Provision Calculator
+// Emits FAQPage schema for AI Overview and Featured Snippet capture.
+
+const faqs = [
+  {
+    q: 'What is FERS Special Provision retirement?',
+    a: 'FERS Special Provision retirement applies to Federal Law Enforcement Officers, Air Traffic Controllers, Firefighters, U.S. Capitol Police, Supreme Court Police, Nuclear Materials Couriers, and Members of Congress. Covered employees can retire earlier than standard FERS (age 50 with 20 years of covered service, or any age with 25 years) and earn an enhanced pension multiplier of 1.7 percent for the first 20 years of covered service, plus 1.0 percent for each year beyond 20.',
+  },
+  {
+    q: 'At what age do LEO, ATC, and firefighters have to retire?',
+    a: 'Mandatory separation age is 57 for Federal Law Enforcement Officers and Firefighters, and 56 for Air Traffic Controllers. An agency may request an exception up to age 60 in limited circumstances. Most employees in covered positions plan retirement around this ceiling.',
+  },
+  {
+    q: 'Can I buy back military time for Special Provision retirement?',
+    a: 'Yes. Paying a military deposit of roughly 3 percent of your military basic pay plus interest lets your military service count toward total years of service and retirement eligibility. The bought-back service typically counts at the standard 1.0 percent multiplier unless you were in a covered military LEO, firefighter, or ATC position.',
+  },
+  {
+    q: 'What happens if I do not have 20 years of covered service by mandatory retirement age?',
+    a: 'If you reach mandatory retirement age without 20 years of covered service, you are involuntarily separated. You can either take a deferred retirement, with your pension starting at age 60 to 62, or a reduced immediate annuity if you meet minimum eligibility rules.',
+  },
+  {
+    q: 'Does unused sick leave count toward Special Provision retirement?',
+    a: 'Yes. Unused sick leave converts to additional creditable service at retirement using the 2087 hours per year rule. Sick leave credit applies at the 1.0 percent multiplier rather than the 1.7 percent enhanced rate, so it adds service but not enhanced calculation time.',
+  },
+  {
+    q: 'How does the FERS supplement work for Special Provision retirees?',
+    a: 'Special Provision retirees receive the FERS Annuity Supplement immediately upon retirement, regardless of age, to bridge the gap until age 62 when Social Security becomes available. The supplement is an estimate of the Social Security benefit earned during federal service, and it becomes subject to the Social Security earnings test once you reach your MRA.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
 ---
+
+<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
 
 <section class="seo-content-section">
   <div class="container-narrow">

@@ -1,11 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CalculatorDisclosure from '../components/calculators/CalculatorDisclosure.astro';
+import CalculatorWebinarCTA from '../components/calculators/CalculatorWebinarCTA.astro';
+import SmartPopup from '../components/SmartPopup.astro';
 ---
 
 <BaseLayout
-  title="Sick Leave Conversion Calculator | Convert Unused Sick Leave to Service Credit"
-  description="Convert your unused sick leave hours to service credit for your FERS pension. Official USGS conversion chart with automatic rounding per OPM guidelines."
+  title="FERS Sick Leave Conversion Chart | Convert Unused Sick Leave to Service Credit"
+  description="Free OPM sick leave conversion chart for FERS retirement. Convert unused sick leave hours into pension service credit using the official 2087 hours per year rule. Built by CFPs focused on federal retirement."
 >
   <!-- Hero -->
   <section class="page-hero">
@@ -166,7 +168,14 @@ import CalculatorDisclosure from '../components/calculators/CalculatorDisclosure
       </div>
     </div>
   </section>
+  <section class="section">
+    <div class="container" style="max-width: 900px;">
+      <CalculatorWebinarCTA calculatorName="sickleave" source="calc_sick_leave" />
+    </div>
+  </section>
+
   <CalculatorDisclosure />
+  <SmartPopup variant="calculator" />
 </BaseLayout>
 
 <style>
