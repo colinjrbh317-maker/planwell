@@ -1,7 +1,5 @@
 {
   "redirects": [
-    { "source": "/:path*", "has": [{ "type": "host", "value": "www.planwellfp.com" }], "destination": "https://planwellfp.com/:path*", "permanent": true },
-
     { "source": "/:path*/", "missing": [{ "type": "query", "key": "preview" }], "destination": "/:path*", "permanent": true },
 
     { "source": "/category/:slug", "destination": "/blog/topic/:slug", "permanent": true },
