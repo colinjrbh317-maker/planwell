@@ -28,7 +28,6 @@ const navLinks: NavLink[] = [
       { label: 'Blog', href: '/blog' },
       { label: 'Decision Guides', href: '/guides' },
       { label: 'Calculators', href: '/calculators' },
-      { label: 'Case Studies', href: '/case-studies' },
     ]
   },
 ];
@@ -58,7 +57,7 @@ const currentPath = Astro.url.pathname;
                   <button
                     class={`nav__link nav__link--dropdown ${
                       (link.label === 'About' && currentPath.startsWith('/about')) ||
-                      (link.label === 'Learning Center' && (currentPath.startsWith('/blog') || currentPath.startsWith('/guides') || currentPath.startsWith('/calculators') || currentPath.startsWith('/case-studies')))
+                      (link.label === 'Learning Center' && (currentPath.startsWith('/blog') || currentPath.startsWith('/guides') || currentPath.startsWith('/calculators')))
                         ? 'nav__link--active' : ''
                     }`}
                     aria-expanded="false"
