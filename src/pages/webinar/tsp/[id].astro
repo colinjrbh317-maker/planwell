@@ -131,7 +131,7 @@ const faqSchema = {
           <p class="past-notice__text">This workshop has passed.</p>
           {nextWebinar && (
             <p class="past-notice__next">
-              Our next TSP workshop is on <a href={`/webinar/tsp/${nextWebinar.id}`}>{formatTSPWebinarDate(nextWebinar)}</a>.
+              Our next TSP workshop is on <a href="/webinar/tsp">{formatTSPWebinarDate(nextWebinar)}</a>.
             </p>
           )}
           <a href="/webinar/tsp" class="btn btn--primary btn--lg">View Upcoming TSP Workshops</a>
@@ -229,7 +229,7 @@ const faqSchema = {
             <ul class="workshops-dates">
               {otherTSPWebinars.filter(w => !isPastTSPWebinar(w)).map(w => (
                 <li>
-                  <a href={`/webinar/tsp/${w.id}`} class="workshop-link">
+                  <a href="/webinar/tsp" class="workshop-link">
                     <span class="workshop-link__date">{formatTSPWebinarDate(w)}</span>
                     <span class="workshop-link__time">{w.startTime} &ndash; {w.endTime} {w.timezone}</span>
                     <span class="workshop-link__arrow">&rarr;</span>
@@ -246,7 +246,7 @@ const faqSchema = {
             <ul class="workshops-dates">
               {fersWebinars.map(w => (
                 <li>
-                  <a href={`/webinar/${w.id}`} class="workshop-link">
+                  <a href="/webinar" class="workshop-link">
                     <span class="workshop-link__date">{formatWebinarDate(w)}</span>
                     <span class="workshop-link__time">{w.startTime} &ndash; {w.endTime} {w.timezone}</span>
                     <span class="workshop-link__arrow">&rarr;</span>

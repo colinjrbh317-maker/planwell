@@ -105,8 +105,8 @@ const allEventsSchema = {
         and survivor benefits — from advisors who work exclusively with feds.
       </p>
       <div class="hero-ctas">
-        <a href="/webinar" class="btn btn--primary btn--lg">Register for Next Webinar</a>
-        <a href="/webinars" class="btn btn--ghost btn--lg">View Webinar Options</a>
+        <a href="/webinar" class="btn btn--primary btn--lg">Register for FERS Workshop</a>
+        <a href="/webinar/tsp" class="btn btn--ghost btn--lg">Register for TSP Workshop</a>
       </div>
     </div>
   </section>
@@ -121,7 +121,7 @@ const allEventsSchema = {
 
       <div class="events-list">
         {upcomingFERS.map(w => (
-          <a href={`/webinar/${w.id}`} class="event-row">
+          <a href="/webinar" class="event-row">
             <div class="event-row__date">
               <span class="event-row__day">{formatWebinarDate(w)}</span>
               <span class="event-row__time">{w.startTime} - {w.endTime} {w.timezone}</span>
@@ -148,7 +148,7 @@ const allEventsSchema = {
 
       <div class="events-list">
         {upcomingTSP.map(w => (
-          <a href={`/webinar/tsp/${w.id}`} class="event-row event-row--tsp">
+          <a href="/webinar/tsp" class="event-row event-row--tsp">
             <div class="event-row__date">
               <span class="event-row__day">{formatTSPWebinarDate(w)}</span>
               <span class="event-row__time">{w.startTime} - {w.endTime} {w.timezone}</span>

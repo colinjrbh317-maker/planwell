@@ -6,7 +6,7 @@ const upcomingEvents = getUpcomingWebinars(2);
 
 const eventLinks = upcomingEvents.map(w => ({
   label: `Workshop: ${formatWebinarDate(w)}`,
-  href: `/webinar/${w.id}`,
+  href: '/webinar',
 }));
 
 const footerLinks = {
@@ -32,7 +32,8 @@ const footerLinks = {
   ],
   connect: [
     { label: 'Book a Call', href: '/book-call' },
-    { label: 'All Workshops', href: '/federal-retirement-webinars' },
+    { label: 'Free FERS Workshop', href: '/webinar' },
+    { label: 'Free TSP Workshop', href: '/webinar/tsp' },
     ...eventLinks,
   ]
 };
