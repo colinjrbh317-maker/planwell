@@ -6,8 +6,6 @@ Allow: /
 
 # Sitemaps
 Sitemap: https://planwellfp.com/sitemap-index.xml
-Sitemap: https://planwellfp.com/sitemap-posts.xml
-Sitemap: https://planwellfp.com/sitemap-events.xml
 
 # AI Search
 Allow: /llms.txt
