@@ -270,7 +270,7 @@ def get_member_tags(email):
     url = f'{BASE_URL}/lists/{MAILCHIMP_LIST_ID}/members/{email_hash}/tags'
 
     try:
-        resp = requests.get(url, headers=_headers(), timeout=10)
+        resp = requests.get(url, headers=_headers(), params={'count': 100}, timeout=10)
 
         if resp.status_code == 200:
             return [t['name'] for t in resp.json().get('tags', [])]

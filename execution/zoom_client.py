@@ -154,6 +154,55 @@ def add_registrant(webinar_id, first_name, last_name, email, phone=''):
         return {'success': False, 'error': str(e)}
 
 
+def list_webinar_registrants(webinar_id, status='approved'):
+    """
+    List all registrants for a Zoom webinar. Paginates until exhausted.
+
+    Args:
+        webinar_id: Zoom webinar ID (numeric, spaces stripped)
+        status: 'approved', 'pending', or 'denied' (default 'approved')
+
+    Returns:
+        list of dicts: [{first_name, last_name, email, join_url, registrant_id, status}, ...]
+    """
+    clean_id = str(webinar_id).replace(' ', '')
+    base = f'https://api.zoom.us/v2/webinars/{clean_id}/registrants'
+
+    registrants = []
+    next_token = None
+    page = 0
+
+    while True:
+        page += 1
+        params = {'page_size': 300, 'status': status}
+        if next_token:
+            params['next_page_token'] = next_token
+
+        resp = requests.get(base, headers=_headers(), params=params, timeout=15)
+
+        if resp.status_code != 200:
+            print(f'Zoom list registrants error: {resp.status_code} - {resp.text}')
+            return registrants
+
+        data = resp.json()
+        for r in data.get('registrants', []):
+            registrants.append({
+                'first_name': r.get('first_name', '').strip(),
+                'last_name': r.get('last_name', '').strip(),
+                'email': r.get('email', '').strip().lower(),
+                'join_url': r.get('join_url', ''),
+                'registrant_id': r.get('id', ''),
+                'status': r.get('status', status),
+                'create_time': r.get('create_time', ''),
+            })
+
+        next_token = data.get('next_page_token', '')
+        if not next_token:
+            break
+
+    return registrants
+
+
 if __name__ == '__main__':
     """Test: list upcoming webinars to verify credentials."""
     print('Testing Zoom API connection...\n')
