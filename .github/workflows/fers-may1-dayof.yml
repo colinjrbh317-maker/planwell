@@ -1,0 +1,57 @@
+name: FERS May 1 — day-of email
+
+# Sends the day-of pre-webinar email (final urgency push) to all registered attendees.
+# Schedule:  May 1, 2026 at 9:03 AM ET (13:03 UTC).
+
+on:
+  schedule:
+    - cron: '3 13 1 5 *'
+  workflow_dispatch:
+    inputs:
+      test_email:
+        description: 'Optional: send only to this email (test mode). Leave blank for real broadcast.'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Send day-of email
+        env:
+          MAILCHIMP_API_KEY: ${{ secrets.MAILCHIMP_API_KEY }}
+          MAILCHIMP_LIST_ID: ${{ secrets.MAILCHIMP_LIST_ID }}
+          ZOOM_ACCOUNT_ID:   ${{ secrets.ZOOM_ACCOUNT_ID }}
+          ZOOM_CLIENT_ID:    ${{ secrets.ZOOM_CLIENT_ID }}
+          ZOOM_CLIENT_SECRET: ${{ secrets.ZOOM_CLIENT_SECRET }}
+        working-directory: execution
+        run: |
+          if [ -n "${{ github.event.inputs.test_email }}" ]; then
+            echo "TEST MODE: sending only to ${{ github.event.inputs.test_email }}"
+            python3 send_webinar_email.py --webinar-date 2026-05-01 --stage dayof --test "${{ github.event.inputs.test_email }}"
+          else
+            echo "PRODUCTION: sending to all Zoom-registered attendees"
+            python3 send_webinar_email.py --webinar-date 2026-05-01 --stage dayof
+          fi
+
+      - name: Upload send log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sends-dayof-${{ github.run_id }}
+          path: .tmp/sends_*.json
+          if-no-files-found: warn
+          retention-days: 90

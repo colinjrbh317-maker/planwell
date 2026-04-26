@@ -1,0 +1,60 @@
+name: FERS May 1 — 5-day email
+
+# Sends the 5-day pre-webinar email to all Zoom-registered attendees for the
+# May 1, 2026 FERS Workshop. Idempotent via Mailchimp sent-tag check.
+#
+# Schedule:  Apr 27, 2026 at 10:03 AM ET (14:03 UTC).
+# Manual:    Use "Run workflow" with optional test_email to send only to one inbox.
+
+on:
+  schedule:
+    - cron: '3 14 27 4 *'
+  workflow_dispatch:
+    inputs:
+      test_email:
+        description: 'Optional: send only to this email (test mode). Leave blank for real broadcast.'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Send 5-day email
+        env:
+          MAILCHIMP_API_KEY: ${{ secrets.MAILCHIMP_API_KEY }}
+          MAILCHIMP_LIST_ID: ${{ secrets.MAILCHIMP_LIST_ID }}
+          ZOOM_ACCOUNT_ID:   ${{ secrets.ZOOM_ACCOUNT_ID }}
+          ZOOM_CLIENT_ID:    ${{ secrets.ZOOM_CLIENT_ID }}
+          ZOOM_CLIENT_SECRET: ${{ secrets.ZOOM_CLIENT_SECRET }}
+        working-directory: execution
+        run: |
+          if [ -n "${{ github.event.inputs.test_email }}" ]; then
+            echo "TEST MODE: sending only to ${{ github.event.inputs.test_email }}"
+            python3 send_webinar_email.py --webinar-date 2026-05-01 --stage 5day --test "${{ github.event.inputs.test_email }}"
+          else
+            echo "PRODUCTION: sending to all Zoom-registered attendees"
+            python3 send_webinar_email.py --webinar-date 2026-05-01 --stage 5day
+          fi
+
+      - name: Upload send log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sends-5day-${{ github.run_id }}
+          path: .tmp/sends_*.json
+          if-no-files-found: warn
+          retention-days: 90
