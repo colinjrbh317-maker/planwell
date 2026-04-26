@@ -1,0 +1,24 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//PlanWell Financial Planning//FERS Workshop//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:fers-workshop-2026-05-01@planwellfp.com
+DTSTAMP:20260426T000000Z
+DTSTART:20260501T150000Z
+DTEND:20260501T180000Z
+SUMMARY:FERS Retirement Workshop
+DESCRIPTION:Free 3-hour FERS Retirement Workshop with David Fei\, CFP and Brennan Rhule\, CFP. Online via Zoom. Your join link will arrive the day before. Questions? info@planwellfp.com
+LOCATION:Online via Zoom
+URL:https://planwellfp.com/webinar
+ORGANIZER;CN=PlanWell Financial Planning:mailto:info@planwellfp.com
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:FERS Retirement Workshop starts in 1 hour
+TRIGGER:-PT1H
+END:VALARM
+END:VEVENT
+END:VCALENDAR
