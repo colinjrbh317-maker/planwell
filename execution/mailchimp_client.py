@@ -17,8 +17,8 @@ from pathlib import Path
 
 load_dotenv(Path(__file__).parent.parent / '.env')
 
-MAILCHIMP_API_KEY = os.environ.get('MAILCHIMP_API_KEY', '')
-MAILCHIMP_LIST_ID = os.environ.get('MAILCHIMP_LIST_ID', '')
+MAILCHIMP_API_KEY = os.environ.get('MAILCHIMP_API_KEY', '').strip()
+MAILCHIMP_LIST_ID = os.environ.get('MAILCHIMP_LIST_ID', '').strip()
 
 # Extract data center from API key (e.g., "xxx-us21" → "us21")
 MAILCHIMP_DC = MAILCHIMP_API_KEY.split('-')[-1] if '-' in MAILCHIMP_API_KEY else 'us21'

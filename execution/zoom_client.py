@@ -18,9 +18,9 @@ from pathlib import Path
 
 load_dotenv(Path(__file__).parent.parent / '.env')
 
-ZOOM_ACCOUNT_ID = os.environ.get('ZOOM_ACCOUNT_ID', '')
-ZOOM_CLIENT_ID = os.environ.get('ZOOM_CLIENT_ID', '')
-ZOOM_CLIENT_SECRET = os.environ.get('ZOOM_CLIENT_SECRET', '')
+ZOOM_ACCOUNT_ID = os.environ.get('ZOOM_ACCOUNT_ID', '').strip()
+ZOOM_CLIENT_ID = os.environ.get('ZOOM_CLIENT_ID', '').strip()
+ZOOM_CLIENT_SECRET = os.environ.get('ZOOM_CLIENT_SECRET', '').strip()
 
 # Token cache
 _token_cache = {'token': None, 'expires_at': 0}
