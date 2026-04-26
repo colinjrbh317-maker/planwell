@@ -323,14 +323,21 @@ def send_webinar_5day(to_email, first_name, webinar_date,
     plain_body = (
         "Hi " + safe_first + ",\n\n"
         "The FERS Retirement Workshop is five days away. " + webinar_date + ".\n\n"
-        "A few people have asked what we'll actually cover, so here's the full agenda.\n\n"
+        "First things first, lock it into your calendar so you do not miss it:\n"
+        "  Google:  " + google_cal_url + "\n"
+        "  Outlook: " + outlook_cal_url + "\n"
+        "  Apple:   " + apple_cal_url + "\n\n"
+        "Your Zoom join link will be in your inbox Thursday morning, then again a few minutes "
+        "before we start. You do not need to hunt for anything today.\n\n"
+        "A few people have asked what we will actually cover, so here is the full agenda.\n\n"
         "Friday's agenda:\n"
         "  - The FERS pension formula: 1% or 1.1% x high-3 x years of service. "
         "Why your retirement date can swing the number by thousands.\n"
         "  - TSP withdrawal strategy: which account to draw from first, how RMDs work, "
         "and why the textbook \"safe withdrawal rate\" doesn't fit a federal retirement.\n"
-        "  - The FERS Supplement: who gets it, how it's calculated, and the earnings "
-        "test that catches people off guard.\n"
+        "  - The FERS Supplement gap before 62. The single most common mistake we see at "
+        "your grade level. David walks through the exact dollar impact for different "
+        "retirement dates.\n"
         "  - Survivor benefit election: the one-time decision most people get wrong, "
         "and what it actually costs.\n"
         "  - FEHB vs. Medicare Part B: should you keep both, drop one, or coordinate "
@@ -340,13 +347,13 @@ def send_webinar_5day(to_email, first_name, webinar_date,
         "David Fei, CFP(r) will lead the session. Brennan Rhule, CFP(r) will be answering "
         "your questions in the chat throughout. Both work exclusively with federal employees. "
         "No insurance products. No annuity sales.\n\n"
-        "Add the workshop to your calendar so you don't miss it:\n"
-        "  Google:  " + google_cal_url + "\n"
-        "  Outlook: " + outlook_cal_url + "\n"
-        "  Apple:   " + apple_cal_url + "\n\n"
         "If you can, take five minutes this week to pull up your most recent LES and note "
         "your current base pay and total years of creditable service. It will make the pension "
         "section much more concrete for your situation.\n\n"
+        "One thing to know: we do not record these sessions. David covers things on the live "
+        "call he could not put on camera, and most attendees say it is the most honest 3 hours "
+        "they have spent on their retirement. If Friday genuinely will not work, reply to this "
+        "email and we will get you on the next date.\n\n"
         "See you Friday,\n"
         "David & Brennan\n"
         "PlanWell Financial Planning\n"
@@ -367,8 +374,9 @@ def send_webinar_5day(to_email, first_name, webinar_date,
         'and why the textbook &ldquo;safe withdrawal rate&rdquo; does not fit a federal retirement.</td></tr>\n'
         '  <tr><td style="padding:6px 8px 6px 0;vertical-align:top;font-size:15px;color:#c9a55c;">&#8226;</td>'
         '<td style="padding:6px 0;font-size:15px;color:#333333;">'
-        '<strong>The FERS Supplement.</strong> Who gets it, how it is calculated, and the earnings '
-        'test that catches people off guard.</td></tr>\n'
+        '<strong>The FERS Supplement gap before 62.</strong> The single most common mistake we see '
+        'at your grade level. David walks through the exact dollar impact for different '
+        'retirement dates.</td></tr>\n'
         '  <tr><td style="padding:6px 8px 6px 0;vertical-align:top;font-size:15px;color:#c9a55c;">&#8226;</td>'
         '<td style="padding:6px 0;font-size:15px;color:#333333;">'
         '<strong>Survivor benefit election.</strong> The one-time decision most people get wrong, '
@@ -386,6 +394,15 @@ def send_webinar_5day(to_email, first_name, webinar_date,
         '</table>'
     )
 
+    no_replay_content = (
+        '<p style="margin:0 0 8px 0;font-size:15px;font-weight:bold;color:#1e3a5f;">'
+        'A note on why we do not record:</p>\n'
+        '<p style="margin:0;font-size:15px;color:#333333;line-height:1.7;">David covers things '
+        'on the live call he could not put on camera. Most attendees say it is the most honest '
+        '3 hours they have spent on their retirement. If Friday genuinely will not work, reply '
+        'to this email and we will get you on the next date.</p>'
+    )
+
     body_html = (
         '<p style="margin:0 0 16px 0;">Hi ' + safe_first + ',</p>\n\n'
         '<p style="margin:0 0 16px 0;">The FERS Retirement Workshop is five days away. '
@@ -393,6 +410,9 @@ def send_webinar_5day(to_email, first_name, webinar_date,
         '<p style="margin:0 0 8px 0;">First things first, lock it into your calendar so '
         'you do not miss it:</p>\n\n' +
         _calendar_buttons_row(google_cal_url, outlook_cal_url, apple_cal_url) + '\n\n'
+        '<p style="margin:20px 0 16px 0;font-size:14px;color:#555555;">'
+        'Your Zoom join link will be in your inbox <strong>Thursday morning</strong>, then again '
+        '<strong>a few minutes before we start</strong>. You do not need to hunt for anything today.</p>\n\n'
         '<p style="margin:20px 0 16px 0;">A few people have asked what we will actually cover, '
         'so here is the full agenda for Friday.</p>\n\n' +
         _section_box('#f5f5f5', '#c9a55c', agenda_content) + '\n\n'
@@ -402,7 +422,8 @@ def send_webinar_5day(to_email, first_name, webinar_date,
         'employees. No insurance products. No annuity sales.</p>\n\n'
         '<p style="margin:20px 0 16px 0;">If you can, take five minutes this week to pull up your '
         'most recent LES and note your current base pay and total years of creditable service. '
-        'It will make the pension section much more concrete for your situation.</p>\n\n'
+        'It will make the pension section much more concrete for your situation.</p>\n\n' +
+        _section_box('#fff8ec', '#c9a55c', no_replay_content) + '\n\n'
         '<p style="margin:20px 0 8px 0;">See you Friday,</p>\n'
         '<p style="margin:0;font-weight:bold;color:#1e3a5f;">David &amp; Brennan<br>'
         '<span style="font-weight:normal;color:#555555;">PlanWell Financial Planning</span></p>\n'
@@ -433,17 +454,23 @@ def send_webinar_1day_mc(to_email, first_name, webinar_date, zoom_link,
     from mailchimp_client import send_email as mc_send_email
 
     safe_first = first_name.strip() if first_name else 'there'
-    subject = subject_override or ("Tomorrow at 11 AM, " + safe_first + ": your FERS Workshop link")
+    subject = subject_override or ("Tomorrow at 11 AM, " + safe_first + ": your FERS Workshop link is here")
 
     passcode_line = "  Passcode:  " + zoom_passcode + "\n" if zoom_passcode else ""
     plain_body = (
         "Hi " + safe_first + ",\n\n"
-        "The FERS Retirement Workshop is tomorrow. Here is everything you need to join.\n\n"
-        "  Date:  " + webinar_date + "\n"
-        "  Time:  11:00 AM - 2:00 PM " + timezone + "\n"
-        "  Link:  " + zoom_link + "\n"
+        "The FERS Retirement Workshop is tomorrow. Your Zoom link is right here, in this email. "
+        "You will get one more reminder a few minutes before we start.\n\n"
+        "Join here: " + zoom_link + "\n"
         + passcode_line + "\n"
+        "When and where:\n"
+        "  Date:  " + webinar_date + "\n"
+        "  Time:  11:00 AM " + timezone + " / 10:00 AM CT / 9:00 AM MT / 8:00 AM PT\n"
+        "  Where: Zoom (link above). Works on any device, including your phone.\n\n"
+        "One reminder: there is no recording. Tomorrow is the only way to see this material live.\n\n"
         "A few practical notes:\n\n"
+        "Join from any device. The Zoom link works on your phone, tablet, or computer. "
+        "If your work laptop blocks Zoom, use your personal phone or a tablet.\n\n"
         "Join 5 minutes early if you can. David starts right at 11, "
         "and the opening context is worth catching.\n\n"
         "You do not need your camera on. Most attendees do not use it.\n\n"
@@ -451,17 +478,17 @@ def send_webinar_1day_mc(to_email, first_name, webinar_date, zoom_link,
         "questions throughout the session.\n\n"
         "Block the full 3 hours. The workshop runs to 2 PM and Q&A is built into "
         "the end, not cut short.\n\n"
+        "Cannot make it tomorrow? Reply to this email and we will get you on the next date.\n\n"
         "See you tomorrow,\n"
         "David & Brennan\n"
         "PlanWell Financial Planning\n"
-        "planwellfp.com\n\n"
-        "---\n"
-        "Cannot make it? Reply to this email and we will get you on a future date.\n"
+        "planwellfp.com\n"
     )
 
     details_rows = (
         _detail_row("Date:", webinar_date) +
-        _detail_row("Time:", "11:00 AM &ndash; 2:00 PM " + timezone)
+        _detail_row("Time:", "11:00 AM " + timezone + " / 10 AM CT / 9 AM MT / 8 AM PT") +
+        _detail_row("Where:", "Zoom. Works on phone, tablet, or computer.")
     )
     if zoom_passcode:
         details_rows += _detail_row("Passcode:", zoom_passcode)
@@ -480,6 +507,9 @@ def send_webinar_1day_mc(to_email, first_name, webinar_date, zoom_link,
     notes_content = (
         '<p style="margin:0 0 10px 0;font-size:15px;font-weight:bold;color:#1e3a5f;">'
         'A few practical notes:</p>\n'
+        '<p style="margin:6px 0;font-size:15px;color:#333333;"><strong>Any device works.</strong> '
+        'The Zoom link opens on your phone, tablet, or computer. If your work laptop blocks Zoom, '
+        'use your personal phone or a tablet.</p>\n'
         '<p style="margin:6px 0;font-size:15px;color:#333333;"><strong>Join 5 minutes early.</strong> '
         'David starts right at 11 and the opening context is worth catching.</p>\n'
         '<p style="margin:6px 0;font-size:15px;color:#333333;"><strong>Camera is optional.</strong> '
@@ -492,23 +522,24 @@ def send_webinar_1day_mc(to_email, first_name, webinar_date, zoom_link,
 
     body_html = (
         '<p style="margin:0 0 16px 0;">Hi ' + safe_first + ',</p>\n\n'
-        '<p style="margin:0 0 16px 0;">The FERS Retirement Workshop is tomorrow. '
-        'Here is your join link, plus the practical details.</p>\n\n' +
+        '<p style="margin:0 0 8px 0;">The FERS Retirement Workshop is tomorrow. '
+        'Your Zoom link is right here. One more reminder will land a few minutes before we start.</p>\n\n' +
         _gold_button(zoom_link, "Join the Workshop") + '\n\n'
-        '<p style="text-align:center;margin:-16px 0 24px 0;font-size:13px;color:#888888;">'
+        '<p style="text-align:center;margin:-16px 0 12px 0;font-size:13px;color:#888888;">'
         'Or copy this link: <a href="' + zoom_link + '" style="color:#1e3a5f;word-break:break-all;">'
         + zoom_link + '</a></p>\n\n' +
         details_box + '\n\n' +
+        _navy_note('No recording. Tomorrow is the only way to see this material live.') + '\n\n' +
         _section_box('#f5f5f5', '#1e3a5f', notes_content) + '\n\n'
-        '<p style="margin:20px 0 8px 0;">See you tomorrow,</p>\n'
+        '<p style="margin:20px 0 16px 0;font-size:14px;color:#666666;">Cannot make it tomorrow? '
+        'Reply to this email and we will get you on the next date.</p>\n\n'
+        '<p style="margin:24px 0 8px 0;">See you tomorrow,</p>\n'
         '<p style="margin:0;font-weight:bold;color:#1e3a5f;">David &amp; Brennan<br>'
-        '<span style="font-weight:normal;color:#555555;">PlanWell Financial Planning</span></p>\n\n'
-        '<p style="margin:24px 0 0 0;font-size:13px;color:#888888;">Cannot make it? Reply to '
-        'this email and we will get you on a future date.</p>\n'
+        '<span style="font-weight:normal;color:#555555;">PlanWell Financial Planning</span></p>\n'
     )
 
     html_body = _base_html(
-        preheader="Your Zoom link for tomorrow's FERS Workshop is inside. Starts 11 AM " + timezone + ".",
+        preheader="Your Zoom link is in this email. 11 AM " + timezone + " tomorrow. No recording exists.",
         header_bg="#1e3a5f",
         header_text_color="#ffffff",
         header_line1="Tomorrow at 11 AM.",
@@ -520,31 +551,30 @@ def send_webinar_1day_mc(to_email, first_name, webinar_date, zoom_link,
 
 
 # ---------------------------------------------------------------------------
-# 1d. Day-Of Reminder (Mailchimp send path)
+# 1d. Final Reminder (Mailchimp send path) — sends ~10 min before start
 # ---------------------------------------------------------------------------
 
-def send_webinar_dayof_mc(to_email, first_name, zoom_link,
+def send_webinar_final_mc(to_email, first_name, zoom_link,
                           timezone='ET', zoom_passcode='', subject_override=None):
     """
-    Day-of reminder routed through Mailchimp. One job: get them to click the link.
+    Final reminder. Single job: hand them the link in the highest-CTR window.
+    Sent ~10 min before start. Copy says "in a few minutes" so timing is fuzzy
+    (absorbs cron drift, still urgent).
     """
     from mailchimp_client import send_email as mc_send_email
 
     safe_first = first_name.strip() if first_name else 'there'
-    subject = subject_override or ("Starting at 11 AM today, " + safe_first + ": join the FERS Workshop")
+    subject = subject_override or ("Starting in a few minutes, " + safe_first + ": FERS Workshop link")
 
     passcode_line = "\nPasscode: " + zoom_passcode + "\n" if zoom_passcode else ""
     plain_body = (
         "Hi " + safe_first + ",\n\n"
-        "The FERS Retirement Workshop starts at 11:00 AM " + timezone + " today. "
-        "David will start right on time.\n\n"
+        "We start in a few minutes. 11:00 AM " + timezone + " sharp.\n\n"
         "Join here: " + zoom_link + "\n" + passcode_line + "\n"
-        "See you in a few hours,\n"
+        "Any device works. There is no recording, so this is the only way to see it live.\n\n"
+        "See you in there,\n"
         "David & Brennan\n"
         "PlanWell Financial Planning\n"
-        "planwellfp.com\n\n"
-        "---\n"
-        "Having trouble with the link? Reply to this email and we will get it resolved.\n"
     )
 
     passcode_html = (
@@ -554,26 +584,107 @@ def send_webinar_dayof_mc(to_email, first_name, zoom_link,
 
     body_html = (
         '<p style="margin:0 0 16px 0;">Hi ' + safe_first + ',</p>\n\n'
-        '<p style="margin:0 0 20px 0;font-size:17px;">The FERS Retirement Workshop starts at '
-        '<strong>11:00 AM ' + timezone + '</strong> today. '
-        'David will start right on time.</p>\n\n' +
-        _gold_button(zoom_link, "Join the Workshop Now") + '\n\n'
-        '<p style="text-align:center;margin:-16px 0 8px 0;font-size:13px;color:#888888;">'
+        '<p style="margin:0 0 24px 0;font-size:18px;line-height:1.5;">We start in '
+        '<strong style="color:#1e3a5f;">a few minutes</strong>. 11:00 AM <strong>' + timezone +
+        '</strong> sharp.</p>\n\n' +
+        _gold_button(zoom_link, "Join the Workshop") + '\n\n'
+        '<p style="text-align:center;margin:-16px 0 16px 0;font-size:13px;color:#888888;">'
         '<a href="' + zoom_link + '" style="color:#1e3a5f;word-break:break-all;">'
         + zoom_link + '</a></p>\n' +
         passcode_html +
-        '<p style="margin:20px 0 8px 0;">See you in a few hours,</p>\n'
-        '<p style="margin:0;font-weight:bold;color:#1e3a5f;">David &amp; Brennan<br>'
-        '<span style="font-weight:normal;color:#555555;">PlanWell Financial Planning</span></p>\n\n'
-        '<p style="margin:24px 0 0 0;font-size:14px;color:#888888;">Having trouble with the link? '
-        'Reply to this email and we will get it resolved.</p>\n'
+        '<p style="text-align:center;margin:0 0 24px 0;font-size:14px;color:#666666;">'
+        'Any device works. No recording exists, so this is your only shot live.</p>\n\n'
+        '<p style="margin:20px 0 8px 0;">See you in there,</p>\n'
+        '<p style="margin:0;font-weight:bold;color:#1e3a5f;">David &amp; Brennan</p>\n'
     )
 
     html_body = _base_html(
-        preheader="The FERS Workshop starts at 11 AM " + timezone + " today. Your link is inside.",
+        preheader="Starting in a few minutes. Your Zoom link is inside. No recording exists.",
         header_bg="#c9a55c",
         header_text_color="#1e3a5f",
-        header_line1="Starting at 11 AM today.",
+        header_line1="Starting in a few minutes.",
+        header_line2="FERS Retirement Workshop &nbsp;&middot;&nbsp; 11 AM " + timezone,
+        body_html=body_html
+    )
+
+    return mc_send_email(to_email, subject, plain_body, html_body)
+
+
+# ---------------------------------------------------------------------------
+# 1e. Day-Of Reminder (Mailchimp send path)
+# ---------------------------------------------------------------------------
+
+def send_webinar_dayof_mc(to_email, first_name, zoom_link,
+                          timezone='ET', zoom_passcode='', subject_override=None):
+    """
+    Day-of reminder routed through Mailchimp. Substantial, honest, single CTA.
+    Sent ~2 hours prior. The 30-min reminder follows it for max urgency.
+    """
+    from mailchimp_client import send_email as mc_send_email
+
+    safe_first = first_name.strip() if first_name else 'there'
+    subject = subject_override or ("Today at 11 AM, " + safe_first + ": your FERS Workshop link")
+
+    passcode_line = "\nPasscode: " + zoom_passcode + "\n" if zoom_passcode else ""
+    plain_body = (
+        "Hi " + safe_first + ",\n\n"
+        "The workshop starts at 11:00 AM " + timezone + " today. David begins right on time. "
+        "There is no recording, so today is your only shot at this material live.\n\n"
+        "Join here: " + zoom_link + "\n" + passcode_line + "\n"
+        "Quick reminders:\n\n"
+        "  Any device works. The Zoom link opens on your phone, tablet, or computer. "
+        "If your work laptop blocks Zoom, use your personal phone.\n\n"
+        "  Brennan will be in the chat for your questions throughout. Camera is optional.\n\n"
+        "  You will get one final reminder a few minutes before we start.\n\n"
+        "If the link does not work, reply to this email immediately and we will get it sorted "
+        "before 11.\n\n"
+        "See you in a few hours,\n"
+        "David & Brennan\n"
+        "PlanWell Financial Planning\n"
+        "planwellfp.com\n"
+    )
+
+    passcode_html = (
+        '<p style="text-align:center;margin:0 0 24px 0;font-size:14px;color:#888888;">'
+        'Passcode: <strong style="color:#333333;">' + zoom_passcode + '</strong></p>\n\n'
+    ) if zoom_passcode else ''
+
+    quick_reminders = (
+        '<p style="margin:0 0 10px 0;font-size:15px;font-weight:bold;color:#1e3a5f;">'
+        'Quick reminders:</p>\n'
+        '<p style="margin:6px 0;font-size:15px;color:#333333;"><strong>Any device works.</strong> '
+        'The Zoom link opens on your phone, tablet, or computer. If your work laptop blocks Zoom, '
+        'use your personal phone.</p>\n'
+        '<p style="margin:6px 0;font-size:15px;color:#333333;"><strong>Brennan is in the chat.</strong> '
+        'Type your questions there. Camera is optional.</p>\n'
+        '<p style="margin:6px 0;font-size:15px;color:#333333;"><strong>One more reminder.</strong> '
+        'You will get the link again a few minutes before we start.</p>'
+    )
+
+    body_html = (
+        '<p style="margin:0 0 16px 0;">Hi ' + safe_first + ',</p>\n\n'
+        '<p style="margin:0 0 16px 0;font-size:17px;">The workshop starts at '
+        '<strong>11:00 AM ' + timezone + '</strong> today. David begins right on time.</p>\n\n'
+        '<p style="margin:0 0 20px 0;">There is no recording, so today is your only shot at this '
+        'material live.</p>\n\n' +
+        _gold_button(zoom_link, "Join the Workshop") + '\n\n'
+        '<p style="text-align:center;margin:-16px 0 16px 0;font-size:13px;color:#888888;">'
+        '<a href="' + zoom_link + '" style="color:#1e3a5f;word-break:break-all;">'
+        + zoom_link + '</a></p>\n' +
+        passcode_html +
+        _section_box('#f5f5f5', '#1e3a5f', quick_reminders) + '\n\n'
+        '<p style="margin:20px 0 16px 0;font-size:14px;color:#555555;">If the link does not work, '
+        'reply to this email immediately and we will get it sorted before 11.</p>\n\n'
+        '<p style="margin:24px 0 8px 0;">See you in a few hours,</p>\n'
+        '<p style="margin:0;font-weight:bold;color:#1e3a5f;">David &amp; Brennan<br>'
+        '<span style="font-weight:normal;color:#555555;">PlanWell Financial Planning</span></p>\n'
+    )
+
+    html_body = _base_html(
+        preheader="Today at 11 AM " + timezone + ". No recording. Your link is inside.",
+        header_bg="#c9a55c",
+        header_text_color="#1e3a5f",
+        header_line1="Today at 11 AM.",
         header_line2="FERS Retirement Workshop",
         body_html=body_html
     )

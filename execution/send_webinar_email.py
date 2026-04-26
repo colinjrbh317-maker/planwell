@@ -38,7 +38,7 @@ from mailchimp_client import (
     get_member_tags,
     update_member_tags,
 )
-from webinar_emails import send_webinar_5day, send_webinar_1day_mc, send_webinar_dayof_mc
+from webinar_emails import send_webinar_5day, send_webinar_1day_mc, send_webinar_dayof_mc, send_webinar_final_mc
 
 
 WEBINAR_HUMAN_DATES = {
@@ -130,6 +130,16 @@ def send_for_stage(stage, registrant, webinar_human_date, cal_urls, dry_run=Fals
             first_name=registrant['first_name'] or 'there',
             zoom_link=zoom_link,
         )
+    elif stage == 'final':
+        zoom_link = registrant.get('join_url') or 'https://zoom.us/'
+        if dry_run:
+            print(f"      [DRY RUN] Would send final to {registrant['email']} (link {zoom_link[:40]}...)")
+            return True
+        return send_webinar_final_mc(
+            to_email=registrant['email'],
+            first_name=registrant['first_name'] or 'there',
+            zoom_link=zoom_link,
+        )
     else:
         raise ValueError(f"Unknown stage: {stage}")
 
@@ -137,7 +147,7 @@ def send_for_stage(stage, registrant, webinar_human_date, cal_urls, dry_run=Fals
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--webinar-date', required=True, help='ISO date e.g. 2026-05-01')
-    parser.add_argument('--stage', required=True, choices=['5day', '1day', 'dayof'])
+    parser.add_argument('--stage', required=True, choices=['5day', '1day', 'dayof', 'final'])
     parser.add_argument('--dry-run', action='store_true')
     parser.add_argument('--test', metavar='EMAIL', help='Send only to this address (using Test First name)')
     args = parser.parse_args()

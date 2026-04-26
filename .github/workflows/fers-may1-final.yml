@@ -1,13 +1,12 @@
-name: FERS May 1 — day-of morning email
+name: FERS May 1 — final reminder (10 min before)
 
-# Sends the day-of morning email (no-replay urgency, link, mobile-OK note) to all
-# registered attendees. A separate "final reminder" (fers-may1-final.yml) fires at
-# 10:50 AM ET — 10 min before workshop start.
-# Schedule:  May 1, 2026 at 7:30 AM ET (11:30 UTC). Catches commute/early-desk window.
+# Sends the "starting in a few minutes" reminder to all registered attendees.
+# Schedule:  May 1, 2026 at 10:50 AM ET (14:50 UTC).
+# This is the highest-CTR window in the entire sequence.
 
 on:
   schedule:
-    - cron: '30 11 1 5 *'
+    - cron: '50 14 1 5 *'
   workflow_dispatch:
     inputs:
       test_email:
@@ -32,7 +31,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Send day-of email
+      - name: Send final reminder
         env:
           MAILCHIMP_API_KEY: ${{ secrets.MAILCHIMP_API_KEY }}
           MAILCHIMP_LIST_ID: ${{ secrets.MAILCHIMP_LIST_ID }}
@@ -43,17 +42,17 @@ jobs:
         run: |
           if [ -n "${{ github.event.inputs.test_email }}" ]; then
             echo "TEST MODE: sending only to ${{ github.event.inputs.test_email }}"
-            python3 send_webinar_email.py --webinar-date 2026-05-01 --stage dayof --test "${{ github.event.inputs.test_email }}"
+            python3 send_webinar_email.py --webinar-date 2026-05-01 --stage final --test "${{ github.event.inputs.test_email }}"
           else
             echo "PRODUCTION: sending to all Zoom-registered attendees"
-            python3 send_webinar_email.py --webinar-date 2026-05-01 --stage dayof
+            python3 send_webinar_email.py --webinar-date 2026-05-01 --stage final
           fi
 
       - name: Upload send log
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: sends-dayof-${{ github.run_id }}
+          name: sends-final-${{ github.run_id }}
           path: .tmp/sends_*.json
           if-no-files-found: warn
           retention-days: 90
