@@ -33,6 +33,31 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Diagnostic (env var shape, no secret leak)
+        env:
+          MAILCHIMP_API_KEY: ${{ secrets.MAILCHIMP_API_KEY }}
+          MAILCHIMP_LIST_ID: ${{ secrets.MAILCHIMP_LIST_ID }}
+          ZOOM_ACCOUNT_ID:   ${{ secrets.ZOOM_ACCOUNT_ID }}
+        run: |
+          python3 - <<'PY'
+          import os, hashlib
+          for k in ('MAILCHIMP_API_KEY', 'MAILCHIMP_LIST_ID', 'ZOOM_ACCOUNT_ID'):
+              v = os.environ.get(k, '')
+              clean = v.strip()
+              h = hashlib.sha256(v.encode()).hexdigest()[:8]
+              clean_h = hashlib.sha256(clean.encode()).hexdigest()[:8]
+              # Detect non-printable chars
+              non_print = sum(1 for c in v if not c.isprintable())
+              has_lf = '\n' in v
+              has_cr = '\r' in v
+              has_space = ' ' in v
+              print(f'{k}: len={len(v)} stripped_len={len(clean)} same_after_strip={v==clean} non_print={non_print} lf={has_lf} cr={has_cr} space={has_space} hash={h} stripped_hash={clean_h}')
+          # And finally, what BASE_URL looks like
+          key = os.environ.get('MAILCHIMP_API_KEY', '').strip()
+          dc = key.split('-')[-1] if '-' in key else 'NODASH'
+          print(f'derived datacenter: {repr(dc)} len={len(dc)} isalnum={dc.isalnum()}')
+          PY
+
       - name: Send 5-day email
         env:
           MAILCHIMP_API_KEY: ${{ secrets.MAILCHIMP_API_KEY }}
