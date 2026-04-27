@@ -230,8 +230,14 @@ def main():
     skipped_count = 0
     failed_count = 0
 
+    # Domains/patterns that indicate a fake/test registrant. Mailchimp rejects
+    # these as invalid anyway; skip them gracefully so the workflow does not
+    # report "failed" status for what are expected, intentional skips.
+    FAKE_PATTERNS = ('@testing.com', '@example.com', '@test.com',
+                     '@planwelltest.com', '@example.org')
+
     for i, r in enumerate(registrants, 1):
-        email = r['email']
+        email = (r['email'] or '').lower().strip()
         first = r['first_name'] or 'there'
         last = r['last_name'] or ''
         print(f'\n  [{i}/{len(registrants)}] {first} {last} <{email}>')
@@ -240,6 +246,12 @@ def main():
             print('    SKIP: no email')
             skipped_count += 1
             log['results'].append({'email': '', 'sent': False, 'reason': 'no-email'})
+            continue
+
+        if any(pat in email for pat in FAKE_PATTERNS):
+            print(f'    SKIP: test/fake email pattern')
+            skipped_count += 1
+            log['results'].append({'email': email, 'sent': False, 'reason': 'fake-test-pattern'})
             continue
 
         # Upsert into Mailchimp + apply register tag (idempotent)
@@ -288,6 +300,9 @@ def main():
     print('=' * 64)
 
     _write_log(log, webinar_date_iso, stage)
+    # Exit 0 if every real-looking email succeeded. Mailchimp rejects on truly
+    # malformed addresses (caught by FAKE_PATTERNS skip above); anything else
+    # in failed_count is a real problem worth surfacing.
     return 0 if failed_count == 0 else 3
 
 

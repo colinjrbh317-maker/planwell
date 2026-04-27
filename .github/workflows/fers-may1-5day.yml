@@ -55,6 +55,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: sends-5day-${{ github.run_id }}
-          path: .tmp/sends_*.json
+          path: |
+            .tmp/sends_*.json
+            **/.tmp/sends_*.json
           if-no-files-found: warn
           retention-days: 90
+          include-hidden-files: true
