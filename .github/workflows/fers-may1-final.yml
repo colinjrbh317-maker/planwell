@@ -5,8 +5,10 @@ name: FERS May 1 — final reminder (10 min before)
 # This is the highest-CTR window in the entire sequence.
 
 on:
-  schedule:
-    - cron: '50 14 1 5 *'
+  # NOTE: scheduled cron is intentionally REMOVED. n8n cloud workflow
+  # "FERS May 1 — Final reminder trigger (n8n→GHA)" fires at the precise
+  # time and calls workflow_dispatch via the GitHub API. Sub-2-min total
+  # drift, vs. multi-hour drift on GHA scheduled crons during peak load.
   workflow_dispatch:
     inputs:
       test_email:

@@ -6,8 +6,10 @@ name: FERS May 1 — day-of morning email
 # Schedule:  May 1, 2026 at 7:30 AM ET (11:30 UTC). Catches commute/early-desk window.
 
 on:
-  schedule:
-    - cron: '30 11 1 5 *'
+  # NOTE: scheduled cron is intentionally REMOVED. n8n cloud workflow
+  # "FERS May 1 — Day-of trigger (n8n→GHA)" fires at the precise time
+  # and calls workflow_dispatch via the GitHub API. n8n schedule precision
+  # avoids the GHA cron drift (1h47m observed on Mon Apr 27).
   workflow_dispatch:
     inputs:
       test_email:
