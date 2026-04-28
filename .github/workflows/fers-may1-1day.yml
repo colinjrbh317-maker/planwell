@@ -4,8 +4,9 @@ name: FERS May 1 — 1-day email
 # Schedule:  Apr 30, 2026 at 10:03 AM ET (14:03 UTC).
 
 on:
-  schedule:
-    - cron: '3 14 30 4 *'
+  # NOTE: scheduled cron is intentionally REMOVED. n8n cloud workflow
+  # "FERS May 1 — 1-day trigger (n8n→GHA)" fires at the precise time
+  # and calls workflow_dispatch via the GitHub API.
   workflow_dispatch:
     inputs:
       test_email:
