@@ -17,28 +17,13 @@ export interface Webinar {
 // All scheduled webinars - add new dates here
 export const webinars: Webinar[] = [
     {
-        id: 'dec-30-2025',
-        date: new Date('2025-12-30T11:00:00-05:00'),
-        title: 'FERS Retirement Workshop',
-        startTime: '11:00 AM',
-        endTime: '2:00 PM',
-        timezone: 'EST',
-    },
-    {
-        id: 'jan-16-2026',
-        date: new Date('2026-01-16T11:00:00-05:00'),
-        title: 'FERS Retirement Workshop',
-        startTime: '11:00 AM',
-        endTime: '2:00 PM',
-        timezone: 'EST',
-    },
-    {
         id: 'feb-06-2026',
         date: new Date('2026-02-06T11:00:00-05:00'),
         title: 'FERS Retirement Workshop',
         startTime: '11:00 AM',
         endTime: '2:00 PM',
         timezone: 'EST',
+        zoomLink: 'https://us06web.zoom.us/webinar/register/WN_8BewKDfGTHGQjil5--I0Wg',
     },
     {
         id: 'feb-27-2026',
@@ -47,14 +32,16 @@ export const webinars: Webinar[] = [
         startTime: '11:00 AM',
         endTime: '2:00 PM',
         timezone: 'EST',
+        zoomLink: 'https://us06web.zoom.us/webinar/register/WN_AgC4CznVT6O_CnRWL99vtg',
     },
     {
         id: 'mar-20-2026',
-        date: new Date('2026-03-20T11:00:00-04:00'), // EDT after daylight saving
+        date: new Date('2026-03-20T11:00:00-04:00'),
         title: 'FERS Retirement Workshop',
         startTime: '11:00 AM',
         endTime: '2:00 PM',
         timezone: 'EDT',
+        zoomLink: 'https://us06web.zoom.us/webinar/register/WN_NItY3v8yQtyfwjYzNWn3TA',
     },
     {
         id: 'apr-10-2026',
@@ -63,6 +50,7 @@ export const webinars: Webinar[] = [
         startTime: '11:00 AM',
         endTime: '2:00 PM',
         timezone: 'EDT',
+        zoomLink: 'https://us06web.zoom.us/webinar/register/WN_wQtHJWYZTWy8GDUdz0gFtg',
     },
     {
         id: 'may-01-2026',
@@ -71,7 +59,36 @@ export const webinars: Webinar[] = [
         startTime: '11:00 AM',
         endTime: '2:00 PM',
         timezone: 'EDT',
+        zoomLink: 'https://us06web.zoom.us/webinar/register/WN_sOVCAOVPSHCI-B1OJCvqeA',
     },
+    {
+        id: 'may-22-2026',
+        date: new Date('2026-05-22T11:00:00-04:00'),
+        title: 'FERS Retirement Workshop',
+        startTime: '11:00 AM',
+        endTime: '2:00 PM',
+        timezone: 'EDT',
+        zoomLink: 'https://us06web.zoom.us/webinar/register/WN_FwNEY1MrSsOHRCldaC1-pw',
+    },
+    {
+        id: 'jun-12-2026',
+        date: new Date('2026-06-12T11:00:00-04:00'),
+        title: 'FERS Retirement Workshop',
+        startTime: '11:00 AM',
+        endTime: '2:00 PM',
+        timezone: 'EDT',
+        zoomLink: 'https://us06web.zoom.us/webinar/register/WN_vFS6fCRNQZKUn5qpYTG1jw',
+    },
+    {
+        id: 'jul-03-2026',
+        date: new Date('2026-07-03T11:00:00-04:00'),
+        title: 'FERS Retirement Workshop',
+        startTime: '11:00 AM',
+        endTime: '2:00 PM',
+        timezone: 'EDT',
+        zoomLink: 'https://us06web.zoom.us/webinar/register/WN_u4UdZlAfSwatECiAqmxwbA',
+    },
+
 ];
 
 /**

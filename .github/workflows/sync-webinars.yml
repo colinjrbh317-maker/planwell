@@ -1,0 +1,63 @@
+name: Sync webinars.ts from Zoom
+
+# Pulls upcoming "FERS Retirement Workshop" sessions from Zoom and rewrites
+# src/data/webinars.ts. Commits + pushes if anything changed (Vercel auto-deploys).
+#
+# Trigger:
+#   - n8n cloud workflow "Webinars sync (n8n→GHA)" fires daily at 08:05 ET
+#     and calls workflow_dispatch via the GitHub API.
+#   - Manual run from the Actions tab also supported.
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Print diff but do not commit'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run sync script
+        env:
+          ZOOM_ACCOUNT_ID:   ${{ secrets.ZOOM_ACCOUNT_ID }}
+          ZOOM_CLIENT_ID:    ${{ secrets.ZOOM_CLIENT_ID }}
+          ZOOM_CLIENT_SECRET: ${{ secrets.ZOOM_CLIENT_SECRET }}
+        working-directory: execution
+        run: python3 sync_webinars_from_zoom.py
+
+      - name: Show diff
+        run: |
+          git diff --stat src/data/webinars.ts || true
+          git diff src/data/webinars.ts || true
+
+      - name: Commit & push if changed
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: |
+          if git diff --quiet src/data/webinars.ts; then
+            echo "No changes — nothing to commit."
+            exit 0
+          fi
+          git config user.name  'planwell-bot'
+          git config user.email 'bot@planwellfp.com'
+          git add src/data/webinars.ts
+          git commit -m "chore(webinars): sync from Zoom $(date -u +%Y-%m-%d)"
+          git push

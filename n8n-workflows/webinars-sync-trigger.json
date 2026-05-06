@@ -1,0 +1,168 @@
+{
+    "name": "Webinars Sync Trigger (n8n→GHA)",
+    "_description": "Daily 08:05 ET cron that calls GitHub Actions workflow_dispatch on planwell-site to refresh webinars.ts from Zoom. Vercel auto-deploys on commit. Idempotent — GHA exits cleanly if no diff.",
+    "_setup": [
+        "1. Import this JSON into n8n cloud.",
+        "2. Edit the 'Dispatch GHA' node — set the URL to your repo: https://api.github.com/repos/<OWNER>/<REPO>/actions/workflows/sync-webinars.yml/dispatches",
+        "3. Create an n8n credential of type 'GitHub API' (or HTTP Header Auth with header 'Authorization: Bearer <PAT>'). PAT scopes required: repo (or fine-grained: actions:write + contents:read).",
+        "4. NEVER paste the PAT into the URL/headers directly — always reference via credentials. (See feedback_n8n_pat_security.)",
+        "5. Activate the workflow.",
+        "6. Verify by manually executing once — check the Actions tab on GitHub for a run."
+    ],
+    "nodes": [
+        {
+            "parameters": {
+                "rule": {
+                    "interval": [
+                        {
+                            "field": "cronExpression",
+                            "expression": "5 8 * * *"
+                        }
+                    ]
+                }
+            },
+            "id": "cron-daily",
+            "name": "Daily 08:05 ET",
+            "type": "n8n-nodes-base.scheduleTrigger",
+            "typeVersion": 1.2,
+            "position": [
+                240,
+                300
+            ],
+            "_note": "Cron in n8n cloud runs in UTC — schedule it in the UI to ensure ET timezone is selected, OR shift to '5 13 * * *' if your n8n instance defaults to UTC and you want 08:05 ET (EDT). Adjust seasonally or use a fixed 13:05 UTC and accept the 1-hour drift across DST."
+        },
+        {
+            "parameters": {
+                "method": "POST",
+                "url": "https://api.github.com/repos/REPLACE_OWNER/REPLACE_REPO/actions/workflows/sync-webinars.yml/dispatches",
+                "authentication": "predefinedCredentialType",
+                "nodeCredentialType": "githubApi",
+                "sendHeaders": true,
+                "headerParameters": {
+                    "parameters": [
+                        {
+                            "name": "Accept",
+                            "value": "application/vnd.github+json"
+                        },
+                        {
+                            "name": "X-GitHub-Api-Version",
+                            "value": "2022-11-28"
+                        }
+                    ]
+                },
+                "sendBody": true,
+                "bodyParameters": {
+                    "parameters": [
+                        {
+                            "name": "ref",
+                            "value": "main"
+                        },
+                        {
+                            "name": "inputs",
+                            "value": "={{ {} }}"
+                        }
+                    ]
+                },
+                "options": {
+                    "response": {
+                        "response": {
+                            "responseFormat": "autodetect"
+                        }
+                    }
+                }
+            },
+            "id": "dispatch-gha",
+            "name": "Dispatch GHA: sync-webinars",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.2,
+            "position": [
+                480,
+                300
+            ],
+            "credentials": {
+                "githubApi": {
+                    "id": "REPLACE_WITH_CRED_ID",
+                    "name": "GitHub PAT (planwell-site)"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "conditions": {
+                    "number": [
+                        {
+                            "value1": "={{ $node[\"Dispatch GHA: sync-webinars\"].json.statusCode || 204 }}",
+                            "operation": "equal",
+                            "value2": 204
+                        }
+                    ]
+                }
+            },
+            "id": "if-success",
+            "name": "Dispatched OK?",
+            "type": "n8n-nodes-base.if",
+            "typeVersion": 2,
+            "position": [
+                720,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "fromEmail": "alerts@planwellfp.com",
+                "toEmail": "colin@planwellfp.com",
+                "subject": "❌ Webinar sync trigger failed",
+                "text": "=Daily webinars.ts sync trigger failed. Status: {{$node[\"Dispatch GHA: sync-webinars\"].json.statusCode}}\n\nResponse: {{JSON.stringify($node[\"Dispatch GHA: sync-webinars\"].json,null,2)}}\n\nGo to https://github.com/REPLACE_OWNER/REPLACE_REPO/actions to investigate."
+            },
+            "id": "alert-fail",
+            "name": "Alert on failure",
+            "type": "n8n-nodes-base.emailSend",
+            "typeVersion": 2.1,
+            "position": [
+                960,
+                400
+            ],
+            "_optional": "Delete this node if you don't want failure alerts."
+        }
+    ],
+    "connections": {
+        "Daily 08:05 ET": {
+            "main": [
+                [
+                    {
+                        "node": "Dispatch GHA: sync-webinars",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Dispatch GHA: sync-webinars": {
+            "main": [
+                [
+                    {
+                        "node": "Dispatched OK?",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Dispatched OK?": {
+            "main": [
+                [],
+                [
+                    {
+                        "node": "Alert on failure",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    },
+    "active": false,
+    "settings": {
+        "executionOrder": "v1"
+    }
+}
