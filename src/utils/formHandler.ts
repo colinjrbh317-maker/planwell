@@ -17,8 +17,8 @@ export const WEBHOOK_CONFIG = {
 
 // Email notification recipients (for backup/logging)
 export const NOTIFICATION_EMAILS = {
-    contact: ['david.fei@planwellfp.com', 'brennan.rhule@planwellfp.com'],
-    webinar: ['david.fei@planwellfp.com', 'brennan.rhule@planwellfp.com'],
+    contact: ['info@planwellfp.com'],
+    webinar: ['info@planwellfp.com'],
 };
 
 /**

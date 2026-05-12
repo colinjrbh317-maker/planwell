@@ -26,7 +26,7 @@ export const authors: Record<string, Author> = {
 
 Brennan's mission is simple: cut through the complexity. Federal retirement rules can feel overwhelming, but with the right guidance, every employee can retire with confidence. He loves seeing the weight lift off clients' shoulders when they finally have a clear plan.`,
     personalNote: "Brennan now calls Salem, VA home with his family. He's passionate about backpacking, rock climbing, and ice hockey—and you'll often find him adventuring in the Blue Ridge Mountains with his golden retriever and bernese mountain dog.",
-    email: 'brennan.rhule@planwellfp.com',
+    email: 'info@planwellfp.com',
     phone: '571-543-2783'
   },
   'david-fei': {
@@ -40,7 +40,7 @@ Brennan's mission is simple: cut through the complexity. Federal retirement rule
 
 David's approach is grounded in education. He believes that when clients truly understand their options, they make better decisions. That's why he takes the time to explain the "why" behind every recommendation.`,
     personalNote: "David stays busy with his daughters' activities, plays basketball on weekends, and hits the mountain bike trails whenever he can.",
-    email: 'david.fei@planwellfp.com',
+    email: 'info@planwellfp.com',
     phone: '301-388-5489'
   },
   'ben-derge': {
