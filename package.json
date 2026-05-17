@@ -10,7 +10,17 @@
     "test": "playwright test",
     "test:headed": "playwright test --headed",
     "test:ui": "playwright test --ui",
-    "test:report": "playwright show-report"
+    "test:report": "playwright show-report",
+    "verify": "pnpm build && pnpm test && pnpm verify:calculators && pnpm verify:n8n",
+    "verify:quick": "pnpm exec astro check && pnpm test",
+    "verify:calculators": "node scripts/verify-calculators.mjs",
+    "verify:mailchimp": "node scripts/verify-mailchimp-send.mjs",
+    "verify:n8n": "node scripts/verify-n8n-health.mjs",
+    "verify:webhook": "node scripts/verify-webhook-roundtrip.mjs",
+    "verify:zoom": "node scripts/verify-zoom-webinar.mjs",
+    "audit:perf": "lighthouse http://localhost:4321 --output json --output-path .verify/lighthouse.json --chrome-flags=--headless --quiet",
+    "audit:a11y": "axe http://localhost:4321 --save .verify/axe.json --exit",
+    "audit:links": "linkinator http://localhost:4321 --recurse --skip 'mailto:|tel:'"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.6.0",
@@ -21,6 +31,10 @@
     "astro": "^5.16.5"
   },
   "devDependencies": {
-    "@playwright/test": "^1.58.0"
+    "@lhci/cli": "^0.15.1",
+    "@playwright/test": "^1.58.0",
+    "fast-check": "^4.8.0",
+    "pixelmatch": "^7.2.0",
+    "pngjs": "^7.0.0"
   }
 }

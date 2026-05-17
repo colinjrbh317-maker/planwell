@@ -1,0 +1,10 @@
+{
+  "_note": "Replace this with a realistic test payload that matches what your webhook-server expects",
+  "event": "form.submit",
+  "form": "newsletter_signup",
+  "email": "verify@mailtrap.inbox",
+  "first_name": "Verify",
+  "last_name": "Bot",
+  "tags": ["verify"],
+  "source": "automated-verify"
+}

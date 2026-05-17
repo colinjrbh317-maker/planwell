@@ -1,0 +1,56 @@
+{
+  "$schema": "https://raw.githubusercontent.com/colinryan/claude-verify/main/schema.json",
+  "archetype": "web-astro",
+  "commands": ["pnpm build", "pnpm test"],
+  "urls": [
+    {"path": "/", "name": "home"},
+    {"path": "/calculators", "name": "calculator-index"},
+    {"path": "/calculators/fers", "name": "fers-calc", "interactions": ["fill-form", "calculate"]},
+    {"path": "/calculators/supplement", "name": "supplement-calc"},
+    {"path": "/calculators/high3", "name": "high3-calc"},
+    {"path": "/calculators/sick-leave", "name": "sick-leave-calc"},
+    {"path": "/webinars", "name": "webinars"},
+    {"path": "/articles", "name": "articles"}
+  ],
+  "propertyTests": {
+    "dirs": ["src/lib/calculators/"],
+    "tool": "fast-check",
+    "iterations": 1000,
+    "script": "scripts/verify-calculators.mjs"
+  },
+  "emailRoundtrip": {
+    "provider": "mailtrap",
+    "secondary": "mailchimp-test-send",
+    "expectSubjectContains": "PlanWell",
+    "script": "scripts/verify-mailchimp-send.mjs"
+  },
+  "zoomRoundtrip": {
+    "enabled": false,
+    "_note": "Set enabled=true after Zoom test webinar ID is provisioned",
+    "checkRegistrantWithin": 60000,
+    "script": "scripts/verify-zoom-webinar.mjs"
+  },
+  "n8nChecks": {
+    "healthCheckBeforeVerify": true,
+    "validateChangedWorkflows": true,
+    "script": "scripts/verify-n8n-health.mjs"
+  },
+  "webhookServer": {
+    "_note": "Fill in healthUrl when webhook-server is deployed",
+    "healthUrl": "",
+    "testPayload": "scripts/test-webhook-payload.json",
+    "script": "scripts/verify-webhook-roundtrip.mjs"
+  },
+  "dataReadback": [
+    {"system": "sanity", "query": "*[_type=='article']|order(_updatedAt desc)[0]{title, slug, _updatedAt}"}
+  ],
+  "deployTarget": "vercel",
+  "budgets": {"lcp": 2500, "cls": 0.1, "tbt": 200, "a11yCritical": 0, "a11ySerious": 0},
+  "postDeployChecks": ["posthog-errors-5m", "broken-links", "calculator-snapshot-diff"],
+  "firecrawl": {
+    "driftDetection": {"enabled": true, "url": "https://planwellfp.com", "schedule": "nightly"},
+    "competitors": ["https://stwserve.com", "https://thefedcorner.com", "https://feba.org"]
+  },
+  "maxIterations": 3,
+  "skip": []
+}
