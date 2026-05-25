@@ -2,7 +2,15 @@
 import logo from '../assets/images/planwell-logo.png';
 import { getNextWebinar, formatWebinarDate, getDaysUntil, generateICS } from '../data/webinars';
 
-// Get the next upcoming webinar
+// Render per-request so the "next webinar" computation always uses the
+// current date. Otherwise Astro builds this page once at deploy time;
+// once that build's "next webinar" passes, the page silently goes stale
+// until the next deploy. Surfaced 2026-05-25: live page was still
+// rendering the May 22 webinar three days after it had passed because
+// no rebuild had triggered. Switching to SSR closes the staleness window.
+export const prerender = false;
+
+// Get the next upcoming webinar (evaluated per-request)
 const nextWebinar = getNextWebinar();
 const webinarDate = nextWebinar ? formatWebinarDate(nextWebinar) : 'Coming Soon';
 const daysUntil = nextWebinar ? getDaysUntil(nextWebinar) : 0;
@@ -186,17 +194,13 @@ const faqSchema = {
 </head>
 <body>
   <div class="funnel">
-    <!-- Header / Minimal Nav -->
+    <!-- Logo only — no navigation out of funnel -->
     <header class="funnel-header">
-      <a href="/" class="funnel-logo">
+      <div class="funnel-logo">
         <img src={logo.src} alt="PlanWell" />
-      </a>
-      <nav class="funnel-nav">
-        <a href="/webinar/tsp" class="funnel-nav__link funnel-nav__link--tsp">TSP workshop instead</a>
-        <a href="/" class="funnel-nav__link">Back to Site</a>
-      </nav>
+      </div>
     </header>
-    
+
     <!-- Progress Bar -->
     <div class="progress-bar">
       <div class="progress-fill" id="progress-fill"></div>
@@ -252,12 +256,18 @@ const faqSchema = {
 
           <div class="presenter-info">
             <div class="presenter-info__item">
-              <strong>David Fei</strong>, CFP®, ChFEBC℠, AIF®
-              <span class="presenter-info__role">Lead Instructor</span>
+              <img src="/images/authors/david-fei.jpg" alt="David Fei" class="presenter-info__photo" loading="lazy" />
+              <div class="presenter-info__text">
+                <span class="presenter-info__name"><strong>David Fei</strong>, CFP®, ChFEBC℠, AIF®</span>
+                <span class="presenter-info__role">Lead Instructor</span>
+              </div>
             </div>
             <div class="presenter-info__item">
-              <strong>Brennan Rhule</strong>, CFP®, ChFEBC℠, AIF®
-              <span class="presenter-info__role">Live Q&amp;A</span>
+              <img src="/images/authors/brennan-rhule.jpg" alt="Brennan Rhule" class="presenter-info__photo" loading="lazy" />
+              <div class="presenter-info__text">
+                <span class="presenter-info__name"><strong>Brennan Rhule</strong>, CFP®, ChFEBC℠, AIF®</span>
+                <span class="presenter-info__role">Live Q&amp;A in chat</span>
+              </div>
             </div>
           </div>
 
@@ -343,7 +353,7 @@ const faqSchema = {
                 <div class="phase-label">Before the Workshop</div>
                 <ul>
                   <li>You'll receive a Zoom link via email</li>
-                  <li>No preparation needed—come with questions</li>
+                  <li>No preparation needed, just come with questions</li>
                   <li>Works on computer, tablet, or phone</li>
                 </ul>
               </div>
@@ -353,8 +363,9 @@ const faqSchema = {
                 <ul>
                   <li>Live presentation with screen sharing</li>
                   <li>Real examples and case studies</li>
-                  <li>Interactive Q&A throughout</li>
-                  <li>Stay on camera off, unmuted when asking questions</li>
+                  <li>Brennan is on live chat throughout for Q&A</li>
+                  <li>If your work laptop blocks Zoom, join from your personal phone or tablet</li>
+                  <li>This session is not recorded, the value is the live Q&A</li>
                 </ul>
               </div>
 
@@ -363,7 +374,7 @@ const faqSchema = {
                 <ul>
                   <li>Access to downloadable planning worksheets</li>
                   <li>Optional: Schedule 1-on-1 consultation</li>
-                  <li>No pressure, no sales pitch—just education</li>
+                  <li>No pressure, no sales pitch, just education</li>
                 </ul>
               </div>
             </div>
@@ -446,18 +457,6 @@ const faqSchema = {
             </button>
           </div>
           
-          <!-- Cross-promotion: TSP Webinar -->
-          <div class="cross-promo">
-            <p class="cross-promo__label">Also interested in TSP strategies?</p>
-            <a href="/webinar/tsp" class="btn-cross-promo">
-              Register for Free TSP Workshop
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </a>
-          </div>
-
-          <a href="/" class="btn-home">
-            Return to Homepage
-          </a>
         </div>
       </div>
     </main>
@@ -506,43 +505,6 @@ const faqSchema = {
       height: 120px;
       width: auto;
       object-fit: contain;
-    }
-    
-    .funnel-nav {
-      display: flex;
-      align-items: center;
-      gap: 1.25rem;
-    }
-
-    .funnel-nav__link {
-      color: rgba(255,255,255,0.6);
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: color 0.2s;
-    }
-
-    .funnel-nav__link:hover {
-      color: #fff;
-    }
-
-    .funnel-nav__link--tsp {
-      color: rgba(230, 194, 94, 0.75);
-      border: 1px solid rgba(230, 194, 94, 0.35);
-      padding: 0.375rem 0.75rem;
-      border-radius: 999px;
-      font-size: 0.8125rem;
-    }
-
-    .funnel-nav__link--tsp:hover {
-      color: #e6c25e;
-      border-color: rgba(230, 194, 94, 0.6);
-      background: rgba(230, 194, 94, 0.08);
-    }
-
-    @media (max-width: 540px) {
-      .funnel-nav__link--tsp {
-        display: none;
-      }
     }
     
     .progress-bar {
@@ -724,7 +686,7 @@ const faqSchema = {
       grid-template-columns: 1fr 1fr;
       gap: 1rem;
       margin-top: 1.5rem;
-      padding: 1rem 1.25rem;
+      padding: 1.25rem;
       background: rgba(255,255,255,0.04);
       border: 1px solid rgba(255,255,255,0.08);
       border-radius: 10px;
@@ -737,9 +699,25 @@ const faqSchema = {
 
     .presenter-info__item {
       display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
+      align-items: center;
+      gap: 0.875rem;
       color: rgba(255,255,255,0.85);
+    }
+
+    .presenter-info__photo {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(230, 194, 94, 0.4);
+      flex-shrink: 0;
+    }
+
+    .presenter-info__text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      min-width: 0;
     }
 
     .presenter-info__item strong {
@@ -945,41 +923,6 @@ const faqSchema = {
     
     .btn-home:hover {
       color: #fff;
-    }
-
-    /* Cross-promotion */
-    .cross-promo {
-      margin: 2rem 0 1rem;
-      padding: 1.5rem;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 1rem;
-    }
-
-    .cross-promo__label {
-      font-size: 0.875rem;
-      color: rgba(255,255,255,0.7);
-      margin-bottom: 0.75rem;
-    }
-
-    .btn-cross-promo {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1.5rem;
-      background: rgba(209, 164, 55, 0.15);
-      border: 1px solid rgba(209, 164, 55, 0.4);
-      color: #e6c25e;
-      border-radius: 0.5rem;
-      font-weight: 600;
-      font-size: 0.9rem;
-      text-decoration: none;
-      transition: all 0.2s;
-    }
-
-    .btn-cross-promo:hover {
-      background: rgba(209, 164, 55, 0.25);
-      border-color: rgba(209, 164, 55, 0.6);
     }
 
     /* New Sections Styling */

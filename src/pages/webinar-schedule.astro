@@ -1,0 +1,125 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getUpcomingWebinars, formatWebinarDate, getDaysUntil } from '../data/webinars';
+import { tspWebinars } from '../data/tsp-webinars';
+
+// Render per-request so the upcoming list always reflects today's "now".
+// Same staleness-window reasoning as /webinar.astro — see that file's
+// comment for the full story.
+export const prerender = false;
+
+const upcomingFERS = getUpcomingWebinars(10);
+const upcomingTSP = (tspWebinars || [])
+  .filter((w: any) => w.date > new Date())
+  .sort((a: any, b: any) => a.date.getTime() - b.date.getTime())
+  .slice(0, 10);
+
+const pageTitle = "Upcoming FERS & TSP Webinars — Full Schedule | PlanWell";
+const pageDescription = "Full upcoming schedule of free FERS and TSP retirement workshops for federal employees. Pick the date that works for you.";
+const pageUrl = "https://planwellfp.com/webinar-schedule";
+
+// EducationEvent schema for the upcoming list — each event individually
+const eventSchemaItems = upcomingFERS.map((w) => ({
+  "@context": "https://schema.org",
+  "@type": "EducationEvent",
+  "name": w.title,
+  "startDate": w.date.toISOString(),
+  "endDate": new Date(w.date.getTime() + 3 * 60 * 60 * 1000).toISOString(),
+  "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "url": `https://planwellfp.com/webinar/${w.id}`,
+  "location": { "@type": "VirtualLocation", "url": pageUrl, "name": "Online via Zoom" },
+  "organizer": { "@type": "Organization", "name": "PlanWell Financial Planning", "url": "https://planwellfp.com" },
+  "performer": [
+    { "@type": "Person", "name": "David Fei", "jobTitle": "CFP, ChFEBC, AIF" },
+    { "@type": "Person", "name": "Brennan Rhule", "jobTitle": "CFP, ChFEBC, AIF" },
+  ],
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock",
+    "url": `https://planwellfp.com/webinar/${w.id}`,
+  },
+}));
+---
+
+<BaseLayout title={pageTitle} description={pageDescription} canonical={pageUrl}>
+  <script type="application/ld+json" set:html={JSON.stringify(eventSchemaItems)} />
+
+  <main style="max-width:880px;margin:0 auto;padding:48px 24px;font-family:Arial,Helvetica,sans-serif;color:#1f2937;line-height:1.6;">
+    <header style="text-align:center;margin-bottom:40px;">
+      <p style="margin:0;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#1e3a5f;opacity:0.7;">Free for federal employees</p>
+      <h1 style="margin:8px 0 12px 0;font-size:36px;font-weight:700;color:#1e3a5f;line-height:1.2;">Upcoming Workshops</h1>
+      <p style="margin:0 auto;max-width:560px;font-size:16px;color:#4b5563;">Pick the date that fits your schedule. Every session is the same content — three hours, live Q&amp;A, no recordings. Federal employees only.</p>
+    </header>
+
+    <section style="margin-bottom:48px;">
+      <h2 style="font-size:22px;font-weight:700;color:#1e3a5f;border-bottom:2px solid #c9a55c;padding-bottom:8px;margin-bottom:20px;">FERS Retirement Workshop &nbsp;<span style="font-size:14px;font-weight:normal;color:#6b7280;">(3 hours)</span></h2>
+      {upcomingFERS.length === 0 ? (
+        <p style="color:#6b7280;font-style:italic;">No upcoming FERS workshops scheduled. Check back soon or join our newsletter to be notified.</p>
+      ) : (
+        <ul style="list-style:none;padding:0;margin:0;">
+          {upcomingFERS.map((w) => {
+            const days = getDaysUntil(w);
+            const dateLabel = formatWebinarDate(w);
+            return (
+              <li style="background:#ffffff;border:1px solid #e5e7eb;border-radius:8px;padding:20px 24px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+                <div>
+                  <div style="font-size:18px;font-weight:700;color:#1e3a5f;">{dateLabel}</div>
+                  <div style="font-size:14px;color:#6b7280;margin-top:4px;">
+                    {w.startTime}&ndash;{w.endTime} {w.timezone}
+                    {days > 0 ? <span style="margin-left:12px;color:#1e3a5f;font-weight:600;">In {days} {days === 1 ? 'day' : 'days'}</span> : null}
+                  </div>
+                </div>
+                <a href={`/webinar/${w.id}`} style="background:#1e3a5f;color:#ffffff;text-decoration:none;padding:12px 24px;border-radius:6px;font-size:15px;font-weight:600;display:inline-block;">Register</a>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </section>
+
+    {upcomingTSP.length > 0 && (
+      <section style="margin-bottom:48px;">
+        <h2 style="font-size:22px;font-weight:700;color:#1e3a5f;border-bottom:2px solid #c9a55c;padding-bottom:8px;margin-bottom:20px;">TSP Investment Workshop &nbsp;<span style="font-size:14px;font-weight:normal;color:#6b7280;">(1 hour)</span></h2>
+        <ul style="list-style:none;padding:0;margin:0;">
+          {upcomingTSP.map((w: any) => {
+            const days = getDaysUntil(w);
+            const dateLabel = formatWebinarDate(w);
+            return (
+              <li style="background:#ffffff;border:1px solid #e5e7eb;border-radius:8px;padding:20px 24px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+                <div>
+                  <div style="font-size:18px;font-weight:700;color:#1e3a5f;">{dateLabel}</div>
+                  <div style="font-size:14px;color:#6b7280;margin-top:4px;">
+                    {w.startTime}&ndash;{w.endTime} {w.timezone}
+                    {days > 0 ? <span style="margin-left:12px;color:#1e3a5f;font-weight:600;">In {days} {days === 1 ? 'day' : 'days'}</span> : null}
+                  </div>
+                </div>
+                <a href={`/webinar/tsp/${w.id}`} style="background:#1e3a5f;color:#ffffff;text-decoration:none;padding:12px 24px;border-radius:6px;font-size:15px;font-weight:600;display:inline-block;">Register</a>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+    )}
+
+    <section style="background:#fff8ec;border-left:4px solid #c9a55c;padding:24px 28px;border-radius:6px;margin-bottom:36px;">
+      <h3 style="margin:0 0 8px 0;font-size:17px;font-weight:700;color:#1e3a5f;">What's covered in the FERS workshop</h3>
+      <ul style="margin:8px 0 0 20px;color:#1f2937;font-size:15px;line-height:1.7;">
+        <li>FERS pension formula and calculation walkthroughs</li>
+        <li>TSP allocation strategy at your career stage</li>
+        <li>The MRA-to-62 income gap and the FERS Supplement</li>
+        <li>FEHB-to-Medicare coordination at 65</li>
+        <li>Survivor benefit elections — the irreversible decision</li>
+        <li>Three hours, live Q&amp;A, no recordings</li>
+      </ul>
+    </section>
+
+    <section style="text-align:center;padding:24px;">
+      <p style="margin:0 0 12px 0;font-size:15px;color:#4b5563;">Not sure which session works for you?</p>
+      <a href="/contact" style="color:#1e3a5f;font-weight:600;text-decoration:underline;">Get in touch &mdash; we'll help you pick</a>
+    </section>
+
+  </main>
+</BaseLayout>
