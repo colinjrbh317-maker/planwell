@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getUpcomingWebinars, formatWebinarDate, getDaysUntil } from '../data/webinars';
-import { tspWebinars } from '../data/tsp-webinars';
 
 // Render per-request so the upcoming list always reflects today's "now".
 // Same staleness-window reasoning as /webinar.astro — see that file's
@@ -9,13 +8,9 @@ import { tspWebinars } from '../data/tsp-webinars';
 export const prerender = false;
 
 const upcomingFERS = getUpcomingWebinars(10);
-const upcomingTSP = (tspWebinars || [])
-  .filter((w: any) => w.date > new Date())
-  .sort((a: any, b: any) => a.date.getTime() - b.date.getTime())
-  .slice(0, 10);
 
-const pageTitle = "Upcoming FERS & TSP Webinars — Full Schedule | PlanWell";
-const pageDescription = "Full upcoming schedule of free FERS and TSP retirement workshops for federal employees. Pick the date that works for you.";
+const pageTitle = "Upcoming FERS Workshops — Full Schedule | PlanWell";
+const pageDescription = "Full upcoming schedule of free FERS retirement workshops for federal employees. Pick the date that works for you.";
 const pageUrl = "https://planwellfp.com/webinar-schedule";
 
 // EducationEvent schema for the upcoming list — each event individually
@@ -80,29 +75,7 @@ const eventSchemaItems = upcomingFERS.map((w) => ({
       )}
     </section>
 
-    {upcomingTSP.length > 0 && (
-      <section style="margin-bottom:48px;">
-        <h2 style="font-size:22px;font-weight:700;color:#1e3a5f;border-bottom:2px solid #c9a55c;padding-bottom:8px;margin-bottom:20px;">TSP Investment Workshop &nbsp;<span style="font-size:14px;font-weight:normal;color:#6b7280;">(1 hour)</span></h2>
-        <ul style="list-style:none;padding:0;margin:0;">
-          {upcomingTSP.map((w: any) => {
-            const days = getDaysUntil(w);
-            const dateLabel = formatWebinarDate(w);
-            return (
-              <li style="background:#ffffff;border:1px solid #e5e7eb;border-radius:8px;padding:20px 24px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
-                <div>
-                  <div style="font-size:18px;font-weight:700;color:#1e3a5f;">{dateLabel}</div>
-                  <div style="font-size:14px;color:#6b7280;margin-top:4px;">
-                    {w.startTime}&ndash;{w.endTime} {w.timezone}
-                    {days > 0 ? <span style="margin-left:12px;color:#1e3a5f;font-weight:600;">In {days} {days === 1 ? 'day' : 'days'}</span> : null}
-                  </div>
-                </div>
-                <a href={`/webinar/tsp/${w.id}`} style="background:#1e3a5f;color:#ffffff;text-decoration:none;padding:12px 24px;border-radius:6px;font-size:15px;font-weight:600;display:inline-block;">Register</a>
-              </li>
-            );
-          })}
-        </ul>
-      </section>
-    )}
+    {/* TSP track removed 2026-05-25 per Colin — PlanWell is FERS-only going forward. */}
 
     <section style="background:#fff8ec;border-left:4px solid #c9a55c;padding:24px 28px;border-radius:6px;margin-bottom:36px;">
       <h3 style="margin:0 0 8px 0;font-size:17px;font-weight:700;color:#1e3a5f;">What's covered in the FERS workshop</h3>
