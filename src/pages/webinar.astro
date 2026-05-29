@@ -1,5 +1,4 @@
 ---
-import logo from '../assets/images/planwell-logo.png';
 import { getNextWebinar, formatWebinarDate, getDaysUntil, generateICS } from '../data/webinars';
 
 // Render per-request so the "next webinar" computation always uses the
@@ -194,12 +193,8 @@ const faqSchema = {
 </head>
 <body>
   <div class="funnel">
-    <!-- Logo only — no navigation out of funnel -->
-    <header class="funnel-header">
-      <div class="funnel-logo">
-        <img src={logo.src} alt="PlanWell" />
-      </div>
-    </header>
+    <!-- Header removed: logo band was consuming ~20% above the fold.
+         Offer now starts immediately. -->
 
     <!-- Progress Bar -->
     <div class="progress-bar">
@@ -494,19 +489,6 @@ const faqSchema = {
       flex-direction: column;
     }
     
-    .funnel-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.5rem 2rem;
-    }
-    
-    .funnel-logo img {
-      height: 120px;
-      width: auto;
-      object-fit: contain;
-    }
-    
     .progress-bar {
       height: 4px;
       background: rgba(255,255,255,0.1);
@@ -524,7 +506,7 @@ const faqSchema = {
       display: flex;
       align-items: flex-start;
       justify-content: center;
-      padding: 3rem 2rem 2rem;
+      padding: 1.5rem 2rem 2rem;
     }
     
     .step {
@@ -1135,18 +1117,6 @@ const faqSchema = {
     }
 
     @media (max-width: 640px) {
-      .funnel-header {
-        padding: 1rem;
-        justify-content: flex-start;
-        gap: 1rem;
-      }
-
-      .funnel-logo img {
-        height: 80px;
-        width: auto;
-        object-fit: contain;
-      }
-
       .funnel-content {
         padding: 1rem;
       }
