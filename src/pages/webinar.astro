@@ -403,7 +403,7 @@ const faqSchema = {
               />
               {index === steps.length - 1 && (
                 <label class="newsletter-optin">
-                  <input type="checkbox" id="newsletter-optin" />
+                  <input type="checkbox" id="newsletter-optin" checked />
                   <span>Sign me up for the PlanWell newsletter</span>
                 </label>
               )}
@@ -1281,7 +1281,7 @@ const faqSchema = {
           fbq('track', 'CompleteRegistration', { content_name: 'FERS Webinar' });
         }
 
-        // Newsletter opt-in (only fires if user checks the box — unchecked by default)
+        // Newsletter opt-in (checked by default; fires unless the user unchecks the box)
         const newsletterCheckbox = document.getElementById('newsletter-optin');
         if (newsletterCheckbox && newsletterCheckbox.checked && formData.email) {
           if (typeof gtag === 'function') {
