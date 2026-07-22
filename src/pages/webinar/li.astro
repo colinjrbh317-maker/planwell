@@ -1,0 +1,16 @@
+---
+// /webinar/li — LinkedIn-attributed mirror of /webinar.
+//
+// Renders the EXACT same registration page as /webinar (zero duplication: we
+// rewrite to that route, so the two can never drift out of sync), but the
+// distinct /webinar/li URL lets the client-side script tag registrations as
+// LinkedIn-sourced in Mailchimp (see the attribution-source derivation in
+// webinar.astro's inline script). Append ?v=A..D to mark the A/B/C/D message
+// variant for per-variant registration attribution.
+//
+// Note: a static route file (this one) takes precedence over the sibling
+// dynamic [id].astro, so /webinar/li resolves here rather than 404-ing as an
+// unknown webinar id.
+export const prerender = false;
+return Astro.rewrite('/webinar');
+---

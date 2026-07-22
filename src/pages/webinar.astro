@@ -1143,7 +1143,22 @@ const faqSchema = {
   <script is:inline>
     // Configuration - Webinar registration webhook (Zoom auto-registration via Railway)
     const WEBINAR_WEBHOOK_URL = 'https://pleasant-vision-production.up.railway.app/api/webinar';
-    
+
+    // Attribution source. On the plain /webinar path this is unchanged (default
+    // behavior preserved). On /webinar/li (the LinkedIn-attributed mirror, served
+    // via Astro.rewrite so the page content is identical) we suffix the source so
+    // LinkedIn-driven registrations are tagged distinctly in Mailchimp and can be
+    // counted separately. An optional ?v=A..D marks the A/B/C/D message variant,
+    // giving per-variant registration attribution (e.g. fers_webinar_optin_li_a).
+    let _attrSuffix = '';
+    if (window.location.pathname.replace(/\/+$/, '').endsWith('/webinar/li')) {
+      const _v = (new URLSearchParams(window.location.search).get('v') || '')
+        .toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 8);
+      _attrSuffix = '_li' + (_v ? '_' + _v : '');
+    }
+    const REG_SOURCE = 'webinar_registration' + _attrSuffix;
+    const OPTIN_SOURCE = 'fers_webinar_optin' + _attrSuffix;
+
     // Get webinar data from data attributes
     const webinarDataEl = document.getElementById('webinar-data');
     const webinarData = webinarDataEl ? {
@@ -1197,7 +1212,7 @@ const faqSchema = {
         webinar_date: webinarData.date,
         webinar_type: 'fers',
         submitted_at: new Date().toISOString(),
-        source: 'webinar_registration'
+        source: REG_SOURCE
       };
 
       for (let attempt = 0; attempt <= retries; attempt++) {
@@ -1296,7 +1311,7 @@ const faqSchema = {
             body: JSON.stringify({
               name: formData.fullName || '',
               email: formData.email,
-              source: 'fers_webinar_optin',
+              source: OPTIN_SOURCE,
               timestamp: new Date().toISOString()
             })
           }).catch(function(err) { console.error('Newsletter signup error:', err); });
