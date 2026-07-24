@@ -53,7 +53,27 @@ function getWebinarUrls() {
     }
 }
 
-const articleUrls = await getArticleUrls();
+// Exact-match redirect sources from vercel.json — those URLs 30x and must
+// not be listed in the sitemap (GSC flags them as "Page with redirect").
+function getRedirectedPaths() {
+    try {
+        const here = dirname(fileURLToPath(import.meta.url));
+        const { redirects = [] } = JSON.parse(readFileSync(resolve(here, 'vercel.json'), 'utf8'));
+        return new Set(
+            redirects
+                .map((r) => r.source)
+                .filter((s) => s && !s.includes(':') && !s.includes('*'))
+        );
+    } catch (err) {
+        console.warn('[sitemap] Could not read vercel.json redirects:', err?.message || err);
+        return new Set();
+    }
+}
+
+const redirectedPaths = getRedirectedPaths();
+const articleUrls = (await getArticleUrls()).filter(
+    (u) => !redirectedPaths.has(u.replace(SITE_URL, ''))
+);
 const webinarUrls = getWebinarUrls();
 const customPages = [...articleUrls, ...webinarUrls];
 
