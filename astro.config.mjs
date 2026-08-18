@@ -117,7 +117,8 @@ export default defineConfig({
         '/webinar-sign-up-4': '/webinar',
         '/webinar-sign-up-5': '/webinar',
         '/webinar-sign-up-6': '/webinar',
-        '/federal-benefits-fehb-open-season-2025-webinars': '/webinars',
+        '/federal-benefits-fehb-open-season-2025-webinars': '/fehb-open-season-webinar',
+        '/webinar/fehb': '/fehb-open-season-webinar',
 
         // Calculators (URLs now match old site exactly)
         // Reverse redirects for anyone who bookmarked the temporary new URLs
