@@ -1,10 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getUpcomingWebinars, getAllWebinars, formatWebinarDate, getDaysUntil, getNextWebinar } from '../data/webinars';
-import { getUpcomingTSPWebinars, formatTSPWebinarDate } from '../data/tsp-webinars';
 
 const upcomingFERS = getUpcomingWebinars(10);
-const upcomingTSP = getUpcomingTSPWebinars(10);
 
 const nextWebinar = getNextWebinar();
 const webinarDate = nextWebinar ? formatWebinarDate(nextWebinar) : 'Coming Soon';
@@ -106,7 +104,6 @@ const allEventsSchema = {
       </p>
       <div class="hero-ctas">
         <a href="/webinar" class="btn btn--primary btn--lg">Register for FERS Workshop</a>
-        <a href="/webinar/tsp" class="btn btn--ghost btn--lg">Register for TSP Workshop</a>
       </div>
     </div>
   </section>
@@ -141,28 +138,6 @@ const allEventsSchema = {
         )}
       </div>
 
-      <div class="section-header" style="margin-top: var(--space-16);">
-        <span class="eyebrow">1-Hour Focused Training</span>
-        <h2 class="heading-lg">TSP Investment Workshops</h2>
-      </div>
-
-      <div class="events-list">
-        {upcomingTSP.map(w => (
-          <a href="/webinar/tsp" class="event-row event-row--tsp">
-            <div class="event-row__date">
-              <span class="event-row__day">{formatTSPWebinarDate(w)}</span>
-              <span class="event-row__time">{w.startTime} - {w.endTime} {w.timezone}</span>
-            </div>
-            <div class="event-row__info">
-              <h3>TSP Investment Strategies Workshop</h3>
-              <span class="event-row__meta">Free · Online · 1 Hour</span>
-            </div>
-            <div class="event-row__action">
-              <span class="btn btn--primary btn--sm">Register</span>
-            </div>
-          </a>
-        ))}
-      </div>
     </div>
   </section>
 
@@ -226,23 +201,6 @@ const allEventsSchema = {
     </div>
   </section>
 
-  <!-- TSP Workshop -->
-  <section class="section">
-    <div class="container">
-      <div class="tsp-card" data-animate="fade-in-up">
-        <div class="tsp-card__content">
-          <span class="eyebrow">1-Hour Focused Training</span>
-          <h2 class="heading-lg">TSP Investment Workshop</h2>
-          <p class="lead">
-            Confused about your TSP fund options? This focused 1-hour session covers L Fund allocation
-            strategies, the individual fund characteristics (C, S, I, F, G), and how to align your TSP
-            with your retirement timeline.
-          </p>
-          <a href="/webinar/tsp" class="btn btn--primary btn--lg">Register for TSP Workshop</a>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- Who Teaches -->
   <section class="section section--navy">
@@ -366,7 +324,6 @@ const allEventsSchema = {
         </p>
         <div class="cta-buttons">
           <a href="/webinar" class="btn btn--navy btn--lg">Register for FERS Workshop</a>
-          <a href="/webinar/tsp" class="btn btn--outline-navy btn--lg">Register for TSP Workshop</a>
         </div>
       </div>
     </div>

@@ -1,15 +1,12 @@
 ---
 import { getUpcomingWebinars, formatWebinarDate } from '../data/webinars';
-import { getUpcomingTSPWebinars, formatTSPWebinarDate } from '../data/tsp-webinars';
 
 interface Props {
   heading?: string;
   subheading?: string;
   variant?: 'hero' | 'section' | 'banner';
   audienceLabel?: string;
-  showTSP?: boolean;
   fersCount?: number;
-  tspCount?: number;
 }
 
 const {
@@ -17,13 +14,10 @@ const {
   subheading = 'Three hours. No cost. CFP\u00ae-led. Join federal employees who walked away with a real plan.',
   variant = 'section',
   audienceLabel,
-  showTSP = true,
   fersCount = 3,
-  tspCount = 2,
 } = Astro.props;
 
 const upcomingFERS = getUpcomingWebinars(fersCount);
-const upcomingTSP = showTSP ? getUpcomingTSPWebinars(tspCount) : [];
 const nextWebinar = upcomingFERS[0];
 
 const eventSchemas = upcomingFERS.map((w) => ({
@@ -76,13 +70,6 @@ const eventSchemas = upcomingFERS.map((w) => ({
           <a href="/webinar" class="workshop-row">
             <span class="workshop-row__date">{formatWebinarDate(w)}</span>
             <span class="workshop-row__title">FERS Retirement Workshop, 3 Hours</span>
-            <span class="btn btn--primary btn--sm">Register Free</span>
-          </a>
-        ))}
-        {upcomingTSP.map((w) => (
-          <a href="/webinar/tsp" class="workshop-row">
-            <span class="workshop-row__date">{formatTSPWebinarDate(w)}</span>
-            <span class="workshop-row__title">TSP Investment Workshop, 1 Hour</span>
             <span class="btn btn--primary btn--sm">Register Free</span>
           </a>
         ))}

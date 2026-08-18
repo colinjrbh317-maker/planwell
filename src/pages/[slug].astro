@@ -258,19 +258,11 @@ const breadcrumbSchema = {
             <div class="article__content" set:html={articleContent} />
 
             <!-- Mid-Article CTA -->
-            {isTSPArticle ? (
-              <aside class="article__mid-cta article__mid-cta--tsp">
-                <h4>Want personalized TSP guidance?</h4>
-                <p>Get clarity on your TSP investments, fund allocation, and withdrawal strategies in our free TSP training.</p>
-                <a href="/webinar/tsp" class="btn btn--primary">Join Free TSP Workshop</a>
-              </aside>
-            ) : (
-              <aside class="article__mid-cta">
-                <h4>Want personalized guidance?</h4>
-                <p>Get your specific retirement questions answered in our free FERS workshop.</p>
-                <a href="/webinar" class="btn btn--primary">Join Free Workshop</a>
-              </aside>
-            )}
+            <aside class="article__mid-cta">
+              <h4>Want personalized guidance?</h4>
+              <p>Get your specific retirement questions answered in our free FERS workshop.</p>
+              <a href="/webinar" class="btn btn--primary">Join Free Workshop</a>
+            </aside>
           </div>
 
           <!-- Sticky Sidebar -->
@@ -296,29 +288,16 @@ const breadcrumbSchema = {
                 </div>
               )}
 
-              {isTSPArticle ? (
-                <div class="sidebar-cta sidebar-cta--tsp">
-                  <h4>Free TSP Workshop</h4>
-                  <p>Get clarity on your Thrift Savings Plan investments and withdrawal strategies.</p>
-                  <ul class="sidebar-cta__benefits">
-                    <li>Traditional vs Roth TSP</li>
-                    <li>Fund allocation strategies</li>
-                    <li>Withdrawal planning</li>
-                  </ul>
-                  <a href="/webinar/tsp" class="btn btn--primary btn--block">Join Free TSP Training</a>
-                </div>
-              ) : (
-                <div class="sidebar-cta">
-                  <h4>Free FERS Workshop</h4>
-                  <p>Get your federal retirement questions answered by certified planners.</p>
-                  <ul class="sidebar-cta__benefits">
-                    <li>3-hour comprehensive overview</li>
-                    <li>Live Q&A session</li>
-                    <li>Personalized answers</li>
-                  </ul>
-                  <a href="/webinar" class="btn btn--primary btn--block">Reserve Your Seat</a>
-                </div>
-              )}
+              <div class="sidebar-cta">
+                <h4>Free FERS Workshop</h4>
+                <p>Get your federal retirement questions answered by certified planners.</p>
+                <ul class="sidebar-cta__benefits">
+                  <li>3-hour comprehensive overview</li>
+                  <li>Live Q&A session</li>
+                  <li>Personalized answers</li>
+                </ul>
+                <a href="/webinar" class="btn btn--primary btn--block">Reserve Your Seat</a>
+              </div>
 
               <div class="sidebar-book">
                 <p>Prefer 1-on-1?</p>

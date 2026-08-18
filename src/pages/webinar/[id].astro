@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getWebinarById, getAllWebinars, getUpcomingWebinars, formatWebinarDate, getDaysUntil, isPastWebinar } from '../../data/webinars';
-import { getAllTSPWebinars, isPastTSPWebinar as isPastTSP, formatTSPWebinarDate } from '../../data/tsp-webinars';
 
 export const prerender = false;
 
@@ -15,7 +14,6 @@ if (!webinar) {
 const isPast = isPastWebinar(webinar);
 const nextWebinar = getUpcomingWebinars(1)[0];
 const otherWebinars = getAllWebinars().filter(w => w.id !== id);
-const tspWebinars = getAllTSPWebinars().filter(w => !isPastTSP(w));
 const dateFormatted = formatWebinarDate(webinar);
 const daysUntil = getDaysUntil(webinar);
 
@@ -263,22 +261,6 @@ const faqSchema = {
           </div>
         )}
 
-        {tspWebinars.length > 0 && (
-          <div class="workshops-group">
-            <h3 class="workshops-group__title">TSP Investment Workshops (1 Hour)</h3>
-            <ul class="workshops-dates">
-              {tspWebinars.map(w => (
-                <li>
-                  <a href="/webinar/tsp" class="workshop-link">
-                    <span class="workshop-link__date">{formatTSPWebinarDate(w)}</span>
-                    <span class="workshop-link__time">{w.startTime} &ndash; {w.endTime} {w.timezone}</span>
-                    <span class="workshop-link__arrow">&rarr;</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
       </div>
     </div>
   </section>
@@ -348,7 +330,6 @@ const faqSchema = {
         </p>
         <div class="cta-buttons">
           <a href="/webinar" class="btn btn--navy btn--lg">Register for FERS Workshop</a>
-          <a href="/webinar/tsp" class="btn btn--outline-navy btn--lg">Register for TSP Workshop</a>
         </div>
       </div>
     </div>

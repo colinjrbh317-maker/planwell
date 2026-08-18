@@ -37,14 +37,10 @@ function getWebinarUrls() {
     try {
         const here = dirname(fileURLToPath(import.meta.url));
         const webinars = readFileSync(resolve(here, 'src/data/webinars.ts'), 'utf8');
-        const tspWebinars = readFileSync(resolve(here, 'src/data/tsp-webinars.ts'), 'utf8');
         const idRegex = /^\s*id:\s*'([^']+)'/gm;
         const urls = [];
         for (const match of webinars.matchAll(idRegex)) {
             urls.push(`${SITE_URL}/webinar/${match[1]}`);
-        }
-        for (const match of tspWebinars.matchAll(idRegex)) {
-            urls.push(`${SITE_URL}/webinar/tsp/${match[1]}`);
         }
         return urls;
     } catch (err) {
@@ -107,9 +103,12 @@ export default defineConfig({
         // Webinars
         '/federal-employee-retirement-benefits-education-workshops': '/federal-retirement-webinars',
         '/tsp-webinar-calendar': '/federal-retirement-webinars',
-        '/thrift-savings-plan-tsp-webinar-1': '/webinar/tsp',
-        '/thrift-savings-plan-tsp-webinar-2': '/webinar/tsp',
-        '/thrift-savings-plan-tsp-webinar-3': '/webinar/tsp',
+        '/thrift-savings-plan-tsp-webinar-1': '/webinar',
+        '/thrift-savings-plan-tsp-webinar-2': '/webinar',
+        '/thrift-savings-plan-tsp-webinar-3': '/webinar',
+        // TSP webinar discontinued by PlanWell 2026-08-18 (Colin, voice). 301 rather than 404:
+        // inbound links and any residual ranking should land on the live FERS workshop.
+        '/webinar/tsp': '/webinar',
         '/federal-retirement-webinar-workshop': '/webinars',
         '/webinar-sign-up-1': '/webinar',
         '/webinar-sign-up-2': '/webinar',
