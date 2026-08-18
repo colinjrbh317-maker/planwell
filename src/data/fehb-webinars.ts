@@ -101,9 +101,12 @@ export function getFEHBWebinarById(id: string): FehbWebinar | null {
     return fehbWebinars.find(w => w.id === id) || null;
 }
 
-/** ICS calendar entry. Duration is derived from the entry, never hardcoded. */
-export function generateFEHBICS(webinar: FehbWebinar): string {
-    const stamp = (d: Date) => d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+/**
+ * End instant of a session, derived from startTime/endTime — never hardcoded.
+ * Exported because BOTH the ICS entry and the schema.org Event endDate need it,
+ * and a second private copy of this parse is a copy that drifts.
+ */
+export function getFEHBWebinarEnd(webinar: FehbWebinar): Date {
     const parseClock = (t: string) => {
         const m = t.match(/(\d+):(\d+)\s*(AM|PM)/i);
         if (!m) return 0;
@@ -112,7 +115,13 @@ export function generateFEHBICS(webinar: FehbWebinar): string {
         return h * 60 + parseInt(m[2], 10);
     };
     const mins = parseClock(webinar.endTime) - parseClock(webinar.startTime);
-    const end = new Date(webinar.date.getTime() + mins * 60 * 1000);
+    return new Date(webinar.date.getTime() + mins * 60 * 1000);
+}
+
+/** ICS calendar entry. Duration is derived from the entry, never hardcoded. */
+export function generateFEHBICS(webinar: FehbWebinar): string {
+    const stamp = (d: Date) => d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+    const end = getFEHBWebinarEnd(webinar);
 
     return `BEGIN:VCALENDAR
 VERSION:2.0

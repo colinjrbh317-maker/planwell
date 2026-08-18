@@ -4,6 +4,7 @@ import {
   formatFEHBWebinarDate,
   formatFEHBWebinarDateTime,
   getDaysUntilFEHB,
+  getFEHBWebinarEnd,
 } from '../data/fehb-webinars';
 
 // Render per-request, exactly as webinar.astro and webinar/li.astro do. If this
@@ -35,6 +36,8 @@ const eventSchema = next
       name: next.title,
       description: pageDesc,
       startDate: next.date.toISOString(),
+      endDate: getFEHBWebinarEnd(next).toISOString(),
+      url: canonical,
       eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
       eventStatus: 'https://schema.org/EventScheduled',
       location: {
