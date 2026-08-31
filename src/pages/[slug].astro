@@ -125,7 +125,19 @@ function renderChildren(block: any): string {
 }
 
 // Get article content - prefer htmlBody (legacy), fall back to Portable Text body
-const articleContent = article.htmlBody || portableTextToHtml(article.body) || '';
+const rawArticleContent = article.htmlBody || portableTextToHtml(article.body) || '';
+
+// Demote any <h1> inside the article body to <h2>.
+//
+// The template already renders the canonical <h1 class="article__title"> below,
+// but most WordPress-migrated bodies carry the old post title as a second <h1>.
+// The site audit on 2026-08-31 found 385 article pages shipping two <h1> tags
+// (a few with three or four), which splits the on-page topical signal.
+// Demoting here fixes every affected page at render time with no data migration
+// and no visual change: .article__content h1 and h2 are already styled.
+const articleContent = rawArticleContent
+  .replace(/<h1(\s[^>]*)?>/gi, (_m, attrs) => `<h2${attrs || ''}>`)
+  .replace(/<\/h1>/gi, '</h2>');
 
 const isTSPArticle = article.title?.toLowerCase().includes('tsp') ||
                       article.slug?.toLowerCase().includes('tsp') ||
