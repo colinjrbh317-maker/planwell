@@ -39,7 +39,15 @@ const canonicalURL = canonical
   ? new URL(canonical, Astro.site) 
   : new URL(Astro.url.pathname, Astro.site);
 
-const fullTitle = `${title} | PlanWell Financial Planning`;
+// Append the brand suffix, but only when the title does not already carry the
+// brand. The 2026-08-31 site audit found 53 pages shipping "PlanWell" twice in
+// one <title> ("... | PlanWell | PlanWell Financial Planning"), which wastes
+// SERP characters on pages whose titles are already long.
+const brandSuffix = 'PlanWell Financial Planning';
+const trimmedTitle = title.replace(/\s*\|\s*PlanWell(\s+Financial\s+Planning)?\s*$/i, '');
+const fullTitle = /\bPlanWell\b/i.test(trimmedTitle)
+  ? trimmedTitle
+  : `${trimmedTitle} | ${brandSuffix}`;
 
 // Schema.org LocalBusiness + FinancialService structured data
 const schemaData = {
