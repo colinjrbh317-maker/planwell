@@ -124,6 +124,27 @@ export const webinars: Webinar[] = [
         timezone: 'EDT',
         zoomLink: 'https://us06web.zoom.us/webinar/register/WN_Adf5mQTTTlqZzKfVLW7W4g',
     },
+    {
+        id: 'oct-16-2026',
+        date: new Date('2026-10-16T11:00:00-04:00'),
+        title: 'FERS Retirement Workshop',
+        startTime: '11:00 AM',
+        endTime: '2:00 PM',
+        timezone: 'EDT',
+        zoomLink: 'https://us06web.zoom.us/webinar/register/WN_B7jROJ2URo-xRbeZbX_VEg',
+    },
+    {
+        // DST ends 2026-11-01, so this one is EST (-05:00), not EDT (-04:00).
+        // Zoom start_time is 16:00Z (not 15:00Z like every other entry) and 16:00Z = 11:00 EST.
+        // Copying the -04:00 offset from the rows above would put the site an hour off the real event.
+        id: 'nov-06-2026',
+        date: new Date('2026-11-06T11:00:00-05:00'),
+        title: 'FERS Retirement Workshop',
+        startTime: '11:00 AM',
+        endTime: '2:00 PM',
+        timezone: 'EST',
+        zoomLink: 'https://us06web.zoom.us/webinar/register/WN_sGmJ2UmzSmiIwaGXH0dQkg',
+    },
 
 ];
 
