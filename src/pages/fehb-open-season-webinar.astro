@@ -6,6 +6,7 @@ import {
   getDaysUntilFEHB,
   getFEHBWebinarEnd,
 } from '../data/fehb-webinars';
+import { toEasternISO } from '../utils/eventDates';
 
 // Render per-request, exactly as webinar.astro and webinar/li.astro do. If this
 // were prerendered, Astro would compute "the next webinar" once at deploy time
@@ -18,9 +19,10 @@ const dateShort = next ? formatFEHBWebinarDate(next) : '';
 const dateFull = next ? formatFEHBWebinarDateTime(next) : '';
 const daysUntil = next ? getDaysUntilFEHB(next) : 0;
 
-const pageTitle = hasSession
-  ? `FEHB Open Season Webinar — ${dateShort} | Free for Federal Employees | PlanWell`
-  : 'FEHB Open Season Webinar for Federal Employees | PlanWell';
+// Plan year in the title follows the session (Nov 2026 session covers plan year 2027,
+// so the title says 2026, the Open Season year people search for).
+const seasonYear = next ? next.date.getFullYear() : new Date().getFullYear();
+const pageTitle = `FEHB Open Season Webinar ${seasonYear}: Choose Your Federal Health Plan | PlanWell`;
 const pageDesc = hasSession
   ? `Free FEHB Open Season webinar on ${dateShort}. Compare FEHB plans for the new plan year, understand Medicare coordination, and see what is changing. Hosted by Brennan Rhule, CFP®, ChFEBC℠.`
   : 'FEHB Open Season guidance for federal employees and retirees — plan comparison, Medicare coordination, and what changes each plan year.';
@@ -32,11 +34,11 @@ const canonical = 'https://planwellfp.com/fehb-open-season-webinar';
 const eventSchema = next
   ? {
       '@context': 'https://schema.org',
-      '@type': 'Event',
+      '@type': 'EducationEvent',
       name: next.title,
       description: pageDesc,
-      startDate: next.date.toISOString(),
-      endDate: getFEHBWebinarEnd(next).toISOString(),
+      startDate: toEasternISO(next.date, next.timezone),
+      endDate: toEasternISO(getFEHBWebinarEnd(next), next.timezone),
       url: canonical,
       eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
       eventStatus: 'https://schema.org/EventScheduled',
@@ -50,7 +52,7 @@ const eventSchema = next
         name: 'PlanWell Financial Planning',
         url: 'https://planwellfp.com',
       },
-      performer: { '@type': 'Person', name: next.host },
+      performer: { '@type': 'Person', name: 'Brennan Rhule', jobTitle: 'CFP\u00ae, ChFEBC\u2120, AIF\u00ae' },
       isAccessibleForFree: true,
       offers: {
         '@type': 'Offer',
