@@ -2,6 +2,14 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { sanityClient } from '../lib/sanity';
 import { coverImageMap } from '../data/cover-map';
+import WorkshopBridge from '../components/WorkshopBridge.astro';
+
+// Sanity articles that behave like calculators or reference tools. These get the
+// same WorkshopBridge card the static calculator pages use, keyed by a short slug
+// so GA4 reports one calc_cta_click {calculator} shape across every placement.
+const WORKSHOP_BRIDGE_SLUGS: Record<string, string> = {
+  '2026-federal-employee-holidays-and-pay-period-calendar': 'holidays',
+};
 
 // Server-rendered (SSR) with ISR caching — new articles available immediately
 export const prerender = false;
@@ -54,6 +62,7 @@ const relatedArticles = article.category ? await sanityClient.fetch(`
     mainImage { asset->{url}, alt }
   }
 `, { category: article.category.title, slug }) : [];
+const bridgeSlug = WORKSHOP_BRIDGE_SLUGS[article.slug] || null;
 const author = article.author;
 const authorImageUrl = author?.image?.asset?.url || `/images/authors/${author?.slug || 'planwell-team'}.jpg`;
 
@@ -269,12 +278,16 @@ const breadcrumbSchema = {
           <div class="article__main">
             <div class="article__content" set:html={articleContent} />
 
-            <!-- Mid-Article CTA -->
-            <aside class="article__mid-cta">
-              <h4>Want personalized guidance?</h4>
-              <p>Get your specific retirement questions answered in our free FERS workshop.</p>
-              <a href="/webinar" class="btn btn--primary">Join Free Workshop</a>
-            </aside>
+            {bridgeSlug ? (
+              <WorkshopBridge slug={bridgeSlug} />
+            ) : (
+              <!-- Mid-Article CTA -->
+              <aside class="article__mid-cta">
+                <h4>Want personalized guidance?</h4>
+                <p>Get your specific retirement questions answered in our free FERS workshop.</p>
+                <a href="/webinar" class="btn btn--primary">Join Free Workshop</a>
+              </aside>
+            )}
           </div>
 
           <!-- Sticky Sidebar -->
