@@ -109,7 +109,10 @@ export default defineConfig({
         // TSP webinar discontinued by PlanWell 2026-08-18 (Colin, voice). 301 rather than 404:
         // inbound links and any residual ranking should land on the live FERS workshop.
         '/webinar/tsp': '/webinar',
-        '/federal-retirement-webinar-workshop': '/webinars',
+        // Consolidated 2026-09-08: the two legacy WordPress webinar landing pages
+        // 301 to the single SEO listing page so their link equity lands in one place.
+        '/federal-retirement-webinar-workshop': '/federal-retirement-webinars',
+        '/federal-employee-retirement-seminars-online-training-workshop-for-fers': '/federal-retirement-webinars',
         '/webinar-sign-up-1': '/webinar',
         '/webinar-sign-up-2': '/webinar',
         '/webinar-sign-up-3': '/webinar',

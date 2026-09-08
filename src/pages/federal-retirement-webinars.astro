@@ -1,12 +1,72 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getUpcomingWebinars, getAllWebinars, formatWebinarDate, getDaysUntil, getNextWebinar } from '../data/webinars';
+import { getUpcomingWebinars, formatWebinarDate, getDaysUntil, getNextWebinar } from '../data/webinars';
+import { getUpcomingFEHBWebinars, formatFEHBWebinarDate, getFEHBWebinarEnd } from '../data/fehb-webinars';
+import { toEasternISO, daysUntil as daysUntilDate } from '../utils/eventDates';
 
-const upcomingFERS = getUpcomingWebinars(10);
+// Render per request so the date list and "days away" badges never go stale
+// between deploys. Same pattern as webinar.astro and webinar/[id].astro.
+export const prerender = false;
+
+const SITE = 'https://planwellfp.com';
+const upcomingFERS = getUpcomingWebinars(20);
+const upcomingFEHB = getUpcomingFEHBWebinars(5);
 
 const nextWebinar = getNextWebinar();
 const webinarDate = nextWebinar ? formatWebinarDate(nextWebinar) : 'Coming Soon';
 const daysUntil = nextWebinar ? getDaysUntil(nextWebinar) : null;
+
+const FERS_DURATION_MS = 3 * 60 * 60 * 1000;
+const organizer = { '@type': 'Organization', name: 'PlanWell Financial Planning', url: SITE };
+const performers = [
+  { '@type': 'Person', name: 'David Fei', jobTitle: 'CFP\u00ae, ChFEBC\u2120, AIF\u00ae' },
+  { '@type': 'Person', name: 'Brennan Rhule', jobTitle: 'CFP\u00ae, ChFEBC\u2120, AIF\u00ae' },
+];
+
+// One EducationEvent per upcoming date. Per-date pages exist at /webinar/[id],
+// so each event points at its own URL; the FEHB session points at its landing page.
+const fersEventSchemas = upcomingFERS.map((w) => {
+  const url = `${SITE}/webinar/${w.id}`;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'EducationEvent',
+    name: `Free FERS Retirement Workshop: ${formatWebinarDate(w)}`,
+    description: 'Free three-hour federal retirement webinar covering the FERS pension, TSP, FEHB and Medicare coordination, survivor benefits, and tax planning, with live Q&A.',
+    startDate: toEasternISO(w.date, w.timezone),
+    endDate: toEasternISO(new Date(w.date.getTime() + FERS_DURATION_MS), w.timezone),
+    eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
+    eventStatus: 'https://schema.org/EventScheduled',
+    location: { '@type': 'VirtualLocation', url },
+    organizer,
+    performer: performers,
+    isAccessibleForFree: true,
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', availability: 'https://schema.org/InStock', url },
+    url,
+  };
+});
+
+const fehbEventSchemas = upcomingFEHB.map((w) => {
+  const url = `${SITE}/fehb-open-season-webinar`;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'EducationEvent',
+    name: `${w.title}: ${formatFEHBWebinarDate(w)}`,
+    description: 'Free FEHB Open Season webinar for federal employees and retirees: plan comparison, Medicare coordination, and what changes for the new plan year.',
+    startDate: toEasternISO(w.date, w.timezone),
+    endDate: toEasternISO(getFEHBWebinarEnd(w), w.timezone),
+    eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
+    eventStatus: 'https://schema.org/EventScheduled',
+    location: { '@type': 'VirtualLocation', url },
+    organizer,
+    // The FEHB session is hosted by Brennan alone, so the schema says so.
+    performer: performers.filter((p) => p.name === 'Brennan Rhule'),
+    isAccessibleForFree: true,
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', availability: 'https://schema.org/InStock', url },
+    url,
+  };
+});
+
+const eventSchemas = [...fersEventSchemas, ...fehbEventSchemas];
 
 const faqSchema = {
   "@context": "https://schema.org",
@@ -63,40 +123,23 @@ const faqSchema = {
   ]
 };
 
-const allEventsSchema = {
-  "@context": "https://schema.org",
-  "@type": "ItemList",
-  "name": "PlanWell Federal Retirement Webinars",
-  "itemListElement": upcomingFERS.map((w, i) => ({
-    "@type": "ListItem",
-    "position": i + 1,
-    "item": {
-      "@type": "EducationEvent",
-      "name": `Free FERS Retirement Workshop — ${formatWebinarDate(w)}`,
-      "startDate": w.date.toISOString(),
-      "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
-      "eventStatus": "https://schema.org/EventScheduled",
-      "isAccessibleForFree": true,
-      "url": `https://planwellfp.com/webinar/${w.id}`,
-      "location": { "@type": "VirtualLocation", "url": `https://planwellfp.com/webinar/${w.id}` },
-      "organizer": { "@type": "Organization", "name": "PlanWell Financial Planning" }
-    }
-  }))
-};
 ---
 
 <BaseLayout
-  title="Federal Employee Retirement Webinars - Free FERS & TSP Workshops"
-  description="Register for free federal retirement webinars from CFP® and ChFEBC℠ advisors. Our 3-hour FERS workshops and TSP sessions have educated over 10,000 federal employees on pension, benefits, and tax strategies."
+  title="Federal Retirement Webinar: Free FERS Workshop for Federal Employees | PlanWell"
+  exactTitle={true}
+  description="Register for a free federal retirement webinar from CFP® and ChFEBC℠ advisors. Our 3-hour FERS workshops have educated over 10,000 federal employees on pension, TSP, FEHB, and tax strategies. See every upcoming date."
 >
   <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
-  {upcomingFERS.length > 0 && <script type="application/ld+json" set:html={JSON.stringify(allEventsSchema)} />}
+  {eventSchemas.map((schema) => (
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  ))}
 
   <!-- Hero -->
   <section class="service-hero">
     <div class="container">
       <span class="eyebrow">Free Federal Retirement Education</span>
-      <h1 class="heading-xl">Federal Employee Retirement Webinars</h1>
+      <h1 class="heading-xl">Federal Retirement Webinar: Free FERS Workshop for Federal Employees</h1>
       <p class="lead max-w-3xl">
         Join over 10,000 federal employees who have attended our free retirement workshops.
         Learn everything you need to know about your FERS pension, TSP, healthcare options,
@@ -118,7 +161,7 @@ const allEventsSchema = {
 
       <div class="events-list">
         {upcomingFERS.map(w => (
-          <a href="/webinar" class="event-row">
+          <a href={`/webinar/${w.id}`} class="event-row">
             <div class="event-row__date">
               <span class="event-row__day">{formatWebinarDate(w)}</span>
               <span class="event-row__time">{w.startTime} - {w.endTime} {w.timezone}</span>
@@ -137,6 +180,33 @@ const allEventsSchema = {
           <p class="text-center" style="color: var(--color-gray-500);">New dates coming soon. Check back shortly.</p>
         )}
       </div>
+
+      {upcomingFEHB.length > 0 && (
+        <>
+          <div class="section-header" style="margin-top: var(--space-12);">
+            <span class="eyebrow">Open Season</span>
+            <h2 class="heading-lg">FEHB Open Season Webinar</h2>
+          </div>
+          <div class="events-list">
+            {upcomingFEHB.map(w => (
+              <a href="/fehb-open-season-webinar" class="event-row">
+                <div class="event-row__date">
+                  <span class="event-row__day">{formatFEHBWebinarDate(w)}</span>
+                  <span class="event-row__time">{w.startTime} - {w.endTime} {w.timezone}</span>
+                </div>
+                <div class="event-row__info">
+                  <h3>{w.title}</h3>
+                  <span class="event-row__meta">Free · Online · Hosted by {w.host}</span>
+                </div>
+                <div class="event-row__action">
+                  <span class="event-row__badge">{daysUntilDate(w.date)} days away</span>
+                  <span class="btn btn--primary btn--sm">Register</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </>
+      )}
 
     </div>
   </section>

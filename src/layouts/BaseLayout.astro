@@ -16,6 +16,9 @@ interface Props {
   ogImage?: string;
   ogType?: 'website' | 'article';
   noindex?: boolean;
+  // Use the title verbatim, skipping the brand-suffix normalisation below.
+  // For pages whose <title> was written to an exact SEO spec.
+  exactTitle?: boolean;
   // Article-specific props for blog posts
   articleDate?: string;
   articleAuthor?: string;
@@ -29,6 +32,7 @@ const {
   ogImage = "/og-default.png",
   ogType = "website",
   noindex = false,
+  exactTitle = false,
   articleDate,
   articleAuthor,
   articleSection
@@ -45,9 +49,11 @@ const canonicalURL = canonical
 // SERP characters on pages whose titles are already long.
 const brandSuffix = 'PlanWell Financial Planning';
 const trimmedTitle = title.replace(/\s*\|\s*PlanWell(\s+Financial\s+Planning)?\s*$/i, '');
-const fullTitle = /\bPlanWell\b/i.test(trimmedTitle)
-  ? trimmedTitle
-  : `${trimmedTitle} | ${brandSuffix}`;
+const fullTitle = exactTitle
+  ? title
+  : /\bPlanWell\b/i.test(trimmedTitle)
+    ? trimmedTitle
+    : `${trimmedTitle} | ${brandSuffix}`;
 
 // Schema.org LocalBusiness + FinancialService structured data
 const schemaData = {
