@@ -1150,14 +1150,79 @@ const faqSchema = {
     // LinkedIn-driven registrations are tagged distinctly in Mailchimp and can be
     // counted separately. An optional ?v=A..D marks the A/B/C/D message variant,
     // giving per-variant registration attribution (e.g. fers_webinar_optin_li_a).
+    // Channel mirrors: /webinar/li (LinkedIn) and /webinar/meta (paid social).
+    // Each is an Astro.rewrite to this same page, so adding a channel is one
+    // small file plus one entry here.
+    const CHANNEL_PATHS = { '/webinar/li': 'li', '/webinar/meta': 'meta' };
+    const _path = window.location.pathname.replace(/\/+$/, '');
+    const _channel = CHANNEL_PATHS[_path] || '';
     let _attrSuffix = '';
-    if (window.location.pathname.replace(/\/+$/, '').endsWith('/webinar/li')) {
+    if (_channel) {
       const _v = (new URLSearchParams(window.location.search).get('v') || '')
         .toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 8);
-      _attrSuffix = '_li' + (_v ? '_' + _v : '');
+      _attrSuffix = '_' + _channel + (_v ? '_' + _v : '');
     }
     const REG_SOURCE = 'webinar_registration' + _attrSuffix;
     const OPTIN_SOURCE = 'fers_webinar_optin' + _attrSuffix;
+
+    // First-touch attribution. Someone can click a LinkedIn DM, leave, and come
+    // back later via Google; without this they would convert as organic and the
+    // channel that actually earned them gets no credit. First touch wins and is
+    // kept for 30 days.
+    const ATTR_KEY = 'pw_first_touch';
+    const ATTR_TTL_MS = 30 * 24 * 60 * 60 * 1000;
+
+    function captureAttribution() {
+      const p = new URLSearchParams(window.location.search);
+      const current = {
+        source: REG_SOURCE,
+        attr_suffix: _attrSuffix,
+        channel: _channel || null,
+        variant: p.get('v') || null,
+        utm_source: p.get('utm_source') || null,
+        utm_medium: p.get('utm_medium') || null,
+        utm_campaign: p.get('utm_campaign') || null,
+        utm_term: p.get('utm_term') || null,
+        utm_content: p.get('utm_content') || null,
+        fbclid: p.get('fbclid') || null,
+        gclid: p.get('gclid') || null,
+        referrer: document.referrer || null,
+        landing_page: window.location.pathname + window.location.search,
+        captured_at: new Date().toISOString()
+      };
+
+      let stored = null;
+      try {
+        const raw = localStorage.getItem(ATTR_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Date.now() - new Date(parsed.captured_at).getTime() < ATTR_TTL_MS) {
+            stored = parsed;
+          }
+        }
+      } catch (e) { /* storage blocked or corrupt; fall back to this visit */ }
+
+      // Only overwrite a stored first touch when this visit actually carries a
+      // channel signal. A bare /webinar visit must not erase an earlier
+      // LinkedIn or paid click.
+      const hasSignal = !!(_channel || current.utm_source || current.fbclid || current.gclid);
+      if (!stored || (hasSignal && !stored.channel && !stored.utm_source
+                      && !stored.fbclid && !stored.gclid)) {
+        if (hasSignal || !stored) {
+          try { localStorage.setItem(ATTR_KEY, JSON.stringify(current)); } catch (e) {}
+          stored = current;
+        }
+      }
+      return { first_touch: stored || current, last_touch: current };
+    }
+
+    const ATTRIBUTION = captureAttribution();
+    // If the first touch was a channel click, that is the source of record.
+    const _firstSuffix = (ATTRIBUTION.first_touch && typeof ATTRIBUTION.first_touch.attr_suffix === 'string')
+      ? ATTRIBUTION.first_touch.attr_suffix
+      : _attrSuffix;
+    const ATTRIBUTED_SOURCE = 'webinar_registration' + _firstSuffix;
+    const ATTRIBUTED_OPTIN_SOURCE = 'fers_webinar_optin' + _firstSuffix;
 
     // Get webinar data from data attributes
     const webinarDataEl = document.getElementById('webinar-data');
@@ -1212,7 +1277,8 @@ const faqSchema = {
         webinar_date: webinarData.date,
         webinar_type: 'fers',
         submitted_at: new Date().toISOString(),
-        source: REG_SOURCE
+        source: ATTRIBUTED_SOURCE,
+        attribution: ATTRIBUTION
       };
 
       for (let attempt = 0; attempt <= retries; attempt++) {
@@ -1281,20 +1347,29 @@ const faqSchema = {
             warn.textContent = 'Note: There was a connection issue. You may not have received a confirmation email. Please check your inbox, and if you don\'t see one within a few minutes, try registering again.';
             var successContent = document.querySelector('.step-content--success');
             if (successContent) successContent.appendChild(warn);
+            return;
+          }
+          // GA4 + FB conversion events. Fired only on webhook success and only
+          // once per email, so retries, re-submits and failed attempts do not
+          // count. Before 2026-09-08 these fired on reaching the success step
+          // regardless of outcome, which put GA4 at 2.1x Zoom registrations.
+          var regEmail = (submitData.email || '').trim().toLowerCase();
+          var firedKey = 'pw_reg_fired:' + regEmail;
+          var alreadyFired = false;
+          try { alreadyFired = !!localStorage.getItem(firedKey); } catch (e) {}
+          if (alreadyFired) return;
+          try { localStorage.setItem(firedKey, String(Date.now())); } catch (e) {}
+          if (typeof gtag === 'function') {
+            gtag('event', 'webinar_registration', {
+              event_category: 'conversion',
+              event_label: 'fers_webinar',
+              webinar_type: 'fers'
+            });
+          }
+          if (typeof fbq === 'function') {
+            fbq('track', 'CompleteRegistration', { content_name: 'FERS Webinar' });
           }
         });
-
-        // GA4 + FB conversion events
-        if (typeof gtag === 'function') {
-          gtag('event', 'webinar_registration', {
-            event_category: 'conversion',
-            event_label: 'fers_webinar',
-            webinar_type: 'fers'
-          });
-        }
-        if (typeof fbq === 'function') {
-          fbq('track', 'CompleteRegistration', { content_name: 'FERS Webinar' });
-        }
 
         // Newsletter opt-in (checked by default; fires unless the user unchecks the box)
         const newsletterCheckbox = document.getElementById('newsletter-optin');
@@ -1311,7 +1386,7 @@ const faqSchema = {
             body: JSON.stringify({
               name: formData.fullName || '',
               email: formData.email,
-              source: OPTIN_SOURCE,
+              source: ATTRIBUTED_OPTIN_SOURCE,
               timestamp: new Date().toISOString()
             })
           }).catch(function(err) { console.error('Newsletter signup error:', err); });
