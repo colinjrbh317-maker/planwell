@@ -138,3 +138,10 @@ STATUS:CONFIRMED
 END:VEVENT
 END:VCALENDAR`;
 }
+
+/**
+ * Homepage banner switch. Off by default. When true, FehbBanner.astro renders a
+ * thin gold bar at the top of the homepage until the next FEHB session has passed,
+ * after which it hides itself without anyone touching this flag.
+ */
+export const SHOW_FEHB_BANNER = false;

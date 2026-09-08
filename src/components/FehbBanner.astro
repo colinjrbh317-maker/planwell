@@ -1,0 +1,79 @@
+---
+/**
+ * FehbBanner - thin gold bar above the site header on the homepage.
+ *
+ * Controlled by SHOW_FEHB_BANNER in src/data/fehb-webinars.ts and hidden
+ * automatically once the next FEHB session date has passed. The homepage is
+ * prerendered, so the server check runs at build time; the inline script
+ * repeats the date check in the browser so a stale build cannot advertise a
+ * webinar that already happened.
+ */
+import { SHOW_FEHB_BANNER, getNextFEHBWebinar } from '../data/fehb-webinars';
+
+const next = SHOW_FEHB_BANNER ? getNextFEHBWebinar() : null;
+const show = next !== null;
+
+const dayLabel = next
+  ? next.date.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', timeZone: 'America/New_York' })
+  : '';
+const timeLabel = next ? `${next.startTime} ET` : '';
+const expiresAt = next ? next.date.toISOString() : '';
+---
+
+{show && (
+  <div class="fehb-banner" id="fehb-banner" data-expires={expiresAt} role="region" aria-label="FEHB Open Season webinar announcement">
+    <p class="fehb-banner__text">
+      FEHB Open Season webinar, {dayLabel} at {timeLabel}, free.
+      <a href="/fehb-open-season-webinar" class="fehb-banner__link">Register</a>
+    </p>
+  </div>
+)}
+
+<style>
+  .fehb-banner {
+    background: #d1a437;
+    color: #000d3e;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .fehb-banner__text {
+    margin: 0;
+  }
+
+  .fehb-banner__link {
+    color: #000d3e;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-weight: 700;
+    margin-left: 0.5rem;
+    display: inline-block;
+    padding: 0.25rem 0;
+  }
+
+  .fehb-banner__link:hover {
+    color: #013a7e;
+  }
+
+  .fehb-banner__link:focus-visible {
+    outline: 2px solid #000d3e;
+    outline-offset: 2px;
+  }
+
+  @media print {
+    .fehb-banner { display: none; }
+  }
+</style>
+
+<script>
+  const banner = document.getElementById('fehb-banner');
+  if (banner) {
+    const expires = Date.parse(banner.dataset.expires || '');
+    if (!Number.isNaN(expires) && Date.now() > expires) {
+      banner.hidden = true;
+    }
+  }
+</script>
