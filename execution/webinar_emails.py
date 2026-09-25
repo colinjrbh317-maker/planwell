@@ -164,19 +164,32 @@ def _navy_note(text):
 # ---------------------------------------------------------------------------
 
 def send_webinar_confirmation(to_email, first_name, webinar_date,
-                               timezone='ET', calendar_link=''):
+                               timezone='ET', calendar_link='', zoom_link=''):
     """
     Send confirmation email immediately after registration.
     Purpose: Confirm the spot, set expectations, give one action (add to calendar).
     """
     subject = "You're registered for the FERS Workshop on " + webinar_date
 
+    # With the personal join link in hand (returned by Zoom at registration),
+    # give it now instead of promising it for the day before.
+    if zoom_link:
+        format_lines = (
+            "  Format:  Online via Zoom\n"
+            "  Join:    " + zoom_link + "\n"
+        )
+        zoom_note = ("This join link is personal to you. We'll also resend it the day "
+                     "before the workshop.\n\n")
+    else:
+        format_lines = "  Format:  Online via Zoom (link arrives the day before)\n"
+        zoom_note = "Your Zoom link will arrive the day before the workshop.\n\n"
+
     plain_body = (
         "Hi " + first_name + ",\n\n"
         "You're registered. Here are your details:\n\n"
         "  Date:    " + webinar_date + "\n"
-        "  Time:    11:00 AM - 2:00 PM " + timezone + "\n"
-        "  Format:  Online via Zoom (link arrives the day before)\n"
+        "  Time:    11:00 AM - 2:00 PM " + timezone + "\n" +
+        format_lines +
         "  Cost:    Free\n\n"
         "David Fei, CFP(r) will lead the workshop, covering the FERS pension formula, "
         "TSP withdrawal strategies, and how FEHB, FEGLI, and Social Security fit together "
@@ -186,8 +199,8 @@ def send_webinar_confirmation(to_email, first_name, webinar_date,
         "leave knowing your numbers and your options.\n\n"
         "One thing to do before the workshop: pull up your most recent LES (Leave and Earnings "
         "Statement). Having your base pay and years of creditable service in front of you makes "
-        "the pension calculation section much more useful.\n\n"
-        "Your Zoom link will arrive the day before the workshop.\n\n"
+        "the pension calculation section much more useful.\n\n" +
+        zoom_note +
         "See you on " + webinar_date + ",\n"
         "David & Brennan\n"
         "PlanWell Financial Planning\n"
@@ -200,7 +213,9 @@ def send_webinar_confirmation(to_email, first_name, webinar_date,
         _detail_row("Date:", webinar_date) +
         _detail_row("Time:", "11:00 AM &ndash; 2:00 PM " + timezone) +
         _detail_row("Format:", "Online via Zoom") +
-        _detail_row("Zoom link:", "Arrives the day before")
+        (_detail_row("Zoom link:", '<a href="' + zoom_link + '" style="color:#1e3a5f;'
+                     'font-weight:bold;">Your personal join link</a>')
+         if zoom_link else _detail_row("Zoom link:", "Arrives the day before"))
     )
 
     cal_btn = _gold_button(calendar_link, "Add to Calendar") if calendar_link else ""

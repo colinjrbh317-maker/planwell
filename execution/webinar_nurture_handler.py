@@ -115,7 +115,10 @@ def handle_webinar_registration():
                 zoom_result = zoom_add_registrant(
                     webinar_id=zoom_webinar_id,
                     first_name=first_name or 'Attendee',
-                    last_name=last_name or '',
+                    # Zoom rejects an empty last_name (400 "The parameter is
+                    # required: last_name"), which silently cost single-name
+                    # registrants their Zoom seat and join link.
+                    last_name=last_name or '-',
                     email=email,
                     phone=phone,
                 )
@@ -126,6 +129,20 @@ def handle_webinar_registration():
             else:
                 print(f"No Zoom webinar found for date {target_date} — skipping Zoom registration")
 
+        join_url = zoom_result.get('join_url', '') or ''
+
+        # Put the personal join link in the calendar event too, so the invite
+        # works on its own without waiting for a later email.
+        if join_url and google_cal_url:
+            from urllib.parse import quote
+            google_cal_url = google_cal_url.replace(
+                f'&location={quote("Online via Zoom")}',
+                f'&location={quote(join_url)}',
+            ).replace(
+                f'&details={quote(cal_desc)}',
+                f'&details={quote(cal_desc + " Your personal join link: " + join_url)}',
+            )
+
         # --- Step 2: Add/update subscriber in Mailchimp ---
         mailchimp_result = {'success': False}
         try:
@@ -134,7 +151,7 @@ def handle_webinar_registration():
                 first_name=first_name,
                 last_name=last_name,
                 merge_fields={
-                    'ZOOMURL': zoom_result.get('join_url', ''),
+                    'ZOOMURL': join_url,
                     'WBNRDATE': webinar_date_str,
                     'WBNRTYPE': webinar_type,
                 },
@@ -158,7 +175,8 @@ def handle_webinar_registration():
                 confirmation_sent = send_tsp_confirmation(email, first_name, formatted_date, 'ET', calendar_link=google_cal_url)
             else:
                 from webinar_emails import send_webinar_confirmation
-                confirmation_sent = send_webinar_confirmation(email, first_name, formatted_date, 'ET', calendar_link=google_cal_url)
+                confirmation_sent = send_webinar_confirmation(email, first_name, formatted_date, 'ET',
+                                                              calendar_link=google_cal_url, zoom_link=join_url)
 
             if confirmation_sent:
                 print(f"Confirmation email sent: {email} (type={webinar_type})")
@@ -171,7 +189,8 @@ def handle_webinar_registration():
             'success': True,
             'message': 'Registration received',
             'zoom_registered': zoom_result.get('success', False),
-            'zoom_join_url': zoom_result.get('join_url', ''),
+            'zoom_join_url': join_url,
+            'join_url': join_url,
             'mailchimp_registered': mailchimp_result.get('success', False),
             'confirmation_sent': confirmation_sent,
         })
