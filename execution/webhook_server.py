@@ -11,10 +11,19 @@ Run this instead of individual handlers:
 """
 
 import os
+import sys
 from pathlib import Path
 from flask import Flask
 from flask_cors import CORS
 from dotenv import load_dotenv
+
+# Flush log lines as they happen. Without this, Railway receives stdout in
+# bursts hours late, which hid the confirmation-email failures.
+try:
+    sys.stdout.reconfigure(line_buffering=True)
+    sys.stderr.reconfigure(line_buffering=True)
+except Exception:
+    pass
 
 # Load environment variables
 load_dotenv(Path(__file__).parent.parent / '.env')
@@ -46,7 +55,9 @@ def webinar_calendar_ics():
     s = request.args.get('s', '')
     j = request.args.get('j', '')
     p = request.args.get('p', '')
-    if t not in wc.WEBINAR_TYPES or not wc.verify(t, s, j, p, request.args.get('sig', '')):
+    # Some mail clients' plain-text linkifiers swallow a trailing ")".
+    sig = request.args.get('sig', '').strip().rstrip(').,')
+    if t not in wc.WEBINAR_TYPES or not wc.verify(t, s, j, p, sig):
         return {'error': 'invalid calendar link'}, 400
     try:
         start = wc.parse_start(s)

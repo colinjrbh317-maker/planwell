@@ -119,6 +119,16 @@ class EndpointTests(unittest.TestCase):
         self.assertIn('.ics', r.headers['Content-Disposition'])
         self.assertIn('METHOD:PUBLISH', r.get_data(as_text=True))
 
+    def test_tolerates_trailing_paren_on_sig(self):
+        url = wc.ics_link('fers', OCT16, JOIN, '057007') + ')'
+        r = self.client.get(url[url.index('/api/'):])
+        self.assertEqual(r.status_code, 200)
+
+    def test_ignores_tracking_params(self):
+        url = wc.ics_link('fers', OCT16, JOIN) + '&utm_source=x&utm_medium=email'
+        r = self.client.get(url[url.index('/api/'):])
+        self.assertEqual(r.status_code, 200)
+
     def test_rejects_unsigned(self):
         r = self.client.get('/api/webinar/calendar.ics?t=fers&s=20261016T150000Z&j=https://evil.example')
         self.assertEqual(r.status_code, 400)
