@@ -40,8 +40,10 @@ CORS(app)
 
 
 # Seconds between re-sends while Mailchimp reports "recipients not ready".
-# Cumulative ~16 minutes.
-CONFIRMATION_RETRY_DELAYS = (15, 30, 60, 120, 240, 480)
+# Observed 2026-09-28: a brand-new contact became sendable after ~956s (sent
+# on attempt 7 of the old 16-minute schedule). Cumulative now ~81 minutes so
+# a slower day still delivers.
+CONFIRMATION_RETRY_DELAYS = (15, 30, 60, 120, 240, 300, 300, 300, 600, 900, 1800)
 
 
 def _send_confirmation(email, first_name, formatted_date, webinar_type,
