@@ -33,6 +33,34 @@ app.add_url_rule('/api/contact', 'contact', handle_contact_form, methods=['POST'
 app.add_url_rule('/api/newsletter', 'newsletter', handle_newsletter_subscription, methods=['POST'])
 
 
+@app.route('/api/webinar/calendar.ics', methods=['GET'])
+def webinar_calendar_ics():
+    """Serve a signed .ics for the confirmation email's "Add to Calendar" button.
+
+    Mailchimp campaigns cannot carry attachments, so the calendar file is
+    served here. Works in Outlook (desktop and web), Apple Calendar and Google.
+    """
+    from flask import request, Response
+    import webinar_calendar as wc
+    t = request.args.get('t', 'fers')
+    s = request.args.get('s', '')
+    j = request.args.get('j', '')
+    p = request.args.get('p', '')
+    if t not in wc.WEBINAR_TYPES or not wc.verify(t, s, j, p, request.args.get('sig', '')):
+        return {'error': 'invalid calendar link'}, 400
+    try:
+        start = wc.parse_start(s)
+    except ValueError:
+        return {'error': 'invalid start'}, 400
+    body = wc.build_ics(t, start, j, p)
+    filename = wc.WEBINAR_TYPES[t]['filename']
+    return Response(body, mimetype='text/calendar', headers={
+        'Content-Type': 'text/calendar; charset=utf-8',
+        'Content-Disposition': f'attachment; filename="{filename}"',
+        'Cache-Control': 'private, max-age=3600',
+    })
+
+
 @app.route('/health', methods=['GET'])
 def health():
     """Health check endpoint."""
@@ -90,6 +118,7 @@ def index():
             {'path': '/api/webinar', 'method': 'POST', 'description': 'Webinar registration'},
             {'path': '/api/contact', 'method': 'POST', 'description': 'Contact form'},
             {'path': '/api/newsletter', 'method': 'POST', 'description': 'Newsletter subscription'},
+            {'path': '/api/webinar/calendar.ics', 'method': 'GET', 'description': 'Signed webinar calendar file'},
             {'path': '/health', 'method': 'GET', 'description': 'Health check'},
             {'path': '/cron/scheduler', 'method': 'GET', 'description': 'Run email scheduler (requires secret)'},
             {'path': '/cron/attendance-sync', 'method': 'GET', 'description': 'Run attendance sync (requires secret)'},

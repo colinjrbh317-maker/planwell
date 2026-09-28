@@ -102,6 +102,27 @@ def find_webinar_by_date(target_date):
     return None
 
 
+def get_webinar(webinar_id):
+    """Return {'start_time', 'duration', 'password', 'timezone'} for a webinar, or {} on error."""
+    clean_id = str(webinar_id).replace(' ', '')
+    try:
+        resp = requests.get(f'https://api.zoom.us/v2/webinars/{clean_id}',
+                            headers=_headers(), timeout=10)
+        if resp.status_code != 200:
+            print(f'Zoom get webinar error: {resp.status_code} - {resp.text[:200]}')
+            return {}
+        d = resp.json()
+        return {
+            'start_time': d.get('start_time', ''),
+            'duration': d.get('duration', 0),
+            'password': d.get('password', '') or '',
+            'timezone': d.get('timezone', ''),
+        }
+    except Exception as e:
+        print(f'Zoom get webinar error: {e}')
+        return {}
+
+
 def add_registrant(webinar_id, first_name, last_name, email, phone=''):
     """
     Register a participant for a Zoom webinar.

@@ -32,10 +32,51 @@ load_dotenv(Path(__file__).parent.parent / '.env')
 
 # Import our modules
 from zoom_client import add_registrant as zoom_add_registrant, find_webinar_by_date
+from zoom_client import get_webinar as get_zoom_webinar
 from mailchimp_client import add_subscriber_or_update
 
 app = Flask(__name__)
 CORS(app)
+
+
+# Seconds between re-sends while Mailchimp reports "recipients not ready".
+# Cumulative ~16 minutes.
+CONFIRMATION_RETRY_DELAYS = (15, 30, 60, 120, 240, 480)
+
+
+def _send_confirmation(email, first_name, formatted_date, webinar_type,
+                       join_url, passcode, cal_links, retry_delays=CONFIRMATION_RETRY_DELAYS):
+    try:
+        if webinar_type == 'tsp':
+            from tsp_webinar_emails import send_tsp_confirmation
+            ok = send_tsp_confirmation(email, first_name, formatted_date, 'ET',
+                                       calendar_link=cal_links.get('google', ''))
+        else:
+            from webinar_emails import send_webinar_confirmation
+            ok = send_webinar_confirmation(
+                email, first_name, formatted_date, 'ET',
+                calendar_link=cal_links.get('google', ''),
+                zoom_link=join_url,
+                ics_link=cal_links.get('ics', ''),
+                outlook_link=cal_links.get('outlook_web', ''),
+                passcode=passcode,
+                retry_delays=retry_delays,
+            )
+        if ok:
+            print(f"Confirmation email sent: {email} (type={webinar_type})")
+        else:
+            print(f"Confirmation email failed (non-blocking): {email}")
+        return ok
+    except Exception as email_err:
+        print(f"Confirmation email error (non-blocking): {email_err}")
+        return False
+
+
+def _send_confirmation_async(**kwargs):
+    import threading
+    t = threading.Thread(target=_send_confirmation, kwargs=kwargs, daemon=True)
+    t.start()
+    return t
 
 
 @app.route('/api/webinar', methods=['POST'])
@@ -73,6 +114,7 @@ def handle_webinar_registration():
     try:
         # --- Step 1: Register in Zoom ---
         zoom_result = {'success': False, 'join_url': ''}
+        zoom_webinar = {}
         webinar_date_str = data.get('webinar_date', '')
 
         # Format date for human-readable display in emails
@@ -124,6 +166,7 @@ def handle_webinar_registration():
                 )
                 if zoom_result.get('success'):
                     print(f"Zoom registration successful: {email} → webinar {zoom_webinar_id}")
+                    zoom_webinar = get_zoom_webinar(zoom_webinar_id)
                 else:
                     print(f"Zoom registration warning (non-blocking): {zoom_result.get('error', 'unknown')}")
             else:
@@ -142,6 +185,20 @@ def handle_webinar_registration():
                 f'&details={quote(cal_desc)}',
                 f'&details={quote(cal_desc + " Your personal join link: " + join_url)}',
             )
+
+        # Calendar options that work outside Google: a signed .ics served by
+        # this server (Outlook desktop, Apple) plus Outlook on the web. Zoom's
+        # own start_time is preferred over the form's date when we have it.
+        passcode = zoom_webinar.get('password', '') if join_url else ''
+        cal_links = {'ics': '', 'google': google_cal_url, 'outlook_web': ''}
+        try:
+            import webinar_calendar
+            start_src = zoom_webinar.get('start_time') or webinar_date_str
+            if start_src:
+                start_utc = webinar_calendar.parse_start(start_src)
+                cal_links = webinar_calendar.calendar_links(webinar_type, start_utc, join_url, passcode)
+        except Exception as cal_err:
+            print(f"Calendar link build failed (non-blocking): {cal_err}")
 
         # --- Step 2: Add/update subscriber in Mailchimp ---
         mailchimp_result = {'success': False}
@@ -167,23 +224,21 @@ def handle_webinar_registration():
         except Exception as mc_err:
             print(f"Mailchimp error (non-blocking): {mc_err}")
 
-        # --- Step 3: Send SMTP confirmation email ---
-        confirmation_sent = False
-        try:
-            if webinar_type == 'tsp':
-                from tsp_webinar_emails import send_tsp_confirmation
-                confirmation_sent = send_tsp_confirmation(email, first_name, formatted_date, 'ET', calendar_link=google_cal_url)
-            else:
-                from webinar_emails import send_webinar_confirmation
-                confirmation_sent = send_webinar_confirmation(email, first_name, formatted_date, 'ET',
-                                                              calendar_link=google_cal_url, zoom_link=join_url)
-
-            if confirmation_sent:
-                print(f"Confirmation email sent: {email} (type={webinar_type})")
-            else:
-                print(f"Confirmation email failed (non-blocking): {email}")
-        except Exception as email_err:
-            print(f"Confirmation email error (non-blocking): {email_err}")
+        # --- Step 3: Send the confirmation email (background, with retries) ---
+        # A brand-new Mailchimp contact is not visible to campaign segments for
+        # a short while, so the first send to a new registrant fails with
+        # "recipients not ready". Retrying in a background thread keeps the
+        # form response fast while the send completes a minute or two later.
+        _send_confirmation_async(
+            email=email,
+            first_name=first_name,
+            formatted_date=formatted_date,
+            webinar_type=webinar_type,
+            join_url=join_url,
+            passcode=passcode,
+            cal_links=cal_links,
+        )
+        confirmation_sent = 'queued'
 
         return jsonify({
             'success': True,

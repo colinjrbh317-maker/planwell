@@ -164,43 +164,65 @@ def _navy_note(text):
 # ---------------------------------------------------------------------------
 
 def send_webinar_confirmation(to_email, first_name, webinar_date,
-                               timezone='ET', calendar_link='', zoom_link=''):
+                               timezone='ET', calendar_link='', zoom_link='',
+                               ics_link='', outlook_link='', passcode='',
+                               retry_delays=()):
     """
     Send confirmation email immediately after registration.
-    Purpose: Confirm the spot, set expectations, give one action (add to calendar).
-    """
-    subject = "You're registered for the FERS Workshop on " + webinar_date
 
-    # With the personal join link in hand (returned by Zoom at registration),
-    # give it now instead of promising it for the day before.
+    This is meant to be the ONE email a registrant needs: the personal Zoom
+    join link up top, the date and time, and a calendar file that works in
+    Outlook and Apple Calendar (ics_link), with Google Calendar and Outlook on
+    the web as secondary options.
+
+    calendar_link: Google Calendar link (kept as the name for callers that
+        predate the .ics option).
+    ics_link: URL of a signed .ics served by the webhook server.
+    outlook_link: Outlook on the web "add event" link.
+    retry_delays: forwarded to the Mailchimp send (see send_email_via_mailchimp).
+    """
+    import html as _html
+    subject = "You're registered for the FERS Workshop on " + webinar_date
+    google_link = calendar_link
+    name_html = _html.escape(first_name or '')
+
+    # ---- plain text ----
     if zoom_link:
-        format_lines = (
-            "  Format:  Online via Zoom\n"
-            "  Join:    " + zoom_link + "\n"
+        join_block = (
+            "YOUR PERSONAL JOIN LINK (save this email):\n" + zoom_link + "\n" +
+            ("Passcode, if Zoom asks for one: " + passcode + "\n" if passcode else "") +
+            "No Zoom account is needed. On a computer you can choose \"Join from your browser\".\n\n"
         )
-        zoom_note = ("This join link is personal to you. We'll also resend it the day "
-                     "before the workshop.\n\n")
     else:
-        format_lines = "  Format:  Online via Zoom (link arrives the day before)\n"
-        zoom_note = "Your Zoom link will arrive the day before the workshop.\n\n"
+        join_block = "Your personal Zoom join link will arrive the day before the workshop.\n\n"
+
+    cal_lines = ""
+    if ics_link or google_link or outlook_link:
+        cal_lines = "Add it to your calendar:\n"
+        if ics_link:
+            cal_lines += "  Outlook or Apple Calendar: " + ics_link + "\n"
+        if google_link:
+            cal_lines += "  Google Calendar: " + google_link + "\n"
+        if outlook_link:
+            cal_lines += "  Outlook on the web: " + outlook_link + "\n"
+        cal_lines += "\n"
 
     plain_body = (
-        "Hi " + first_name + ",\n\n"
+        "Hi " + (first_name or "there") + ",\n\n"
         "You're registered. Here are your details:\n\n"
         "  Date:    " + webinar_date + "\n"
-        "  Time:    11:00 AM - 2:00 PM " + timezone + "\n" +
-        format_lines +
-        "  Cost:    Free\n\n"
+        "  Time:    11:00 AM - 2:00 PM " + timezone + " (Eastern)\n"
+        "  Where:   Online via Zoom\n"
+        "  Cost:    Free\n\n" +
+        join_block + cal_lines +
         "David Fei, CFP(r) will lead the workshop, covering the FERS pension formula, "
         "TSP withdrawal strategies, and how FEHB, FEGLI, and Social Security fit together "
         "in retirement. Brennan Rhule, CFP(r) will be available throughout to answer your "
         "questions in the chat.\n\n"
-        "The full 3 hours are spent on content. No sales pitch. The goal is for you to "
-        "leave knowing your numbers and your options.\n\n"
         "One thing to do before the workshop: pull up your most recent LES (Leave and Earnings "
         "Statement). Having your base pay and years of creditable service in front of you makes "
-        "the pension calculation section much more useful.\n\n" +
-        zoom_note +
+        "the pension calculation section much more useful.\n\n"
+        "We'll send the join link again the day before.\n\n"
         "See you on " + webinar_date + ",\n"
         "David & Brennan\n"
         "PlanWell Financial Planning\n"
@@ -209,36 +231,14 @@ def send_webinar_confirmation(to_email, first_name, webinar_date,
         "Questions? Reply to this email.\n"
     )
 
+    # ---- HTML ----
     details_rows = (
         _detail_row("Date:", webinar_date) +
-        _detail_row("Time:", "11:00 AM &ndash; 2:00 PM " + timezone) +
-        _detail_row("Format:", "Online via Zoom") +
-        (_detail_row("Zoom link:", '<a href="' + zoom_link + '" style="color:#1e3a5f;'
-                     'font-weight:bold;">Your personal join link</a>')
-         if zoom_link else _detail_row("Zoom link:", "Arrives the day before"))
+        _detail_row("Time:", "11:00 AM &ndash; 2:00 PM " + timezone + " (Eastern)") +
+        _detail_row("Where:", "Online via Zoom") +
+        (_detail_row("Passcode:", _html.escape(passcode) + ' <span style="color:#666666;">(only if Zoom asks)</span>')
+         if (zoom_link and passcode) else "")
     )
-
-    cal_btn = _gold_button(calendar_link, "Add to Calendar") if calendar_link else ""
-
-    topics_content = (
-        '<p style="margin:0 0 12px 0;font-size:15px;color:#1e3a5f;font-weight:bold;">'
-        'What David will cover in 3 hours:</p>\n'
-        '<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0;">\n'
-        '  <tr><td style="padding:4px 8px 4px 0;vertical-align:top;font-size:15px;color:#c9a55c;">&#8226;</td>'
-        '<td style="padding:4px 0;font-size:15px;color:#333333;">FERS pension formula and how to run your own numbers</td></tr>\n'
-        '  <tr><td style="padding:4px 8px 4px 0;vertical-align:top;font-size:15px;color:#c9a55c;">&#8226;</td>'
-        '<td style="padding:4px 0;font-size:15px;color:#333333;">TSP withdrawal strategies (Roth vs. traditional, RMDs, sequencing)</td></tr>\n'
-        '  <tr><td style="padding:4px 8px 4px 0;vertical-align:top;font-size:15px;color:#c9a55c;">&#8226;</td>'
-        '<td style="padding:4px 0;font-size:15px;color:#333333;">FEHB in retirement and the Medicare Part B decision</td></tr>\n'
-        '  <tr><td style="padding:4px 8px 4px 0;vertical-align:top;font-size:15px;color:#c9a55c;">&#8226;</td>'
-        '<td style="padding:4px 0;font-size:15px;color:#333333;">FEGLI: what to keep, what to drop, and when</td></tr>\n'
-        '  <tr><td style="padding:4px 8px 4px 0;vertical-align:top;font-size:15px;color:#c9a55c;">&#8226;</td>'
-        '<td style="padding:4px 0;font-size:15px;color:#333333;">Survivor benefit election and what it costs your annuity</td></tr>\n'
-        '  <tr><td style="padding:4px 8px 4px 0;vertical-align:top;font-size:15px;color:#c9a55c;">&#8226;</td>'
-        '<td style="padding:4px 0;font-size:15px;color:#333333;">Social Security coordination with your FERS annuity</td></tr>\n'
-        '</table>'
-    )
-
     details_box = (
         '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"'
         ' style="margin:20px 0;background-color:#f5f5f5;border-left:4px solid #c9a55c;">\n'
@@ -250,26 +250,78 @@ def send_webinar_confirmation(to_email, first_name, webinar_date,
         '</table>'
     )
 
+    if zoom_link:
+        join_html = (
+            _gold_button(zoom_link, "Join the Workshop on Zoom") +
+            '<p style="margin:0 0 6px 0;font-size:13px;color:#555555;text-align:center;">'
+            'This link is personal to you. Save this email and use it on ' + webinar_date + '.<br>'
+            'If the button does not work, copy this address into your browser:</p>\n'
+            '<p style="margin:0 0 16px 0;font-size:13px;text-align:center;word-break:break-all;">'
+            '<a href="' + zoom_link + '" style="color:#1e3a5f;">' + _html.escape(zoom_link) + '</a></p>\n'
+            '<p style="margin:0 0 16px 0;font-size:13px;color:#555555;text-align:center;">'
+            'No Zoom account needed. On a computer you can choose &ldquo;Join from your browser&rdquo;.</p>\n'
+        )
+    else:
+        join_html = _navy_note("Your personal Zoom join link will arrive the day before the workshop.")
+
+    cal_html = ""
+    primary_cal = ics_link or google_link
+    if primary_cal:
+        secondary = []
+        if ics_link and google_link:
+            secondary.append('<a href="' + google_link + '" style="color:#1e3a5f;">Google Calendar</a>')
+        if outlook_link:
+            secondary.append('<a href="' + outlook_link + '" style="color:#1e3a5f;">Outlook on the web</a>')
+        cal_html = (
+            '<p style="margin:24px 0 0 0;font-size:15px;color:#1e3a5f;font-weight:bold;text-align:center;">'
+            'Put it on your calendar</p>\n' +
+            _gold_button(primary_cal, "Add to Outlook / Apple Calendar" if ics_link else "Add to Calendar") +
+            ('<p style="margin:-12px 0 16px 0;font-size:13px;color:#555555;text-align:center;">'
+             'Or add it with: ' + ' &nbsp;&middot;&nbsp; '.join(secondary) + '</p>\n'
+             if secondary else '')
+        )
+
+    topics_content = (
+        '<p style="margin:0 0 12px 0;font-size:15px;color:#1e3a5f;font-weight:bold;">'
+        'What David will cover in 3 hours:</p>\n'
+        '<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0;">\n' +
+        ''.join(
+            '  <tr><td style="padding:4px 8px 4px 0;vertical-align:top;font-size:15px;color:#c9a55c;">&#8226;</td>'
+            '<td style="padding:4px 0;font-size:15px;color:#333333;">' + t + '</td></tr>\n'
+            for t in [
+                'FERS pension formula and how to run your own numbers',
+                'TSP withdrawal strategies (Roth vs. traditional, RMDs, sequencing)',
+                'FEHB in retirement and the Medicare Part B decision',
+                'FEGLI: what to keep, what to drop, and when',
+                'Survivor benefit election and what it costs your annuity',
+                'Social Security coordination with your FERS annuity',
+            ]
+        ) +
+        '</table>'
+    )
+
     body_html = (
-        '<p style="margin:0 0 16px 0;">Hi ' + first_name + ',</p>\n\n'
+        '<p style="margin:0 0 16px 0;">Hi ' + (name_html or 'there') + ',</p>\n\n'
         '<p style="margin:0 0 16px 0;">You\'re registered. Here are your details:</p>\n\n' +
         details_box + '\n\n' +
-        cal_btn + '\n\n' +
+        join_html + '\n\n' +
+        cal_html + '\n\n' +
         _section_box('#f5f5f5', '#1e3a5f', topics_content) + '\n\n'
         '<p style="margin:20px 0 16px 0;"><strong>One thing to do before the workshop:</strong> '
         'pull up your most recent LES (Leave and Earnings Statement). Having your base pay and '
         'years of creditable service in front of you makes the pension calculation section much '
         'more useful.</p>\n\n'
-        '<p style="margin:0 0 16px 0;">The full 3 hours are spent on content: your pension, '
-        'your TSP, your benefits. David presents, and Brennan is in the chat to answer your '
-        'questions throughout. You\'ll leave knowing your numbers.</p>\n\n'
+        '<p style="margin:0 0 16px 0;">David presents, and Brennan is in the chat to answer your '
+        'questions throughout. We\'ll send your join link again the day before.</p>\n\n'
         '<p style="margin:0 0 8px 0;">See you on ' + webinar_date + ',</p>\n'
         '<p style="margin:0;font-weight:bold;color:#1e3a5f;">David &amp; Brennan<br>'
         '<span style="font-weight:normal;color:#555555;">PlanWell Financial Planning</span></p>\n'
     )
 
     html_body = _base_html(
-        preheader="You're registered for the FERS Workshop on " + webinar_date + ". Here are your details.",
+        preheader=("Your personal Zoom link and calendar invite for " + webinar_date + "."
+                   if zoom_link else
+                   "You're registered for the FERS Workshop on " + webinar_date + ". Here are your details."),
         header_bg="#1e3a5f",
         header_text_color="#ffffff",
         header_line1="You're registered.",
@@ -277,7 +329,8 @@ def send_webinar_confirmation(to_email, first_name, webinar_date,
         body_html=body_html
     )
 
-    return send_email(to_email, subject, plain_body, html_body)
+    return send_email(to_email, subject, plain_body, html_body,
+                      mailchimp_retry_delays=retry_delays)
 
 
 # ---------------------------------------------------------------------------

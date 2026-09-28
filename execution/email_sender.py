@@ -18,7 +18,8 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv(Path(__file__).parent.parent / '.env')
 
-def send_email(to_email: str, subject: str, body: str, html_body: str = None) -> bool:
+def send_email(to_email: str, subject: str, body: str, html_body: str = None,
+               mailchimp_retry_delays=()) -> bool:
     """
     Send email via Mailchimp API. Falls back to SMTP if Mailchimp fails.
 
@@ -35,11 +36,13 @@ def send_email(to_email: str, subject: str, body: str, html_body: str = None) ->
     try:
         from mailchimp_client import send_email_via_mailchimp
         if html_body:
-            result = send_email_via_mailchimp(to_email, subject, html_body)
+            result = send_email_via_mailchimp(to_email, subject, html_body,
+                                              retry_delays=mailchimp_retry_delays)
         else:
             safe_body = body.replace('\n', '<br>')
             simple_html = f'<html><body style="font-family:Arial,sans-serif;font-size:15px;color:#333;">{safe_body}</body></html>'
-            result = send_email_via_mailchimp(to_email, subject, simple_html)
+            result = send_email_via_mailchimp(to_email, subject, simple_html,
+                                              retry_delays=mailchimp_retry_delays)
         if result:
             return True
         print("Mailchimp send returned False, falling back to SMTP...")

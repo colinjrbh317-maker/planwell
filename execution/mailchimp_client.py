@@ -589,7 +589,7 @@ def update_member_merge_fields(email, merge_fields):
         return {'success': False, 'error': str(e)}
 
 
-def send_email_via_mailchimp(to_email, subject, html_body, from_name='PlanWell Financial Planning', reply_to='info@planwellfp.com'):
+def send_email_via_mailchimp(to_email, subject, html_body, from_name='PlanWell Financial Planning', reply_to='info@planwellfp.com', retry_delays=()):
     """
     Send a single email to one subscriber via Mailchimp campaign API.
 
@@ -602,6 +602,12 @@ def send_email_via_mailchimp(to_email, subject, html_body, from_name='PlanWell F
         html_body: Full HTML email content
         from_name: Sender name (default: PlanWell Financial Planning)
         reply_to: Reply-to email (default: info@planwellfp.com)
+        retry_delays: Seconds to wait before each re-send when Mailchimp says
+            "recipients not ready". A contact created seconds earlier is not
+            yet visible to campaign segments, so the first send to a brand-new
+            subscriber always fails this way (seen Sep 25-28 2026: every new
+            registrant failed, every existing subscriber succeeded). The same
+            draft campaign is re-sent; recipients are re-evaluated each time.
 
     Returns:
         bool: True if sent successfully, False otherwise
@@ -667,17 +673,32 @@ def send_email_via_mailchimp(to_email, subject, html_body, from_name='PlanWell F
     # Step 4: Send the campaign
     send_url = f'{BASE_URL}/campaigns/{campaign_id}/actions/send'
 
-    try:
-        resp = requests.post(send_url, headers=_headers(), timeout=30)
-        if resp.status_code != 204:
-            print(f'Mailchimp send failed: {resp.status_code} - {resp.text}')
+    import time as _time
+    delays = list(retry_delays or ())
+    attempt = 0
+    started = _time.time()
+    while True:
+        attempt += 1
+        try:
+            resp = requests.post(send_url, headers=_headers(), timeout=30)
+        except Exception as e:
+            print(f'Mailchimp send error: {e}')
+            resp = None
+        if resp is not None and resp.status_code == 204:
+            if attempt > 1:
+                print(f'Campaign sent to {to_email} on attempt {attempt} '
+                      f'after {int(_time.time() - started)}s')
+            else:
+                print(f'Campaign sent to {to_email}')
+            return True
+        if resp is not None:
+            print(f'Mailchimp send failed (attempt {attempt}): {resp.status_code} - {resp.text}')
+            retryable = resp.status_code == 400 and 'not ready' in resp.text
+        else:
+            retryable = True
+        if not retryable or not delays:
             return False
-        print(f'Campaign sent to {to_email}')
-    except Exception as e:
-        print(f'Mailchimp send error: {e}')
-        return False
-
-    return True
+        _time.sleep(delays.pop(0))
 
 
 def _cleanup_segment(segment_id):
