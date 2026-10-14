@@ -20,7 +20,14 @@ const navLinks: NavLink[] = [
   },
   { label: 'Services', href: '/services' },
   { label: 'Agencies', href: '/federal-agencies' },
-  { label: 'Free Workshop', href: '/webinar' },
+  {
+    label: 'Free Workshop',
+    href: '/webinar',
+    children: [
+      { label: 'Register for the Next Workshop', href: '/webinar' },
+      { label: 'All Upcoming Dates', href: '/webinar-schedule' },
+    ]
+  },
   {
     label: 'Learning Center',
     href: '/blog',
@@ -57,6 +64,7 @@ const currentPath = Astro.url.pathname;
                   <button
                     class={`nav__link nav__link--dropdown ${
                       (link.label === 'About' && currentPath.startsWith('/about')) ||
+                      (link.label === 'Free Workshop' && (currentPath.startsWith('/webinar'))) ||
                       (link.label === 'Learning Center' && (currentPath.startsWith('/blog') || currentPath.startsWith('/guides') || currentPath.startsWith('/calculators')))
                         ? 'nav__link--active' : ''
                     }`}
