@@ -1,0 +1,8 @@
+---
+// Date-specific registration. A path (not ?w=) because Vercel ISR caches /webinar
+// per path and ignores the query string, so ?w= on /webinar is served the cached
+// next-webinar page. Each /webinar/register/<id> gets its own cache entry.
+export const prerender = false;
+const { id } = Astro.params;
+return Astro.rewrite(`/webinar?w=${encodeURIComponent(id ?? '')}${Astro.url.search ? '&' + Astro.url.search.slice(1) : ''}`);
+---
