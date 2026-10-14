@@ -144,7 +144,7 @@ const faqSchema = {
               <span class="event-meta__countdown">{daysUntil} {daysUntil === 1 ? 'day' : 'days'} away</span>
             )}
           </div>
-          <a href="/webinar" class="btn btn--primary btn--lg">Register Now</a>
+          <a href={`/webinar?w=${webinar.id}`} class="btn btn--primary btn--lg">Register Now</a>
         </div>
       )}
     </div>
@@ -250,7 +250,7 @@ const faqSchema = {
             <ul class="workshops-dates">
               {otherWebinars.filter(w => !isPastWebinar(w)).map(w => (
                 <li>
-                  <a href="/webinar" class="workshop-link">
+                  <a href={`/webinar/${w.id}`} class="workshop-link">
                     <span class="workshop-link__date">{formatWebinarDate(w)}</span>
                     <span class="workshop-link__time">{w.startTime} &ndash; {w.endTime} {w.timezone}</span>
                     <span class="workshop-link__arrow">&rarr;</span>
@@ -329,7 +329,7 @@ const faqSchema = {
           understand their benefits. Three hours of your time could change your entire retirement outlook.
         </p>
         <div class="cta-buttons">
-          <a href="/webinar" class="btn btn--navy btn--lg">Register for FERS Workshop</a>
+          <a href={`/webinar?w=${webinar.id}`} class="btn btn--navy btn--lg">Register for FERS Workshop</a>
         </div>
       </div>
     </div>

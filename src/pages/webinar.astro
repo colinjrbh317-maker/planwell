@@ -1,5 +1,5 @@
 ---
-import { getNextWebinar, formatWebinarDate, getDaysUntil, generateICS } from '../data/webinars';
+import { getNextWebinar, getWebinarById, isPastWebinar, formatWebinarDate, getDaysUntil, generateICS } from '../data/webinars';
 
 // Render per-request so the "next webinar" computation always uses the
 // current date. Otherwise Astro builds this page once at deploy time;
@@ -10,7 +10,10 @@ import { getNextWebinar, formatWebinarDate, getDaysUntil, generateICS } from '..
 export const prerender = false;
 
 // Get the next upcoming webinar (evaluated per-request)
-const nextWebinar = getNextWebinar();
+// ?w=<id> registers for a specific upcoming date (linked from /webinar/<id> and the
+// schedule page). Without it, or if that date has passed, fall back to the next one.
+const requestedWebinar = getWebinarById(Astro.url.searchParams.get('w') || '');
+const nextWebinar = requestedWebinar && !isPastWebinar(requestedWebinar) ? requestedWebinar : getNextWebinar();
 const webinarDate = nextWebinar ? formatWebinarDate(nextWebinar) : 'Coming Soon';
 const daysUntil = nextWebinar ? getDaysUntil(nextWebinar) : 0;
 const webinarTime = nextWebinar ? `${nextWebinar.startTime} – ${nextWebinar.endTime} ${nextWebinar.timezone}` : '';
