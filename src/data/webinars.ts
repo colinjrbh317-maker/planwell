@@ -145,6 +145,24 @@ export const webinars: Webinar[] = [
         timezone: 'EST',
         zoomLink: 'https://us06web.zoom.us/webinar/register/WN_sGmJ2UmzSmiIwaGXH0dQkg',
     },
+    {
+        id: 'nov-27-2026',
+        date: new Date('2026-11-27T11:00:00-05:00'),
+        title: 'FERS Retirement Workshop',
+        startTime: '11:00 AM',
+        endTime: '2:00 PM',
+        timezone: 'EST',
+        zoomLink: 'https://us06web.zoom.us/webinar/register/WN_c4ALzojETV-SgKsc5954BA',
+    },
+    {
+        id: 'dec-18-2026',
+        date: new Date('2026-12-18T11:00:00-05:00'),
+        title: 'FERS Retirement Workshop',
+        startTime: '11:00 AM',
+        endTime: '2:00 PM',
+        timezone: 'EST',
+        zoomLink: 'https://us06web.zoom.us/webinar/register/WN_D4VRSzaSSCm3fwYJhmC8IA',
+    },
 
 ];
 
