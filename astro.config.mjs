@@ -89,6 +89,8 @@ export default defineConfig({
             priority: 0.7,
             lastmod: new Date(),
             customPages,
+            // Private, link-only pages stay out of the sitemap (they are also noindex).
+            filter: (page) => !/\/(fehb-recording-q7x4m|li-tracking)\/?$/.test(page),
         }),
     ],
     trailingSlash: 'never',
