@@ -1,0 +1,24 @@
+---
+// Private FEHB webinar recording page. Requested by Brennan 2026-11-19 ("make the video
+// private so that we can only share the specific link with people who request it").
+// Not linked from anywhere, noindex, and SSR (prerender=false) so it stays out of the
+// sitemap. The video plays from David's Google Drive file, which must be set to
+// "anyone with the link can view" for the player to load.
+import BaseLayout from '../layouts/BaseLayout.astro';
+export const prerender = false;
+const DRIVE_ID = '1oPsjUa8SlayRAj5QFDMebNrkHUt_9DnG';
+---
+
+<BaseLayout title="FEHB Webinar Recording | PlanWell Financial Planning" noindex={true}>
+  <section class="legal-page">
+    <div class="container">
+      <h1 class="heading-xl">FEHB Open Season Webinar Recording</h1>
+      <p>Thanks for your interest. Here is the full recording of our FEHB webinar with David Fei and Brennan Rhule.</p>
+      <div style="position:relative;width:100%;padding-top:56.25%;margin:24px 0;background:#000;border-radius:12px;overflow:hidden">
+        <iframe src={`https://drive.google.com/file/d/${DRIVE_ID}/preview`} title="FEHB webinar recording"
+          style="position:absolute;inset:0;width:100%;height:100%;border:0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+      </div>
+      <p>Questions about your own FEHB choices? <a href="/book-call">Book a call with our team</a>.</p>
+    </div>
+  </section>
+</BaseLayout>
